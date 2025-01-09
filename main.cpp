@@ -1,9 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QtQuickControls2/QQuickStyle>
+
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    QQuickStyle::setStyle("Basic");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));

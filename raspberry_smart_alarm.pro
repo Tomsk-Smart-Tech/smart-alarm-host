@@ -24,7 +24,11 @@ sun.png \
 lightning.png \
 rain.png \
 partly_sun_day.png \
-
+Settings_for_Alarm_copy.qml \
+Status_bar.qml \
+Test.qml \
+InitialPage.qml \
+russian_cities.json
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -39,15 +43,21 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+QT += quickcontrols2
+QT += core gui opengl
 
 DISTFILES += \
     Alarms.qml \
     Bluetooth_Page.qml \
     Color_Page.qml \
     Date_and_time_Page.qml \
+    InitialPage.qml \
     Sensors.qml \
     Settings_for_Alarm.qml \
+    Settings_for_Alarm_copy.qml \
     Sound_Page.qml \
+    Status_bar.qml \
     Storage_Page.qml \
+    Test.qml \
     Weather.qml \
     Wi-Fi_Page.qml

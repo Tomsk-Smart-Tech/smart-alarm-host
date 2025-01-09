@@ -18,6 +18,7 @@ Item {
         radius : 15
         color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
 
+
         FontLoader {
             id: castFont
             source: "ofont.ru_Nunito.ttf"

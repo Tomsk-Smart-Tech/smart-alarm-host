@@ -20,6 +20,16 @@ Item {
             height: (236 - 10*3)/3
             radius: 15
             color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+            Image {
+
+                anchors.right: parent.right
+                anchors.topMargin: 50
+                anchors.rightMargin: 8
+                source: "clouds.png"
+                width: 60
+                height: 60
+                fillMode: Image.PreserveAspectFit
+            }
         }
         Rectangle{
             x: 10
@@ -31,11 +41,8 @@ Item {
             Row {
                 anchors.centerIn: parent
                 spacing: 42
-
-
                 Repeater {
                     model: weather.weather_list
-
                     delegate: Column {
                         FontLoader {
                             id: castFont

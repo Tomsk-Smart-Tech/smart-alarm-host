@@ -2,10 +2,15 @@ import QtQuick
 import QtQuick.Controls
 
 Window {
+    id: window
     width: 1024
     height: 600
     visible: true
     title: qsTr("Hello World")
+    // visibility: Window.FullScreen
+    property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
+    property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+
 
     Image {
         id: back
@@ -29,8 +34,9 @@ Window {
         ListElement { day: "Вт"; date: "12.11"; temp: "-17°C"; weather: "sun.png" }
         ListElement { day: "Ср"; date: "13.11"; temp: "13°C"; weather: "cloud.png" }
         ListElement { day: "Чт"; date: "14.11"; temp: "19°C"; weather: "clouds.png" }
-        ListElement { day: "Пт"; date: "15.11"; temp: "20°C"; weather: "lightning.png" }
+        ListElement { day: "Пт"; date: "15.11"; temp: "371°C"; weather: "lightning.png" }
     }
+
 
 
     SwipeView{
@@ -39,15 +45,21 @@ Window {
         orientation:Qt.Vertical
 
 
+
         Rectangle{
             color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
-            Settings_for_Alarm{}
+            Settings_for_Alarm{
+                backgroundColor: window.backgroundColor
+                textColor: window.textColor
+            }
         }
 
 
         Rectangle{
+            // Status_bar{}
             color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
             SwipeView{
+
 
                 id:hor_sv
                 anchors.fill: parent
@@ -58,22 +70,25 @@ Window {
                 }
                 Rectangle{
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
+
+
+
                     Clock{
                         x_pos:16
-                        y_pos:56
+                        y_pos:56 + 40
                     }
                     Sensors{
                         x_pos:16
-                        y_pos:56 + 236 + 16
+                        y_pos:56 + 236 + 16 + 40
                     }
                     Alarms{
                         x_pos:16 + 236 + 16
-                        y_pos:56
+                        y_pos:56 + 40
                         alarms: alarms
                     }
                     Weather{
                         x_pos: 16 + 236 + 16 + 236 + 16
-                        y_pos: 56 + 236 + 16
+                        y_pos: 56 + 236 + 16 + 40
                         weather_list: weather
                     }
 
@@ -88,10 +103,16 @@ Window {
                 hor_sv.currentIndex = 1
             }
 
+
         }
     }
     Component.onCompleted: {
         ver_sv.currentIndex = 1
     }
+    // Status_bar{
+    //     x_pos:0
+    //     y_pos:0
+    // }
+
 }
 
