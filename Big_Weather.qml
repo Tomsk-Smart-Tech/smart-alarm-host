@@ -10,23 +10,25 @@ Item {
     property color backgroundColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+    property ListModel week_list: valueOf
 
     property var currect_temp: ""
-    property var currect_temp_up: ""
-    property var currect_temp_down: ""
+    property var currect_temp_max: ""
+    property var currect_temp_min: ""
 
     property var humidity: ""
     property var wind: ""
     property var feel_temp: ""
 
-    property string sunrise: ""
-    property string sunset: ""
-    property var dew_point: ""
-    property string uv: ""
-    property var rain_sensor: ""
+    property string sunrise: "000"
+    property string sunset: "000"
+    property var dew_point: "000"
+    property string uv: "000"
+    property var rain_sensor: "000"
 
 
     Rectangle{
+        id:rec
         x: weather.x_pos
         y: weather.y_pos
         width: 1024
@@ -82,7 +84,7 @@ Item {
                                     source: "weather_icon/low.png"
                                 }
                                 Text {
-                                    text: weather.currect_temp_down + "°C"
+                                    text: weather.currect_temp_min + "°C"
                                     font.pointSize: 24
                                     color: weather.textColor
                                     font.family: castFont.name
@@ -100,7 +102,7 @@ Item {
                                     source: "weather_icon/up.png"
                                 }
                                 Text {
-                                    text: weather.currect_temp_up + "°C"
+                                    text: weather.currect_temp_max + "°C"
                                     font.pointSize: 24
                                     color: weather.textColor
                                     font.family: castFont.name
@@ -141,6 +143,7 @@ Item {
                                 anchors.right: parent.right
                                 anchors.rightMargin: 0
                                 horizontalAlignment: Text.AlignRight
+                                font.weight: Font.DemiBold
                                 font.pointSize: 24
                                 color: weather.textColor
                                 font.family: castFont.name
@@ -169,6 +172,7 @@ Item {
                                 text: weather.wind
                                 anchors.right: parent.right
                                 horizontalAlignment: Text.AlignRight
+                                font.weight: Font.DemiBold
                                 font.pointSize: 24
                                 color: weather.textColor
                                 font.family: castFont.name
@@ -197,6 +201,7 @@ Item {
                                 text: weather.feel_temp
                                 anchors.right: parent.right
                                 horizontalAlignment: Text.AlignRight
+                                font.weight: Font.DemiBold
                                 font.pointSize: 24
                                 color: weather.textColor
                                 font.family: castFont.name
@@ -216,6 +221,46 @@ Item {
                     height: 178
                     color: weather.backgroundColor
                     radius: 15
+                    Row {
+                        anchors.centerIn: parent
+                        spacing: 50
+                        Repeater {
+                            model: weather.week_list
+                            delegate: Column {
+                                Text {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: model.day
+                                    font.pointSize: 14
+                                    font.weight: Font.DemiBold
+                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                    font.family: castFont.name
+                                }
+                                Text {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: model.date
+                                    font.pointSize: 14
+                                    font.weight: Font.DemiBold
+                                    color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+                                    font.family: castFont.name
+                                }
+                                Image {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    source: model.weather
+                                    width: 70
+                                    height: 70
+                                    fillMode: Image.PreserveAspectFit
+                                }
+                                Text {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: model.temp
+                                    font.pointSize: 14
+                                    font.weight: Font.DemiBold
+                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                    font.family: castFont.name
+                                }
+                            }
+                        }
+                    }
                 }
                 Row{
                     spacing: 16
@@ -242,6 +287,7 @@ Item {
                                 anchors.top: parent.top
                                 anchors.rightMargin: 9
                                 anchors.topMargin: 4
+                                font.weight: Font.DemiBold
                                 font.pointSize: 32
                                 color: weather.textColor
                                 font.family: castFont.name
@@ -284,6 +330,7 @@ Item {
                                 anchors.top: parent.top
                                 anchors.rightMargin: 9
                                 anchors.topMargin: 4
+                                font.weight: Font.DemiBold
                                 font.pointSize: 32
                                 color: weather.textColor
                                 font.family: castFont.name
@@ -312,18 +359,24 @@ Item {
                         color: weather.backgroundColor
                         radius: 15
                         Image {
+                            width: 80
+                            height: 80
                             anchors.left: parent.left
                             anchors.top: parent.top
-                            anchors.leftMargin: 12
-                            anchors.topMargin: 12
+                            anchors.leftMargin: 16
+                            anchors.topMargin: 16
                             source: "weather_icon/dew_point.png"
                         }
                         Text {
+                            width: 115
+                            height: 55
                             text: weather.dew_point
                             anchors.right: parent.right
                             anchors.top: parent.top
-                            anchors.rightMargin: 12
+                            anchors.rightMargin: 16
                             anchors.topMargin: 27
+                            horizontalAlignment: Text.AlignHCenter
+                            font.weight: Font.DemiBold
                             font.pointSize: 36
                             color: weather.textColor
                             font.family: castFont.name
@@ -349,18 +402,24 @@ Item {
                         color: weather.backgroundColor
                         radius: 15
                         Image {
+                            width: 80
+                            height: 80
                             anchors.left: parent.left
                             anchors.top: parent.top
-                            anchors.leftMargin: 12
-                            anchors.topMargin: 12
+                            anchors.leftMargin: 16
+                            anchors.topMargin: 16
                             source: "weather_icon/UV.png"
                         }
                         Text {
+                            width: 115
+                            height: 55
                             text: weather.uv
                             anchors.right: parent.right
                             anchors.top: parent.top
-                            anchors.rightMargin: 12
+                            anchors.rightMargin: 16
                             anchors.topMargin: 27
+                            horizontalAlignment: Text.AlignHCenter
+                            font.weight: Font.DemiBold
                             font.pointSize: 36
                             color: weather.textColor
                             font.family: castFont.name
@@ -386,22 +445,57 @@ Item {
                         color: weather.backgroundColor
                         radius: 15
                         Image {
+                            width: 80
+                            height: 80
                             anchors.left: parent.left
                             anchors.top: parent.top
-                            anchors.leftMargin: 12
-                            anchors.topMargin: 12
+                            anchors.leftMargin: 16
+                            anchors.topMargin: 16
                             source: "weather_icon/rain_sensor.png"
                         }
-                        Text {
-                            text: weather.rain_sensor
+                        Column{
+                            id: column
+                            x: 114
+                            width: 115
+                            height: 99
                             anchors.right: parent.right
                             anchors.top: parent.top
-                            anchors.rightMargin: 12
+                            anchors.rightMargin: 16
                             anchors.topMargin: 27
-                            font.pointSize: 36
-                            color: weather.textColor
-                            font.family: castFont.name
+                            Text {
+                                width: 115
+                                height: 55
+                                text: weather.rain_sensor
+                                horizontalAlignment: Text.AlignHCenter
+                                lineHeight: 0.5
+                                font.weight: Font.DemiBold
+                                font.bold: false
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                font.pointSize: 36
+                                color: weather.textColor
+                                font.family: castFont.name
+                            }
+                            Text {
+                                text: "мм"
+                                lineHeight: 0.5
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                font.pointSize: 24
+                                color: weather.textColorSecond
+                                font.family: castFont.name
+                            }
+
                         }
+                        // Text {
+                        //     text: weather.rain_sensor
+                        //     anchors.right: parent.right
+                        //     anchors.top: parent.top
+                        //     anchors.rightMargin: 16
+                        //     anchors.topMargin: 27
+                        //     lineHeight: 0.5
+                        //     font.pointSize: 36
+                        //     color: weather.textColor
+                        //     font.family: castFont.name
+                        // }
                         Text {
                             text: "Кол-во осадков"
                             anchors.left: parent.left
