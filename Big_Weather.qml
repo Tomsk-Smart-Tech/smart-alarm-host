@@ -110,15 +110,15 @@ Item {
                         }
                     }
                     Column{
-                        x: 833
-                        width: 425
+                        x: 446
+                        width: 460
                         height: 155
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 16
                         spacing: 8
                         Row{
-                            width: 425
+                            width: 460
                             height: 45
                             Text {
                                 text: "Влажность"
@@ -139,6 +139,7 @@ Item {
                                 width: 115
                                 text: weather.humidity
                                 anchors.right: parent.right
+                                anchors.rightMargin: 0
                                 horizontalAlignment: Text.AlignRight
                                 font.pointSize: 24
                                 color: weather.textColor
@@ -146,7 +147,7 @@ Item {
                             }
                         }
                         Row{
-                            width: 425
+                            width: 460
                             height: 45
                             Text {
                                 text: "Скорость ветра:"
@@ -174,7 +175,7 @@ Item {
                             }
                         }
                         Row{
-                            width: 425
+                            width: 460
                             height: 45
                             Text {
                                 text: "Ощущается как:"

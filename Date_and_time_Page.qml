@@ -2,8 +2,10 @@ import QtQuick 2.0
 import QtQuick.Controls
 
 Item {
+    id: page
     property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
     property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property ListModel cityModel: ListModel {}
 
     Rectangle {
         id: rec
@@ -38,19 +40,35 @@ Item {
                     id: regionModel
                 }
                 onCurrentIndexChanged: {
-                    // Очищаем список городов
-                    cityModel.clear();
-                    console.log("Выбран город:", regionModel);
-                    print("Выбран город:", regionModel)
+                    cityModel.clear();  // Очищаем модель городов
 
-                    // Получаем список городов для выбранного региона
+                    // Сбрасываем индекс выбранного города
+                    // cityComboBox.currentIndex = -1;
+
                     if (currentIndex >= 0) {
-                        var cities = regionModel.get(currentIndex).cities;
-                        cities.forEach(function(city) {
-                            cityModel.append({ name: city });
-                        });
+                        var region = regionModel.get(currentIndex);
+                        // console.log("Выбран регион:", JSON.stringify(region, null, 2));
+
+                        // Преобразуем QQmlListModel в обычный массив
+                        if (region.cities && region.cities.count) {
+                            for (var i = 0; i < region.cities.count; i++) {
+                                var city = region.cities.get(i); // Получаем объект города
+                                if (city && city.name) {
+                                    cityModel.append({ name: city.name });
+                                } else {
+                                    console.error("Некорректный объект города:", city);
+                                }
+                            }
+                        } else {
+                            console.error("Некорректные данные для городов:", region.cities);
+                        }
+
+                        console.log("Модель городов заполнена:", cityModel.count);
+
                     }
                 }
+
+
             }
 
             // Выбор города
@@ -58,14 +76,25 @@ Item {
                 id: cityComboBox
                 width: 300
                 textRole: "name"
-                model: ListModel {
-                    id: cityModel
-                }
-
+                model: cityModel
                 onCurrentIndexChanged: {
-                    console.log("Выбран город:", currentText);
+                    var city = page.cityModel.get(cityComboBox.currentIndex);
+                    if (city) {
+                        _text.text = "Выбран город: " + city.name;
+                        weatherr.set_city(city)
+                    } else {
+                        _text.text = "Город не выбран";
+                    }
                 }
             }
+        }
+
+        Text {
+            id: _text
+            x: 252
+            y: 340
+            text: qsTr("Text")
+            font.pixelSize: 12
         }
 
         Component.onCompleted: {
@@ -75,18 +104,29 @@ Item {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     try {
                         var regions = JSON.parse(xhr.responseText);
-                        console.log("Данные регионов загружены:", regions);
+                        console.log("Загруженные регионы (JSON):", JSON.stringify(regions, null, 2));
                         regions.forEach(function(region) {
-                            regionModel.append({ region: region.region, cities: region.cities });
+                            // Преобразуем массив cities в массив объектов
+                            var cityObjects = region.cities.map(function(city) {
+                                return { name: city };
+                            });
+
+                            // Добавляем регион в модель
+                            regionModel.append({
+                                region: region.region,
+                                cities: cityObjects
+                            });
                         });
+                        console.log("Модель регионов заполнена. Количество:", regionModel.count);
                     } catch (e) {
                         console.error("Ошибка при парсинге JSON:", e);
                     }
                 } else if (xhr.readyState === XMLHttpRequest.DONE) {
                     console.error("Ошибка загрузки JSON. Статус:", xhr.status);
                 }
-            }
+            };
             xhr.send();
         }
+
     }
 }

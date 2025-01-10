@@ -22,7 +22,7 @@ Item {
         repeat: true
         onTriggered: {
             // Обновляем currentDateTime каждую секунду
-            currentDateTime = new Date(currentDateTime.getTime() + 1000)
+            currentDateTime = new Date(clock.currentDateTime.getTime() + 1000)
         }
     }
 
