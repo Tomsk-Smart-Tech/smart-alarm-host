@@ -36,6 +36,17 @@ Window {
         ListElement { day: "Чт"; date: "14.11"; temp: "19°C"; weather: "clouds.png" }
         ListElement { day: "Пт"; date: "15.11"; temp: "371°C"; weather: "lightning.png" }
     }
+    ListModel {
+        id:big_weather
+        ListElement { day: "Пн"; date: "11.11"; temp: "15°C"; weather: "rain.png" }
+        ListElement { day: "Вт"; date: "12.11"; temp: "-17°C"; weather: "sun.png" }
+        ListElement { day: "Ср"; date: "13.11"; temp: "13°C"; weather: "cloud.png" }
+        ListElement { day: "Чт"; date: "14.11"; temp: "19°C"; weather: "clouds.png" }
+        ListElement { day: "Пт"; date: "15.11"; temp: "371°C"; weather: "lightning.png" }
+        ListElement { day: "Сб"; date: "12.11"; temp: "371°C"; weather: "lightning.png" }
+        ListElement { day: "Вс"; date: "15.11"; temp: "371°C"; weather: "lightning.png" }
+        ListElement { day: "Пн"; date: "15.11"; temp: "56°C"; weather: "lightning.png" }
+    }
 
 
 
@@ -72,8 +83,8 @@ Window {
                         textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
                         currect_temp: weatherr.cur_weather["temp"]
                         humidity:weatherr.cur_weather["humidity"]+"%"
-                        currect_temp_up: weatherr.cur_weather["temp_max"]
-                        currect_temp_down: weatherr.cur_weather["temp_min"]
+                        currect_temp_max: weatherr.cur_weather["temp_max"]
+                        currect_temp_min: weatherr.cur_weather["temp_min"]
                         wind: weatherr.cur_weather["wind_speed"]+" км/ч"
                         feel_temp: weatherr.cur_weather["feels_temp"]+"°"
 
@@ -81,7 +92,9 @@ Window {
                         sunset: weatherr.cur_weather["sunset"]
                         dew_point: weatherr.cur_weather["dewpoint_c"]+"°"
                         uv: weatherr.cur_weather["uv"]
-                        rain_sensor: weatherr.cur_weather["total_precip"]+" мм"
+                        rain_sensor: weatherr.cur_weather["total_precip"]
+
+                        week_list: big_weather
                     }
                 }
                 Rectangle{
