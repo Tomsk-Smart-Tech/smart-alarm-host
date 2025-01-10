@@ -6,7 +6,9 @@ Item {
     property int x_pos: 0
     property int y_pos: 16
     property color backgroundColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
-    property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
     property string currect_temp: "+3"
     property string currect_temp_up: "+3"
     property string currect_temp_down: "+3"
@@ -43,6 +45,7 @@ Item {
                 width: parent.width - 32
                 anchors.horizontalCenter: parent.horizontalCenter
                 Rectangle{
+                    id: rectangle5
                     width: parent.width
                     height: 178
                     color: weather.backgroundColor
@@ -104,64 +107,97 @@ Item {
                     }
                     Column{
                         x: 833
-                        y: 22
+                        width: 425
+                        height: 155
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: 16
+                        spacing: 8
                         Row{
+                            width: 425
+                            height: 45
+                            Text {
+                                text: "Влажность"
+                                anchors.left: parent.left
+                                anchors.leftMargin: 0
+                                font.pointSize: 24
+                                color: weather.textColorSecond
+                                font.family: castFont.name
+                            }
                             Image {
                                 width: 45
                                 height: 45
+                                anchors.left: parent.left
+                                anchors.leftMargin: 260
                                 source: "weather_icon/humidity.png"
                             }
                             Text {
-                                text: qsTr("  ")
-                                font.pointSize: 24
-                                color: weather.textColor
-                                font.family: castFont.name
-                            }
-                            Text {
+                                width: 115
                                 text: weather.humidity
+                                anchors.right: parent.right
+                                horizontalAlignment: Text.AlignRight
                                 font.pointSize: 24
                                 color: weather.textColor
                                 font.family: castFont.name
                             }
                         }
                         Row{
+                            width: 425
+                            height: 45
+                            Text {
+                                text: "Скорость ветра:"
+                                anchors.left: parent.left
+                                anchors.leftMargin: 0
+                                font.pointSize: 24
+                                color: weather.textColorSecond
+                                font.family: castFont.name
+                            }
                             Image {
                                 width: 45
                                 height: 45
+                                anchors.left: parent.left
+                                anchors.leftMargin: 260
                                 source: "weather_icon/wind.png"
                             }
                             Text {
-                                text: qsTr("  ")
-                                font.pointSize: 24
-                                color: weather.textColor
-                                font.family: castFont.name
-                            }
-                            Text {
-                                text: weather.wind
+                                width: 115
+                                text: weather.humidity
+                                anchors.right: parent.right
+                                horizontalAlignment: Text.AlignRight
                                 font.pointSize: 24
                                 color: weather.textColor
                                 font.family: castFont.name
                             }
                         }
                         Row{
+                            width: 425
+                            height: 45
+                            Text {
+                                text: "Ощущается как:"
+                                anchors.left: parent.left
+                                anchors.leftMargin: 0
+                                font.pointSize: 24
+                                color: weather.textColorSecond
+                                font.family: castFont.name
+                            }
                             Image {
                                 width: 45
                                 height: 45
+                                anchors.left: parent.left
+                                anchors.leftMargin: 260
                                 source: "weather_icon/temp.png"
                             }
                             Text {
-                                text: qsTr("  ")
-                                font.pointSize: 24
-                                color: weather.textColor
-                                font.family: castFont.name
-                            }
-                            Text {
-                                text: weather.non_temp
+                                width: 115
+                                text: weather.humidity
+                                anchors.right: parent.right
+                                horizontalAlignment: Text.AlignRight
                                 font.pointSize: 24
                                 color: weather.textColor
                                 font.family: castFont.name
                             }
                         }
+
                     }
                 }
                 Rectangle{
@@ -197,11 +233,27 @@ Item {
                             }
                             Text {
                                 text: weather.sunrise
-                                anchors.verticalCenter: parent.verticalCenter
                                 anchors.right: parent.right
-                                anchors.rightMargin: 12
-                                font.pointSize: 36
+                                anchors.top: parent.top
+                                anchors.rightMargin: 9
+                                anchors.topMargin: 4
+                                font.pointSize: 32
                                 color: weather.textColor
+                                font.family: castFont.name
+                            }
+                            Text {
+                                x: 129
+                                y: 49
+                                width: 103
+                                height: 32
+                                text: "Рассвет"
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                anchors.rightMargin: 4
+                                horizontalAlignment: Text.AlignHCenter
+                                font.bold: false
+                                font.pointSize: 18
+                                color: weather.textColorSecond
                                 font.family: castFont.name
                             }
 
@@ -223,11 +275,27 @@ Item {
                             }
                             Text {
                                 text: weather.sunset
-                                anchors.verticalCenter: parent.verticalCenter
                                 anchors.right: parent.right
-                                anchors.rightMargin: 12
-                                font.pointSize: 36
+                                anchors.top: parent.top
+                                anchors.rightMargin: 9
+                                anchors.topMargin: 4
+                                font.pointSize: 32
                                 color: weather.textColor
+                                font.family: castFont.name
+                            }
+                            Text {
+                                x: 129
+                                y: 49
+                                width: 103
+                                height: 32
+                                text: "Закат"
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                anchors.rightMargin: 4
+                                horizontalAlignment: Text.AlignHCenter
+                                font.bold: false
+                                font.pointSize: 18
+                                color: weather.textColorSecond
                                 font.family: castFont.name
                             }
                         }
@@ -248,15 +316,29 @@ Item {
                         Text {
                             text: weather.dew_point
                             anchors.right: parent.right
-                            anchors.bottom: parent.bottom
+                            anchors.top: parent.top
                             anchors.rightMargin: 12
-                            anchors.bottomMargin: 12
+                            anchors.topMargin: 27
                             font.pointSize: 36
                             color: weather.textColor
                             font.family: castFont.name
                         }
+                        Text {
+                            text: "Точка росы"
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
+                            anchors.rightMargin: 0
+                            anchors.bottomMargin: 8
+                            horizontalAlignment: Text.AlignHCenter
+                            font.bold: false
+                            font.pointSize: 20
+                            color: weather.textColorSecond
+                            font.family: castFont.name
+                        }
                     }
                     Rectangle{
+                        id: rectangle3
                         width: 236
                         height: 178
                         color: weather.backgroundColor
@@ -271,15 +353,29 @@ Item {
                         Text {
                             text: weather.uv
                             anchors.right: parent.right
-                            anchors.bottom: parent.bottom
+                            anchors.top: parent.top
                             anchors.rightMargin: 12
-                            anchors.bottomMargin: 12
+                            anchors.topMargin: 27
                             font.pointSize: 36
                             color: weather.textColor
                             font.family: castFont.name
                         }
+                        Text {
+                            text: "УФ индекс"
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
+                            anchors.rightMargin: 0
+                            anchors.bottomMargin: 8
+                            horizontalAlignment: Text.AlignHCenter
+                            font.bold: false
+                            font.pointSize: 20
+                            color: weather.textColorSecond
+                            font.family: castFont.name
+                        }
                     }
                     Rectangle{
+                        id: rectangle4
                         width: 236
                         height: 178
                         color: weather.backgroundColor
@@ -294,13 +390,27 @@ Item {
                         Text {
                             text: weather.rain_sensor
                             anchors.right: parent.right
-                            anchors.bottom: parent.bottom
+                            anchors.top: parent.top
                             anchors.rightMargin: 12
-                            anchors.bottomMargin: 12
+                            anchors.topMargin: 27
                             font.pointSize: 36
                             color: weather.textColor
                             font.family: castFont.name
                         }
+                        Text {
+                            text: "Кол-во осадков"
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
+                            anchors.rightMargin: 0
+                            anchors.bottomMargin: 8
+                            horizontalAlignment: Text.AlignHCenter
+                            font.bold: false
+                            font.pointSize: 20
+                            color: weather.textColorSecond
+                            font.family: castFont.name
+                        }
+
                     }
                 }
 
