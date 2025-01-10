@@ -5,9 +5,42 @@ Item {
     property int x_pos: 10
     property int y_pos: 10
 
-    property string time: "18:08"
-    property string date: "Пн, 9 окт."
-    property string year: "2032"
+    // property string time: "18:08"
+    // property string date: "Пн, 9 окт."
+    // property string year: "2032"
+
+    //не пугайся кирилл это мой код для управления временем
+    property string time: ""
+    property string date: ""
+    property string year: ""
+
+    property var currentDateTime: new Date()
+    Timer {
+        id: timer
+        interval: 1000 // 1 секунда
+        running: true
+        repeat: true
+        onTriggered: {
+            // Обновляем currentDateTime каждую секунду
+            currentDateTime = new Date(currentDateTime.getTime() + 1000)
+        }
+    }
+
+    // Следим за изменением unixtime и обновляем currentDateTime
+    Connections {
+        target: weatherr // Здесь предполагается, что `weather` имеет сигнал изменения
+        function onUnixtimeChanged() {
+            currentDateTime = new Date(weatherr.unixtime);
+        }
+    }
+
+    function getDayName(date) {
+        var days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+        return days[date.getDay()];
+    }
+
+    //конец моего кода управления временем
+
 
     Rectangle {
         x: clock.x_pos

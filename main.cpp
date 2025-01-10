@@ -1,16 +1,18 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQuickControls2/QQuickStyle>
-
+#include <QQmlContext>
+#include "weather.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
+    Weather weather;
     QQmlApplicationEngine engine;
-
-    // const QUrl url(QStringLiteral("/home/nikita/fromgit/smart-alarm-host/main.qml"));
-    const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));
+    engine.rootContext()->setContextProperty("weatherr", &weather);
+    const QUrl url(QStringLiteral("/home/nikita/fromgit/smart-alarm-host/main.qml"));
+    //const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));
 
     QObject::connect(
         &engine,

@@ -70,6 +70,18 @@ Window {
 
                     Big_Weather{
                         textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                        currect_temp: weatherr.cur_weather["temp"]
+                        humidity:weatherr.cur_weather["humidity"]+"%"
+                        currect_temp_up: weatherr.cur_weather["temp_max"]
+                        currect_temp_down: weatherr.cur_weather["temp_min"]
+                        wind: weatherr.cur_weather["wind_speed"]+" км/ч"
+                        feel_temp: weatherr.cur_weather["feels_temp"]+"°"
+
+                        sunrise: weatherr.cur_weather["sunrise"]
+                        sunset: weatherr.cur_weather["sunset"]
+                        dew_point: weatherr.cur_weather["dewpoint_c"]+"°"
+                        uv: weatherr.cur_weather["uv"]
+                        rain_sensor: weatherr.cur_weather["total_precip"]+" мм"
                     }
                 }
                 Rectangle{
@@ -80,6 +92,9 @@ Window {
                     Clock{
                         x_pos:16
                         y_pos:56 + 40
+                        time: Qt.formatDateTime(currentDateTime, "HH:mm")
+                        year:Qt.formatDateTime(currentDateTime, "dd.MM.yyyy")
+                        date: getDayName(currentDateTime)
                     }
                     Sensors{
                         x_pos:16

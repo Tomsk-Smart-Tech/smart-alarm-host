@@ -1,7 +1,8 @@
 QT += quick
-
+QT += quick network
 SOURCES += \
-        main.cpp
+        main.cpp \
+        weather.cpp
 
 resources.files = main.qml Clock.qml Settings_for_Alarm.qml Wi-Fi_Page.qml back.jpg icon_0.png icon_1.png icon_2.png icon_3.png icon_4.png icon_5.png back2.jpg Roboto-Light.ttf Roboto-Bold.ttf Roboto-Medium.ttf \
 Bluetooth_Page.qml \
@@ -42,6 +43,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     Alarms.qml \
+    Big_Weather.qml \
     Bluetooth_Page.qml \
     Color_Page.qml \
     Date_and_time_Page.qml \
@@ -51,6 +53,9 @@ DISTFILES += \
     Storage_Page.qml \
     Weather.qml \
     Wi-Fi_Page.qml
+
+HEADERS += \
+    weather.h
 
 
 

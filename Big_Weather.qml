@@ -3,25 +3,29 @@ import QtQuick.Controls 2.15
 
 Item {
     id: weather
+
+    //поменял почти везде string на var ибо ругается
     property int x_pos: 0
     property int y_pos: 16
     property color backgroundColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
-    property string currect_temp: "+3"
-    property string currect_temp_up: "+3"
-    property string currect_temp_down: "+3"
+    property var currect_temp: ""
+    property var currect_temp_up: ""
+    property var currect_temp_down: ""
 
-    property string humidity: "+3"
-    property string wind: "+3"
-    property string non_temp: "+3"
+    property var humidity: ""
+    property var wind: ""
+    property var feel_temp: ""
 
-    property string sunrise: "+3"
-    property string sunset: "+3"
-    property string dew_point: "+3"
-    property string uv: "+3"
-    property string rain_sensor: "+3"
+    property string sunrise: ""
+    property string sunset: ""
+    property var dew_point: ""
+    property string uv: ""
+    property var rain_sensor: ""
+
+
     Rectangle{
         x: weather.x_pos
         y: weather.y_pos
@@ -161,7 +165,7 @@ Item {
                             }
                             Text {
                                 width: 115
-                                text: weather.humidity
+                                text: weather.wind
                                 anchors.right: parent.right
                                 horizontalAlignment: Text.AlignRight
                                 font.pointSize: 24
@@ -189,7 +193,7 @@ Item {
                             }
                             Text {
                                 width: 115
-                                text: weather.humidity
+                                text: weather.feel_temp
                                 anchors.right: parent.right
                                 horizontalAlignment: Text.AlignRight
                                 font.pointSize: 24
