@@ -8,8 +8,8 @@ Window {
     visible: true
     title: qsTr("Hello World")
     // visibility: Window.FullScreen
-    property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
-    property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color backgroundColor: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
+    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
 
 
     Image {
@@ -52,6 +52,7 @@ Window {
                 backgroundColor: window.backgroundColor
                 textColor: window.textColor
             }
+
         }
 
 
@@ -67,6 +68,9 @@ Window {
                 Rectangle{
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
 
+                    Big_Weather{
+                        textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                    }
                 }
                 Rectangle{
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
@@ -113,6 +117,7 @@ Window {
     //     x_pos:0
     //     y_pos:0
     // }
+
 
 }
 

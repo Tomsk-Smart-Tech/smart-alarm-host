@@ -28,7 +28,9 @@ Settings_for_Alarm_copy.qml \
 Status_bar.qml \
 Test.qml \
 InitialPage.qml \
-russian_cities.json
+russian_cities.json \
+Big_Weather.qml \
+weather_icon/
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -39,6 +41,7 @@ QML_IMPORT_PATH =
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
 
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -48,6 +51,7 @@ QT += core gui opengl
 
 DISTFILES += \
     Alarms.qml \
+    Big_Weather.qml \
     Bluetooth_Page.qml \
     Color_Page.qml \
     Date_and_time_Page.qml \
@@ -59,5 +63,4 @@ DISTFILES += \
     Status_bar.qml \
     Storage_Page.qml \
     Test.qml \
-    Weather.qml \
     Wi-Fi_Page.qml

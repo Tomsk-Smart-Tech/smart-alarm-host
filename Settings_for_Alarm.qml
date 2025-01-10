@@ -70,7 +70,7 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        listSettings.currentIndex = index // Установить выбранный элемент
+                        listSettings.currentIndex = index
                         if (model.name === "Wi-fi") {
                             loader.source = "Wi-Fi_Page.qml";
                             loader.item.backgroundColor = backgroundColor
@@ -122,14 +122,6 @@ Item {
             anchors.centerIn: parent
         }
     }
-
-    // Rectangle {
-    //     x: settings.x_pos + 1024 / 3
-    //     y: settings.y_pos
-    //     width: 2
-    //     height: 600
-    //     color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1)
-    // }
 
     Loader {
         id: loader

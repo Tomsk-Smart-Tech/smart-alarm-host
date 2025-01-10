@@ -55,6 +55,7 @@ OBJECTS       = release/main.o \
 		release/qrc_qmake_resources.o
 
 DIST          = Alarms.qml \
+		Big_Weather.qml \
 		Bluetooth_Page.qml \
 		Color_Page.qml \
 		Date_and_time_Page.qml \
@@ -66,7 +67,6 @@ DIST          = Alarms.qml \
 		Status_bar.qml \
 		Storage_Page.qml \
 		Test.qml \
-		Weather.qml \
 		Wi-Fi_Page.qml  ..\..\main.cpp
 QMAKE_TARGET  = raspberry_smart_alarm
 DESTDIR        = release\ #avoid trailing-slash linebreak
@@ -115,6 +115,7 @@ release/qrc_qmake_resources.cpp: release/qmake_resources.qrc \
 		../../ofont.ru_Monoid.ttf \
 		../../back2.jpg \
 		../../rain.png \
+		../../Big_Weather.qml \
 		../../partly_sun_day.png \
 		../../Status_bar.qml \
 		../../icon_5.png \
@@ -151,7 +152,17 @@ release/qrc_qmake_resources.cpp: release/qmake_resources.qrc \
 		../../icon_4.png \
 		../../Settings_for_Alarm_copy.qml \
 		../../Bluetooth_Page.qml \
-		../../Weather.qml
+		../../Weather.qml \
+		../../weather_icon/UV.png \
+		../../weather_icon/rain_sensor.png \
+		../../weather_icon/wind.png \
+		../../weather_icon/temp.png \
+		../../weather_icon/dew_point.png \
+		../../weather_icon/sunset.png \
+		../../weather_icon/sunrise.png \
+		../../weather_icon/up.png \
+		../../weather_icon/low.png \
+		../../weather_icon/humidity.png
 	C:\Qt\6.8.0\mingw_64\bin\rcc.exe -name qmake_resources --no-zstd release\qmake_resources.qrc -o release\qrc_qmake_resources.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h
