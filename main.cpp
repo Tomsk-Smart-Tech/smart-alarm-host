@@ -8,7 +8,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));
+
+    const QUrl url(QStringLiteral("/home/nikita/fromgit/smart-alarm-host/main.qml"));
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,
