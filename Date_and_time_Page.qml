@@ -245,7 +245,11 @@ Item {
 
         Component.onCompleted: {
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "file:///C:/Users/kiril/Documents/raspberry_smart_alarm/russian_cities.json");
+            //xhr.open("GET", "file:///C:/Users/kiril/Documents/raspberry_smart_alarm/russian_cities.json");
+            //xhr.open("GET", "file:///C:/Users/kiril/Documents/raspberry_smart_alarm/russian_cities.json");
+            //xhr.open("GET", "russian_cities.json");
+            xhr.open("GET", Qt.resolvedUrl("russian_cities.json"));
+            //xhr.open("GET", "file:////home/nikita/fromgit/smart-alarm-host/russian_cities.json");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     try {
