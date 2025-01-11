@@ -233,10 +233,7 @@ Item {
                         onCurrentIndexChanged: {
                             var city = cityModel.get(cityComboBox.currentIndex);
                             if (city) {
-                                _text.text = "Выбран город: " + city.name;
                                 weatherr.set_city(city.name);
-                            } else {
-                                _text.text = "Город не выбран";
                             }
                         }
                     }

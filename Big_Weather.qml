@@ -27,6 +27,7 @@ Item {
     property string uv: "000"
     property var rain_sensor: "000"
 
+
     Rectangle{
         id:rec
         x: weather.x_pos
@@ -46,6 +47,7 @@ Item {
             contentWidth: parent.width
             anchors.fill: parent
             anchors.topMargin: 16
+            anchors.bottomMargin: 16
 
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
