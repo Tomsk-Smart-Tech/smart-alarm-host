@@ -11,6 +11,9 @@
 #include <QVariant>
 #include <QVariantList>
 #include <QVariantMap>
+#include <QFile>
+#include <QDir>
+#include <QCoreApplication>
 
 
 
