@@ -126,15 +126,16 @@ Item {
                         anchors.rightMargin: 12
                         spacing: 8
                         Row{
+                            id: row
                             height: 45
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.leftMargin: 0
                             anchors.rightMargin: 0
                             Text {
-                                text: "Влажность"
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
+                                text: "Влажность:"
+                                anchors.right: parent.right
+                                anchors.rightMargin: 220
                                 font.pointSize: 24
                                 color: weather.textColorSecond
                                 font.family: castFont.name
@@ -147,11 +148,11 @@ Item {
                                 source: "weather_icon/humidity.png"
                             }
                             Text {
-                                width: 115
+                                width: 144
                                 text: weather.humidity
                                 anchors.right: parent.right
                                 anchors.rightMargin: 0
-                                horizontalAlignment: Text.AlignRight
+                                horizontalAlignment: Text.AlignLeft
                                 font.weight: Font.DemiBold
                                 font.pointSize: 24
                                 color: weather.textColor
@@ -159,6 +160,7 @@ Item {
                             }
                         }
                         Row{
+                            id: row1
                             height: 45
                             anchors.left: parent.left
                             anchors.right: parent.right
@@ -166,8 +168,8 @@ Item {
                             anchors.rightMargin: 0
                             Text {
                                 text: "Скорость ветра:"
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
+                                anchors.right: parent.right
+                                anchors.rightMargin: 218
                                 font.pointSize: 24
                                 color: weather.textColorSecond
                                 font.family: castFont.name
@@ -180,10 +182,10 @@ Item {
                                 source: "weather_icon/wind.png"
                             }
                             Text {
-                                width: 115
+                                width: 144
                                 text: weather.wind
                                 anchors.right: parent.right
-                                horizontalAlignment: Text.AlignRight
+                                horizontalAlignment: Text.AlignLeft
                                 font.weight: Font.DemiBold
                                 font.pointSize: 24
                                 color: weather.textColor
@@ -212,14 +214,14 @@ Item {
                                 source: "weather_icon/temp.png"
                             }
                             Text {
-                                width: 115
-                                text: weather.feel_temp
+                                width: 144
                                 anchors.right: parent.right
-                                horizontalAlignment: Text.AlignRight
+                                horizontalAlignment: Text.AlignLeft
                                 font.weight: Font.DemiBold
                                 font.pointSize: 24
                                 color: weather.textColor
                                 font.family: castFont.name
+                                text: weather.feel_temp
                             }
                         }
 
