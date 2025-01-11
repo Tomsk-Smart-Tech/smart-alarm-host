@@ -230,6 +230,7 @@ Item {
                     height: 178
                     color: weather.backgroundColor
                     radius: 15
+
                     //weatherr.h_weather
                     ScrollView {
                         anchors.fill: parent

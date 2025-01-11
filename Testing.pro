@@ -27,6 +27,7 @@ rain.png \
 partly_sun_day.png \
 russian_cities.json \
 userdata.json \
+weather_icon \
 
 
 resources.prefix = /$${TARGET}
