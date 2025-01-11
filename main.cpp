@@ -25,14 +25,6 @@ int main(int argc, char *argv[])
     //const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));
     //const QUrl url(QStringLiteral("file:///C:/Users/kiril/Documents/raspberry_smart_alarm/main.qml"));
 
-    QVariantList temperatureData;
-    temperatureData << QVariant::fromValue(QVariantMap{{"time", "00:00"}, {"temp", -2}})
-                    << QVariant::fromValue(QVariantMap{{"time", "03:00"}, {"temp", 0}})
-                    << QVariant::fromValue(QVariantMap{{"time", "06:00"}, {"temp", 2}});
-
-    // Передаем QVariantList в QML
-    engine.rootContext()->setContextProperty("temperatureData", temperatureData);
-
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,

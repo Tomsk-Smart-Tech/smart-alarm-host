@@ -51,7 +51,6 @@ Weather::Weather() : n_manager(new QNetworkAccessManager(this))
     QString city=read_user_json("city");
     m_city=city;
     h_forecast.clear();
-    emit city_changed();
     request_position();
 }
 
@@ -290,4 +289,5 @@ void Weather::handleReply_weather()
     {
         qDebug() << "Error in network reply: " << reply->errorString();
     }
+    qDebug()<<h_forecast[0];
 }

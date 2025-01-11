@@ -25,6 +25,7 @@ class Weather:public QObject
     Q_PROPERTY(QString longitude READ get_longitude NOTIFY coordinates_changed)
     Q_PROPERTY(quint64 unixtime READ get_time NOTIFY data_changed)
     Q_PROPERTY(QVariantMap cur_weather READ get_cur_forecast NOTIFY h_weather_changed)
+    Q_PROPERTY(QVariantList h_weather READ get_h_forecast NOTIFY h_weather_changed)
 
 
 

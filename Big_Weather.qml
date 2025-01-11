@@ -235,7 +235,7 @@ Item {
                             Row {
                                 spacing: 50
                                 Repeater {
-                                    model: temperatureData
+                                    model: weatherr.h_weather
                                     delegate: Rectangle {
                                         width: 100
                                         height: 146
@@ -243,7 +243,7 @@ Item {
                                         color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 0.3)
                                         Text {
                                             anchors.centerIn: parent
-                                            text: model.time + ": " + model["temp"] + "°C"  // Выводим данные из QVariantMap
+                                            text: modelData["time"] + ": " + modelData["temp"] + "°C"  // Выводим данные из QVariantMap
                                         }
                                         Component.onCompleted: {
                                                         console.log("Item created with time: " + model.time + " and temp: " + model.temp);
