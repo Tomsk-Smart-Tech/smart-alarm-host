@@ -230,96 +230,34 @@ Item {
                     height: 178
                     color: weather.backgroundColor
                     radius: 15
-                    SwipeView {
-                            anchors.fill: parent
-                            Row {
-                                spacing: 50
-                                Repeater {
-                                    model: weatherr.h_weather
-                                    delegate: Rectangle {
-                                        width: 100
-                                        height: 146
-                                        radius: 15
-                                        color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 0.3)
-                                        Text {
-                                            anchors.centerIn: parent
-                                            text: modelData["time"] + ": " + modelData["temp"] + "°C"  // Выводим данные из QVariantMap
-                                        }
-                                        Component.onCompleted: {
-                                                        console.log("Item created with time: " + model.time + " and temp: " + model.temp);
-                                                    }
+                    //weatherr.h_weather
+                    ScrollView {
+                        anchors.fill: parent
+                        anchors.margins: 12
+                        clip: true
+                        Row {
+                            spacing: 50
+                            Repeater {
+                                model: weatherr.h_weather
+                                delegate: Column {
+                                    Text {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        text: modelData["time"]
+                                        font.pointSize: 14
+                                        font.weight: Font.DemiBold
+                                        color: "white"
+                                        font.family: castFont.name
+                                    }
+                                    Image {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        source: "sun.png"
+                                        width: 30
+                                        height: 30
                                     }
                                 }
                             }
                         }
-
-                    // Canvas {
-                    //     id: graphCanvas
-                    //     anchors.fill: parent
-                    //     contextType: ""
-                    //     onPaint: {
-                    //         var ctx = graphCanvas.getContext("2d");
-                    //         ctx.beginPath();
-                    //         ctx.moveTo(10, 10);
-                    //         ctx.lineTo(50, 50);
-                    //         ctx.strokeStyle = "white";
-                    //         ctx.lineWidth = 2;
-                    //         ctx.stroke();
-                    //     }
-                        // onPaint: {
-                        //     var ctx = graphCanvas.getContext("2d");
-                        //     ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
-
-                        //     var padding = 40;
-                        //     var graphWidth = graphCanvas.width - padding * 2;
-                        //     var graphHeight = graphCanvas.height - padding * 2;
-
-                        //     // Границы данных
-                        //     var maxTemp = Math.max.apply(null, temperatureData.map(d => d.temp));
-                        //     var minTemp = Math.min.apply(null, temperatureData.map(d => d.temp));
-                        //     var tempRange = maxTemp - minTemp;
-
-                        //     var pointSpacing = graphWidth / (temperatureData.length - 1);
-
-                        //     // Рисуем оси
-                        //     ctx.beginPath();
-                        //     ctx.moveTo(padding, graphCanvas.height - padding);
-                        //     ctx.lineTo(padding, padding);
-                        //     ctx.lineTo(graphCanvas.width - padding, graphCanvas.height - padding);
-                        //     ctx.strokeStyle = "black";
-                        //     ctx.lineWidth = 2;
-                        //     ctx.stroke();
-
-                        //     // Рисуем точки и соединяем их
-                        //     ctx.beginPath();
-                        //     temperatureData.forEach((data, index) => {
-                        //         var x = padding + index * pointSpacing;
-                        //         var y = graphCanvas.height - padding - (data.temp - minTemp) / tempRange * graphHeight;
-
-                        //         if (index === 0) {
-                        //             ctx.moveTo(x, y);
-                        //         }else {
-                        //             ctx.lineTo(x, y);
-                        //         }
-
-                        //         // Рисуем точки
-                        //         ctx.arc(x, y, 3, 0, Math.PI * 2);
-                        //         ctx.moveTo(x, y);
-                        //     });
-                        //     ctx.strokeStyle = "blue";
-                        //     ctx.lineWidth = 2;
-                        //     ctx.stroke();
-
-                        //     // Подписи времени
-                        //     ctx.fillStyle = "black";
-                        //     ctx.font = "12px Arial";
-                        //     temperatureData.forEach((data, index) => {
-                        //         var x = padding + index * pointSpacing;
-                        //         ctx.fillText(data.time, x - 10, graphCanvas.height - padding + 15);
-                        //     });
-                        // }
-                    // }
-
+                    }
                 }
                 Rectangle{
                     width: parent.width

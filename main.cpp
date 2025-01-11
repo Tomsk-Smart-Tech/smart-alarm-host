@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
     currentDir.cdUp();
     currentDir.cdUp();
     QString mainqml = "file:///"+currentDir.filePath("main.qml");
-    qDebug()<<mainqml;
     const QUrl url(mainqml);
 
     Weather weather;

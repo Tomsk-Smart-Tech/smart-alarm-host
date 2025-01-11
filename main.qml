@@ -14,7 +14,7 @@ Window {
 
     Image {
         id: back
-        source: "back2.jpg"
+        source: "mounts.jpg"
         anchors.fill: parent
     }
     Rectangle{
