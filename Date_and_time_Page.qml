@@ -250,7 +250,7 @@ Item {
             //xhr.open("GET", "file:////home/nikita/fromgit/smart-alarm-host/russian_cities.json");
             xhr.open("GET",jsonFilePath);
             xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
                     try {
                         var regions = JSON.parse(xhr.responseText);
                         // console.log("Загруженные регионы (JSON):", JSON.stringify(regions, null, 2));

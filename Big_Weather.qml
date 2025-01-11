@@ -86,7 +86,7 @@ Item {
                                     anchors.verticalCenter: parent.verticalCenter
                                     width: 28
                                     height: 28
-                                    source: "weather_icon/low.png"
+                                    source: "weather_icon/temp_down.png"
                                 }
                                 Text {
                                     text: weather.currect_temp_min + "°C"
@@ -104,7 +104,7 @@ Item {
                                     anchors.verticalCenter: parent.verticalCenter
                                     width: 28
                                     height: 28
-                                    source: "weather_icon/up.png"
+                                    source: "weather_icon/temp_up.png"
                                 }
                                 Text {
                                     text: weather.currect_temp_max + "°C"
@@ -127,9 +127,8 @@ Item {
                         spacing: 8
                         Row{
                             id: row
+                            width: 460
                             height: 45
-                            anchors.left: parent.left
-                            anchors.right: parent.right
                             anchors.leftMargin: 0
                             anchors.rightMargin: 0
                             Text {
@@ -161,9 +160,8 @@ Item {
                         }
                         Row{
                             id: row1
+                            width: 460
                             height: 45
-                            anchors.left: parent.left
-                            anchors.right: parent.right
                             anchors.leftMargin: 0
                             anchors.rightMargin: 0
                             Text {
@@ -193,9 +191,8 @@ Item {
                             }
                         }
                         Row{
+                            width: 460
                             height: 45
-                            anchors.left: parent.left
-                            anchors.right: parent.right
                             anchors.leftMargin: 0
                             anchors.rightMargin: 0
                             Text {
@@ -228,11 +225,100 @@ Item {
                     }
                 }
                 Rectangle{
+                    id: grah
                     width: parent.width
                     height: 178
                     color: weather.backgroundColor
                     radius: 15
+                    SwipeView {
+                            anchors.fill: parent
+                            Row {
+                                spacing: 50
+                                Repeater {
+                                    model: temperatureData
+                                    delegate: Rectangle {
+                                        width: 100
+                                        height: 146
+                                        radius: 15
+                                        color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 0.3)
+                                        Text {
+                                            anchors.centerIn: parent
+                                            text: model.time + ": " + model["temp"] + "°C"  // Выводим данные из QVariantMap
+                                        }
+                                        Component.onCompleted: {
+                                                        console.log("Item created with time: " + model.time + " and temp: " + model.temp);
+                                                    }
+                                    }
+                                }
+                            }
+                        }
 
+                    // Canvas {
+                    //     id: graphCanvas
+                    //     anchors.fill: parent
+                    //     contextType: ""
+                    //     onPaint: {
+                    //         var ctx = graphCanvas.getContext("2d");
+                    //         ctx.beginPath();
+                    //         ctx.moveTo(10, 10);
+                    //         ctx.lineTo(50, 50);
+                    //         ctx.strokeStyle = "white";
+                    //         ctx.lineWidth = 2;
+                    //         ctx.stroke();
+                    //     }
+                        // onPaint: {
+                        //     var ctx = graphCanvas.getContext("2d");
+                        //     ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
+
+                        //     var padding = 40;
+                        //     var graphWidth = graphCanvas.width - padding * 2;
+                        //     var graphHeight = graphCanvas.height - padding * 2;
+
+                        //     // Границы данных
+                        //     var maxTemp = Math.max.apply(null, temperatureData.map(d => d.temp));
+                        //     var minTemp = Math.min.apply(null, temperatureData.map(d => d.temp));
+                        //     var tempRange = maxTemp - minTemp;
+
+                        //     var pointSpacing = graphWidth / (temperatureData.length - 1);
+
+                        //     // Рисуем оси
+                        //     ctx.beginPath();
+                        //     ctx.moveTo(padding, graphCanvas.height - padding);
+                        //     ctx.lineTo(padding, padding);
+                        //     ctx.lineTo(graphCanvas.width - padding, graphCanvas.height - padding);
+                        //     ctx.strokeStyle = "black";
+                        //     ctx.lineWidth = 2;
+                        //     ctx.stroke();
+
+                        //     // Рисуем точки и соединяем их
+                        //     ctx.beginPath();
+                        //     temperatureData.forEach((data, index) => {
+                        //         var x = padding + index * pointSpacing;
+                        //         var y = graphCanvas.height - padding - (data.temp - minTemp) / tempRange * graphHeight;
+
+                        //         if (index === 0) {
+                        //             ctx.moveTo(x, y);
+                        //         }else {
+                        //             ctx.lineTo(x, y);
+                        //         }
+
+                        //         // Рисуем точки
+                        //         ctx.arc(x, y, 3, 0, Math.PI * 2);
+                        //         ctx.moveTo(x, y);
+                        //     });
+                        //     ctx.strokeStyle = "blue";
+                        //     ctx.lineWidth = 2;
+                        //     ctx.stroke();
+
+                        //     // Подписи времени
+                        //     ctx.fillStyle = "black";
+                        //     ctx.font = "12px Arial";
+                        //     temperatureData.forEach((data, index) => {
+                        //         var x = padding + index * pointSpacing;
+                        //         ctx.fillText(data.time, x - 10, graphCanvas.height - padding + 15);
+                        //     });
+                        // }
+                    // }
 
                 }
                 Rectangle{
@@ -246,7 +332,6 @@ Item {
                         Repeater {
                             model: weather.week_list
                             delegate: Column {
-
                                 Text {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: model.day

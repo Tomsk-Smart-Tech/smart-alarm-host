@@ -39,7 +39,7 @@ Item {
                 width: ListView.view.width
                 height: ListView.view.height / 6
                 radius: 15
-                color: ListView.isCurrentItem ? Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0) : "transparent"
+                color: ListView.isCurrentItem ? Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0) : "transparent"
 
                 anchors.margins: 15
 
