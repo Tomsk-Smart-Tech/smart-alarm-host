@@ -23,6 +23,11 @@ Item {
         onTriggered: {
             // Обновляем currentDateTime каждую секунду
             currentDateTime = new Date(clock.currentDateTime.getTime() + 1000)
+
+            if (currentDateTime.getMinutes() === 0 && currentDateTime.getSeconds() === 0)
+            {
+                weatherr.request_position() //обновляю погоду каждый час
+            }
         }
     }
 

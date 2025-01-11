@@ -130,6 +130,7 @@ void Weather::handleReply_time()
     else
     {
         qDebug() << "Error in network reply: " << reply->errorString();
+        request_position();
     }
 
     reply->deleteLater();
