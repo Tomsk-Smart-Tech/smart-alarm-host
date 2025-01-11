@@ -11,19 +11,21 @@ int main(int argc, char *argv[])
     Weather weather;
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("weatherr", &weather);
-    // QDir currentDir = QDir::currentPath();
-    // // currentDir.cdUp();
-    // currentDir.cdUp();
-    // currentDir.cdUp();
-    // QString mainqml = currentDir.filePath("main.qml");
-    // const QUrl url(mainqml);
+    QDir currentDir = QDir::currentPath();
+    currentDir.cdUp();
+    currentDir.cdUp();
+    QString mainqml = "file:///"+currentDir.filePath("main.qml");
+    qDebug()<<mainqml;
+    const QUrl url(mainqml);
 
     // const QUrl url(QStringLiteral("/home/nikita/fromgit/smart-alarm-host/main.qml"));
     // const QUrl url(QStringLiteral("qrc:/smart-alarm-host/main.qml"));
 
-    const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));
+    //const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));
 
+    //const QUrl url("C:/Users/kiril/Documents/raspberry_smart_alarm/main.qml");
 
+    //const QUrl url(QStringLiteral("file:///C:/Users/kiril/Documents/raspberry_smart_alarm/main.qml"));
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,
