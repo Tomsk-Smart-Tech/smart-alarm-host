@@ -231,207 +231,93 @@ Item {
                     color: weather.backgroundColor
                     radius: 15
                     ScrollView {
-                            id: scrollView
-                            anchors.fill: parent
-                            anchors.margins: 12
-                            clip: true
-                            contentWidth: graph.width
-                            contentHeight: parent.height
+                        id: scrollView
+                        anchors.fill: parent
+                        anchors.margins: 12
+                        clip: true
+                        contentWidth: graph.width
+                        contentHeight: parent.height
 
-                            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
-                            // ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                        ScrollBar.vertical.policy: ScrollBar.AlwaysOff
+                        // ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-                            Rectangle {
-                                id: graph
-                                width: weatherr.h_weather.length * 100
-                                height: parent.height
-                                color: "transparent"
-                                Row {
-                                    id: graphRow
-                                    width: 536
-                                    height: 178
-                                    spacing: 50
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    Repeater {
-                                        model: weatherr.h_weather
-                                        delegate: Column {
-                                            spacing: 8
-                                            Text {
-                                                anchors.horizontalCenter: parent.horizontalCenter
-                                                text: modelData["time"]
-                                                font.pointSize: 14
-                                                font.weight: Font.DemiBold
-                                                color: "white"
-                                                font.family: castFont.name
-                                            }
-                                            Image {
-                                                anchors.horizontalCenter: parent.horizontalCenter
-                                                source: "sun.png"
-                                                width: 30
-                                                height: 30
-                                            }
+                        Rectangle {
+                            id: graph
+                            width: weatherr.h_weather.length * 100
+                            height: parent.height
+                            color: "transparent"
+                            Row {
+                                id: graphRow
+                                width: 536
+                                height: 178
+                                spacing: 50
+                                anchors.verticalCenter: parent.verticalCenter
+                                Repeater {
+                                    model: weatherr.h_weather
+                                    delegate: Column {
+                                        spacing: 8
+                                        Text {
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                            text: modelData["time"]
+                                            font.pointSize: 14
+                                            font.weight: Font.DemiBold
+                                            color: "white"
+                                            font.family: castFont.name
+                                        }
+                                        Image {
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                            source: "sun.png"
+                                            width: 30
+                                            height: 30
                                         }
                                     }
                                 }
-                                // Rectangle{
-                                //     anchors.fill: parent
-                                //     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
-                                // }
+                            }
+                            Canvas {
+                                id: graphCanvas
+                                anchors.fill: parent
+                                onPaint: {
+                                    var ctx = graphCanvas.getContext("2d");
+                                    ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
 
-                                Canvas {
-                                    id: graphCanvas
-                                    anchors.fill: parent
-                                    onPaint: {
-                                        var ctx = graphCanvas.getContext("2d");
-                                        ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
-
-                                        // Проверка данных
-                                        var data = weatherr.h_weather;
-                                        if (!data || data.length === 0) {
-                                            console.log("Нет данных для отрисовки");
-                                            return;
-                                        }
-
-                                                        // Настройки для графика
-                                        ctx.strokeStyle = "white";  // Цвет линии
-                                        ctx.lineWidth = 2;          // Толщина линии
-                                        ctx.fillStyle = "red";      // Цвет точек
-                                        ctx.font = "16px Arial"; // Шрифт для текста
-                                        ctx.textAlign = "center";    // Центрируем текст относительно точки
-
-                                        var step = 101.8
-                                        var maxTemp = weatherr.cur_weather["temp_max"]; // Максимальная температура
-                                        var minTemp = weatherr.cur_weather["temp_min"]; // Минимальная температура
-                                        var range = maxTemp - minTemp || 1; // Диапазон температур (чтобы избежать деления на 0)
-
-                                        ctx.beginPath();
-
-
-
-                                        for (var i = 0; i < data.length; i++) {
-                                            var x = step * i + step / 2 - 26; // Центр точки по оси X
-                                            var y = (59 - ((data[i]["temp"] - minTemp) / range * 59)); // Позиция точки по оси Y
-
-                                            if (i === 0) {
-                                                ctx.moveTo(x, y + 90);
-                                            } else {
-                                                ctx.lineTo(x, y + 90);
-                                            }
-                                            // ctx.beginPath();
-                                            ctx.arc(x, y+ 90, 5, 0, Math.PI * 2);
-                                            // ctx.fill();
-                                            var temperatureText = Math.abs(data[i]["temp"]) + " C°";
-                                            ctx.fillStyle = "white"; // Цвет текста
-                                            ctx.fillText(temperatureText, x, y - 10+ 90); // Текст над точкой (y - 10 для смещения)
-                                        }
-                                        ctx.stroke();
-
+                                    // Проверка данных
+                                    var data = weatherr.h_weather;
+                                    if (!data || data.length === 0) {
+                                        console.log("Нет данных для отрисовки");
+                                        return;
                                     }
-                                    // onPaint: {
-                                    //     var ctx = graphCanvas.getContext("2d");
-                                    //     ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
+                                    ctx.strokeStyle = "white";
+                                    ctx.lineWidth = 2;
+                                    ctx.fillStyle = "red";
+                                    ctx.font = "16px Arial";
+                                    ctx.textAlign = "center";
 
-                                    //     ctx.strokeStyle = "white";
-                                    //     ctx.lineWidth = 2;
+                                    var step = 101.8
+                                    var maxTemp = weatherr.cur_weather["temp_max"];
+                                    var minTemp = weatherr.cur_weather["temp_min"];
+                                    var range = maxTemp - minTemp || 1;
 
-                                    //     // var data = weatherr.h_weather
-                                    //     var maxTemp = weatherr.cur_weather["temp_max"]
-                                    //     var minTemp = weatherr.cur_weather["temp_min"]
+                                    ctx.beginPath();
 
-                                    //     var range = maxTemp - minTemp
+                                    for (var i = 0; i < data.length; i++) {
+                                        var x = step * i + step / 2 - 26;
+                                        var y = (59 - ((data[i]["temp"] - minTemp) / range * 59));
 
-                                    //     var step = 102;
-                                    //     // // 80 <= y <= 178
-                                    //     // y_step = (178-80)/range
-
-                                    //     ctx.beginPath();
-                                    //     ctx.moveTo(26, 60);
-                                    //     ctx.lineTo(26, 178);
-                                    //     ctx.lineTo(100, 60);
-                                    //     ctx.stroke();
-                                    //     for (var i = 0; i < data.length; i++) {
-                                    //         ctx.beginPath();
-                                    //         ctx.lineTo(step * i, 60);
-                                    //         ctx.lineTo(step * i + 1, 60);
-                                    //         ctx.stroke();
-                                    //         // var x = step * i + step / 2; // Центр каждой точки
-                                    //         // var x = step * i // Центр каждой точки
-                                    //         // var y = 60
-                                    //         // var y = graphCanvas.height - ((data[i].temperature - minTemp) / range * graphCanvas.height);
-
-                                    //         // if (i === 0) {
-                                    //         //     ctx.moveTo(x, y); // Начальная точка
-                                    //         // } else {
-                                    //         //     ctx.lineTo(x, y); // Линия к следующей точке
-                                    //         // }
-
-                                    //         // Рисуем точки
-                                    //         // ctx.beginPath();
-                                    //         // ctx.arc(x, y, 5, 0, Math.PI * 2); // Радиус точки — 5px
-                                    //         // ctx.fill();
-                                    //     }
-                                    //      // Рисуем линии
-                                    //     // ctx.moveTo(26, 60);
-                                    //     // ctx.lineTo(26, 178);
-                                    //     // ctx.lineTo(46, maxTemp);
-                                    //     // ctx.lineTo(79, minTemp);
-                                    //     // ctx.stroke();
-                                    // }
-
-
-
-                                        // ctx.moveTo(128, 60);
-                                        // ctx.lineTo(128, 140);
-                                        // ctx.stroke();
-
-                                        // ctx.moveTo(230, 60);
-                                        // ctx.lineTo(230, 140);
-                                        // ctx.stroke();
-
-
-
-
-                                    // onPaint: {
-                                    //     var ctx = graphCanvas.getContext("2d");
-                                    //     ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
-
-                                    //     // Настройки стилей
-                                    //     ctx.strokeStyle = "white"; // Цвет линии
-                                    //     ctx.lineWidth = 2;        // Толщина линии
-                                    //     ctx.fillStyle = "red";    // Цвет точек
-
-                                    //     // Получаем данные
-                                    //     var data = weatherr.h_weather;
-                                    //     if (data.length === 0) return;
-
-                                    //     var step = graphCanvas.width / data.length; // Расстояние между точками
-                                    //     var maxTemp = Math.max.apply(null, data.map(d => d.temperature));
-                                    //     var minTemp = Math.min.apply(null, data.map(d => d.temperature));
-                                    //     var range = maxTemp - minTemp || 1; // Избегаем деления на 0
-
-                                    //     ctx.beginPath();
-                                    //     for (var i = 0; i < data.length; i++) {
-                                    //         var x = step * i + step / 2; // Центр каждой точки
-                                    //         var y = graphCanvas.height - ((data[i].temperature - minTemp) / range * graphCanvas.height);
-
-                                    //         if (i === 0) {
-                                    //             ctx.moveTo(x, y); // Начальная точка
-                                    //         } else {
-                                    //             ctx.lineTo(x, y); // Линия к следующей точке
-                                    //         }
-
-                                    //         // Рисуем точки
-                                    //         ctx.beginPath();
-                                    //         ctx.arc(x, y, 5, 0, Math.PI * 2); // Радиус точки — 5px
-                                    //         ctx.fill();
-                                    //     }
-                                    //     ctx.stroke(); // Рисуем линии
-                                    // }
+                                        if (i === 0) {
+                                            ctx.moveTo(x, y + 90);
+                                        } else {
+                                            ctx.lineTo(x, y + 90);
+                                        }
+                                        ctx.arc(x, y+ 90, 5, 0, Math.PI * 2);
+                                        var temperatureText = Math.abs(data[i]["temp"]) + " C°";
+                                        ctx.fillStyle = "white";
+                                        ctx.fillText(temperatureText, x, y - 10+ 90);
+                                    }
+                                    ctx.stroke();
                                 }
-
-
                             }
                         }
+                    }
                 }
                 Rectangle{
                     width: parent.width
