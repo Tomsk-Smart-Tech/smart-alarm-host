@@ -7,16 +7,18 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
-    Weather weather;
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("weatherr", &weather);
+
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
     currentDir.cdUp();
     QString mainqml = "file:///"+currentDir.filePath("main.qml");
     qDebug()<<mainqml;
     const QUrl url(mainqml);
+
+    Weather weather;
+    engine.rootContext()->setContextProperty("weatherr", &weather);
+    engine.rootContext()->setContextProperty("jsonFilePath", QUrl::fromLocalFile(currentDir.filePath("russian_cities.json")));
 
     //absolute ways
     //const QUrl url(QStringLiteral("/home/nikita/fromgit/smart-alarm-host/main.qml"));

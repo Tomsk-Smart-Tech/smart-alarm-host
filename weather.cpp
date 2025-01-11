@@ -290,5 +290,4 @@ void Weather::handleReply_weather()
     {
         qDebug() << "Error in network reply: " << reply->errorString();
     }
-    qDebug()<<cur_forecast["uv"];
 }
