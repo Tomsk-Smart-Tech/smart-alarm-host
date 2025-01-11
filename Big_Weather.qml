@@ -1,12 +1,13 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import QtCharts 2.15
 
 Item {
     id: weather
 
     //поменял почти везде string на var ибо ругается
     property int x_pos: 0
-    property int y_pos: 16
+    property int y_pos: 0
     property color backgroundColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
@@ -26,23 +27,25 @@ Item {
     property string uv: "000"
     property var rain_sensor: "000"
 
-
     Rectangle{
         id:rec
         x: weather.x_pos
         y: weather.y_pos
         width: 1024
-        height: 600 - 32
+        height: 600
+
+        color: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
 
         FontLoader {
             id: castFont
             source: "ofont.ru_Nunito.ttf"
         }
-        color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
+
 
         ScrollView {
             contentWidth: parent.width
             anchors.fill: parent
+            anchors.topMargin: 16
 
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
@@ -112,16 +115,20 @@ Item {
                         }
                     }
                     Column{
+                        id: column1
                         x: 446
                         width: 460
                         height: 155
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
-                        anchors.rightMargin: 16
+                        anchors.rightMargin: 12
                         spacing: 8
                         Row{
-                            width: 460
                             height: 45
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.leftMargin: 0
+                            anchors.rightMargin: 0
                             Text {
                                 text: "Влажность"
                                 anchors.left: parent.left
@@ -150,8 +157,11 @@ Item {
                             }
                         }
                         Row{
-                            width: 460
                             height: 45
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.leftMargin: 0
+                            anchors.rightMargin: 0
                             Text {
                                 text: "Скорость ветра:"
                                 anchors.left: parent.left
@@ -179,8 +189,11 @@ Item {
                             }
                         }
                         Row{
-                            width: 460
                             height: 45
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.leftMargin: 0
+                            anchors.rightMargin: 0
                             Text {
                                 text: "Ощущается как:"
                                 anchors.left: parent.left
@@ -215,6 +228,8 @@ Item {
                     height: 178
                     color: weather.backgroundColor
                     radius: 15
+
+
                 }
                 Rectangle{
                     width: parent.width
@@ -227,6 +242,7 @@ Item {
                         Repeater {
                             model: weather.week_list
                             delegate: Column {
+
                                 Text {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: model.day
@@ -485,17 +501,7 @@ Item {
                             }
 
                         }
-                        // Text {
-                        //     text: weather.rain_sensor
-                        //     anchors.right: parent.right
-                        //     anchors.top: parent.top
-                        //     anchors.rightMargin: 16
-                        //     anchors.topMargin: 27
-                        //     lineHeight: 0.5
-                        //     font.pointSize: 36
-                        //     color: weather.textColor
-                        //     font.family: castFont.name
-                        // }
+
                         Text {
                             text: "Кол-во осадков"
                             anchors.left: parent.left

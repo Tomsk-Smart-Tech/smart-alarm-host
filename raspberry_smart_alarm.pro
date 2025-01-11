@@ -1,7 +1,12 @@
 QT += quick
-
+QT += quick network
+QT += charts
 SOURCES += \
-        main.cpp
+        main.cpp\
+        weather.cpp\
+
+HEADERS += \
+        weather.h
 
 resources.files = main.qml Clock.qml Settings_for_Alarm.qml Wi-Fi_Page.qml back.jpg icon_0.png icon_1.png icon_2.png icon_3.png icon_4.png icon_5.png back2.jpg Roboto-Light.ttf Roboto-Bold.ttf Roboto-Medium.ttf \
 Bluetooth_Page.qml \
@@ -30,7 +35,8 @@ Test.qml \
 InitialPage.qml \
 russian_cities.json \
 Big_Weather.qml \
-weather_icon/
+weather_icon \
+userdata.json
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -63,4 +69,5 @@ DISTFILES += \
     Status_bar.qml \
     Storage_Page.qml \
     Test.qml \
-    Wi-Fi_Page.qml
+    Wi-Fi_Page.qml \
+

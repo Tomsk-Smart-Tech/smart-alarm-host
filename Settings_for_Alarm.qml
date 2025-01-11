@@ -19,6 +19,7 @@ Item {
             id: listSettings
             visible: true
             anchors.margins: 15
+            anchors.bottomMargin: 0
             anchors.fill: parent
             spacing: 5
             clip: true

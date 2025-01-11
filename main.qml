@@ -14,12 +14,12 @@ Window {
 
     Image {
         id: back
-        source: "mounts.jpg"
+        source: "back2.jpg"
         anchors.fill: parent
     }
     Rectangle{
         anchors.fill: parent
-        color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
+        color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.5)
     }
     ListModel{
         id:alarms
@@ -128,14 +128,22 @@ Window {
                 }
                 Rectangle{
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
-
                 }
             }
             Component.onCompleted: {
                 hor_sv.currentIndex = 1
             }
+            // onCurrentIndexChanged: {
+            //     if (currentIndex === count - 1) {
+            //         currentIndex = 1
+            //     } else if (currentIndex === 0) {
+            //         currentIndex = count - 2
+            //     }
+            // }
 
-
+            // Component.onCompleted: {
+            //     currentIndex = 1
+            // }
         }
     }
     Component.onCompleted: {

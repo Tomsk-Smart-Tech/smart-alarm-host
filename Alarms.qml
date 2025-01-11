@@ -84,19 +84,13 @@ Item {
                                 implicitHeight: 30
                                 radius:15
                                 color: list_switch.checked ? Qt.rgba(180 / 255, 180 / 255, 180 / 255, 1) : Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1)
-                                // border.color: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1)
-                                // border.width: 2
-
-
                                 Rectangle{
                                     x: list_switch.checked ? parent.width - width - 2 : 2
                                     y: 2
                                     width:26
                                     height:26
                                     radius:13
-
                                     color: list_switch.down ? Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.5) : Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1)
-
                                 }
                             }
                         }

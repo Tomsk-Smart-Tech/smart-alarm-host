@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
     Weather weather;
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("weatherr", &weather);
-    const QUrl url(QStringLiteral("/home/nikita/fromgit/smart-alarm-host/main.qml"));
-    //const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));
+    // const QUrl url(QStringLiteral("/home/nikita/fromgit/smart-alarm-host/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));
 
     QObject::connect(
         &engine,
