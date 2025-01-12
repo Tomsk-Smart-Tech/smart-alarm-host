@@ -304,14 +304,20 @@ Item {
                                     var step =101.8
                                     var maxTemp = weatherr.cur_weather["max2d"];
                                     var minTemp = weatherr.cur_weather["min2d"];
-                                    var range = Math.abs(maxTemp) + Math.abs(minTemp) || 1;
-                                    var y_step = 115/range
+                                    // var range = Math.abs(maxTemp) + Math.abs(minTemp) || 1;
+                                    var range = maxTemp - minTemp || 1;
+                                    var y_step = 70/range
 
                                     ctx.beginPath();
 
                                     for (var i = 0; i < data.length; i++) {
                                         var x = step * i + step / 2 - 26;
-                                        var y = (190 - (data[i]["temp"] - minTemp) * y_step);
+                                        if(data[i]["temp"] < 0){
+                                            var y = (150 - Math.abs(data[i]["temp"] - minTemp) * y_step);
+                                        } else {
+                                            var y = (150 + Math.abs(data[i]["temp"] - minTemp) * y_step);
+                                        }
+
 
                                         if (i === 0) {
                                             ctx.moveTo(x, y);
