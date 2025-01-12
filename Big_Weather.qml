@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
-import QtCharts 2.15
 
 Item {
     id: weather
@@ -83,7 +82,7 @@ Item {
                         Column {
                             // spacing: 8
                             Text {
-                                text: weather.currect_temp + "°C"
+                                text: weather.currect_temp + " °C"
                                 font.pointSize: 48
                                 color: weather.textColor
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -97,7 +96,7 @@ Item {
                                     source: "weather_icon/temp_down.png"
                                 }
                                 Text {
-                                    text: weather.currect_temp_min + "°C"
+                                    text: weather.currect_temp_min + " °C"
                                     font.pointSize: 24
                                     color: weather.textColor
                                     font.family: castFont.name
@@ -115,7 +114,7 @@ Item {
                                     source: "weather_icon/temp_up.png"
                                 }
                                 Text {
-                                    text: weather.currect_temp_max + "°C"
+                                    text: weather.currect_temp_max + " °C"
                                     font.pointSize: 24
                                     color: weather.textColor
                                     font.family: castFont.name

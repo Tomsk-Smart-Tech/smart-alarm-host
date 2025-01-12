@@ -89,7 +89,7 @@ Item {
                 spacing: 42
                 Repeater {
                     id: weatherRepeater
-                    model: weather.weather_list
+                    model: weatherr.d_weather
                     property color textColor: weather.textColor
                     FontLoader {
                         id: castFont1
@@ -106,7 +106,7 @@ Item {
                         }
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: model.date
+                            text:  modelData["time"]
                             font.pointSize: 12
                             color: textColor || "Нет данных"
                             font.family: castFont1.name
@@ -119,7 +119,7 @@ Item {
                         }
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: model.temp
+                            text: modelData["min_temp"] + "/" + modelData["max_temp"]
                             font.pointSize: 12
                             color: textColor || "Нет данных"
                             font.family: castFont1.name

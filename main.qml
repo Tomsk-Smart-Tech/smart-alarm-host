@@ -77,7 +77,7 @@ Window {
                         currect_temp_max: weatherr.cur_weather["temp_max"]
                         currect_temp_min: weatherr.cur_weather["temp_min"]
                         wind: weatherr.cur_weather["wind_speed"]+" км/ч"
-                        feel_temp: weatherr.cur_weather["feels_temp"]+ "°C"
+                        feel_temp: weatherr.cur_weather["feels_temp"]+ " °C"
 
                         sunrise: weatherr.cur_weather["sunrise"]
                         sunset: weatherr.cur_weather["sunset"]
