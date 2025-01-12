@@ -242,94 +242,93 @@ Item {
                         id: scrollView
                         anchors.fill: parent
                         anchors.margins: 12
-                        clip: true
+                        // clip: true
                         contentWidth: graph.width
-                        contentHeight: parent.height
-
+                        contentHeight: 154
                         ScrollBar.vertical.policy: ScrollBar.AlwaysOff
-                        // ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-
-                        Rectangle {
-                            id: graph
-                            width: weatherr.h_weather.length * 100
-                            height: parent.height
-                            color: "transparent"
-                            Row {
-                                id: graphRow
-                                width: 536
-                                height: 178
-                                spacing: 50
-                                anchors.verticalCenter: parent.verticalCenter
-                                Repeater {
-                                    model: weatherr.h_weather
-                                    delegate: Column {
-                                        spacing: 0
-                                        Text {
-                                            anchors.horizontalCenter: parent.horizontalCenter
-                                            text: modelData["time"]
-                                            font.pointSize: 14
-                                            font.weight: Font.DemiBold
-                                            color: "white"
-                                            font.family: castFont.name
-                                        }
-                                        Image {
-                                            anchors.horizontalCenter: parent.horizontalCenter
-                                            source: "sun.png"
-                                            width: 30
-                                            height: 30
+                        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                        Flickable {
+                            anchors.fill: parent
+                            clip: true
+                            flickableDirection: Flickable.HorizontalFlick
+                            Rectangle {
+                                id: graph
+                                width: weatherr.h_weather.length * 100
+                                height: parent.height
+                                color: "transparent"
+                                Row {
+                                    id: graphRow
+                                    anchors.fill: parent
+                                    spacing: 50
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    Repeater {
+                                        model: weatherr.h_weather
+                                        delegate: Column {
+                                            spacing: 0
+                                            Text {
+                                                anchors.horizontalCenter: parent.horizontalCenter
+                                                text: modelData["time"]
+                                                font.pointSize: 14
+                                                font.weight: Font.DemiBold
+                                                color: "white"
+                                                font.family: castFont.name
+                                            }
+                                            Image {
+                                                anchors.horizontalCenter: parent.horizontalCenter
+                                                source: "sun.png"
+                                                width: 30
+                                                height: 30
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            Canvas {
-                                id: graphCanvas
-                                anchors.fill: parent
-                                onPaint: {
-                                    var ctx = graphCanvas.getContext("2d");
-                                    ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
+                                Canvas {
+                                    id: graphCanvas
+                                    anchors.fill: parent
+                                    onPaint: {
+                                        var ctx = graphCanvas.getContext("2d");
+                                        ctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
 
-                                    // Проверка данных
-                                    var data = weatherr.h_weather;
-                                    if (!data || data.length === 0) {
-                                        console.log("Нет данных для отрисовки");
-                                        return;
-                                    }
-                                    ctx.strokeStyle = "#9DAEE4";
-                                    ctx.lineWidth = 2;
-                                    ctx.font = "16px Arial";
-                                    ctx.textAlign = "center";
-
-                                    // var step = 100 //тогда не съезжает
-                                    var step =101.8
-                                    var maxTemp = weatherr.cur_weather["max2d"];
-                                    var minTemp = weatherr.cur_weather["min2d"];
-                                    // var range = Math.abs(maxTemp) + Math.abs(minTemp) || 1;
-                                    var range = maxTemp - minTemp || 1;
-                                    var y_step = 70/range
-
-                                    ctx.beginPath();
-
-                                    for (var i = 0; i < data.length; i++) {
-                                        var x = step * i + step / 2 - 26;
-                                        if(data[i]["temp"] < 0){
-                                            var y = (150 - Math.abs(data[i]["temp"] - minTemp) * y_step);
-                                        } else {
-                                            var y = (150 + Math.abs(data[i]["temp"] - minTemp) * y_step);
+                                        // Проверка данных
+                                        var data = weatherr.h_weather;
+                                        if (!data || data.length === 0) {
+                                            console.log("Нет данных для отрисовки");
+                                            return;
                                         }
+                                        ctx.strokeStyle = "#9DAEE4";
+                                        ctx.lineWidth = 2;
+                                        ctx.font = "14px Arial";
+                                        ctx.textAlign = "center";
+
+                                        // var step = 100 //тогда не съезжает
+                                        var step =101.8
+                                        var maxTemp = weatherr.cur_weather["max2d"];
+                                        var minTemp = weatherr.cur_weather["min2d"];
+                                        // var range = Math.abs(maxTemp) + Math.abs(minTemp) || 1;
+                                        var range = maxTemp - minTemp || 1;
+                                        var y_step = 70/range
+
+                                        ctx.beginPath();
+
+                                        for (var i = 0; i < data.length; i++) {
+                                            var x = step * i + step / 2 - 26;
+                                            var y = (70 - Math.abs(data[i]["temp"] - minTemp) * 70 / range);
 
 
-                                        if (i === 0) {
-                                            ctx.moveTo(x, y);
-                                        } else {
-                                            ctx.lineTo(x, y);
+
+                                            if (i === 0) {
+                                                ctx.moveTo(x, y + 75);
+                                            } else {
+                                                ctx.lineTo(x, y+ 75);
+                                            }
+                                            ctx.arc(x, y+ 75, 5, 0, Math.PI * 2);
+                                            var temperatureText = Math.round(data[i]["temp"]) + "°C";
+                                            ctx.fillStyle = "white";
+                                            ctx.fillText(temperatureText, x, y - 10+ 75);
                                         }
-                                        ctx.arc(x, y, 5, 0, Math.PI * 2);
-                                        var temperatureText = Math.round(data[i]["temp"]) + "°C";
-                                        ctx.fillStyle = "white";
-                                        ctx.fillText(temperatureText, x, y - 10);
+                                        ctx.stroke();
                                     }
-                                    ctx.stroke();
                                 }
                             }
                         }

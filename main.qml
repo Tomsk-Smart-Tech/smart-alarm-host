@@ -11,7 +11,6 @@ Window {
     property color backgroundColor: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
 
-
     Image {
         id: back
         source: "mounts.jpg"
@@ -47,16 +46,10 @@ Window {
         ListElement { day: "Вс"; date: "15.11"; temp: "371°C"; weather: "lightning.png" }
         ListElement { day: "Пн"; date: "15.11"; temp: "56°C"; weather: "lightning.png" }
     }
-
-
-
     SwipeView{
         id:ver_sv
         anchors.fill: parent
         orientation:Qt.Vertical
-
-
-
         Rectangle{
             color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
             Settings_for_Alarm{
@@ -65,8 +58,6 @@ Window {
             }
 
         }
-
-
         Rectangle{
             // Status_bar{}
             color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
@@ -122,6 +113,9 @@ Window {
                         x_pos: 16 + 236 + 16 + 236 + 16
                         y_pos: 56 + 236 + 16 + 40
                         weather_list: weather
+                        // curr_temp: "+15°C"
+                        // city: "Томск"
+                        // descrition: "Ясно"
                     }
 
 
@@ -133,27 +127,10 @@ Window {
             Component.onCompleted: {
                 hor_sv.currentIndex = 1
             }
-            // onCurrentIndexChanged: {
-            //     if (currentIndex === count - 1) {
-            //         currentIndex = 1
-            //     } else if (currentIndex === 0) {
-            //         currentIndex = count - 2
-            //     }
-            // }
-
-            // Component.onCompleted: {
-            //     currentIndex = 1
-            // }
         }
     }
     Component.onCompleted: {
         ver_sv.currentIndex = 1
     }
-    // Status_bar{
-    //     x_pos:0
-    //     y_pos:0
-    // }
-
-
 }
 
