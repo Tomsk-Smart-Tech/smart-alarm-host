@@ -300,9 +300,10 @@ Item {
                                     ctx.font = "16px Arial";
                                     ctx.textAlign = "center";
 
-                                    var step = 101.8
-                                    var maxTemp = weatherr.cur_weather["temp_max"];
-                                    var minTemp = weatherr.cur_weather["temp_min"];
+                                    var step = 100 //тогда не съезжает
+                                    //var step =101.8
+                                    var maxTemp = weatherr.cur_weather["max2d"];
+                                    var minTemp = weatherr.cur_weather["min2d"];
                                     var range = Math.abs(maxTemp) + Math.abs(minTemp) || 1;
                                     var y_step = 50/range
 

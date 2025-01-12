@@ -26,18 +26,19 @@ class Weather:public QObject
     Q_PROPERTY(quint64 unixtime READ get_time NOTIFY data_changed)
     Q_PROPERTY(QVariantMap cur_weather READ get_cur_forecast NOTIFY h_weather_changed)
     Q_PROPERTY(QVariantList h_weather READ get_h_forecast NOTIFY h_weather_changed)
+    Q_PROPERTY(QVariantList d_weather READ get_d_forecast NOTIFY h_weather_changed)
 
 
 
 public:
     Weather();
 
-    //геттеры
     QString get_city() const { return m_city; }
     QString get_latitude() const { return m_latitude; }
     QString get_longitude() const { return m_longitude; }
     quint64 get_time() const {return cur_time;}
     QVariantList get_h_forecast() const {return h_forecast;}
+    QVariantList get_d_forecast() const {return d_forecast;}
     QVariantMap get_cur_forecast() const {return cur_forecast;}
 
 
@@ -66,6 +67,7 @@ private:
     quint64 cur_time;
     QVariantMap cur_forecast;
     QVariantList h_forecast;
+    QVariantList d_forecast;
 };
 
 #endif // WEATHER_H
