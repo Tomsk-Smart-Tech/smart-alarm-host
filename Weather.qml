@@ -14,6 +14,7 @@ Item {
         radius: 15
         color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
         Rectangle{
+            id: rectangle
             x: 10
             y: 10
             width: 468
@@ -23,12 +24,23 @@ Item {
             Image {
 
                 anchors.right: parent.right
-                anchors.topMargin: 50
-                anchors.rightMargin: 8
+                anchors.top: parent.top
+                anchors.topMargin: 4
+                anchors.rightMargin: 4
                 source: "clouds.png"
                 width: 60
                 height: 60
                 fillMode: Image.PreserveAspectFit
+            }
+
+            Text {
+                id: _text
+                text: qsTr("+15")
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.leftMargin: 12
+                anchors.topMargin: 10
+                font.pixelSize: 36
             }
         }
         Rectangle{
