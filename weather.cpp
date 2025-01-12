@@ -224,7 +224,7 @@ void Weather::request_weather()
     QString api_key="e2959452db5643d1ae6123433250501";
     QString q=m_latitude+","+m_longitude;
     QString lang="ru";
-    const QString url = QString("http://api.weatherapi.com/v1/forecast.json?key=%1&q=%2&lang=%3")
+    const QString url = QString("http://api.weatherapi.com/v1/forecast.json?key=%1&q=%2&lang=%3&days=2")
                             .arg(api_key,q,lang);
     qDebug() << "Request URL:" << url;
     QNetworkRequest request(url);
@@ -252,26 +252,49 @@ void Weather::handleReply_weather()
         cur_forecast["dewpoint_c"]=current["dewpoint_c"].toDouble();
         cur_forecast["uv"]=current["uv"].toDouble();
 
+        QString cur_time1=current["last_updated"].toString().mid(11);
+        QString cur_time2=cur_time1.chopped(2)+"00";
+        QTime cur_time3 =QTime::fromString(cur_time2, "hh:mm");
+
         QJsonObject condition = current["condition"].toObject();
         cur_forecast["icon"]=condition["icon"].toString();
         cur_forecast["description"]=condition["text"].toString();
 
         QJsonObject forecast=root["forecast"].toObject();
         QJsonArray forecastday=forecast["forecastday"].toArray();
-        QJsonObject dayObj = forecastday[0].toObject();
+        QJsonObject dayObj1 = forecastday[0].toObject(); //1 день - текущий
 
-        QJsonObject day = dayObj["day"].toObject();
+        QJsonObject day = dayObj1["day"].toObject();
         cur_forecast["temp_min"]=day["mintemp_c"].toDouble();
         cur_forecast["temp_max"]=day["maxtemp_c"].toDouble();
         cur_forecast["total_precip"]=day["totalprecip_mm"].toDouble();
 
-        QJsonObject astro = dayObj["astro"].toObject();
+        QJsonObject astro = dayObj1["astro"].toObject();
         cur_forecast["sunrise"]=astro["sunrise"].toString().chopped(3);
         QTime sunset =QTime::fromString(astro["sunset"].toString(), "hh:mm AP");
         cur_forecast["sunset"]=sunset.toString("HH:mm");
 
-        QJsonArray hours = dayObj["hour"].toArray();
-        for(const QJsonValue &value:hours)
+        QJsonArray hours1 = dayObj1["hour"].toArray();
+        for(const QJsonValue &value:hours1)
+        {
+            QVariantMap map;
+            QJsonObject obj=value.toObject();
+
+            QTime h_data=QTime::fromString(obj["time"].toString().mid(11), "hh:mm");
+            if(h_data>=cur_time3)
+            {
+                map["time"]=obj["time"].toString().mid(11);
+                map["temp"]=obj["temp_c"].toDouble();
+                map["humidity"]=obj["humidity"].toDouble();
+                QJsonObject condition_h=obj["condition"].toObject();
+                map["icon"]=condition_h["icon"].toString();
+
+                h_forecast.append(map);
+            }
+        }
+        QJsonObject dayObj2 = forecastday[1].toObject(); //следующий день
+        QJsonArray hours2 = dayObj2["hour"].toArray();
+        for(const QJsonValue &value:hours2)
         {
             QVariantMap map;
             QJsonObject obj=value.toObject();
@@ -281,9 +304,10 @@ void Weather::handleReply_weather()
             map["humidity"]=obj["humidity"].toDouble();
             QJsonObject condition_h=obj["condition"].toObject();
             map["icon"]=condition_h["icon"].toString();
-
             h_forecast.append(map);
         }
+
+
         emit h_weather_changed();
     }
     else

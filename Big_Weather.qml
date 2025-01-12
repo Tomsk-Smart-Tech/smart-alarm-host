@@ -27,6 +27,14 @@ Item {
     property string uv: "000"
     property var rain_sensor: "000"
 
+    //обновление графика canvas
+    Connections {
+        target: weatherr
+        function onH_weather_changed() {
+            graphCanvas.requestPaint();
+        }
+    }
+
 
     Rectangle{
         id:rec
