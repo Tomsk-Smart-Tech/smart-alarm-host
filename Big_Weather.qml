@@ -305,13 +305,13 @@ Item {
                                     var maxTemp = weatherr.cur_weather["max2d"];
                                     var minTemp = weatherr.cur_weather["min2d"];
                                     var range = Math.abs(maxTemp) + Math.abs(minTemp) || 1;
-                                    var y_step = 50/range
+                                    var y_step = 115/range
 
                                     ctx.beginPath();
 
                                     for (var i = 0; i < data.length; i++) {
                                         var x = step * i + step / 2 - 26;
-                                        var y = (120 - (data[i]["temp"] - minTemp) * y_step);
+                                        var y = (190 - (data[i]["temp"] - minTemp) * y_step);
 
                                         if (i === 0) {
                                             ctx.moveTo(x, y);
