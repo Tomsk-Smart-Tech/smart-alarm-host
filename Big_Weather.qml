@@ -325,17 +325,17 @@ Item {
 
                                         for (var i = 0; i < data.length; i++) {
                                             var x = step * i + step / 2 - 26;
-                                            var y = (70 - Math.abs(data[i]["temp"] - minTemp) * 70 / range);
+                                            var y = (60 - Math.abs(data[i]["temp"] - minTemp) * 60 / range);
 
                                             if (i === 0) {
-                                                ctx.moveTo(x, y + 75);
+                                                ctx.moveTo(x, y + 85);
                                             } else {
-                                                ctx.lineTo(x, y+ 75);
+                                                ctx.lineTo(x, y+ 85);
                                             }
-                                            ctx.arc(x, y+ 75, 5, 0, Math.PI * 2);
+                                            ctx.arc(x, y+ 85, 5, 0, Math.PI * 2);
                                             var temperatureText = Math.round(data[i]["temp"]) + "°C";
                                             ctx.fillStyle = "white";
-                                            ctx.fillText(temperatureText, x, y - 8+ 75);
+                                            ctx.fillText(temperatureText, x, y - 8+ 85);
                                         }
                                         ctx.stroke();
                                     }
