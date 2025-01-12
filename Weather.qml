@@ -61,11 +61,13 @@ Item {
                 anchors.rightMargin: 12
                 spacing: 25
                 Text {
+                    width: 102
                     text: weather.curr_temp
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.leftMargin: 12
                     anchors.topMargin: 10
                     font.pixelSize: 36
+                    horizontalAlignment: Text.AlignHCenter
                     font.family: castFont.name
                     color: weather.textColor
                 }
@@ -83,26 +85,47 @@ Item {
                         height: 28
                         color: Qt.rgba(0/255, 0/255, 0/255, 0.0)
                         Rectangle {
-                            width: parent.width
-                            height: parent.height
+                            width: 260
+                            height: 28
                             color: "transparent"
                             clip: true
                             Text {
+                                width: 260
+                                height: 28
                                 id: scrollingText
                                 text: weather.descrition
                                 font.pixelSize: 24
                                 font.family: castFont.name
                                 color: weather.textColorSecond
+
                                 x: 0
                                 PropertyAnimation {
                                     id: textAnimation
                                     target: scrollingText
                                     property: "x"
-                                    from: 0
-                                    to: -scrollingText.contentWidth + 260
-                                    duration: (scrollingText.contentWidth - 260) * 30
-                                    loops: Animation.Infinite
-                                    running: scrollingText.contentWidth > 260
+                                    from: 260  // Начальная позиция
+                                    to: -scrollingText.contentWidth  // Конечная позиция
+                                    duration: scrollingText.contentWidth * 30  // Скорость анимации
+                                    loops: Animation.Infinite  // Бесконечная анимация
+                                    running: scrollingText.contentWidth > 260 // Запуск анимации, если текст длиннее textWidth
+                                }
+                                // Обработка динамического обновления текста
+                                onTextChanged: {
+                                    // Останавливаем анимацию
+                                    textAnimation.stop();
+
+                                    // Сбрасываем позицию текста
+                                    scrollingText.x = 0;
+
+                                    // Пересчитываем параметры анимации
+                                    textAnimation.from = 0;
+                                    textAnimation.to = -scrollingText.contentWidth;
+                                    textAnimation.duration = scrollingText.contentWidth * 20;
+
+                                    // Запускаем анимацию, если текст длиннее textWidth
+                                    if (scrollingText.contentWidth > 260) {
+                                        textAnimation.start();
+                                    }
                                 }
                             }
                         }
