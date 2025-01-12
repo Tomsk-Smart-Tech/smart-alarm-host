@@ -246,7 +246,7 @@ Item {
                         contentWidth: graph.width
                         contentHeight: 154
                         ScrollBar.vertical.policy: ScrollBar.AlwaysOff
-                        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                        // ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
                         Flickable {
                             anchors.fill: parent
                             clip: true
@@ -276,8 +276,8 @@ Item {
                                             Image {
                                                 anchors.horizontalCenter: parent.horizontalCenter
                                                 source: "sun.png"
-                                                width: 30
-                                                height: 30
+                                                width: 28
+                                                height: 28
                                             }
                                         }
                                     }
@@ -298,7 +298,7 @@ Item {
                                         }
                                         ctx.strokeStyle = "#9DAEE4";
                                         ctx.lineWidth = 2;
-                                        ctx.font = "14px Arial";
+                                        ctx.font = "16px Arial";
                                         ctx.textAlign = "center";
 
                                         // var step = 100 //тогда не съезжает
@@ -315,8 +315,6 @@ Item {
                                             var x = step * i + step / 2 - 26;
                                             var y = (70 - Math.abs(data[i]["temp"] - minTemp) * 70 / range);
 
-
-
                                             if (i === 0) {
                                                 ctx.moveTo(x, y + 75);
                                             } else {
@@ -325,7 +323,7 @@ Item {
                                             ctx.arc(x, y+ 75, 5, 0, Math.PI * 2);
                                             var temperatureText = Math.round(data[i]["temp"]) + "°C";
                                             ctx.fillStyle = "white";
-                                            ctx.fillText(temperatureText, x, y - 10+ 75);
+                                            ctx.fillText(temperatureText, x, y - 8+ 75);
                                         }
                                         ctx.stroke();
                                     }

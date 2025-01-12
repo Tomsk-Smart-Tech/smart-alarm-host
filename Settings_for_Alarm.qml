@@ -131,5 +131,9 @@ Item {
         width: 1024 - 1024 / 3
         height: 600
         source: "InitialPage.qml"
+        onLoaded: {
+            loader.item.backgroundColor = settings.backgroundColor
+            loader.item.textColor = settings.textColor
+        }
     }
 }
