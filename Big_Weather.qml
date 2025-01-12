@@ -281,6 +281,7 @@ Item {
                                     }
                                 }
                             }
+
                             Canvas {
                                 id: graphCanvas
                                 anchors.fill: parent
