@@ -251,7 +251,7 @@ Item {
 
                         Rectangle {
                             id: graph
-                            width: weatherr.h_weather.length * 100
+                            width: weatherr.h_weather.length * 101
                             height: parent.height
                             color: "transparent"
                             Row {
@@ -263,7 +263,7 @@ Item {
                                 Repeater {
                                     model: weatherr.h_weather
                                     delegate: Column {
-                                        spacing: 8
+                                        spacing: 0
                                         Text {
                                             anchors.horizontalCenter: parent.horizontalCenter
                                             text: modelData["time"]
@@ -294,32 +294,32 @@ Item {
                                         console.log("Нет данных для отрисовки");
                                         return;
                                     }
-                                    ctx.strokeStyle = "white";
+                                    ctx.strokeStyle = "#9DAEE4";
                                     ctx.lineWidth = 2;
-                                    ctx.fillStyle = "red";
                                     ctx.font = "16px Arial";
                                     ctx.textAlign = "center";
 
                                     var step = 101.8
                                     var maxTemp = weatherr.cur_weather["temp_max"];
                                     var minTemp = weatherr.cur_weather["temp_min"];
-                                    var range = maxTemp - minTemp || 1;
+                                    var range = Math.abs(maxTemp) + Math.abs(minTemp) || 1;
+                                    var y_step = 50/range
 
                                     ctx.beginPath();
 
                                     for (var i = 0; i < data.length; i++) {
                                         var x = step * i + step / 2 - 26;
-                                        var y = (59 - ((data[i]["temp"] - minTemp) / range * 59));
+                                        var y = (120 - (data[i]["temp"] - minTemp) * y_step);
 
                                         if (i === 0) {
-                                            ctx.moveTo(x, y + 90);
+                                            ctx.moveTo(x, y);
                                         } else {
-                                            ctx.lineTo(x, y + 90);
+                                            ctx.lineTo(x, y);
                                         }
-                                        ctx.arc(x, y+ 90, 5, 0, Math.PI * 2);
-                                        var temperatureText = data[i]["temp"] + " C°";
+                                        ctx.arc(x, y, 5, 0, Math.PI * 2);
+                                        var temperatureText = Math.round(data[i]["temp"]) + "°C";
                                         ctx.fillStyle = "white";
-                                        ctx.fillText(temperatureText, x, y - 10+ 90);
+                                        ctx.fillText(temperatureText, x, y - 10);
                                     }
                                     ctx.stroke();
                                 }
