@@ -33,6 +33,12 @@ Item {
             graphCanvas.requestPaint();
         }
     }
+    function getDayName_short(timestamp)
+    {
+        var date = new Date(timestamp*1000)
+        var days = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+        return days[date.getDay()];
+    }
 
 
     Rectangle{
@@ -71,11 +77,11 @@ Item {
                     anchors.margins: 30
                     Row {
                         x: 21
-                        y: 23
-                        spacing: 30
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 42
                         Image {
                             anchors.verticalCenter: parent.verticalCenter
-                            source: "sun.png"
+                            source: "loading.png"
                             width: 120
                             height: 120
                         }
@@ -97,13 +103,13 @@ Item {
                                 }
                                 Text {
                                     text: weather.currect_temp_min + " °C"
-                                    font.pointSize: 24
+                                    font.pointSize: 22
                                     color: weather.textColor
                                     font.family: castFont.name
                                 }
                                 Text {
                                     text: qsTr("  ")
-                                    font.pointSize: 24
+                                    font.pointSize: 22
                                     color: weather.textColor
                                     font.family: castFont.name
                                 }
@@ -115,12 +121,18 @@ Item {
                                 }
                                 Text {
                                     text: weather.currect_temp_max + " °C"
-                                    font.pointSize: 24
+                                    font.pointSize: 22
                                     color: weather.textColor
                                     font.family: castFont.name
                                 }
                             }
-
+                            Text {
+                                text: weatherr.city
+                                font.pointSize: 24
+                                color: weather.textColorSecond
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                font.family: castFont.name
+                            }
                         }
                     }
                     Column{
@@ -245,7 +257,7 @@ Item {
                         contentWidth: graph.width
                         contentHeight: 154
                         ScrollBar.vertical.policy: ScrollBar.AlwaysOff
-                        // ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                         Flickable {
                             anchors.fill: parent
@@ -270,12 +282,12 @@ Item {
                                                 text: modelData["time"]
                                                 font.pointSize: 14
                                                 font.weight: Font.DemiBold
-                                                color: "white"
+                                                color: weather.textColorSecond
                                                 font.family: castFont.name
                                             }
                                             Image {
                                                 anchors.horizontalCenter: parent.horizontalCenter
-                                                source: "sun.png"
+                                                source: "loading.png"
                                                 width: 28
                                                 height: 28
                                             }
@@ -298,7 +310,7 @@ Item {
                                         }
                                         ctx.strokeStyle = "#9DAEE4";
                                         ctx.lineWidth = 2;
-                                        ctx.font = "16px sans-serif";
+                                        ctx.font = "16px Arial";
                                         ctx.textAlign = "center";
 
                                         //var step = 100 //тогда не съезжает
@@ -339,40 +351,47 @@ Item {
                     radius: 15
                     Row {
                         anchors.centerIn: parent
-                        spacing: 50
+                        spacing: 30
                         Repeater {
-                            model: weather.week_list
+                            id: weatherRepeater
+                            model: weatherr.d_weather
+                            property color textColor: weather.textColor
+                            property color textColorSecond: weather.textColorSecond
                             delegate: Column {
-                                Text {
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    text: model.day
-                                    font.pointSize: 14
-                                    font.weight: Font.DemiBold
-                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-                                    font.family: castFont.name
+                                spacing: 0
+                                height: 178 - 24
+                                width: 93
+                                FontLoader {
+                                    id: castFont1
+                                    source: "ofont.ru_Nunito.ttf"
                                 }
                                 Text {
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: model.date
-                                    font.pointSize: 14
+                                    text:  getDayName_short(modelData["time"])
+                                    font.pointSize: 18
+                                    color: textColor
                                     font.weight: Font.DemiBold
-                                    color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-                                    font.family: castFont.name
+                                    font.family: castFont1.name
+                                }
+                                Text {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: Qt.formatDateTime(new Date(modelData["time"]*1000), "dd.MM")
+                                    font.pointSize: 14
+                                    color: textColorSecond
+                                    font.family: castFont1.name
                                 }
                                 Image {
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    source: model.weather
+                                    source: "loading.png"
                                     width: 70
                                     height: 70
-                                    fillMode: Image.PreserveAspectFit
                                 }
                                 Text {
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: model.temp
+                                    text: modelData["min_temp"] + "°C" + " " + modelData["max_temp"] + "°C"
                                     font.pointSize: 14
-                                    font.weight: Font.DemiBold
-                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-                                    font.family: castFont.name
+                                    color: textColor
+                                    font.family: castFont1.name
                                 }
                             }
                         }

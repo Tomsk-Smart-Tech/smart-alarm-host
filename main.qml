@@ -95,23 +95,23 @@ Window {
 
                     Clock{
                         x_pos:16
-                        y_pos:56 + 40
+                        y_pos:56
                         time: Qt.formatDateTime(currentDateTime, "HH:mm")
                         year:Qt.formatDateTime(currentDateTime, "dd.MM.yyyy")
                         date: getDayName(currentDateTime)
                     }
                     Sensors{
                         x_pos:16
-                        y_pos:56 + 236 + 16 + 40
+                        y_pos:56 + 236 + 16
                     }
                     Alarms{
                         x_pos:16 + 236 + 16
-                        y_pos:56 + 40
+                        y_pos:56
                         alarms: alarms
                     }
                     Weather{
                         x_pos: 16 + 236 + 16 + 236 + 16
-                        y_pos: 56 + 236 + 16 + 40
+                        y_pos: 56 + 236 + 16
                         weather_list: weather
                         // curr_temp: "+15°C"
                         // city: "Томск"

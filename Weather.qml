@@ -6,7 +6,9 @@ Item {
     property int y_pos: 0
     property ListModel weather_list: valueOf
     property color widgetBackgroundColor: Qt.rgba(0, 0, 0, 0.6)
-    property color textColor: "white"
+    property color textColor: Qt.rgba(255/255, 255/255, 255/255, 1.0)
+    property color textColorSecond: Qt.rgba(200/255, 200/255, 200/255, 1.0)
+
 
     property var curr_temp: Math.round(weatherr.cur_weather["temp"])+"°C"
     property var city: weatherr.city
@@ -44,7 +46,7 @@ Item {
                 anchors.top: parent.top
                 anchors.topMargin: 4
                 anchors.rightMargin: 4
-                source: "clouds.png"
+                source: "loading.png"
                 width: 60
                 height: 60
                 fillMode: Image.PreserveAspectFit
@@ -55,8 +57,8 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top
-                anchors.leftMargin: 8
-                anchors.rightMargin: 8
+                anchors.leftMargin: 12
+                anchors.rightMargin: 12
                 spacing: 25
                 Text {
                     text: weather.curr_temp
@@ -94,42 +96,47 @@ Item {
             color: Qt.rgba(255, 255, 255, 0.22)
             Row {
                 anchors.centerIn: parent
-                spacing: 42
+                spacing: 15
                 Repeater {
                     id: weatherRepeater
-                    model: weatherr.d_weather
+                    model: weatherr.d_weather.slice(0, 5)
                     property color textColor: weather.textColor
-                    FontLoader {
-                        id: castFont1
-                        source: "ofont.ru_Nunito.ttf"
-                    }
+                    property color textColorSecond: weather.textColorSecond
                     delegate: Column {
-                        spacing: 5
-                        Text {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: model.day
-                            font.pointSize: 12
-                            color: textColor || "Нет данных"
-                            font.family: castFont1.name
+                        anchors.verticalCenter: parent.verticalCenter
+                        height: (236 - 10*3)/3*2 -12
+                        width: 80
+                        spacing: 0
+                        FontLoader {
+                            id: castFont1
+                            source: "ofont.ru_Nunito.ttf"
                         }
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text:  getDayName_short(modelData["time"])
-                            font.pointSize: 12
-                            color: textColor || "Нет данных"
+                            font.pointSize: 14
+                            color: textColor
+                            font.weight: Font.DemiBold
+                            font.family: castFont1.name
+                        }
+                        Text {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: Qt.formatDateTime(new Date(modelData["time"]*1000), "dd.MM")
+                            font.pointSize: 14
+                            color: textColorSecond
                             font.family: castFont1.name
                         }
                         Image {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            source: model.weather
+                            source: "loading.png"
                             width: 50
                             height: 50
                         }
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: modelData["min_temp"] + "/" + modelData["max_temp"]
+                            text: modelData["min_temp"] + "°C" + " " + modelData["max_temp"] + "°C"
                             font.pointSize: 12
-                            color: textColor || "Нет данных"
+                            color: textColor
                             font.family: castFont1.name
                         }
                     }

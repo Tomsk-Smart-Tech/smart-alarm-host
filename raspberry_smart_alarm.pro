@@ -1,6 +1,5 @@
 QT += quick
 QT += quick network
-QT += charts
 SOURCES += \
         main.cpp\
         weather.cpp\
@@ -36,7 +35,9 @@ InitialPage.qml \
 russian_cities.json \
 Big_Weather.qml \
 weather_icon \
-userdata.json
+userdata.json \
+loading.png \
+loaging.gif
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
