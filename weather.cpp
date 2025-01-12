@@ -352,8 +352,8 @@ void Weather::handleReply_days()
             map["time"]=obj["dt"].toInt();
 
             QJsonObject temp=obj["temp"].toObject();
-            map["min_temp"]=temp["min"].toDouble();
-            map["max_temp"]=temp["max"].toDouble();
+            map["min_temp"] = std::round(temp["min"].toDouble());
+            map["max_temp"] = std::round(temp["max"].toDouble());
 
             QJsonArray weatherarr=obj["weather"].toArray();
             QJsonObject weather=weatherarr.first().toObject();

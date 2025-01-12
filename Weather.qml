@@ -8,9 +8,17 @@ Item {
     property color widgetBackgroundColor: Qt.rgba(0, 0, 0, 0.6)
     property color textColor: "white"
 
-    property var curr_temp: "+15"
-    property var city: "Томск"
-    property var descrition: "Ясно"
+    property var curr_temp: Math.round(weatherr.cur_weather["temp"])+"°C"
+    property var city: weatherr.city
+    property var descrition: weatherr.cur_weather["description"]
+
+    function getDayName_short(timestamp)
+    {
+        var date = new Date(timestamp*1000)
+        var days = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+        return days[date.getDay()];
+    }
+
     FontLoader {
         id: castFont
         source: "ofont.ru_Nunito.ttf"
@@ -106,7 +114,7 @@ Item {
                         }
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text:  modelData["time"]
+                            text:  getDayName_short(modelData["time"])
                             font.pointSize: 12
                             color: textColor || "Нет данных"
                             font.family: castFont1.name

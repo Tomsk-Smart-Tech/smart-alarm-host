@@ -14,6 +14,7 @@
 #include <QFile>
 #include <QDir>
 #include <QCoreApplication>
+#include <cmath>
 
 
 

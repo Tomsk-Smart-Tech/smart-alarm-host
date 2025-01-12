@@ -39,10 +39,13 @@ Item {
         }
     }
 
-    function getDayName(date) {
+    function getDayName(date)
+    {
         var days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
         return days[date.getDay()];
     }
+
+
 
     //конец моего кода управления временем
 
