@@ -99,7 +99,6 @@ void Weather::handleReply_pos()
 void Weather::request_data()
 {
     const QString url =QString("https://timeapi.io/api/time/current/coordinate?latitude=%1&longitude=%2").arg(m_latitude,m_longitude);
-    //qDebug() << "Request URL:" << url;
     QNetworkRequest request(url);
     QNetworkReply *reply = n_manager->get(request);
     connect(reply, &QNetworkReply::finished, this, &Weather::handleReply_time);
@@ -220,15 +219,26 @@ void Weather::handleReply_time()
 
 void Weather::request_weather()
 {
+    //current day
     QString api_key="e2959452db5643d1ae6123433250501";
     QString q=m_latitude+","+m_longitude;
     QString lang="ru";
     const QString url = QString("http://api.weatherapi.com/v1/forecast.json?key=%1&q=%2&lang=%3&days=2")
                             .arg(api_key,q,lang);
-    qDebug() << "Request URL:" << url;
+    //qDebug() << "Request URL:" << url;
     QNetworkRequest request(url);
     QNetworkReply *reply = n_manager->get(request);
     connect(reply, &QNetworkReply::finished, this, &Weather::handleReply_weather);
+
+    QString api_key2="07fd2533a6b04b2e33350858fa6acd10";
+    QString language="ru";
+    QString cnt="8";
+    QString units="metric";
+    const QString url2 = QString("https://api.openweathermap.org/data/2.5/forecast/daily?lat=%1&lon=%2&appid=%3&lang=%4&cnt=%5&units=%6")
+                      .arg(m_latitude,m_longitude,api_key2,language,cnt,units);
+    QNetworkRequest request2(url2);
+    QNetworkReply *reply2 = n_manager->get(request2);
+    connect(reply2, &QNetworkReply::finished, this, &Weather::handleReply_days);
 }
 
 void Weather::handleReply_weather()
@@ -316,6 +326,41 @@ void Weather::handleReply_weather()
         cur_forecast["min2d"]=(min_day1<min_day2) ? min_day1 : min_day2;
         cur_forecast["max2d"]=(max_day1>max_day2) ? max_day1 : max_day2;
 
+        //emit h_weather_changed();
+    }
+    else
+    {
+        qDebug() << "Error in network reply: " << reply->errorString();
+    }
+    reply->deleteLater();
+
+}
+
+void Weather::handleReply_days()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    if (reply->error() == QNetworkReply::NoError)
+    {
+        const QByteArray response = reply->readAll();
+        const QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
+        QJsonObject root = jsonDoc.object();
+        QJsonArray list=root["list"].toArray();
+        for(const QJsonValue &value:list)
+        {
+            QVariantMap map;
+            QJsonObject obj=value.toObject();
+            map["time"]=obj["dt"].toInt();
+
+            QJsonObject temp=obj["temp"].toObject();
+            map["min_temp"]=temp["min"].toDouble();
+            map["max_temp"]=temp["max"].toDouble();
+
+            QJsonArray weatherarr=obj["weather"].toArray();
+            QJsonObject weather=weatherarr.first().toObject();
+            map["icon"]=weather["icon"].toString();
+            d_forecast.append(map);
+        }
+
         qDebug()<<"check";
         emit h_weather_changed();
     }
@@ -323,5 +368,5 @@ void Weather::handleReply_weather()
     {
         qDebug() << "Error in network reply: " << reply->errorString();
     }
-
+    reply->deleteLater();
 }

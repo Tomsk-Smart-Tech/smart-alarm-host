@@ -58,6 +58,7 @@ private slots:
     void handleReply_pos();
     void handleReply_time();
     void handleReply_weather();
+    void handleReply_days();
 
 private:
     QNetworkAccessManager *n_manager;

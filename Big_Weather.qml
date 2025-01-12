@@ -247,6 +247,7 @@ Item {
                         contentHeight: 154
                         ScrollBar.vertical.policy: ScrollBar.AlwaysOff
                         // ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
                         Flickable {
                             anchors.fill: parent
                             clip: true
@@ -298,10 +299,10 @@ Item {
                                         }
                                         ctx.strokeStyle = "#9DAEE4";
                                         ctx.lineWidth = 2;
-                                        ctx.font = "16px Arial";
+                                        ctx.font = "16px sans-serif";
                                         ctx.textAlign = "center";
 
-                                        // var step = 100 //тогда не съезжает
+                                        //var step = 100 //тогда не съезжает
                                         var step =101.8
                                         var maxTemp = weatherr.cur_weather["max2d"];
                                         var minTemp = weatherr.cur_weather["min2d"];
