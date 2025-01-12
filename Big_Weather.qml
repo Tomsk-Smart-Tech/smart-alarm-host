@@ -317,7 +317,7 @@ Item {
                                             ctx.lineTo(x, y + 90);
                                         }
                                         ctx.arc(x, y+ 90, 5, 0, Math.PI * 2);
-                                        var temperatureText = Math.abs(data[i]["temp"]) + " C°";
+                                        var temperatureText = data[i]["temp"] + " C°";
                                         ctx.fillStyle = "white";
                                         ctx.fillText(temperatureText, x, y - 10+ 90);
                                     }
