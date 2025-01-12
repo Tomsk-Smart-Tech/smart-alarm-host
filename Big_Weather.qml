@@ -251,7 +251,7 @@ Item {
 
                         Rectangle {
                             id: graph
-                            width: weatherr.h_weather.length * 101
+                            width: weatherr.h_weather.length * 100
                             height: parent.height
                             color: "transparent"
                             Row {
@@ -300,8 +300,8 @@ Item {
                                     ctx.font = "16px Arial";
                                     ctx.textAlign = "center";
 
-                                    var step = 100 //тогда не съезжает
-                                    //var step =101.8
+                                    // var step = 100 //тогда не съезжает
+                                    var step =101.8
                                     var maxTemp = weatherr.cur_weather["max2d"];
                                     var minTemp = weatherr.cur_weather["min2d"];
                                     var range = Math.abs(maxTemp) + Math.abs(minTemp) || 1;
