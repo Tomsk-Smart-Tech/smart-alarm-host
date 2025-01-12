@@ -78,11 +78,35 @@ Item {
                         font.family: castFont.name
                         color: weather.textColor
                     }
-                    Text {
-                        text: weather.descrition
-                        font.pixelSize: 24
-                        font.family: castFont.name
-                        color: weather.textColor
+                    Rectangle{
+                        width: 260
+                        height: 28
+                        color: Qt.rgba(0/255, 0/255, 0/255, 0.0)
+                        Rectangle {
+                            width: parent.width
+                            height: parent.height
+                            color: "transparent"
+                            clip: true
+                            Text {
+                                id: scrollingText
+                                text: weather.descrition
+                                font.pixelSize: 24
+                                font.family: castFont.name
+                                color: weather.textColorSecond
+                                x: 0
+                                PropertyAnimation {
+                                    id: textAnimation
+                                    target: scrollingText
+                                    property: "x"
+                                    from: 0
+                                    to: -scrollingText.contentWidth + 260
+                                    duration: (scrollingText.contentWidth - 260) * 30
+                                    loops: Animation.Infinite
+                                    running: scrollingText.contentWidth > 260
+                                }
+                            }
+                        }
+
                     }
                 }
             }
