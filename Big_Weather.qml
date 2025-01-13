@@ -203,7 +203,7 @@ Item {
                         text: "г. " + weatherr.city
                         anchors.right: parent.right
                         anchors.top: parent.top
-                        anchors.rightMargin: 12
+                        anchors.rightMargin: 16
                         anchors.topMargin: 8
                         font.pointSize: 28
                         color: weather.textColor

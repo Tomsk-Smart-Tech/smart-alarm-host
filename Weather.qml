@@ -47,7 +47,7 @@ Item {
                 anchors.top: parent.top
                 anchors.topMargin: 4
                 anchors.rightMargin: 4
-                source: "loading.png"
+                source: "https:"+weatherr.h_weather[0]["icon"]
                 width: 60
                 height: 60
                 fillMode: Image.PreserveAspectFit
