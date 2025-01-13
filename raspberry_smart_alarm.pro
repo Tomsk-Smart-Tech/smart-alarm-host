@@ -37,7 +37,7 @@ Big_Weather.qml \
 weather_icon \
 userdata.json \
 loading.png \
-loaging.gif
+weather_iconkit
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
