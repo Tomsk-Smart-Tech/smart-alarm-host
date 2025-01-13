@@ -10,6 +10,8 @@ Window {
     //visibility: Window.FullScreen
     property color backgroundColor: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+    property var connection_status: 0
+
 
     Image {
         id: back
@@ -20,6 +22,8 @@ Window {
         anchors.fill: parent
         color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.5)
     }
+
+
     ListModel{
         id:alarms
         ListElement { time: "8:30"; description: "Первая"; activate: true}
@@ -89,6 +93,9 @@ Window {
                     }
                 }
                 Rectangle{
+                    width:600
+                    height:1024
+                    id: rectangle
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
 
 
@@ -114,8 +121,21 @@ Window {
                         y_pos: 56 + 236 + 16
                         weather_list: weather
                     }
-
-
+                    Image{
+                        id: connection
+                        width: 36
+                        height: 36
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.rightMargin: 6
+                        anchors.bottomMargin: 8
+                        source: "connection/no_phone_connection.png"
+                        Component.onCompleted: {
+                            if(window.connection_status == 1){
+                                connection.source = "connection/phone_connection.png"
+                            }
+                        }
+                    }
                 }
                 Rectangle{
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
@@ -129,6 +149,7 @@ Window {
             }
         }
     }
+
     Component.onCompleted: {
         ver_sv.currentIndex = 1
     }
