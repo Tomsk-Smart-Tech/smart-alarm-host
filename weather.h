@@ -27,7 +27,7 @@ class Weather:public QObject
     Q_PROPERTY(quint64 unixtime READ get_time NOTIFY data_changed)
     Q_PROPERTY(QVariantMap cur_weather READ get_cur_forecast NOTIFY h_weather_changed)
     Q_PROPERTY(QVariantList h_weather READ get_h_forecast NOTIFY h_weather_changed)
-    Q_PROPERTY(QVariantList d_weather READ get_d_forecast NOTIFY h_weather_changed)
+    Q_PROPERTY(QVariantList d_weather READ get_d_forecast NOTIFY d_weather_changed)
 
 
 
@@ -46,7 +46,6 @@ public:
     Q_INVOKABLE void set_city(const QString &value);
     Q_INVOKABLE void request_position();
     Q_INVOKABLE void request_data();
-    Q_INVOKABLE void request_weather();
 
 
 signals:
@@ -54,6 +53,7 @@ signals:
     void coordinates_changed();
     void data_changed();
     void h_weather_changed();
+    void d_weather_changed();
 
 private slots:
     void handleReply_pos();
