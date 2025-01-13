@@ -3,6 +3,7 @@
 #include <QtQuickControls2/QQuickStyle>
 #include <QQmlContext>
 #include "weather.h"
+//#include "clientmqtt.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,8 @@ int main(int argc, char *argv[])
 
     Weather weather;
     engine.rootContext()->setContextProperty("weatherr", &weather);
+    //ClientMqtt client;
+    //engine.rootContext()->setContextProperty("mqttclient",&client);
     engine.rootContext()->setContextProperty("jsonFilePath", QUrl::fromLocalFile(currentDir.filePath("russian_cities.json")));
     engine.rootContext()->setContextProperty("icons_path", QUrl::fromLocalFile(currentDir.filePath("weather_iconkit")));
     //absolute ways
