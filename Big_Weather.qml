@@ -391,7 +391,7 @@ Item {
                                 }
                                 Text {
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: modelData["min_temp"] + "°C" + " " + modelData["max_temp"] + "°C"
+                                    text: modelData["min_temp"] + "°" + " / " + modelData["max_temp"] + "°"
                                     font.pointSize: 14
                                     color: textColor
                                     font.family: castFont1.name
