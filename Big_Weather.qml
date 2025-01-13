@@ -381,7 +381,7 @@ Item {
 
                                     }
                                     Text {
-                                        text: index === 0 ? Math.round(weather.currect_temp_max) + "°" : modelData["min_temp"] + "°"
+                                        text: index === 0 ? Math.round(weather.currect_temp_max) + "°" : modelData["max_temp"] + "°"
                                         font.pointSize: 16
                                         color: textColor
                                         font.family: castFont1.name
