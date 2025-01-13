@@ -82,7 +82,7 @@ Item {
                         spacing: 42
                         Image {
                             anchors.verticalCenter: parent.verticalCenter
-                            source: "loading.png"
+                            source: "https:"+weatherr.h_weather[0]["icon"]
                             width: 120
                             height: 120
                         }
@@ -364,6 +364,7 @@ Item {
                                                 // height: 28
                                                 width: 40
                                                 height: 40
+
                                             }
                                         }
                                     }
@@ -469,7 +470,7 @@ Item {
                                 Image {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     //source: "loading.png"
-                                    source: icons_path +"/"+modelData["icon"]
+                                    source: "https:" + modelData["icon"]
                                     width: 70
                                     height: 70
                                 }

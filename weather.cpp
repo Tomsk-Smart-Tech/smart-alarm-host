@@ -144,17 +144,18 @@ void Weather::request_weather()
     QString lang="ru";
     const QString url = QString("http://api.weatherapi.com/v1/forecast.json?key=%1&q=%2&lang=%3&days=2")
                             .arg(api_key,q,lang);
-    qDebug() << "Request URL:" << url;
+    //qDebug() << "Request URL:" << url;
     QNetworkRequest request(url);
     QNetworkReply *reply = n_manager->get(request);
     connect(reply, &QNetworkReply::finished, this, &Weather::handleReply_weather);
 
     QString api_key2="07fd2533a6b04b2e33350858fa6acd10";
-    QString language="ru";
+    QString language="eng";
     QString cnt="8";
     QString units="metric";
     const QString url2 = QString("https://api.openweathermap.org/data/2.5/forecast/daily?lat=%1&lon=%2&appid=%3&lang=%4&cnt=%5&units=%6")
                       .arg(m_latitude,m_longitude,api_key2,language,cnt,units);
+    qDebug() << "Request URL:" << url2;
     QNetworkRequest request2(url2);
     QNetworkReply *reply2 = n_manager->get(request2);
     connect(reply2, &QNetworkReply::finished, this, &Weather::handleReply_days);
@@ -219,7 +220,6 @@ void Weather::handleReply_weather()
                 map["humidity"]=obj["humidity"].toDouble();
                 QJsonObject condition_h=obj["condition"].toObject();
                 map["icon"]=condition_h["icon"].toString();
-                qDebug()<<condition_h["icon"].toString();
                 hours_counter++;
                 h_forecast.append(map);
             }
@@ -258,6 +258,72 @@ void Weather::handleReply_weather()
 
 void Weather::handleReply_days()
 {
+    std::unordered_map<QString,QString> icon_transfer=
+    {
+        {"clear sky","//cdn.weatherapi.com/weather/64x64/day/113.png"},
+
+        {"few clouds","//cdn.weatherapi.com/weather/64x64/day/113.png"},
+        {"scattered clouds","//cdn.weatherapi.com/weather/64x64/day/116.png"},
+        {"broken clouds","//cdn.weatherapi.com/weather/64x64/day/116.png"},
+        {"overcast clouds","//cdn.weatherapi.com/weather/64x64/day/116.png"},
+
+        {"mist","//cdn.weatherapi.com/weather/64x64/day/143.png"},
+        {"smoke","//cdn.weatherapi.com/weather/64x64/day/143.png"},
+        {"haze","//cdn.weatherapi.com/weather/64x64/day/143.png"},
+        {"sand/dust whirls","//cdn.weatherapi.com/weather/64x64/day/143.png"},
+        {"fog","//cdn.weatherapi.com/weather/64x64/day/248.png"},
+        {"sand","//cdn.weatherapi.com/weather/64x64/day/143.png"},
+        {"dust","//cdn.weatherapi.com/weather/64x64/day/143.png"},
+        {"volcanic ash","//cdn.weatherapi.com/weather/64x64/day/143.png"},
+        {"squalls","//cdn.weatherapi.com/weather/64x64/day/386.png"},
+        {"tornado","//cdn.weatherapi.com/weather/64x64/day/230.png"},
+
+        {"light snow","//cdn.weatherapi.com/weather/64x64/day/323.png"},
+        {"snow","//cdn.weatherapi.com/weather/64x64/day/338.png"},
+        {"heavy snow","//cdn.weatherapi.com/weather/64x64/day/338.png"},
+        {"sleet","//cdn.weatherapi.com/weather/64x64/day/266.png"},
+        {"light shower sleet","//cdn.weatherapi.com/weather/64x64/day/284.png"},
+        {"shower sleet","//cdn.weatherapi.com/weather/64x64/day/284.png"},
+        {"light rain and snow","//cdn.weatherapi.com/weather/64x64/day/362.png"},
+        {"rain and snow","//cdn.weatherapi.com/weather/64x64/day/365.png"},
+        {"light shower snow","//cdn.weatherapi.com/weather/64x64/day/368.png"},
+        {"shower snow","//cdn.weatherapi.com/weather/64x64/day/227.png"},
+        {"heavy shower snow","//cdn.weatherapi.com/weather/64x64/day/338.png"},
+
+        {"light rain","//cdn.weatherapi.com/weather/64x64/day/176.png"},
+        {"moderate rain","//cdn.weatherapi.com/weather/64x64/day/176.png"},
+        {"heavy intensity rain","//cdn.weatherapi.com/weather/64x64/day/314.png"},
+        {"very heavy rain","//cdn.weatherapi.com/weather/64x64/day/308.png"},
+        {"extreme rain","//cdn.weatherapi.com/weather/64x64/day/359.png"},
+        {"freezing rain","//cdn.weatherapi.com/weather/64x64/day/314.png"},
+        {"light intensity shower rain","//cdn.weatherapi.com/weather/64x64/day/359.png"},
+        {"shower rain","//cdn.weatherapi.com/weather/64x64/day/359.png"},
+        {"heavy intensity shower rain","//cdn.weatherapi.com/weather/64x64/day/359.png"},
+        {"ragged shower rain","//cdn.weatherapi.com/weather/64x64/day/356.png"},
+
+        {"light intensity drizzle","//cdn.weatherapi.com/weather/64x64/day/263.png"},
+        {"drizzle","//cdn.weatherapi.com/weather/64x64/day/266.png"},
+        {"heavy intensity drizzle","//cdn.weatherapi.com/weather/64x64/day/284.png"},
+        {"light intensity drizzle rain","//cdn.weatherapi.com/weather/64x64/day/.png"},
+        {"drizzle rain","//cdn.weatherapi.com/weather/64x64/day/293.png"},
+        {"heavy intensity drizzle rain","//cdn.weatherapi.com/weather/64x64/day/296.png"},
+        {"shower rain and drizzle","//cdn.weatherapi.com/weather/64x64/day/353.png"},
+        {"heavy shower rain and drizzle","//cdn.weatherapi.com/weather/64x64/day/308.png"},
+        {"shower drizzle","//cdn.weatherapi.com/weather/64x64/day/308.png"},
+
+        {"thunderstorm with light rain","//cdn.weatherapi.com/weather/64x64/day/386.png"},
+        {"thunderstorm with rain","//cdn.weatherapi.com/weather/64x64/day/386.png"},
+        {"thunderstorm with heavy rain","//cdn.weatherapi.com/weather/64x64/day/389.png"},
+        {"light thunderstorm","//cdn.weatherapi.com/weather/64x64/day/389.png"},
+        {"thunderstorm","//cdn.weatherapi.com/weather/64x64/day/389.png"},
+        {"heavy thunderstorm","//cdn.weatherapi.com/weather/64x64/day/389.png"},
+        {"ragged thunderstorm","//cdn.weatherapi.com/weather/64x64/day/389.png"},
+        {"thunderstorm with light drizzle","//cdn.weatherapi.com/weather/64x64/day/389.png"},
+        {"thunderstorm with drizzle","//cdn.weatherapi.com/weather/64x64/day/389.png"},
+        {"thunderstorm with heavy drizzle","//cdn.weatherapi.com/weather/64x64/day/389.png"},
+
+    };
+
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
     if (reply->error() == QNetworkReply::NoError)
     {
@@ -277,7 +343,8 @@ void Weather::handleReply_days()
 
             QJsonArray weatherarr=obj["weather"].toArray();
             QJsonObject weather=weatherarr.first().toObject();
-            map["icon"]=weather["icon"].toString();
+            QString desc =weather["description"].toString();
+            map["icon"]=icon_transfer[desc];
             d_forecast.append(map);
         }
 
