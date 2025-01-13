@@ -48,7 +48,8 @@ Item {
         width: 1024
         height: 600
 
-        color: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
+        //color: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
+        color: Qt.rgba(50/255, 50/255, 50/255, 0.5)
 
         FontLoader {
             id: castFont
@@ -126,122 +127,193 @@ Item {
                                     font.family: castFont.name
                                 }
                             }
-                            Text {
-                                text: weatherr.city
-                                font.pointSize: 24
-                                color: weather.textColorSecond
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                font.family: castFont.name
-                            }
                         }
                     }
                     Column{
-                        id: column1
-                        x: 446
-                        width: 460
-                        height: 155
-                        anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
-                        anchors.rightMargin: 12
-                        spacing: 8
+                        anchors.bottom: parent.bottom
+                        anchors.rightMargin: 8
+                        anchors.bottomMargin: 8
+                        spacing: -4
                         Row{
-                            id: row
-                            width: 460
-                            height: 45
-                            anchors.leftMargin: 0
-                            anchors.rightMargin: 0
                             Text {
+                                width: 204
                                 text: "Влажность:"
-                                anchors.right: parent.right
-                                anchors.rightMargin: 220
-                                font.pointSize: 24
+                                horizontalAlignment: Text.AlignRight
+                                font.bold: true
+                                font.pointSize: 20
                                 color: weather.textColorSecond
                                 font.family: castFont.name
-                            }
-                            Image {
-                                width: 45
-                                height: 45
-                                anchors.left: parent.left
-                                anchors.leftMargin: 260
-                                source: "weather_icon/humidity.png"
                             }
                             Text {
                                 width: 144
                                 text: weather.humidity
-                                anchors.right: parent.right
-                                anchors.rightMargin: 0
-                                horizontalAlignment: Text.AlignLeft
-                                font.weight: Font.DemiBold
-                                font.pointSize: 24
+                                horizontalAlignment: Text.AlignHCenter
+                                // font.weight: Font.DemiBold
+                                font.pointSize: 20
                                 color: weather.textColor
                                 font.family: castFont.name
                             }
                         }
                         Row{
-                            id: row1
-                            width: 460
-                            height: 45
-                            anchors.leftMargin: 0
-                            anchors.rightMargin: 0
                             Text {
+                                width: 204
                                 text: "Скорость ветра:"
-                                anchors.right: parent.right
-                                anchors.rightMargin: 218
-                                font.pointSize: 24
+                                horizontalAlignment: Text.AlignRight
+                                font.bold: true
+                                font.pointSize: 20
                                 color: weather.textColorSecond
                                 font.family: castFont.name
-                            }
-                            Image {
-                                width: 45
-                                height: 45
-                                anchors.left: parent.left
-                                anchors.leftMargin: 260
-                                source: "weather_icon/wind.png"
                             }
                             Text {
                                 width: 144
                                 text: weather.wind
-                                anchors.right: parent.right
-                                horizontalAlignment: Text.AlignLeft
-                                font.weight: Font.DemiBold
-                                font.pointSize: 24
+                                horizontalAlignment: Text.AlignHCenter
+                                // font.weight: Font.DemiBold
+                                font.pointSize: 20
                                 color: weather.textColor
                                 font.family: castFont.name
                             }
                         }
                         Row{
-                            width: 460
-                            height: 45
-                            anchors.leftMargin: 0
-                            anchors.rightMargin: 0
                             Text {
+                                width: 204
                                 text: "Ощущается как:"
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
-                                font.pointSize: 24
+                                horizontalAlignment: Text.AlignRight
+                                font.bold: true
+                                font.pointSize: 20
                                 color: weather.textColorSecond
                                 font.family: castFont.name
                             }
-                            Image {
-                                width: 45
-                                height: 45
-                                anchors.left: parent.left
-                                anchors.leftMargin: 260
-                                source: "weather_icon/temp.png"
-                            }
                             Text {
                                 width: 144
-                                anchors.right: parent.right
-                                horizontalAlignment: Text.AlignLeft
-                                font.weight: Font.DemiBold
-                                font.pointSize: 24
+                                text: weather.feel_temp
+                                horizontalAlignment: Text.AlignHCenter
+                                // font.weight: Font.DemiBold
+                                font.pointSize: 20
                                 color: weather.textColor
                                 font.family: castFont.name
-                                text: weather.feel_temp
                             }
                         }
 
                     }
+
+                    Text {
+                        x: 183
+                        text: "г. " + weatherr.city
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.rightMargin: 12
+                        anchors.topMargin: 8
+                        font.pointSize: 28
+                        color: weather.textColor
+                        font.family: castFont.name
+                    }
+                    // Column{
+                    //     id: column1
+                    //     x: 446
+                    //     width: 458
+                    //     height: 115
+                    //     anchors.right: parent.right
+                    //     anchors.top: parent.top
+                    //     anchors.rightMargin: 12
+                    //     anchors.topMargin: 52
+                    //     spacing: -10
+                    //     Row{
+                    //         anchors.leftMargin: 0
+                    //         anchors.rightMargin: 0
+                    //         Text {
+                    //             text: "Влажность:"
+                    //             horizontalAlignment: Text.AlignLeft
+                    //             font.pointSize: 20
+                    //             color: weather.textColorSecond
+                    //             font.family: castFont.name
+                    //         }
+                    //         // Image {
+                    //         //     width: 45
+                    //         //     height: 45
+                    //         //     anchors.left: parent.left
+                    //         //     anchors.leftMargin: 260
+                    //         //     source: "weather_icon/humidity.png"
+                    //         // }
+                    //         Text {
+                    //             width: 144
+                    //             text: weather.humidity
+                    //             horizontalAlignment: Text.AlignLeft
+                    //             font.weight: Font.DemiBold
+                    //             font.pointSize: 20
+                    //             color: weather.textColor
+                    //             font.family: castFont.name
+                    //         }
+                    //     }
+                    //     Row{
+                    //         id: row1
+                    //         width: 460
+                    //         height: 45
+                    //         anchors.leftMargin: 0
+                    //         anchors.rightMargin: 0
+                    //         Text {
+                    //             text: "Скорость ветра:"
+                    //             anchors.right: parent.right
+                    //             anchors.rightMargin: 218
+                    //             font.pointSize: 20
+                    //             color: weather.textColorSecond
+                    //             font.family: castFont.name
+                    //         }
+                    //         // Image {
+                    //         //     width: 45
+                    //         //     height: 45
+                    //         //     anchors.left: parent.left
+                    //         //     anchors.leftMargin: 260
+                    //         //     source: "weather_icon/wind.png"
+                    //         // }
+                    //         Text {
+                    //             width: 144
+                    //             text: weather.wind
+                    //             anchors.right: parent.right
+                    //             horizontalAlignment: Text.AlignLeft
+                    //             font.weight: Font.DemiBold
+                    //             font.pointSize: 20
+                    //             color: weather.textColor
+                    //             font.family: castFont.name
+                    //         }
+                    //     }
+                    //     Row{
+                    //         id: row2
+                    //         width: 428
+                    //         height: 36
+                    //         anchors.leftMargin: 0
+                    //         anchors.rightMargin: 0
+                    //         spacing: 0
+                    //         Text {
+                    //             text: "Ощущается как:"
+                    //             anchors.right: parent.right
+                    //             anchors.rightMargin: 60
+                    //             font.pointSize: 20
+                    //             color: weather.textColorSecond
+                    //             font.family: castFont.name
+                    //         }
+                    //         // Image {
+                    //         //     width: 45
+                    //         //     height: 45
+                    //         //     anchors.left: parent.left
+                    //         //     anchors.leftMargin: 260
+                    //         //     source: "weather_icon/temp.png"
+                    //         // }
+                    //         Text {
+                    //             width: 144
+                    //             horizontalAlignment: Text.AlignLeft
+                    //             font.weight: Font.DemiBold
+                    //             font.pointSize: 20
+                    //             color: weather.textColor
+                    //             font.family: castFont.name
+                    //             text: weather.feel_temp
+                    //             anchors.right: parent.right
+                    //             anchors.rightMargin: -27
+                    //         }
+                    //     }
+
+                    // }
                 }
                 Rectangle{
                     id: grah
@@ -290,8 +362,8 @@ Item {
                                                 source: "https:" + modelData["icon"]
                                                 // width: 28
                                                 // height: 28
-                                                width: 35
-                                                height: 35
+                                                width: 40
+                                                height: 40
                                             }
                                         }
                                     }
@@ -312,7 +384,7 @@ Item {
                                         }
                                         ctx.strokeStyle = "#9DAEE4";
                                         ctx.lineWidth = 2;
-                                        ctx.font = "16px Arial";
+                                        ctx.font = "20px Arial";
                                         ctx.textAlign = "center";
 
                                         //var step = 100 //тогда не съезжает
@@ -324,22 +396,34 @@ Item {
                                         var y_step = 70/range
 
                                         ctx.beginPath();
+                                        for (var i = 0; i < data.length; i++) {
+                                            var x = step * i + step / 2 - 26;
+                                            var y = (50 - Math.abs(data[i]["temp"] - minTemp) * 50 / range);
+
+                                            if (i === 0) {
+                                                ctx.moveTo(x, y + 90);
+                                            } else {
+                                                ctx.lineTo(x, y + 90);
+                                            }
+                                        }
+                                        ctx.strokeStyle = "#9DAEE4";
+                                        ctx.lineWidth = 2;
+                                        ctx.stroke();
 
                                         for (var i = 0; i < data.length; i++) {
                                             var x = step * i + step / 2 - 26;
-                                            var y = (60 - Math.abs(data[i]["temp"] - minTemp) * 60 / range);
+                                            var y = (50 - Math.abs(data[i]["temp"] - minTemp) * 50 / range);
 
-                                            if (i === 0) {
-                                                ctx.moveTo(x, y + 85);
-                                            } else {
-                                                ctx.lineTo(x, y+ 85);
-                                            }
-                                            ctx.arc(x, y+ 85, 5, 0, Math.PI * 2);
+                                            ctx.beginPath();
+                                            ctx.arc(x, y + 90, 5, 0, Math.PI * 2);
+                                            ctx.fillStyle = "#D0CCEE";
+                                            ctx.fill();
+                                            ctx.closePath();
+
                                             var temperatureText = Math.round(data[i]["temp"]) + "°C";
                                             ctx.fillStyle = "white";
-                                            ctx.fillText(temperatureText, x, y - 8+ 85);
+                                            ctx.fillText(temperatureText, x, y - 8 + 90);
                                         }
-                                        ctx.stroke();
                                     }
                                 }
                             }
@@ -389,12 +473,21 @@ Item {
                                     width: 70
                                     height: 70
                                 }
-                                Text {
+                                Row {
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    text: modelData["min_temp"] + "°" + " / " + modelData["max_temp"] + "°"
-                                    font.pointSize: 14
-                                    color: textColor
-                                    font.family: castFont1.name
+                                    spacing: 5
+                                    Text {
+                                        text: modelData["min_temp"] + "°"
+                                        font.pointSize: 16
+                                        color: textColorSecond
+                                        font.family: castFont1.name
+                                    }
+                                    Text {
+                                        text: modelData["max_temp"] + "°"
+                                        font.pointSize: 16
+                                        color: textColor
+                                        font.family: castFont1.name
+                                    }
                                 }
                             }
                         }

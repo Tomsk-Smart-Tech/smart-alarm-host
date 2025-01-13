@@ -34,6 +34,7 @@ Item {
         radius: 15
         color: weather.widgetBackgroundColor
 
+
         Rectangle {
             x: 10
             y: 10
@@ -98,7 +99,6 @@ Item {
                                 font.family: castFont.name
                                 color: weather.textColorSecond
 
-                                x: 0
                                 PropertyAnimation {
                                     id: textAnimation
                                     target: scrollingText
@@ -118,9 +118,9 @@ Item {
                                     scrollingText.x = 0;
 
                                     // Пересчитываем параметры анимации
-                                    textAnimation.from = 0;
+                                    textAnimation.from = 260;
                                     textAnimation.to = -scrollingText.contentWidth;
-                                    textAnimation.duration = scrollingText.contentWidth * 20;
+                                    textAnimation.duration = scrollingText.contentWidth * 30;
 
                                     // Запускаем анимацию, если текст длиннее textWidth
                                     if (scrollingText.contentWidth > 260) {
@@ -179,13 +179,23 @@ Item {
                             width: 50
                             height: 50
                         }
-                        Text {
+                        Row {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: modelData["min_temp"] + "°C" + " " + modelData["max_temp"] + "°C"
-                            font.pointSize: 12
-                            color: textColor
-                            font.family: castFont1.name
+                            spacing: 5 // Добавлено для красоты
+                            Text {
+                                text: modelData["min_temp"] + "°"
+                                font.pointSize: 12
+                                color: textColorSecond
+                                font.family: castFont1.name
+                            }
+                            Text {
+                                text: modelData["max_temp"] + "°"
+                                font.pointSize: 12
+                                color: textColor
+                                font.family: castFont1.name
+                            }
                         }
+
                     }
                 }
             }
