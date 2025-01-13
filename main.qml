@@ -77,7 +77,7 @@ Window {
                         currect_temp_max: weatherr.cur_weather["temp_max"]
                         currect_temp_min: weatherr.cur_weather["temp_min"]
                         wind: weatherr.cur_weather["wind_speed"]+" км/ч"
-                        feel_temp: weatherr.cur_weather["feels_temp"]+ " °C"
+                        feel_temp: weatherr.cur_weather["feels_temp"]
 
                         sunrise: weatherr.cur_weather["sunrise"]
                         sunset: weatherr.cur_weather["sunset"]
@@ -113,15 +113,15 @@ Window {
                         x_pos: 16 + 236 + 16 + 236 + 16
                         y_pos: 56 + 236 + 16
                         weather_list: weather
-                        // curr_temp: "+15°C"
-                        // city: "Томск"
-                        // descrition: "Ясно"
                     }
 
 
                 }
                 Rectangle{
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
+                    Big_Calendar{
+
+                    }
                 }
             }
             Component.onCompleted: {

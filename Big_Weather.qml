@@ -89,7 +89,7 @@ Item {
                         Column {
                             // spacing: 8
                             Text {
-                                text: weather.currect_temp + " °C"
+                                text: Math.round(weather.currect_temp) + " °C"
                                 font.pointSize: 48
                                 color: weather.textColor
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -103,7 +103,7 @@ Item {
                                     source: "weather_icon/temp_down.png"
                                 }
                                 Text {
-                                    text: weather.currect_temp_min + " °C"
+                                    text: Math.round(weather.currect_temp_min) + " °C"
                                     font.pointSize: 22
                                     color: weather.textColor
                                     font.family: castFont.name
@@ -121,7 +121,7 @@ Item {
                                     source: "weather_icon/temp_up.png"
                                 }
                                 Text {
-                                    text: weather.currect_temp_max + " °C"
+                                    text: Math.round(weather.currect_temp_max) + " °C"
                                     font.pointSize: 22
                                     color: weather.textColor
                                     font.family: castFont.name
@@ -149,7 +149,6 @@ Item {
                                 width: 144
                                 text: weather.humidity
                                 horizontalAlignment: Text.AlignHCenter
-                                // font.weight: Font.DemiBold
                                 font.pointSize: 20
                                 color: weather.textColor
                                 font.family: castFont.name
@@ -169,7 +168,6 @@ Item {
                                 width: 144
                                 text: weather.wind
                                 horizontalAlignment: Text.AlignHCenter
-                                // font.weight: Font.DemiBold
                                 font.pointSize: 20
                                 color: weather.textColor
                                 font.family: castFont.name
@@ -187,9 +185,8 @@ Item {
                             }
                             Text {
                                 width: 144
-                                text: weather.feel_temp
+                                text: Math.round(weather.feel_temp) + " °C"
                                 horizontalAlignment: Text.AlignHCenter
-                                // font.weight: Font.DemiBold
                                 font.pointSize: 20
                                 color: weather.textColor
                                 font.family: castFont.name
@@ -200,7 +197,7 @@ Item {
 
                     Text {
                         x: 183
-                        text: "г. " + weatherr.city
+                        text: weatherr.city
                         anchors.right: parent.right
                         anchors.top: parent.top
                         anchors.rightMargin: 16

@@ -32,7 +32,7 @@ weather_icon \
 userdata.json \
 loading.png \
 weather_iconkit \
-Calendar.qml
+Big_Calendar.qml
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -53,10 +53,31 @@ QT += core gui opengl
 
 DISTFILES += \
     Alarms.qml \
+    Big_Calendar.qml \
+    Big_Calendar.qml \
     Big_Weather.qml \
     Bluetooth_Page.qml \
-    Calendar.qml \
-    Calendar.qml \
+    Color_Page.qml \
+    Date_and_time_Page.qml \
+    InitialPage.qml \
+    Sensors.qml \
+    Settings_for_Alarm.qml \
+    Settings_for_Alarm_copy.qml \
+    Sound_Page.qml \
+    Status_bar.qml \
+    Storage_Page.qml \
+    Test.qml \
+    Wi-Fi_Page.qml \
+    Big_Calendar.qml \
+
+
+
+
+DISTFILES += \
+    Alarms.qml \
+    Big_Calendar.qml \
+    Big_Weather.qml \
+    Bluetooth_Page.qml \
     Color_Page.qml \
     Date_and_time_Page.qml \
     InitialPage.qml \
