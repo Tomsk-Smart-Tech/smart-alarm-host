@@ -175,7 +175,7 @@ Item {
                         }
                         Image {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            source: "loading.png"
+                            source: icons_path +"/"+modelData["icon"]
                             width: 50
                             height: 50
                         }

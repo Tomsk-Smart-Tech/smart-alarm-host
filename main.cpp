@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     Weather weather;
     engine.rootContext()->setContextProperty("weatherr", &weather);
     engine.rootContext()->setContextProperty("jsonFilePath", QUrl::fromLocalFile(currentDir.filePath("russian_cities.json")));
-
+    engine.rootContext()->setContextProperty("icons_path", QUrl::fromLocalFile(currentDir.filePath("weather_iconkit")));
     //absolute ways
     //const QUrl url(QStringLiteral("/home/nikita/fromgit/smart-alarm-host/main.qml"));
     //const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));

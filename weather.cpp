@@ -134,87 +134,6 @@ void Weather::handleReply_time()
     reply->deleteLater();
 }
 
-// void Weather::request_weather()
-// {
-//     QString api_key="07fd2533a6b04b2e33350858fa6acd10";
-//     QString language="eng";
-//     QString cnt="30";
-//     QString units="metric";
-//     const QString url = QString("https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=%1&lon=%2&appid=%3&lang=%4&cnt=%5&units=%6")
-//                       .arg(m_latitude,m_longitude,api_key,language,cnt,units);
-//     qDebug() << "Request URL:" << url;
-//     QNetworkRequest request(url);
-//     QNetworkReply *reply = n_manager->get(request);
-//     connect(reply, &QNetworkReply::finished, this, &Weather::handleReply_weather);
-// }
-
-// void Weather::handleReply_weather()
-// {
-//     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-//     if (reply->error() == QNetworkReply::NoError)
-//     {
-//         qDebug()<<"check";
-//         const QByteArray response = reply->readAll();
-//         const QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
-//         QJsonObject root = jsonDoc.object();
-//         QJsonArray list=root["list"].toArray();
-//         QVariantList hours;
-//         double mint=1000;
-//         double maxt=-1000;
-//         int search_temp=1;
-//         for(const QJsonValue &value:list)
-//         {
-//             QVariantMap map;
-//             QJsonObject obj=value.toObject();
-//             map["osadki"]=obj["pop"].toDouble()*100;
-//             map["time"]=obj["dt_txt"].toString().mid(11);//только время
-//             if(obj["dt_txt"].toString().mid(11)=="00:00:00")
-//             {
-//                 search_temp=0;
-//             }
-
-//             QJsonObject main=obj["main"].toObject();
-//             map["temp"]=main["temp"].toDouble();
-//             map["feels_temp"]=main["feels_like"].toDouble();
-//             double temp_min=main["temp_min"].toDouble();
-//             double temp_max=main["temp_max"].toDouble();
-//             if(temp_min<mint && search_temp==1)
-//             {
-//                 mint=temp_min;
-//             }
-//             if(temp_max>maxt && search_temp==1)
-//             {
-//                 maxt=temp_max;
-//             }
-
-//             map["humidity"]=main["humidity"].toInt();
-
-//             QJsonArray weatherarr=obj["weather"].toArray();
-//             QJsonObject weather=weatherarr.first().toObject();
-//             map["main"]=weather["main"].toString();
-//             map["description"]=weather["description"].toString();
-//             map["icon"]=weather["icon"].toString();
-
-//             QJsonObject wind=obj["wind"].toObject();
-//             map["wind_speed"]=wind["speed"].toDouble();
-
-
-
-//             hours.append(map);
-//         }
-
-//         h_forecast=hours.mid(6);//убираю первые 6+1 - текущая погода
-//         cur_forecast=h_forecast.at(0).toMap();
-//         cur_forecast["temp_min"]=mint;
-//         cur_forecast["temp_max"]=maxt;
-//         h_forecast=hours.mid(1);
-//         emit h_weather_changed();
-//     }
-//     else
-//     {
-//         qDebug() << "Error in network reply: " << reply->errorString();
-//     }
-// }
 
 
 void Weather::request_weather()
@@ -225,7 +144,7 @@ void Weather::request_weather()
     QString lang="ru";
     const QString url = QString("http://api.weatherapi.com/v1/forecast.json?key=%1&q=%2&lang=%3&days=2")
                             .arg(api_key,q,lang);
-    //qDebug() << "Request URL:" << url;
+    qDebug() << "Request URL:" << url;
     QNetworkRequest request(url);
     QNetworkReply *reply = n_manager->get(request);
     connect(reply, &QNetworkReply::finished, this, &Weather::handleReply_weather);
@@ -300,6 +219,7 @@ void Weather::handleReply_weather()
                 map["humidity"]=obj["humidity"].toDouble();
                 QJsonObject condition_h=obj["condition"].toObject();
                 map["icon"]=condition_h["icon"].toString();
+                qDebug()<<condition_h["icon"].toString();
                 hours_counter++;
                 h_forecast.append(map);
             }

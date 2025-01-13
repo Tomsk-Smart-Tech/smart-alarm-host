@@ -287,9 +287,11 @@ Item {
                                             }
                                             Image {
                                                 anchors.horizontalCenter: parent.horizontalCenter
-                                                source: "loading.png"
-                                                width: 28
-                                                height: 28
+                                                source: "https:" + modelData["icon"]
+                                                // width: 28
+                                                // height: 28
+                                                width: 35
+                                                height: 35
                                             }
                                         }
                                     }
@@ -382,7 +384,8 @@ Item {
                                 }
                                 Image {
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    source: "loading.png"
+                                    //source: "loading.png"
+                                    source: icons_path +"/"+modelData["icon"]
                                     width: 70
                                     height: 70
                                 }
