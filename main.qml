@@ -10,7 +10,7 @@ Window {
     //visibility: Window.FullScreen
     property color backgroundColor: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    property var connection_status: 0
+    property var connection_status: mqttclient.connectionStatus
 
 
     Image {

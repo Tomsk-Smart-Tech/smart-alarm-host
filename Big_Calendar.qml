@@ -24,12 +24,8 @@ Item {
                 spacing: 20
                 Repeater {
                     id: repeater
-                    model: [
-                        { title: "Покушать", description: "Сука Сука Сука Сука", location: "Москва", starttime: "12:30 апрель 2025", endtime: "20:00 апрель 2025", allday: "True", organizer: "Миша" },
-                        { title: "Покушать", description: "Сука Сука Сука Сука", location: "Москва", starttime: "12:30 апрель 2025", endtime: "20:00 апрель 2025", allday: "True", organizer: "Миша" },
-                        { title: "Покушать", description: "Сука Сука Сука Сука", location: "Москва", starttime: "12:30 апрель 2025", endtime: "20:00 апрель 2025", allday: "True", organizer: "Миша" },
-                        { title: "Покушать", description: "Сука Сука Сука Сука Сука Сука Сука СукаСука Сука Сука СукаСука Сука Сука СукаСука Сука Сука СукаСука Сука Сука СукаСука Сука Сука СукаСука Сука Сука СукаСука Сука Сука СукаСука Сука Сука СукаСука Сука Сука СукаСука Сука Сука Сука", location: "Москва", starttime: "12:30 апрель 2025", endtime: "20:00 апрель 2025", allday: "True", organizer: "Миша" }
-                    ]
+                    //model: mqqtclient.events
+                    model: mqttclient.events
                     delegate: Rectangle {
                         id: rectangle5
                         color: calendar.backgroundColor
@@ -60,7 +56,7 @@ Item {
                                     width: parent.width / 2
 
                                     Text {
-                                        text: modelData.title
+                                        text: modelData["title"]
                                         font.pixelSize: 32
                                         horizontalAlignment: Text.AlignLeft
                                         color: calendar.textColor
@@ -71,7 +67,7 @@ Item {
                                     }
 
                                     Text {
-                                        text: modelData.starttime + " - " + modelData.endtime
+                                        text: modelData["starttime"] + " - " + modelData["endtime"]
                                         font.pixelSize: 24
                                         color: calendar.textColorSecond
                                         width: parent.width
@@ -80,7 +76,7 @@ Item {
                                     }
 
                                     Text {
-                                        text: "Огранизатор: " + modelData.organizer
+                                        text: "Огранизатор: " + modelData["organizer"]
                                         font.pixelSize: 24
                                         color: calendar.textColorSecond
                                         width: parent.width
@@ -95,7 +91,7 @@ Item {
                                     spacing: 5
 
                                     Text {
-                                        text: modelData.location
+                                        text: modelData["location"]
                                         font.pixelSize: 24
                                         horizontalAlignment: Text.AlignRight
                                         color: calendar.textColorSecond
@@ -109,7 +105,7 @@ Item {
                             Text {
                                 id: description
                                 width: parent.width
-                                text: modelData.description
+                                text: modelData["description"]
                                 wrapMode: Text.Wrap
                                 color: calendar.textColor
                                 font.pixelSize: 24
