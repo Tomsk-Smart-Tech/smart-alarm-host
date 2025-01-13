@@ -22,12 +22,6 @@ Alarms.qml \
 Sensors.qml \
 mounts.jpg \
 Weather.qml \
-cloud.png \
-clouds.png \
-sun.png \
-lightning.png \
-rain.png \
-partly_sun_day.png \
 Settings_for_Alarm_copy.qml \
 Status_bar.qml \
 Test.qml \
@@ -37,7 +31,8 @@ Big_Weather.qml \
 weather_icon \
 userdata.json \
 loading.png \
-weather_iconkit
+weather_iconkit \
+Calendar.qml
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -60,6 +55,8 @@ DISTFILES += \
     Alarms.qml \
     Big_Weather.qml \
     Bluetooth_Page.qml \
+    Calendar.qml \
+    Calendar.qml \
     Color_Page.qml \
     Date_and_time_Page.qml \
     InitialPage.qml \
@@ -71,4 +68,5 @@ DISTFILES += \
     Storage_Page.qml \
     Test.qml \
     Wi-Fi_Page.qml \
+
 

@@ -209,111 +209,6 @@ Item {
                         color: weather.textColor
                         font.family: castFont.name
                     }
-                    // Column{
-                    //     id: column1
-                    //     x: 446
-                    //     width: 458
-                    //     height: 115
-                    //     anchors.right: parent.right
-                    //     anchors.top: parent.top
-                    //     anchors.rightMargin: 12
-                    //     anchors.topMargin: 52
-                    //     spacing: -10
-                    //     Row{
-                    //         anchors.leftMargin: 0
-                    //         anchors.rightMargin: 0
-                    //         Text {
-                    //             text: "Влажность:"
-                    //             horizontalAlignment: Text.AlignLeft
-                    //             font.pointSize: 20
-                    //             color: weather.textColorSecond
-                    //             font.family: castFont.name
-                    //         }
-                    //         // Image {
-                    //         //     width: 45
-                    //         //     height: 45
-                    //         //     anchors.left: parent.left
-                    //         //     anchors.leftMargin: 260
-                    //         //     source: "weather_icon/humidity.png"
-                    //         // }
-                    //         Text {
-                    //             width: 144
-                    //             text: weather.humidity
-                    //             horizontalAlignment: Text.AlignLeft
-                    //             font.weight: Font.DemiBold
-                    //             font.pointSize: 20
-                    //             color: weather.textColor
-                    //             font.family: castFont.name
-                    //         }
-                    //     }
-                    //     Row{
-                    //         id: row1
-                    //         width: 460
-                    //         height: 45
-                    //         anchors.leftMargin: 0
-                    //         anchors.rightMargin: 0
-                    //         Text {
-                    //             text: "Скорость ветра:"
-                    //             anchors.right: parent.right
-                    //             anchors.rightMargin: 218
-                    //             font.pointSize: 20
-                    //             color: weather.textColorSecond
-                    //             font.family: castFont.name
-                    //         }
-                    //         // Image {
-                    //         //     width: 45
-                    //         //     height: 45
-                    //         //     anchors.left: parent.left
-                    //         //     anchors.leftMargin: 260
-                    //         //     source: "weather_icon/wind.png"
-                    //         // }
-                    //         Text {
-                    //             width: 144
-                    //             text: weather.wind
-                    //             anchors.right: parent.right
-                    //             horizontalAlignment: Text.AlignLeft
-                    //             font.weight: Font.DemiBold
-                    //             font.pointSize: 20
-                    //             color: weather.textColor
-                    //             font.family: castFont.name
-                    //         }
-                    //     }
-                    //     Row{
-                    //         id: row2
-                    //         width: 428
-                    //         height: 36
-                    //         anchors.leftMargin: 0
-                    //         anchors.rightMargin: 0
-                    //         spacing: 0
-                    //         Text {
-                    //             text: "Ощущается как:"
-                    //             anchors.right: parent.right
-                    //             anchors.rightMargin: 60
-                    //             font.pointSize: 20
-                    //             color: weather.textColorSecond
-                    //             font.family: castFont.name
-                    //         }
-                    //         // Image {
-                    //         //     width: 45
-                    //         //     height: 45
-                    //         //     anchors.left: parent.left
-                    //         //     anchors.leftMargin: 260
-                    //         //     source: "weather_icon/temp.png"
-                    //         // }
-                    //         Text {
-                    //             width: 144
-                    //             horizontalAlignment: Text.AlignLeft
-                    //             font.weight: Font.DemiBold
-                    //             font.pointSize: 20
-                    //             color: weather.textColor
-                    //             font.family: castFont.name
-                    //             text: weather.feel_temp
-                    //             anchors.right: parent.right
-                    //             anchors.rightMargin: -27
-                    //         }
-                    //     }
-
-                    // }
                 }
                 Rectangle{
                     id: grah
@@ -478,13 +373,15 @@ Item {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     spacing: 5
                                     Text {
-                                        text: modelData["min_temp"] + "°"
+                                        text: index === 0 ? Math.round(weather.currect_temp_min) + "°" : modelData["min_temp"] + "°"
                                         font.pointSize: 16
                                         color: textColorSecond
                                         font.family: castFont1.name
+
+
                                     }
                                     Text {
-                                        text: modelData["max_temp"] + "°"
+                                        text: index === 0 ? Math.round(weather.currect_temp_max) + "°" : modelData["min_temp"] + "°"
                                         font.pointSize: 16
                                         color: textColor
                                         font.family: castFont1.name
