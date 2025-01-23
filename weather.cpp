@@ -48,11 +48,26 @@ void write_user_json(const QString key,const QString newval)
 
 Weather::Weather() : n_manager(new QNetworkAccessManager(this))
 {
+    //setup city
     QString city=read_user_json("city");
     m_city=city;
-    cur_forecast.clear();
-    h_forecast.clear();
-    d_forecast.clear();
+    //read api keys
+    QDir currentDir = QDir::currentPath();
+    currentDir.cdUp();
+    currentDir.cdUp();
+    QString apifile = currentDir.filePath("api_keys.txt");
+    QFile file(apifile);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "Failed to open file for read and write:" << file.errorString();
+    }
+    QTextStream in(&file);
+    openweathermap_key=in.readLine();
+    weatherapi_key=in.readLine();
+    qDebug()<<"openweather: "<<openweathermap_key;
+    qDebug()<<"weatherapi: "<<weatherapi_key;
+    file.close();
+    //weather setup
     request_position();
 }
 
@@ -73,8 +88,7 @@ void Weather::set_city(const QString &value)
 
 void Weather::request_position()
 {
-    QString api_key="07fd2533a6b04b2e33350858fa6acd10";
-    const QString url = QString("http://api.openweathermap.org/geo/1.0/direct?q=%1&limit=1&appid=%2").arg(m_city, api_key);
+    const QString url = QString("http://api.openweathermap.org/geo/1.0/direct?q=%1&limit=1&appid=%2").arg(m_city, openweathermap_key);
     QNetworkRequest request(url);
     QNetworkReply *reply = n_manager->get(request);
     connect(reply, &QNetworkReply::finished, this, &Weather::handleReply_pos);
@@ -110,23 +124,21 @@ void Weather::request_data()
 
 
     //request current weather
-    QString api_key="e2959452db5643d1ae6123433250501";
     QString q=m_latitude+","+m_longitude;
     QString lang="ru";
     const QString url2 = QString("http://api.weatherapi.com/v1/forecast.json?key=%1&q=%2&lang=%3&days=2")
-                            .arg(api_key,q,lang);
+                            .arg(weatherapi_key,q,lang);
     QNetworkRequest request2(url2);
     QNetworkReply *reply2 = n_manager->get(request2);
     connect(reply2, &QNetworkReply::finished, this, &Weather::handleReply_weather);
 
 
     //request daily weather
-    QString api_key2="07fd2533a6b04b2e33350858fa6acd10";
     QString language="eng";
     QString cnt="8";
     QString units="metric";
     const QString url3 = QString("https://api.openweathermap.org/data/2.5/forecast/daily?lat=%1&lon=%2&appid=%3&lang=%4&cnt=%5&units=%6")
-                             .arg(m_latitude,m_longitude,api_key2,language,cnt,units);
+                             .arg(m_latitude,m_longitude,openweathermap_key,language,cnt,units);
     QNetworkRequest request3(url3);
     QNetworkReply *reply3 = n_manager->get(request3);
     connect(reply3, &QNetworkReply::finished, this, &Weather::handleReply_days);

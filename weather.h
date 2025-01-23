@@ -63,6 +63,8 @@ private slots:
 
 private:
     QNetworkAccessManager *n_manager;
+    QString weatherapi_key;
+    QString openweathermap_key;
     QString m_city;
     QString m_latitude;
     QString m_longitude;

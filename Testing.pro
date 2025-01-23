@@ -1,6 +1,7 @@
 QT += quick
 QT += quick network
 SOURCES += \
+        clientmqtt.cpp \
         main.cpp \
         weather.cpp
 
@@ -19,19 +20,18 @@ Alarms.qml \
 Sensors.qml \
 mounts.jpg \
 Weather.qml \
-cloud.png \
-clouds.png \
-sun.png \
-lightning.png \
-rain.png \
-partly_sun_day.png \
 russian_cities.json \
 userdata.json \
 weather_icon \
-
+weather_iconkit \
+connection \
+Big_Calendar.qml
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
+
+INCLUDEPATH+=/home/nikita/paho.mqtt.cpp/include
+LIBS += -L/usr/local/lib -lpaho-mqttpp3 -lpaho-mqtt3c -lpaho-mqtt3as
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -58,6 +58,7 @@ DISTFILES += \
     Wi-Fi_Page.qml
 
 HEADERS += \
+    clientmqtt.h \
     weather.h
 
 
