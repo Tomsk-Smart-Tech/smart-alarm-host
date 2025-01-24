@@ -27,6 +27,7 @@ Item {
             if (currentDateTime.getMinutes() === 0 && currentDateTime.getSeconds() === 0)
             {
                 weatherr.request_position() //обновляю погоду каждый час
+                graphCanvas.requestPaint();
             }
         }
     }

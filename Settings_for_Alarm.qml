@@ -76,6 +76,7 @@ Item {
                             loader.source = "Wi-Fi_Page.qml";
                             loader.item.backgroundColor = backgroundColor
                             loader.item.textColor = textColor
+                            terminal.scanNets()
                         } else if (model.name === "Bluetooth") {
                             loader.source = "Bluetooth_Page.qml";
                             loader.item.backgroundColor = backgroundColor

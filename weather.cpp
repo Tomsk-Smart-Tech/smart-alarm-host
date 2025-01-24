@@ -64,8 +64,6 @@ Weather::Weather() : n_manager(new QNetworkAccessManager(this))
     QTextStream in(&file);
     openweathermap_key=in.readLine();
     weatherapi_key=in.readLine();
-    qDebug()<<"openweather: "<<openweathermap_key;
-    qDebug()<<"weatherapi: "<<weatherapi_key;
     file.close();
     //weather setup
     request_position();

@@ -2,6 +2,7 @@ QT += quick
 QT += quick network
 SOURCES += \
         clientmqtt.cpp \
+        linuxterminal.cpp \
         main.cpp \
         weather.cpp
 
@@ -59,6 +60,7 @@ DISTFILES += \
 
 HEADERS += \
     clientmqtt.h \
+    linuxterminal.h \
     weather.h
 
 
