@@ -1,4 +1,4 @@
-###how to use dht22 sensor with our project on Rasberry Pi 4B
+### how to use dht22 sensor with our project on Rasberry Pi 4B
 
 1.install Adafruit_CircuitPython_DHT
 guide:
