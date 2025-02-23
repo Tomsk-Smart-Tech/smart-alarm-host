@@ -12,7 +12,6 @@ Window {
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property var connection_status: mqttclient.connectionStatus
 
-
     Image {
         id: back
         source: "mounts.jpg"
@@ -129,12 +128,20 @@ Window {
                         anchors.bottom: parent.bottom
                         anchors.rightMargin: 6
                         anchors.bottomMargin: 8
-                        source: "connection/no_phone_connection.png"
-                        Component.onCompleted: {
-                            if(window.connection_status == 1){
-                                connection.source = "connection/phone_connection.png"
+                        source :"connection/no_phone_connection.png";
+                        // source: window.connection_status === 1 ? "connection/phone_connection.png" : "connection/no_phone_connection.png"
+                        Connections {
+                            target: mqttclient
+                            function onConnectionStatusChanged() {
+                                if (mqttclient.connectionStatus=== 1) {
+                                    console.log("city ->", weatherr.city);
+                                    connection.source = "connection/phone_connection.png";
+                                    weatherr.request_position()
+                                }
                             }
                         }
+
+
                     }
                 }
                 Rectangle{

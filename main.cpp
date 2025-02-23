@@ -3,7 +3,7 @@
 #include <QtQuickControls2/QQuickStyle>
 #include <QQmlContext>
 #include "weather.h"
-#include "clientmqtt.h"
+#include "mqttclient.h"
 #include "linuxterminal.h"
 
 int main(int argc, char *argv[])
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     Weather weather;
     engine.rootContext()->setContextProperty("weatherr", &weather);
-    ClientMqtt client;
+    MqttClient client;
     engine.rootContext()->setContextProperty("mqttclient",&client);
     LinuxTerminal linuxterminal;
     engine.rootContext()->setContextProperty("terminal",&linuxterminal);
@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
         },
         Qt::QueuedConnection);
     engine.load(url);
+
 
     return app.exec();
 }

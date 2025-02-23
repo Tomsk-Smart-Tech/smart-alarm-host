@@ -1,10 +1,14 @@
+CONFIG += c++20
+
 QT += quick
 QT += quick network
+QT += concurrent
 SOURCES += \
-        clientmqtt.cpp \
         linuxterminal.cpp \
         main.cpp \
-        weather.cpp
+        mqttclient.cpp \
+        weather.cpp \
+
 
 resources.files = main.qml Clock.qml Settings_for_Alarm.qml Wi-Fi_Page.qml back.jpg icon_0.png icon_1.png icon_2.png icon_3.png icon_4.png icon_5.png back2.jpg Roboto-Light.ttf Roboto-Bold.ttf Roboto-Medium.ttf \
 Bluetooth_Page.qml \
@@ -31,8 +35,11 @@ Big_Calendar.qml
 resources.prefix = /$${TARGET}
 RESOURCES += resources
 
-INCLUDEPATH+=/home/nikita/paho.mqtt.cpp/include
-LIBS += -L/usr/local/lib -lpaho-mqttpp3 -lpaho-mqtt3c -lpaho-mqtt3as
+
+#mqtt
+INCLUDEPATH += $$PWD/lib-mqtt/include
+INCLUDEPATH += /usr/include/openssl
+LIBS += -L/usr/lib -lssl -lcrypto
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -59,9 +66,10 @@ DISTFILES += \
     Wi-Fi_Page.qml
 
 HEADERS += \
-    clientmqtt.h \
     linuxterminal.h \
-    weather.h
+    mqttclient.h \
+    weather.h \
+    mqttclient.h
 
 
 
