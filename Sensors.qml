@@ -6,6 +6,8 @@ Item {
     property int y_pos: 10
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+    property string tempreture: "value"
+    property string humidity_text: "value"
     Rectangle {
         x: sensors.x_pos
         y: sensors.y_pos
@@ -46,7 +48,7 @@ Item {
                 y: 0
                 width: 128
                 height: 53
-                text: "000"
+                text: tempreture
                 font.family: castFont
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 32
@@ -90,7 +92,7 @@ Item {
                 y: 0
                 width: 128
                 height: 53
-                text: "000"
+                text: humidity_text
                 font.family: castFont
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 32
