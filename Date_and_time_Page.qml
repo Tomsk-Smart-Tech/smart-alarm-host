@@ -262,7 +262,9 @@ Item {
                             regionModel.append({
                                 region: region.region,
                                 cities: cityObjects
+
                             });
+
                         });
                         console.log("Модель регионов заполнена. Количество:", regionModel.count);
                     } catch (e) {

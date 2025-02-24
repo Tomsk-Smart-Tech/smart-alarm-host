@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     QString mainqml = "file:///"+currentDir.filePath("main.qml");
     const QUrl url(mainqml);
 
+
     Weather weather;
     engine.rootContext()->setContextProperty("weatherr", &weather);
     MqttClient client;
