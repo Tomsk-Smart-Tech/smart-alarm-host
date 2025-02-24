@@ -1,22 +1,25 @@
 #include "mqttclient.h"
 
 
-
-boost::asio::awaitable<bool> subscribe(auto& client,MqttClient* parent) {
-    // Configure the request to subscribe to a Topic.
-    boost::mqtt5::subscribe_topic sub_topic = boost::mqtt5::subscribe_topic{
-        "my/test/topic" /* topic */,
-        boost::mqtt5::subscribe_options {
-            boost::mqtt5::qos_e::exactly_once, // All messages will arrive at QoS 2.
-            boost::mqtt5::no_local_e::no, // Forward message from Clients with same ID.
-            boost::mqtt5::retain_as_published_e::retain, // Keep the original RETAIN flag.
-            boost::mqtt5::retain_handling_e::send // Send retained messages when the subscription is established.
-        }
+boost::asio::awaitable<bool> subscribe(auto& client, MqttClient* parent) {
+    // Список топиков для подписки
+    std::vector<boost::mqtt5::subscribe_topic> sub_topics = {
+        { "mqtt/test", { boost::mqtt5::qos_e::exactly_once,
+                            boost::mqtt5::no_local_e::no,
+                            boost::mqtt5::retain_as_published_e::retain,
+                            boost::mqtt5::retain_handling_e::send } },
+        { "mqtt/events", { boost::mqtt5::qos_e::at_least_once,
+                            boost::mqtt5::no_local_e::no,
+                            boost::mqtt5::retain_as_published_e::retain,
+                            boost::mqtt5::retain_handling_e::send } },
+        { "mqtt/alarms", { boost::mqtt5::qos_e::at_most_once,
+                            boost::mqtt5::no_local_e::no,
+                            boost::mqtt5::retain_as_published_e::retain,
+                            boost::mqtt5::retain_handling_e::send } }
     };
-
     // Subscribe to a single Topic.
     auto&& [ec, sub_codes, sub_props] = co_await client.async_subscribe(
-        sub_topic, boost::mqtt5::subscribe_props {}, use_nothrow_awaitable
+        sub_topics, boost::mqtt5::subscribe_props {}, use_nothrow_awaitable
         );
     // Note: you can subscribe to multiple Topics in one mqtt_client::async_subscribe call.
 
@@ -58,7 +61,7 @@ boost::asio::awaitable<void> subscribe_and_receive(const config& cfg, auto& clie
     for (;;) {
         // Receive an Appplication Message from the subscribed Topic(s).
         auto&& [ec, topic, payload, publish_props] = co_await client.async_receive(use_nothrow_awaitable);
-        if(topic=="my/test/topic")
+        if(topic=="mqtt/events")
         {
             QVariantList newEvents;
             QString message = QString::fromStdString(payload);
@@ -98,6 +101,34 @@ boost::asio::awaitable<void> subscribe_and_receive(const config& cfg, auto& clie
                 qDebug()<<obj["title"].toString();
             }
             QMetaObject::invokeMethod(parent, "setEvents", Qt::QueuedConnection, Q_ARG(QVariantList, newEvents));
+
+            std::cout << "Received message from the Broker" << std::endl;
+            std::cout << "\t topic: " << topic << std::endl;
+            std::cout << "\t payload: " << payload << std::endl;
+        }
+        else if(topic=="mqtt/alarms")
+        {
+            QVariantList newAlarms;
+            QString message = QString::fromStdString(payload);
+            //setMessage(message);
+            QJsonDocument jsonDoc = QJsonDocument::fromJson(message.toUtf8());
+            QJsonArray jsonArray = jsonDoc.array();
+            for (const QJsonValue &value : jsonArray)
+            {
+                QVariantMap map;
+                QJsonObject obj = value.toObject();
+
+                map["id"] = obj["id"].toInt();
+                map["time"]=obj["time"].toString();
+                map["isHaptic"]=obj["isHaptic"].toString();
+                map["label"]=obj["label"].toString();
+                map["musicUri"]=obj["musicUri"].toString();
+                map["isEnabled"]=obj["isEnabled"].toString();
+
+                newAlarms.append(map);
+                qDebug()<<obj["id"]<<"  "<<obj["time"].toString();
+            }
+            QMetaObject::invokeMethod(parent, "setAlarms", Qt::QueuedConnection, Q_ARG(QVariantList, newAlarms));
 
             std::cout << "Received message from the Broker" << std::endl;
             std::cout << "\t topic: " << topic << std::endl;
@@ -171,4 +202,11 @@ void MqttClient::setEvents(const QVariantList &newEvents) {
     emit eventschanged();
     m_events = newEvents;
     emit eventschanged();
+}
+
+void MqttClient::setAlarms(const QVariantList &newAlarms) {
+    m_alarms.clear();
+    emit alarmschanged();
+    m_events = newAlarms;
+    emit alarmschanged();
 }

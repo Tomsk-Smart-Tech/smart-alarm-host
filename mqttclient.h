@@ -78,15 +78,18 @@ public:
     ~MqttClient();
     int connectionStatus() const { return m_connectionStatus; }
     Q_INVOKABLE QVariantList get_events() const {return m_events;}
+    Q_INVOKABLE QVariantList get_alarms() const {return m_alarms;}
 
 signals:
     void messageReceived();
     void connectionStatusChanged();
     void eventschanged();
+    void alarmschanged();
 
 private slots:
     void setConnectionStatus(int status);
     void setEvents(const QVariantList &newEvents);
+    void setAlarms(const QVariantList &newAlarms);
 
 private:
     config cfg;
@@ -101,6 +104,7 @@ private:
 
     int m_connectionStatus;
     QVariantList m_events;
+    QVariantList m_alarms;
     std::thread iocThread;
 };
 
