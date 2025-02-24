@@ -41,7 +41,7 @@
 struct config {
     std::string brokers = "6a41760a26ec43f2b0e532601ce780e1.s1.eu.hivemq.cloud";
     uint16_t port = 8883;
-    std::string client_id = "rasberry_pi";
+    std::string client_id = "kirill";
     std::string username = "nikita";
     std::string password = "Flowers123";
 };
