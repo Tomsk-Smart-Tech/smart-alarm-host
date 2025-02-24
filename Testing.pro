@@ -37,7 +37,7 @@ RESOURCES += resources
 
 
 #mqtt
-INCLUDEPATH += $$PWD/lib-mqtt/include
+INCLUDEPATH += $$PWD/lib-mqtt5/include
 INCLUDEPATH += /usr/include/openssl
 LIBS += -L/usr/lib -lssl -lcrypto
 
