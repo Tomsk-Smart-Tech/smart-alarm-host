@@ -5,8 +5,7 @@ Item {
     id: alarm
     property int x_pos: 0
     property int y_pos: 0
-    property ListModel alarms: ListModel{}
-
+    property var alarms: valueOf
     Rectangle {
         id: rec2
         x: alarm.x_pos
@@ -52,7 +51,7 @@ Item {
                     anchors.fill: parent
                     spacing: 10
                     clip: true
-                    model: alarm.alarms
+                    model: mqttclient.alarms
                     delegate: Rectangle {
                         id:rect
                         width: parent.width
@@ -68,7 +67,7 @@ Item {
                             anchors.left: parent.left
                             anchors.top: parent.top
                             anchors.leftMargin: 10
-                            text: model.time
+                            text: modelData["time"]
                             font.pointSize: 30
                             font.family: castFont1.name
                             color: "white"
@@ -77,7 +76,7 @@ Item {
                             id: list_switch
                             x: 140
                             y: 20
-                            checked: model.activate
+                            checked: modelData["isEnabled"]
                             indicator : Rectangle{
                                 anchors.centerIn: parent
                                 implicitWidth: 50
@@ -100,7 +99,7 @@ Item {
                             anchors.left: parent.left
                             anchors.bottom: parent.bottom
                             anchors.leftMargin: 10
-                            text: model.description
+                            text: modelData["label"]
                             font.pointSize: 18
                             font.family: castFont1.name
                             color: "white"

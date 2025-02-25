@@ -73,6 +73,7 @@ class MqttClient : public QObject
     Q_OBJECT
     Q_PROPERTY(int connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
     Q_PROPERTY(QVariantList events READ get_events NOTIFY eventschanged)
+    Q_PROPERTY(QVariantList alarms READ get_alarms NOTIFY alarmschanged)
 public:
     explicit MqttClient(QObject *parent = nullptr);
     ~MqttClient();

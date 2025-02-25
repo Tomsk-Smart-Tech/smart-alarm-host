@@ -105,6 +105,7 @@ Window {
                         time: Qt.formatDateTime(currentDateTime, "HH:mm")
                         year:Qt.formatDateTime(currentDateTime, "dd.MM.yyyy")
                         date: getDayName(currentDateTime)
+                        back: back
                     }
                     Sensors{
                         x_pos:16
@@ -113,7 +114,6 @@ Window {
                     Alarms{
                         x_pos:16 + 236 + 16
                         y_pos:56
-                        alarms: alarms
                     }
                     Weather{
                         x_pos: 16 + 236 + 16 + 236 + 16

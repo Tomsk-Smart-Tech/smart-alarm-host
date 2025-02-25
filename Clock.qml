@@ -1,5 +1,5 @@
 import QtQuick 2.0
-
+import QtQuick.Effects
 Item {
     id:clock
     property int x_pos: 10
@@ -13,6 +13,7 @@ Item {
     property string time: ""
     property string date: ""
     property string year: ""
+    property var back: valueOf
 
     property var currentDateTime: new Date()
     Timer {
@@ -50,16 +51,31 @@ Item {
 
     //конец моего кода управления временем
 
+    ShaderEffectSource {
+        id: blurSource
+        sourceItem: clock.back
+        sourceRect: Qt.rect(blurRect.x, blurRect.y, blurRect.width, blurRect.height)
+        smooth: true
+
+    }
 
     Rectangle {
+        id: blurRect
         x: clock.x_pos
         y: clock.y_pos
-        id: gradientRectangle
         width: 236
         height: 236
         radius : 15
         color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
-
+        layer.enabled: true
+        // MultiEffect {
+        //     anchors.fill: parent
+        //     source: blurSource
+        //     blurEnabled: true
+        //     blurMax: 64
+        //     blur: 0.5
+        //     autoPaddingEnabled: false
+        // }
 
         FontLoader {
             id: castFont

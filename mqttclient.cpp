@@ -123,7 +123,7 @@ boost::asio::awaitable<void> subscribe_and_receive(const config& cfg, auto& clie
                 map["isHaptic"]=obj["isHaptic"].toString();
                 map["label"]=obj["label"].toString();
                 map["musicUri"]=obj["musicUri"].toString();
-                map["isEnabled"]=obj["isEnabled"].toString();
+                map["isEnabled"]=obj["isEnabled"].toBool();
 
                 newAlarms.append(map);
                 qDebug()<<obj["id"]<<"  "<<obj["time"].toString();
@@ -207,6 +207,6 @@ void MqttClient::setEvents(const QVariantList &newEvents) {
 void MqttClient::setAlarms(const QVariantList &newAlarms) {
     m_alarms.clear();
     emit alarmschanged();
-    m_events = newAlarms;
+    m_alarms = newAlarms;
     emit alarmschanged();
 }
