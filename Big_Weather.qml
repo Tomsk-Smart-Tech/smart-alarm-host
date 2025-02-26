@@ -63,6 +63,7 @@ Item {
             anchors.topMargin: 16
             anchors.bottomMargin: 16
 
+
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             Column {
@@ -227,6 +228,7 @@ Item {
                             anchors.fill: parent
                             clip: true
                             flickableDirection: Flickable.HorizontalFlick
+                            maximumFlickVelocity: 500
                             Rectangle {
                                 id: graph
                                 width: weatherr.h_weather.length * 100

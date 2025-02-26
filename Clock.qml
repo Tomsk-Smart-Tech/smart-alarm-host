@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Effects
 Item {
     id:clock
     property int x_pos: 10

@@ -7,7 +7,7 @@ Window {
     height: 600
     visible: true
     title: qsTr("Hello World")
-    //visibility: Window.FullScreen
+    // visibility: Window.FullScreen
     property color backgroundColor: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property var connection_status: mqttclient.connectionStatus
@@ -65,11 +65,9 @@ Window {
             // Status_bar{}
             color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
             SwipeView{
-
-
                 id:hor_sv
                 anchors.fill: parent
-
+                // maximumFlickVelocity: 1
                 Rectangle{
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
 
@@ -146,15 +144,15 @@ Window {
                 }
                 Rectangle{
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
-                    Big_Calendar{
-
-                    }
+                    Big_Calendar{}
                 }
+
             }
             Component.onCompleted: {
                 hor_sv.currentIndex = 1
             }
         }
+
     }
 
     Component.onCompleted: {
