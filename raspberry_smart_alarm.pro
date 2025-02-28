@@ -1,20 +1,38 @@
+CONFIG += c++20
+
 QT += quick
 QT += quick network
 SOURCES += \
-        main.cpp\
-        weather.cpp\
+        linuxterminal.cpp \
+        main.cpp \
+        mqttclient.cpp \
+        weather.cpp \
 
+INCLUDEPATH+= C:/boost_1_87_0/
+INCLUDEPATH+= C:/FireDaemonOpenSSL3/include/
+INCLUDEPATH+= C:/boost_1_87_0/boost/asio/ssl/detail/
+LIBS += -LC:/FireDaemonOpenSSL3/lib -lssl -lcrypto
+
+LIBS += -lws2_32
+# -lssl -lcrypto
 HEADERS += \
-        weather.h
+    linuxterminal.h \
+    mqttclient.h \
+    weather.h \
 
-resources.files = main.qml Clock.qml Settings_for_Alarm.qml Wi-Fi_Page.qml back.jpg icon_0.png icon_1.png icon_2.png icon_3.png icon_4.png icon_5.png back2.jpg Roboto-Light.ttf Roboto-Bold.ttf Roboto-Medium.ttf \
+# QMAKE_CXXFLAGS += -Wa,-mbig-obj
+# QMAKE_CFLAGS += -Wa,-mbig-obj
+# QMAKE_CXXFLAGS += -Os
+
+INCLUDEPATH += $$PWD/lib-mqtt5/include
+
+resources.files = main.qml Clock.qml  Wi-Fi_Page.qml back.jpg icon_0.png icon_1.png icon_2.png icon_3.png icon_4.png icon_5.png back2.jpg Roboto-Light.ttf Roboto-Bold.ttf Roboto-Medium.ttf \
 Bluetooth_Page.qml \
 Color_Page.qml \
 Date_and_time_Page.qml \
 Settings_for_Alarm.qml \
 Sound_Page.qml \
 Storage_Page.qml \
-Wi-Fi_Page.qml \
 InriaSans-Light.ttf \
 ofont.ru_Monoid.ttf \
 ofont.ru_Nunito.ttf \
@@ -32,7 +50,8 @@ weather_icon \
 userdata.json \
 loading.png \
 weather_iconkit \
-Big_Calendar.qml
+Big_Calendar.qml \
+Wi-Fi
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -57,37 +76,21 @@ DISTFILES += \
     Big_Calendar.qml \
     Big_Weather.qml \
     Bluetooth_Page.qml \
+    Calendar.qml \
     Color_Page.qml \
     Date_and_time_Page.qml \
     InitialPage.qml \
     Sensors.qml \
-    Settings_for_Alarm.qml \
-    Settings_for_Alarm_copy.qml \
     Sound_Page.qml \
     Status_bar.qml \
     Storage_Page.qml \
+    SwipeManager.qml \
     Test.qml \
-    Wi-Fi_Page.qml \
     Big_Calendar.qml \
+    humidity.png\
+    temp.png
 
 
 
-
-DISTFILES += \
-    Alarms.qml \
-    Big_Calendar.qml \
-    Big_Weather.qml \
-    Bluetooth_Page.qml \
-    Color_Page.qml \
-    Date_and_time_Page.qml \
-    InitialPage.qml \
-    Sensors.qml \
-    Settings_for_Alarm.qml \
-    Settings_for_Alarm_copy.qml \
-    Sound_Page.qml \
-    Status_bar.qml \
-    Storage_Page.qml \
-    Test.qml \
-    Wi-Fi_Page.qml \
 
 
