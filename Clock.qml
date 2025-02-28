@@ -34,7 +34,7 @@ Item {
 
     // Следим за изменением unixtime и обновляем currentDateTime
     Connections {
-        target: weatherr // Здесь предполагается, что `weather` имеет сигнал изменения
+        target: weatherr
         function onUnixtimeChanged() {
             currentDateTime = new Date(weatherr.unixtime);
         }

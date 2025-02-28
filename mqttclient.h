@@ -15,6 +15,8 @@
 #include <QVariantList>
 #include <QVariantMap>
 #include <boost/asio/use_awaitable.hpp>
+#include <QFile>
+#include <QDir>
 
 #include <boost/mqtt5/logger.hpp>
 #include <boost/mqtt5/mqtt_client.hpp>

@@ -1,0 +1,36 @@
+[
+    {
+        "id": 6,
+        "isEnabled": false,
+        "isHaptic": false,
+        "label": "Новый будильник",
+        "musicUri": "content://media/external/audio/media/2714",
+        "repeatDays": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+        ],
+        "time": "17:33"
+    },
+    {
+        "id": 6,
+        "isEnabled": false,
+        "isHaptic": false,
+        "label": "Новый будильник",
+        "musicUri": "content://media/external/audio/media/2714",
+        "repeatDays": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+        ],
+        "time": "17:33"
+    }
+]
