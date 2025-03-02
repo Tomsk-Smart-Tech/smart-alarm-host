@@ -5,6 +5,7 @@ QT += quick network
 QT += concurrent
 
 SOURCES += \
+    dht22sensor.cpp \
     linuxterminal.cpp \
     main.cpp \
     mqttclient.cpp \
@@ -63,6 +64,7 @@ DISTFILES += \
     Big_Weather.qml
 
 HEADERS += \
+    dht22sensor.h \
     linuxterminal.h \
     mqttclient.h \
     weather.h \

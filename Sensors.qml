@@ -6,8 +6,8 @@ Item {
     property int y_pos: 10
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-    property string tempreture: "value"
-    property string humidity_text: "value"
+    property string tempreture: dht22.temp
+    property string humidity_text: dht22.humidity
     Rectangle {
         x: sensors.x_pos
         y: sensors.y_pos
