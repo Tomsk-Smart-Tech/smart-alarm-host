@@ -8,6 +8,8 @@
 #include "dht22sensor.h"
 
 
+// #include <qtwebengineglobal.h>
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
@@ -18,6 +20,9 @@ int main(int argc, char *argv[])
     currentDir.cdUp();
     QString mainqml = "file:///"+currentDir.filePath("main.qml");
     const QUrl url(mainqml);
+
+    // QtWebEngineQuick::initialize();
+    QQuickStyle::setStyle("Basic");
 
 
     Weather weather;

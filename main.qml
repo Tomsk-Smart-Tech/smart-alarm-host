@@ -1,5 +1,7 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
+
 
 Window {
     id: window
@@ -151,6 +153,65 @@ Window {
             Component.onCompleted: {
                 hor_sv.currentIndex = 1
             }
+        }
+        Rectangle{
+            id: cal
+            color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
+            readonly property date currentDate: new Date()
+            // MonthGrid{
+            //     id: grid
+            //     month: cal.currentDate.getMonth()
+            //     year: cal.currentDate.getFullYear()
+            //     spacing: 0
+
+            //     readonly property int gridLineThickness: 1
+
+            //     Layout.fillWidth: true
+            //     Layout.fillHeight: true
+
+            //     delegate: MonthGridDelegate {
+            //         id: gridDelegate
+            //         visibleMonth: grid.month
+            //     }
+
+            //     background: Item {
+            //         x: grid.leftPadding
+            //         y: grid.topPadding
+            //         width: grid.availableWidth
+            //         height: grid.availableHeight
+
+            //         // Vertical lines
+            //         Row {
+            //             spacing: (parent.width - (grid.gridLineThickness * rowRepeater.model)) / rowRepeater.model
+
+            //             Repeater {
+            //                 id: rowRepeater
+            //                 model: 7
+            //                 delegate: Rectangle {
+            //                     width: 1
+            //                     height: grid.height
+            //                     color: "#ccc"
+            //                 }
+            //             }
+            //         }
+
+            //         // Horizontal lines
+            //         Column {
+            //             spacing: (parent.height - (grid.gridLineThickness * columnRepeater.model)) / columnRepeater.model
+
+            //             Repeater {
+            //                 id: columnRepeater
+            //                 model: 6
+            //                 delegate: Rectangle {
+            //                     width: grid.width
+            //                     height: 1
+            //                     color: "#ccc"
+            //                 }
+            //             }
+            //         }
+            //     }
+
+            // }
         }
 
     }
