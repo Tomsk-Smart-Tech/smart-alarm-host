@@ -10,7 +10,7 @@ void LinuxTerminal::scanNets()
 {
     m_nets.clear();
     QProcess process;
-    process.start("bash", QStringList() << "-c" << "nmcli -f SSID,SIGNAL,BARS,SECURITY device wifi | grep -v '^--'");
+    process.start("bash", QStringList() << "-c" << "nmcli -f SSID,SIGNAL,SECURITY device wifi | grep -v '^--'");
     process.waitForFinished();
     QString output = process.readAllStandardOutput();
 
@@ -25,10 +25,11 @@ void LinuxTerminal::scanNets()
             seenNames.insert(netName);
             QVariantMap net;
             net["name"]=netName;
-            net["signal"]=line.mid(18,3).trimmed();
-            net["security"]=line.mid(32,4);
+            net["signal"]=line.mid(line.size()-20,3).trimmed();
+            net["security"]=line.mid(line.size()-12,4);
             m_nets.append(net);
-            qDebug()<<net["name"]<<net["signal"]<<net["security"];
+
+            //qDebug()<<net["name"]<<net["signal"]<<net["security"];
         }
     }
     m_nets.removeAt(0);
