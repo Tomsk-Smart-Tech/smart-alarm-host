@@ -41,21 +41,7 @@ Item {
                 id: list111
                 anchors.fill: parent
                 clip: true
-                model: ListModel {
-                    ListElement { wifiName: "Wi-Fi 1"; signal: "1"; lock: true }
-                    ListElement { wifiName: "Wi-Fi 2"; signal: "2"; lock: true }
-                    ListElement { wifiName: "Wi-Fi 3"; signal: "1"; lock: false }
-                    ListElement { wifiName: "Wi-Fi 4"; signal: "3"; lock: false }
-                    ListElement { wifiName: "Wi-Fi 5"; signal: "3"; lock: true }
-                    ListElement { wifiName: "Wi-Fi 6"; signal: "1"; lock: false }
-                    ListElement { wifiName: "Wi-Fi 7"; signal: "1"; lock: true }
-                    ListElement { wifiName: "Wi-Fi 8"; signal: "2"; lock: true }
-                    ListElement { wifiName: "Wi-Fi 9"; signal: "1"; lock: false }
-                    ListElement { wifiName: "Wi-Fi 10"; signal: "3"; lock: false }
-                    ListElement { wifiName: "Wi-Fi 11"; signal: "3"; lock: true }
-                    ListElement { wifiName: "Wi-Fi 12"; signal: "1"; lock: false }
-
-                }
+                model: terminal.nets
 
                 delegate: Rectangle {
                     width: ListView.view.width
@@ -77,7 +63,7 @@ Item {
                             anchors.top: parent.top
                             source: {
                                 var basePath = "Wi-Fi/";
-                                var signalStrength = model.signal;
+                                var signalStrength = modelData["signal"];
                                 var isLocked = model.lock ? "_lock" : "";
                                 return basePath + "wifi" + signalStrength + isLocked + ".png";
                             }
@@ -85,7 +71,7 @@ Item {
                         }
                     }
                     Text {
-                        text: model.wifiName
+                        text: modelData["name"]
                         anchors.centerIn: parent
                         font.pointSize: 24
                         font.family: castFont.name
