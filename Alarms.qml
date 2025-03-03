@@ -52,6 +52,7 @@ Item {
                     spacing: 10
                     clip: true
                     model: mqttclient.alarms
+                    snapMode: ListView.SnapToItem
                     delegate: Rectangle {
                         id:rect
                         width: parent.width

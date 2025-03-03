@@ -8,13 +8,15 @@ Item {
     id: calendar
     Rectangle{
         id:rec
-        width: 1024
+        x: 1024/2
+        width: 1024/2
         height: 600
         color: Qt.rgba(50/255, 50/255, 50/255, 0.5)
 
         ScrollView {
             id: scrollView
-            contentWidth: 1024 - 32
+            x: parent.x
+            contentWidth: 1024/2- 32
             anchors.fill: parent
             anchors.margins: 16
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
@@ -53,11 +55,11 @@ Item {
                                 spacing: 0
 
                                 Column {
-                                    width: parent.width / 2
+                                    width: parent.width
 
                                     Text {
                                         text: modelData["title"]
-                                        font.pixelSize: 32
+                                        font.pixelSize: 28
                                         horizontalAlignment: Text.AlignLeft
                                         color: calendar.textColor
                                         width: parent.width
@@ -68,7 +70,7 @@ Item {
 
                                     Text {
                                         text: modelData["starttime"] + " - " + modelData["endtime"]
-                                        font.pixelSize: 24
+                                        font.pixelSize: 20
                                         color: calendar.textColorSecond
                                         width: parent.width
                                         wrapMode: Text.Wrap
@@ -77,7 +79,7 @@ Item {
 
                                     Text {
                                         text: "Огранизатор: " + modelData["organizer"]
-                                        font.pixelSize: 24
+                                        font.pixelSize: 20
                                         color: calendar.textColorSecond
                                         width: parent.width
                                         wrapMode: Text.Wrap
@@ -92,7 +94,7 @@ Item {
 
                                     Text {
                                         text: modelData["location"]
-                                        font.pixelSize: 24
+                                        font.pixelSize: 20
                                         horizontalAlignment: Text.AlignRight
                                         color: calendar.textColorSecond
                                         width: parent.width
