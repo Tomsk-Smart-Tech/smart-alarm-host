@@ -3,15 +3,165 @@ import QtQuick.Controls 2.15
 
 Item {
     property color backgroundColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
+    property color widBackgroundColor: Qt.rgba(50/255, 50/255, 50/255, 0.5)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
+
     id: calendar
+    FontLoader {
+        id: castFont
+        source: "ofont.ru_Nunito.ttf"
+    }
+
+    property date currentDate: new Date()  // Март 2025
+
+    property date selectedDate: new Date();
+
+    Connections {
+        target: weatherr
+        function onUnixtimeChanged() {
+            currentDateTime = new Date(weatherr.unixtime);
+        }
+    }
+
+    // Функция для получения первого дня месяца
+    function getFirstDayOfWeek(date) {
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+        return firstDay === 0 ? 6 : firstDay - 1;
+    }
+
+    // Функция для получения количества дней в месяце
+    function getDaysInMonth(date) {
+        return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    }
+
+    function isCurrentDay(dayNumber) {
+        var today = new Date();
+        return (dayNumber === today.getDate() &&
+                currentDate.getMonth() === today.getMonth() &&
+                currentDate.getFullYear() === today.getFullYear());
+    }
+    function getMonthName(date)
+    {
+        var days = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+        return days[date.getMonth()];
+    }
+
+    Rectangle{
+        width: 1024 / 2
+        height: 600
+        color: calendar.widBackgroundColor
+        Rectangle {
+            x: 16
+            y: 16
+            height: 100 - 32
+            width: 1024/2 - 32
+            color: calendar.backgroundColor
+            radius: 15
+            Text {
+                id: currentMonth
+                anchors.centerIn: parent
+                font.pixelSize: 36
+                color: calendar.textColor
+                // text: "Март 2025"
+                text:{
+                    getMonthName(currentDate) + " " + currentDate.getFullYear()
+                }
+                font.family: castFont.name
+            }
+        }
+        Rectangle {
+            x: 16
+            y: 16 + 68 + 10
+            height: 100 - 32 - 32
+            width: 1024/2 - 32
+            color: "transparent"
+            Row{
+                anchors.fill: parent
+                spacing: 5
+                Repeater{
+                    model:ListModel {
+                        ListElement { name: "ПН" }
+                        ListElement { name: "ВТ" }
+                        ListElement { name: "СР" }
+                        ListElement { name: "ЧТ" }
+                        ListElement { name: "ПТ" }
+                        ListElement { name: "СБ" }
+                        ListElement { name: "ВС" }
+                    }
+                    delegate: Rectangle {
+                        width: (1024/2 - 32) / 7 - 5
+                        height: parent.height
+                        color: "transparent"
+
+                        Text {
+                            anchors.centerIn: parent
+                            font.pixelSize: 20
+                            color: index >= 5 ? Qt.rgba(250/ 255, 35/ 255, 40/ 255, 1.0) : calendar.textColor
+                            text: model.name
+                            font.family: castFont.name
+                        }
+                    }
+                }
+            }
+        }
+        Rectangle {
+            y: 16 + 68 + 16
+            x: 16
+            width: 1024 / 2 - 32
+            height: 600-100
+            color: "transparent"
+            Grid {
+                columns: 7
+                rows: 6
+                spacing: 5
+                anchors.centerIn: parent
+                property int firstDay: getFirstDayOfWeek(currentDate)
+                property int daysInMonth: getDaysInMonth(currentDate)
+                Repeater {
+                    model: 42
+                    Rectangle {
+                        width: 1024 / 2 /7 - 5 - 5
+                        height: (600-100)/6 - 5 - 5 -5
+                        color: calendar.backgroundColor
+                        radius: 15
+
+
+                        Text {
+                            id: dayText
+                            anchors.centerIn: parent
+                            font.pixelSize: 20
+                            text: {
+                                var dayNumber = index - parent.parent.firstDay + 1;
+                                return (dayNumber > 0 && dayNumber <= parent.parent.daysInMonth)
+                                        ? dayNumber
+                                        : "";
+                            }
+                            color: calendar.textColor
+                            font.family: castFont.name
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                if (dayText.text !== "") {
+                                    console.log("Выбрана дата: " + dayText.text + " марта 2025")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     Rectangle{
         id:rec
         x: 1024/2
         width: 1024/2
         height: 600
-        color: Qt.rgba(50/255, 50/255, 50/255, 0.5)
+        color: calendar.widBackgroundColor
 
         ScrollView {
             id: scrollView
@@ -34,10 +184,6 @@ Item {
                         radius: 15
                         width: parent.width
                         height: column.implicitHeight + 24
-                        FontLoader {
-                            id: castFont
-                            source: "ofont.ru_Nunito.ttf"
-                        }
                         Column {
                             id: column
                             width: parent.width
@@ -76,15 +222,6 @@ Item {
                                         wrapMode: Text.Wrap
                                         font.family: castFont.name
                                     }
-
-                                    Text {
-                                        text: "Огранизатор: " + modelData["organizer"]
-                                        font.pixelSize: 20
-                                        color: calendar.textColorSecond
-                                        width: parent.width
-                                        wrapMode: Text.Wrap
-                                        font.family: castFont.name
-                                    }
                                 }
 
                                 Column {
@@ -107,7 +244,7 @@ Item {
                             Text {
                                 id: description
                                 width: parent.width
-                                text: modelData["description"]
+                                text: modelData["desc"]
                                 wrapMode: Text.Wrap
                                 color: calendar.textColor
                                 font.pixelSize: 24

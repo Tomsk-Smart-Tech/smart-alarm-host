@@ -2,11 +2,15 @@ CONFIG += c++20
 
 QT += quick
 QT += quick network
+
+
+
 SOURCES += \
         linuxterminal.cpp \
         main.cpp \
         mqttclient.cpp \
         weather.cpp \
+        dht22sensor.cpp \
 
 INCLUDEPATH+= C:/boost_1_87_0/
 INCLUDEPATH+= C:/FireDaemonOpenSSL3/include/
@@ -19,6 +23,7 @@ HEADERS += \
     linuxterminal.h \
     mqttclient.h \
     weather.h \
+    dht22sensor.h \
 
 # QMAKE_CXXFLAGS += -Wa,-mbig-obj
 # QMAKE_CFLAGS += -Wa,-mbig-obj
@@ -51,7 +56,8 @@ userdata.json \
 loading.png \
 weather_iconkit \
 Big_Calendar.qml \
-Wi-Fi
+Wi-Fi \
+Mini_Events.qml
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -80,15 +86,16 @@ DISTFILES += \
     Color_Page.qml \
     Date_and_time_Page.qml \
     InitialPage.qml \
+    Mini_Events.qml \
     Sensors.qml \
     Sound_Page.qml \
     Status_bar.qml \
     Storage_Page.qml \
-    SwipeManager.qml \
     Test.qml \
     Big_Calendar.qml \
     humidity.png\
-    temp.png
+    temp.png\
+    Mini_Events.qml
 
 
 

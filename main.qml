@@ -120,6 +120,10 @@ Window {
                         y_pos: 56 + 236 + 16
                         weather_list: weather
                     }
+                    Mini_Events{
+                        x_pos:16 + 236 + 16 + 236 + 16
+                        y_pos:56
+                    }
                     Image{
                         id: connection
                         width: 36

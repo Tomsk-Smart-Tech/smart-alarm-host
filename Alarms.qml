@@ -42,7 +42,7 @@ Item {
 
             Rectangle{
                 id: rec_page
-                width: parent.width
+                width: 236 - 10* 2
                 height: parent.height - 60
                 visible: true
                 color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.0)
@@ -55,7 +55,7 @@ Item {
                     snapMode: ListView.SnapToItem
                     delegate: Rectangle {
                         id:rect
-                        width: parent.width
+                        width: 236 - 10* 2
                         height: 94
                         radius: 15
                         color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
