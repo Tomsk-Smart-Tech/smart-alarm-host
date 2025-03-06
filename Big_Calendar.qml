@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import GlobalTime 1.0
 
 Item {
     property color backgroundColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
@@ -14,16 +15,6 @@ Item {
         source: "ofont.ru_Nunito.ttf"
     }
 
-    property date currentDate: new Date()  // Март 2025
-
-    property date selectedDate: new Date();
-
-    Connections {
-        target: weatherr
-        function onUnixtimeChanged() {
-            currentDateTime = new Date(weatherr.unixtime);
-        }
-    }
 
     // Функция для получения первого дня месяца
     function getFirstDayOfWeek(date) {
@@ -39,8 +30,8 @@ Item {
     function isCurrentDay(dayNumber) {
         var today = new Date();
         return (dayNumber === today.getDate() &&
-                currentDate.getMonth() === today.getMonth() &&
-                currentDate.getFullYear() === today.getFullYear());
+                GlobalTime.currentDateTime.getMonth() === today.getMonth() &&
+                GlobalTime.currentDateTime.getFullYear() === today.getFullYear());
     }
     function getMonthName(date)
     {
@@ -66,7 +57,7 @@ Item {
                 color: calendar.textColor
                 // text: "Март 2025"
                 text:{
-                    getMonthName(currentDate) + " " + currentDate.getFullYear()
+                    getMonthName(GlobalTime.currentDateTime) + " " + GlobalTime.currentDateTime.getFullYear()
                 }
                 font.family: castFont.name
             }
@@ -117,8 +108,8 @@ Item {
                 rows: 6
                 spacing: 5
                 anchors.centerIn: parent
-                property int firstDay: getFirstDayOfWeek(currentDate)
-                property int daysInMonth: getDaysInMonth(currentDate)
+                property int firstDay: getFirstDayOfWeek(GlobalTime.currentDateTime)
+                property int daysInMonth: getDaysInMonth(GlobalTime.currentDateTime)
                 Repeater {
                     model: 42
                     Rectangle {

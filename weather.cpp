@@ -164,12 +164,12 @@ void Weather::handleReply_time()
         cur_time= dateTime.toMSecsSinceEpoch();
         // emit coordinates_changed();
         emit data_changed();
-        emit h_weather_changed();
     }
     else
     {
-        qDebug() << "Error in network reply: " << reply->errorString();
+        qDebug() << "Error in network time_reply: " << reply->errorString();
         request_data();
+        //handleReply_time(); //что не так со вркменем
     }
 
     reply->deleteLater();
@@ -269,7 +269,7 @@ void Weather::handleReply_weather()
     else
     {
         request_data();
-        qDebug() << "Error in network reply: " << reply->errorString();
+        qDebug() << "Error in network weather_reply: " << reply->errorString();
     }
     reply->deleteLater();
 
@@ -367,12 +367,11 @@ void Weather::handleReply_days()
             d_forecast.append(map);
         }
         emit d_weather_changed();
-
     }
     else
     {
         request_data();
-        qDebug() << "Error in network reply: " << reply->errorString();
+        qDebug() << "Error in network d_weather_reply: " << reply->errorString();
     }
     qDebug()<<"check";
     reply->deleteLater();

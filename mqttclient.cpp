@@ -1,5 +1,26 @@
 #include "mqttclient.h"
 
+QJsonArray alarms_to_json(QVariantList &alarms)
+{
+    QJsonArray jsonArray;
+
+    for (const QVariant &item : alarms)
+    {
+        QVariantMap map = item.toMap();
+        QJsonObject obj;
+
+        obj["id"] = map["id"].toInt();
+        obj["time"] = map["time"].toString();
+        obj["isHaptic"] = map["isHaptic"].toString();
+        obj["label"] = map["label"].toString();
+        obj["musicUri"] = map["musicUri"].toString();
+        obj["isEnabled"] = map["isEnabled"].toBool();
+
+        jsonArray.append(obj);
+    }
+
+    return jsonArray;
+}
 
 QVariantList read_json_events(QJsonArray jsonArray)
 {
@@ -26,7 +47,6 @@ QVariantList read_json_events(QJsonArray jsonArray)
         map["title"] = obj["title"].toString();
         map["starttime"]=start;
         map["endtime"]=end;
-        map["organizer"]=obj["organizer"].toString();
         map["id"]=obj["id"].toInt();
         map["allday"]=obj["allDay"].toBool();
         map["calendarname"]=obj["calendarDisplayName"].toString();
@@ -57,7 +77,6 @@ QVariantList read_json_alarms(QJsonArray jsonArray)
         newAlarms.append(map);
     }
     return newAlarms;
-
 }
 
 
@@ -296,4 +315,19 @@ void MqttClient::setAlarms(const QVariantList &newAlarms) {
     emit alarmschanged();
     m_alarms = newAlarms;
     emit alarmschanged();
+}
+
+Q_INVOKABLE void MqttClient::alarm_start()
+{
+    if(!m_alarms.isEmpty())
+    {
+        m_alarms.removeFirst();
+        qDebug()<<"будильник удален";
+        emit alarmschanged();
+
+        QJsonArray jsonArray=alarms_to_json(m_alarms);
+        QJsonDocument jsonDoc(jsonArray);
+        save_data(jsonDoc,"alarms");
+
+    }
 }

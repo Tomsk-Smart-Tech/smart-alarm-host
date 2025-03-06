@@ -6,7 +6,7 @@
 #include <QVariantMap>
 #include <QProcess>
 #include <QDebug>
-
+#include <QtConcurrent>
 
 class LinuxTerminal : public QObject
 {

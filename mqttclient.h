@@ -83,6 +83,8 @@ public:
     Q_INVOKABLE QVariantList get_events() const {return m_events;}
     Q_INVOKABLE QVariantList get_alarms() const {return m_alarms;}
 
+    Q_INVOKABLE void alarm_start();
+
 signals:
     void messageReceived();
     void connectionStatusChanged();

@@ -1,11 +1,45 @@
 import QtQuick 2.0
 import QtQuick.Controls
-
+import GlobalTime 1.0
 Item {
     id: alarm
     property int x_pos: 0
     property int y_pos: 0
     property var alarms: valueOf
+
+    function getTimeDiff(globaldate,first_alarm)
+    {
+        var hours = globaldate.getHours();
+        var minutes = globaldate.getMinutes();
+
+        var alarmParts = first_alarm.split(":");
+        var alarmHours = parseInt(alarmParts[0],10);
+        var alarmMinutes = parseInt(alarmParts[1],10);
+
+        var globalTotalMinutes = hours * 60 + minutes;
+        var alarmTotalMinutes = alarmHours * 60 + alarmMinutes;
+
+        var difference;
+        if (alarmTotalMinutes > globalTotalMinutes)
+        {
+            difference = alarmTotalMinutes - globalTotalMinutes;
+        }
+        else
+        {
+            difference = (24 * 60 )- (globalTotalMinutes-alarmTotalMinutes);
+        }
+
+        var rhours = Math.floor(difference / 60);
+        var rminutes = difference % 60;
+        if(rhours==24 && rminutes==0)
+        {
+            mqttclient.alarm_start()
+        }
+        return { h: rhours, m: rminutes };
+    }
+
+    property var diff:getTimeDiff(GlobalTime.currentDateTime,mqttclient.alarms[0]["time"])
+
     Rectangle {
         id: rec2
         x: alarm.x_pos
@@ -33,7 +67,7 @@ Item {
 
                 Text {
                     anchors.centerIn: parent
-                    text: "Через 3ч 55мин"
+                    text: "Через "+ diff.h+"ч " +diff.m+"мин"
                     font.pointSize: 14
                     font.family: castFont.name
                     color: "white"

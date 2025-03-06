@@ -24,33 +24,6 @@ Window {
         color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.5)
     }
 
-
-    ListModel{
-        id:alarms
-        ListElement { time: "8:30"; description: "Первая"; activate: true}
-        ListElement { time: "10:25"; description: "Пора спать"; activate: false }
-        ListElement { time: "12:40"; description: "Томск"; activate: false }
-        ListElement { time: "14:35"; description: "Четвертая пара"; activate: true }
-    }
-    ListModel {
-        id:weather
-        ListElement { day: "Пн"; date: "11.11"; temp: "15°C"; weather: "rain.png" }
-        ListElement { day: "Вт"; date: "12.11"; temp: "-17°C"; weather: "sun.png" }
-        ListElement { day: "Ср"; date: "13.11"; temp: "13°C"; weather: "cloud.png" }
-        ListElement { day: "Чт"; date: "14.11"; temp: "19°C"; weather: "clouds.png" }
-        ListElement { day: "Пт"; date: "15.11"; temp: "371°C"; weather: "lightning.png" }
-    }
-    ListModel {
-        id:big_weather
-        ListElement { day: "Пн"; date: "11.11"; temp: "15°C"; weather: "rain.png" }
-        ListElement { day: "Вт"; date: "12.11"; temp: "-17°C"; weather: "sun.png" }
-        ListElement { day: "Ср"; date: "13.11"; temp: "13°C"; weather: "cloud.png" }
-        ListElement { day: "Чт"; date: "14.11"; temp: "19°C"; weather: "clouds.png" }
-        ListElement { day: "Пт"; date: "15.11"; temp: "371°C"; weather: "lightning.png" }
-        ListElement { day: "Сб"; date: "12.11"; temp: "371°C"; weather: "lightning.png" }
-        ListElement { day: "Вс"; date: "15.11"; temp: "371°C"; weather: "lightning.png" }
-        ListElement { day: "Пн"; date: "15.11"; temp: "56°C"; weather: "lightning.png" }
-    }
     SwipeView{
         id:ver_sv
         anchors.fill: parent

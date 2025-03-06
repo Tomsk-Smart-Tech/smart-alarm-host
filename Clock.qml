@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import GlobalTime 1.0
+
 Item {
     id:clock
     property int x_pos: 10
@@ -9,12 +11,12 @@ Item {
     // property string year: "2032"
 
     //не пугайся кирилл это мой код для управления временем
-    property string time: ""
+    property string time:""
     property string date: ""
     property string year: ""
     property var back: valueOf
 
-    property var currentDateTime: new Date()
+    // property var currentDateTime: new Date()
     Timer {
         id: timer
         interval: 1000 // 1 секунда
@@ -22,9 +24,9 @@ Item {
         repeat: true
         onTriggered: {
             // Обновляем currentDateTime каждую секунду
-            currentDateTime = new Date(clock.currentDateTime.getTime() + 1000)
-
-            if (currentDateTime.getMinutes() === 0 && currentDateTime.getSeconds() === 0)
+            // currentDateTime = new Date(clock.currentDateTime.getTime() + 1000)
+            GlobalTime.currentDateTime = new Date(GlobalTime.currentDateTime.getTime() + 1000)
+            if (GlobalTime.currentDateTime.getMinutes() === 0 && GlobalTime.currentDateTime.getSeconds() === 0)
             {
                 weatherr.request_position() //обновляю погоду каждый час
                 graphCanvas.requestPaint();
@@ -36,9 +38,10 @@ Item {
     Connections {
         target: weatherr
         function onUnixtimeChanged() {
-            currentDateTime = new Date(weatherr.unixtime);
+            GlobalTime.currentDateTime = new Date(weatherr.unixtime);
         }
     }
+
 
     function getDayName(date)
     {
@@ -84,7 +87,7 @@ Item {
         Text {
             x: (parent.width - width) / 2
             y: 26
-            text: clock.year
+            text: Qt.formatDateTime(GlobalTime.currentDateTime, "dd.MM.yyyy")
             font.pixelSize: 24
             font.family: castFont.name
             color: "white"
@@ -92,7 +95,7 @@ Item {
         Text {
             x: (parent.width - width) / 2
             y: 180
-            text: clock.date
+            text: getDayName(GlobalTime.currentDateTime)
             font.pixelSize: 24
             font.family: castFont.name
             color: "white"
@@ -110,7 +113,7 @@ Item {
 
             Text {
                 anchors.centerIn: parent
-                text: clock.time
+                text: Qt.formatDateTime(GlobalTime.currentDateTime, "hh:mm")
                 font.pixelSize: 70
                 font.family: castFont.name
                 color: "white"

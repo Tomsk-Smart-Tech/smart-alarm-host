@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QtQuickControls2/QQuickStyle>
 #include <QQmlContext>
+#include <QtQml>
+
 #include "weather.h"
 #include "mqttclient.h"
 #include "linuxterminal.h"
@@ -14,6 +16,8 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+
+    qmlRegisterSingletonType(QUrl("file:../../GlobalTime.qml"), "GlobalTime", 1, 0, "GlobalTime");
 
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();

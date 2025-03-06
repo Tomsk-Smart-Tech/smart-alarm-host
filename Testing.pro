@@ -3,6 +3,7 @@ CONFIG += c++20
 QT += quick
 QT += quick network
 QT += concurrent
+QT += quickcontrols2
 
 SOURCES += \
     dht22sensor.cpp \
@@ -39,7 +40,8 @@ resources.files = \
     weather_icon \
     weather_iconkit \
     connection \
-    Big_Calendar.qml
+    Big_Calendar.qml\
+    Wi-Fi
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -61,7 +63,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    Big_Weather.qml
+    Big_Weather.qml \
+    GlobalTime.qml
 
 HEADERS += \
     dht22sensor.h \
