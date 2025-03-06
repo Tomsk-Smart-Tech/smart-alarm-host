@@ -179,6 +179,7 @@ void Weather::handleReply_time()
 
 void Weather::handleReply_weather()
 {
+    h_forecast.clear();
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
     if (reply->error() == QNetworkReply::NoError)
     {
@@ -240,7 +241,7 @@ void Weather::handleReply_weather()
                 h_forecast.append(map);
             }
         }
-
+        //qDebug()<<"в первом дне выводится часов:"<<hours_counter;
 
         QJsonObject dayObj2 = forecastday[1].toObject(); //следующий день
         QJsonObject day2 = dayObj2["day"].toObject();
