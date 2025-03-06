@@ -2,6 +2,7 @@ CONFIG += c++20
 
 QT += quick
 QT += quick network
+QT += concurrent
 
 
 

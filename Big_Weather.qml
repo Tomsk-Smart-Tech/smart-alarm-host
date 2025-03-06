@@ -494,24 +494,10 @@ Item {
                             anchors.top: parent.top
                             anchors.leftMargin: 16
                             anchors.topMargin: 16
-                            source: "weather_icon/dew_point.png"
+                            source: "weather_icon/pressure.png"
                         }
                         Text {
-                            width: 115
-                            height: 55
-                            text: weather.dew_point
-                            anchors.right: parent.right
-                            anchors.top: parent.top
-                            anchors.rightMargin: 16
-                            anchors.topMargin: 27
-                            horizontalAlignment: Text.AlignHCenter
-                            font.weight: Font.DemiBold
-                            font.pointSize: 36
-                            color: weather.textColor
-                            font.family: castFont.name
-                        }
-                        Text {
-                            text: "Точка росы"
+                            text: "Давление"
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.bottom: parent.bottom
@@ -523,76 +509,109 @@ Item {
                             color: weather.textColorSecond
                             font.family: castFont.name
                         }
-                        Canvas {
-                            anchors.fill: parent
-                            onPaint: {
-                                var ctx = getContext("2d");
-                                ctx.strokeStyle = "#757575";
-                                ctx.lineWidth = 2;
-                                ctx.beginPath();
-                                var y = 16 + 80 + 16;
-                                ctx.moveTo(16, y);
-                                ctx.lineTo(236 - 16, y);
-                                ctx.stroke();
-                            }
-                        }
-                    }
-                    Rectangle{
-                        id: rectangle3
-                        width: 236
-                        height: 178
-                        color: weather.backgroundColor
-                        radius: 15
-                        Image {
-                            width: 80
-                            height: 80
-                            anchors.left: parent.left
-                            anchors.top: parent.top
-                            anchors.leftMargin: 16
-                            anchors.topMargin: 16
-                            source: "weather_icon/UV.png"
-                        }
-                        Text {
+                        // Canvas {
+                        //     anchors.fill: parent
+                        //     onPaint: {
+                        //         var ctx = getContext("2d");
+                        //         ctx.strokeStyle = "#757575";
+                        //         ctx.lineWidth = 2;
+                        //         ctx.beginPath();
+                        //         var y = 16 + 80 + 16;
+                        //         ctx.moveTo(16, y);
+                        //         ctx.lineTo(236 - 16, y);
+                        //         ctx.stroke();
+                        //     }
+                        // }
+
+                        Column {
+                            id: column1
+                            x: 114
                             width: 115
-                            height: 55
-                            text: weather.uv
+                            height: 99
                             anchors.right: parent.right
                             anchors.top: parent.top
                             anchors.rightMargin: 16
                             anchors.topMargin: 27
-                            horizontalAlignment: Text.AlignHCenter
-                            font.weight: Font.DemiBold
-                            font.pointSize: 36
-                            color: weather.textColor
-                            font.family: castFont.name
-                        }
-                        Text {
-                            text: "УФ индекс"
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.bottom: parent.bottom
-                            anchors.rightMargin: 0
-                            anchors.bottomMargin: 14
-                            horizontalAlignment: Text.AlignHCenter
-                            font.bold: false
-                            font.pointSize: 20
-                            color: weather.textColorSecond
-                            font.family: castFont.name
-                        }
-                        Canvas {
-                            anchors.fill: parent
-                            onPaint: {
-                                var ctx = getContext("2d");
-                                ctx.strokeStyle = "#757575";
-                                ctx.lineWidth = 2;
-                                ctx.beginPath();
-                                var y = 16 + 80 + 16;
-                                ctx.moveTo(16, y);
-                                ctx.lineTo(236 - 16, y);
-                                ctx.stroke();
+                            Text {
+                                width: 115
+                                height: 55
+                                color: weather.textColor
+                                text: "762"
+                                horizontalAlignment: Text.AlignHCenter
+                                lineHeight: 0.5
+                                font.weight: Font.DemiBold
+                                font.pointSize: 36
+                                font.family: castFont.name
+                                font.bold: false
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+
+                            Text {
+                                color: weather.textColorSecond
+                                text: "мм/рт.ст."
+                                lineHeight: 0.5
+                                font.pointSize: 24
+                                font.family: castFont.name
+                                anchors.horizontalCenter: parent.horizontalCenter
                             }
                         }
                     }
+                    // Rectangle{
+                    //     id: rectangle3
+                    //     width: 236
+                    //     height: 178
+                    //     color: weather.backgroundColor
+                    //     radius: 15
+                    //     Image {
+                    //         width: 80
+                    //         height: 80
+                    //         anchors.left: parent.left
+                    //         anchors.top: parent.top
+                    //         anchors.leftMargin: 16
+                    //         anchors.topMargin: 16
+                    //         source: "weather_icon/UV.png"
+                    //     }
+                    //     Text {
+                    //         width: 115
+                    //         height: 55
+                    //         text: weather.uv
+                    //         anchors.right: parent.right
+                    //         anchors.top: parent.top
+                    //         anchors.rightMargin: 16
+                    //         anchors.topMargin: 27
+                    //         horizontalAlignment: Text.AlignHCenter
+                    //         font.weight: Font.DemiBold
+                    //         font.pointSize: 36
+                    //         color: weather.textColor
+                    //         font.family: castFont.name
+                    //     }
+                    //     Text {
+                    //         text: "УФ индекс"
+                    //         anchors.left: parent.left
+                    //         anchors.right: parent.right
+                    //         anchors.bottom: parent.bottom
+                    //         anchors.rightMargin: 0
+                    //         anchors.bottomMargin: 14
+                    //         horizontalAlignment: Text.AlignHCenter
+                    //         font.bold: false
+                    //         font.pointSize: 20
+                    //         color: weather.textColorSecond
+                    //         font.family: castFont.name
+                    //     }
+                    //     Canvas {
+                    //         anchors.fill: parent
+                    //         onPaint: {
+                    //             var ctx = getContext("2d");
+                    //             ctx.strokeStyle = "#757575";
+                    //             ctx.lineWidth = 2;
+                    //             ctx.beginPath();
+                    //             var y = 16 + 80 + 16;
+                    //             ctx.moveTo(16, y);
+                    //             ctx.lineTo(236 - 16, y);
+                    //             ctx.stroke();
+                    //         }
+                    //     }
+                    // }
                     Rectangle{
                         id: rectangle4
                         width: 236
@@ -638,9 +657,7 @@ Item {
                                 color: weather.textColorSecond
                                 font.family: castFont.name
                             }
-
                         }
-
                         Text {
                             text: "Кол-во осадков"
                             anchors.left: parent.left
@@ -654,12 +671,97 @@ Item {
                             color: weather.textColorSecond
                             font.family: castFont.name
                         }
+                    }
+                    Column{
+                        spacing: 16
+                        Rectangle{
+                            id: rectangle89
+                            width: 236
+                            height: 81
+                            color: weather.backgroundColor
+                            radius: 15
+                            Image {
+                                width: 64
+                                height: 64
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.left: parent.left
+                                anchors.leftMargin: 12
+                                source: "weather_icon/dew_point.png"
+                                anchors.verticalCenterOffset: 0
+                            }
+                            Text {
+                                text: weather.dew_point
+                                anchors.right: parent.right
+                                anchors.top: parent.top
+                                anchors.rightMargin: 9
+                                anchors.topMargin: 4
+                                font.weight: Font.DemiBold
+                                font.pointSize: 32
+                                color: weather.textColor
+                                font.family: castFont.name
+                            }
+                            Text {
+                                x: 82
+                                y: 49
+                                width: 150
+                                height: 32
+                                text: "Точка россы"
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                anchors.rightMargin: 4
+                                horizontalAlignment: Text.AlignHCenter
+                                font.bold: false
+                                font.pointSize: 18
+                                color: weather.textColorSecond
+                                font.family: castFont.name
+                            }
 
+                        }
+                        Rectangle{
+                            id: rectangle45
+                            width: 236
+                            height: 81
+                            color: weather.backgroundColor
+                            radius: 15
+                            Image {
+                                width: 64
+                                height: 64
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.left: parent.left
+                                anchors.leftMargin: 12
+                                source: "weather_icon/UV.png"
+                                anchors.verticalCenterOffset: 0
+                            }
+                            Text {
+                                text: weather.uv
+                                anchors.right: parent.right
+                                anchors.top: parent.top
+                                anchors.rightMargin: 9
+                                anchors.topMargin: 4
+                                font.weight: Font.DemiBold
+                                font.pointSize: 32
+                                color: weather.textColor
+                                font.family: castFont.name
+                            }
+                            Text {
+                                x: 102
+                                y: 49
+                                width: 130
+                                height: 32
+                                text: "УФ индекс"
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                anchors.rightMargin: 4
+                                horizontalAlignment: Text.AlignHCenter
+                                font.bold: false
+                                font.pointSize: 18
+                                color: weather.textColorSecond
+                                font.family: castFont.name
+                            }
+                        }
                     }
                 }
-
             }
-
         }
     }
 }

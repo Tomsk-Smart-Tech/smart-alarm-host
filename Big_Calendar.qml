@@ -104,6 +104,7 @@ Item {
             height: 600-100
             color: "transparent"
             Grid {
+                id: grid
                 columns: 7
                 rows: 6
                 spacing: 5
@@ -111,27 +112,45 @@ Item {
                 property int firstDay: getFirstDayOfWeek(GlobalTime.currentDateTime)
                 property int daysInMonth: getDaysInMonth(GlobalTime.currentDateTime)
                 Repeater {
+                    id: rep
                     model: 42
                     Rectangle {
+                        id: rectangle
                         width: 1024 / 2 /7 - 5 - 5
                         height: (600-100)/6 - 5 - 5 -5
                         color: calendar.backgroundColor
+                        // color: rep.isCurrentItem ? Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0) : "transparent"
                         radius: 15
-
-
                         Text {
                             id: dayText
                             anchors.centerIn: parent
-                            font.pixelSize: 20
+                            font.pixelSize: 24
                             text: {
                                 var dayNumber = index - parent.parent.firstDay + 1;
-                                return (dayNumber > 0 && dayNumber <= parent.parent.daysInMonth)
-                                        ? dayNumber
-                                        : "";
+                                return (dayNumber > 0 && dayNumber <= parent.parent.daysInMonth) ? dayNumber: "";
                             }
                             color: calendar.textColor
                             font.family: castFont.name
                         }
+                        Row{
+                            visible: dayText.text !== ""
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 5
+                            spacing: 5
+                            Repeater{
+                                model: 1
+                                Rectangle{
+                                    width: 14
+                                    height: 14
+                                    radius: 7
+                                    border.color: "#bcccf7"
+                                    border.width: 2
+                                    color: "#739ef0"
+                                }
+                            }
+                        }
+
 
                         MouseArea {
                             anchors.fill: parent

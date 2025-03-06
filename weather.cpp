@@ -259,7 +259,7 @@ void Weather::handleReply_weather()
             map["icon"]=condition_h["icon"].toString();
             h_forecast.append(map);
         }
-
+        qDebug()<<"выведено часов:"<<hours2.size()-hours_counter;
         double min_day2=day2["mintemp_c"].toDouble();
         double max_day2=day2["maxtemp_c"].toDouble();
         cur_forecast["min2d"]=(min_day1<min_day2) ? min_day1 : min_day2;

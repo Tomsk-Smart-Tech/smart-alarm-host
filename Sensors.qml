@@ -19,12 +19,6 @@ Item {
         FontLoader {
             id: castFont
             source: "ofont.ru_Nunito.ttf"
-            onStatusChanged: {
-                    console.log("Font status:", status)
-                    if (status !== FontLoader.Ready) {
-                        console.log("Ошибка загрузки шрифта")
-                    }
-                }
         }
         Rectangle{
             x: 10
@@ -49,7 +43,7 @@ Item {
                 width: 128
                 height: 53
                 text: tempreture
-                font.family: castFont
+                font.family: castFont.name
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 32
                 color: sensors.textColor
@@ -93,7 +87,7 @@ Item {
                 width: 128
                 height: 53
                 text: humidity_text
-                font.family: castFont
+                font.family: castFont.name
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 32
                 color: sensors.textColor
@@ -105,7 +99,7 @@ Item {
                 width: 124
                 height: 30
                 text: "Влажность"
-                font.family: castFont
+                font.family: castFont.name
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 14
                 color: sensors.textColorSecond
@@ -119,7 +113,7 @@ Item {
             height: 27
             color: sensors.textColor
             text: "Датчики"
-            font.family: castFont
+            font.family: castFont.name
             horizontalAlignment: Text.AlignHCenter
             font.pointSize: 18
         }
