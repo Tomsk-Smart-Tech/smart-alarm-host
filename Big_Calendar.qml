@@ -28,7 +28,7 @@ Item {
     }
 
     function isCurrentDay(dayNumber) {
-        var today = new Date();
+        var today = GlobalTime.currentDateTime;
         return (dayNumber === today.getDate() &&
                 GlobalTime.currentDateTime.getMonth() === today.getMonth() &&
                 GlobalTime.currentDateTime.getFullYear() === today.getFullYear());
@@ -156,7 +156,7 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 if (dayText.text !== "") {
-                                    console.log("Выбрана дата: " + dayText.text + " марта 2025")
+                                    console.log("Выбрана дата: " + dayText.text  + " " + GlobalTime.currentDateTime.getMonth() + " " + GlobalTime.currentDateTime.getFullYear())
                                 }
                             }
                         }
