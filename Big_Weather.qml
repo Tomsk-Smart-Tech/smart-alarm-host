@@ -536,7 +536,7 @@ Item {
                                 width: 115
                                 height: 55
                                 color: weather.textColor
-                                text: "762"
+                                text: weatherr.cur_weather["pressure"]
                                 horizontalAlignment: Text.AlignHCenter
                                 lineHeight: 0.5
                                 font.weight: Font.DemiBold
@@ -548,7 +548,7 @@ Item {
 
                             Text {
                                 color: weather.textColorSecond
-                                text: "мм/рт.ст."
+                                text: "мм рт.ст."
                                 lineHeight: 0.5
                                 font.pointSize: 24
                                 font.family: castFont.name
@@ -705,7 +705,7 @@ Item {
                                 y: 49
                                 width: 150
                                 height: 32
-                                text: "Точка россы"
+                                text: "Точка росы"
                                 anchors.right: parent.right
                                 anchors.bottom: parent.bottom
                                 anchors.rightMargin: 4

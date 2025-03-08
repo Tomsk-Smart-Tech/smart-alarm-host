@@ -197,6 +197,7 @@ void Weather::handleReply_weather()
         cur_forecast["feels_temp"]=current["feelslike_c"].toDouble();
         cur_forecast["dewpoint_c"]=current["dewpoint_c"].toDouble();
         cur_forecast["uv"]=current["uv"].toDouble();
+        cur_forecast["pressure"]=qRound(current["pressure_mb"].toDouble()*0.75006);
 
         QString cur_time1=current["last_updated"].toString().mid(11);
         QString cur_time2=cur_time1.chopped(2)+"00";
