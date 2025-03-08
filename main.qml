@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.VirtualKeyboard
+//import QtQuick.VirtualKeyboard
 
 
 Window {

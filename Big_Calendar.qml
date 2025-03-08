@@ -8,6 +8,9 @@ Item {
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
+    property var firstday_timestamp : new Date(new Date(GlobalTime.currentDateTime).setHours(0,0,0,0)).setDate(1)
+    property var firstday :new Date(firstday_timestamp)
+
 
     id: calendar
     FontLoader {
@@ -15,6 +18,12 @@ Item {
         source: "ofont.ru_Nunito.ttf"
     }
 
+    function return_timestamp_of_day(date,days)
+    {
+        var newdate=new Date(date);
+        newdate.setDate(newdate.getDate() + parseInt(days, 10));
+        return newdate;
+    }
 
     // Функция для получения первого дня месяца
     function getFirstDayOfWeek(date) {
@@ -55,9 +64,8 @@ Item {
                 anchors.centerIn: parent
                 font.pixelSize: 36
                 color: calendar.textColor
-                // text: "Март 2025"
                 text:{
-                    getMonthName(GlobalTime.currentDateTime) + " " + GlobalTime.currentDateTime.getFullYear()
+                    getMonthName(firstday) + " " + firstday.getFullYear()
                 }
                 font.family: castFont.name
             }
@@ -109,8 +117,8 @@ Item {
                 rows: 6
                 spacing: 5
                 anchors.centerIn: parent
-                property int firstDay: getFirstDayOfWeek(GlobalTime.currentDateTime)
-                property int daysInMonth: getDaysInMonth(GlobalTime.currentDateTime)
+                property int firstDay: getFirstDayOfWeek(firstday)
+                property int daysInMonth: getDaysInMonth(firstday)
                 Repeater {
                     id: rep
                     model: 42
@@ -139,7 +147,7 @@ Item {
                             anchors.bottomMargin: 5
                             spacing: 5
                             Repeater{
-                                model: 1
+                                model: mqttclient.check_eventOnDay(return_timestamp_of_day(firstday,dayText.text-1).getTime())
                                 Rectangle{
                                     width: 14
                                     height: 14
@@ -156,7 +164,8 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 if (dayText.text !== "") {
-                                    console.log("Выбрана дата: " + dayText.text  + " " + GlobalTime.currentDateTime.getMonth() + " " + GlobalTime.currentDateTime.getFullYear())
+                                    mqttclient.get_events_onDay(return_timestamp_of_day(firstday,dayText.text-1).getTime())
+                                    console.log("выбран день: " +return_timestamp_of_day(firstday,dayText.text-1).getTime()+" "+new Date(return_timestamp_of_day(firstday,dayText.text-1)).toLocaleDateString(Qt.locale("ru_RU"), "dd.MM.yyyy"))
                                 }
                             }
                         }
@@ -187,7 +196,7 @@ Item {
                 Repeater {
                     id: repeater
                     //model: mqqtclient.events
-                    model: mqttclient.events
+                    model: mqttclient.events_onDay
                     delegate: Rectangle {
                         id: rectangle5
                         color: calendar.backgroundColor

@@ -25,6 +25,7 @@ QJsonArray alarms_to_json(QVariantList &alarms)
 QVariantList read_json_events(QJsonArray jsonArray)
 {
     QVariantList newEvents;
+
     for (const QJsonValue &value : jsonArray)
     {
         QVariantMap map;
@@ -44,6 +45,7 @@ QVariantList read_json_events(QJsonArray jsonArray)
         QString start=QString::number(startDay)+"."+QString::number(startMonth)+"."+QString::number(startYear);
         QString end=QString::number(endDay)+"."+QString::number(endMonth)+"."+QString::number(endYear);
 
+        map["starttime_timestamp"]=obj["startTime"].toVariant().toLongLong();
         map["title"] = obj["title"].toString();
         map["starttime"]=start;
         map["endtime"]=end;
@@ -281,6 +283,17 @@ MqttClient::MqttClient(QObject *parent):
         }
         );
 
+    // client.async_publish<boost::mqtt5::qos_e::at_most_once> (
+    //     "mqtt/test", "Hello world!",
+    //     boost::mqtt5::retain_e::no,         // Retain
+    //     boost::mqtt5::publish_props{},      // Свойства публикации
+    //     [this](boost::system::error_code ec) {
+    //         if (ec) {
+    //             std::cerr << "Publish error: " << ec.message() << std::endl;
+    //         }
+    //         client.async_disconnect(boost::asio::detached);
+    //     }
+    //     );
 
     //ioc.run();
     iocThread = std::thread([this]() { ioc.run(); });
@@ -322,7 +335,6 @@ Q_INVOKABLE void MqttClient::alarm_start()
     if(!m_alarms.isEmpty())
     {
         m_alarms.removeFirst();
-        qDebug()<<"будильник удален";
         emit alarmschanged();
 
         QJsonArray jsonArray=alarms_to_json(m_alarms);
@@ -330,4 +342,58 @@ Q_INVOKABLE void MqttClient::alarm_start()
         save_data(jsonDoc,"alarms");
 
     }
+}
+
+Q_INVOKABLE void MqttClient::get_events_onDay(qint64 timestamp)
+{
+    m_events_onDay.clear();
+    QTimeZone timeZone = QTimeZone::utc();
+    qint64 startday=timestamp;
+    QDateTime Datestartday = QDateTime::fromMSecsSinceEpoch(timestamp, timeZone);
+
+    // Теперь можем прибавить 1 день
+    QDateTime newDateTime = Datestartday.addDays(1);
+    qint64 endday = newDateTime.toMSecsSinceEpoch();
+
+    for(const QVariant& item : m_events)
+    {
+        QVariantMap map = item.toMap();
+        qint64 start_event=map["starttime_timestamp"].toLongLong();
+        if(start_event>=startday && start_event<=endday)
+        {
+            m_events_onDay.append(map);
+        }
+        if(start_event>endday)
+        {
+            break;
+        }
+    }
+    qDebug()<<"найдено событий в этот день: "<<m_events_onDay.size()<<"  причем в m_events: "<<m_events.size();
+    emit events_onDaychanged();
+}
+
+
+Q_INVOKABLE int MqttClient::check_eventOnDay(qint64 timestamp)
+{
+    int result=0;
+
+    QTimeZone timeZone = QTimeZone::utc();
+    qint64 startday=timestamp;
+    QDateTime Datestartday = QDateTime::fromMSecsSinceEpoch(timestamp, timeZone);
+
+    // Теперь можем прибавить 1 день
+    QDateTime newDateTime = Datestartday.addDays(1);
+    qint64 endday = newDateTime.toMSecsSinceEpoch();
+    for(const QVariant& item : m_events)
+    {
+        QVariantMap map = item.toMap();
+        qint64 start_event=map["starttime_timestamp"].toLongLong();
+        if(start_event>=startday && start_event<=endday)
+        {
+            result=1;
+            break;
+        }
+    }
+
+    return result;
 }

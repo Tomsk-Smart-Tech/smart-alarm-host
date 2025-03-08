@@ -43,7 +43,7 @@
 struct config {
     std::string brokers = "6a41760a26ec43f2b0e532601ce780e1.s1.eu.hivemq.cloud";
     uint16_t port = 8883;
-    std::string client_id = "meme";
+    std::string client_id = "meme1";
     std::string username = "nikita";
     std::string password = "Flowers123";
 };
@@ -76,20 +76,24 @@ class MqttClient : public QObject
     Q_PROPERTY(int connectionStatus READ connectionStatus NOTIFY connectionStatusChanged)
     Q_PROPERTY(QVariantList events READ get_events NOTIFY eventschanged)
     Q_PROPERTY(QVariantList alarms READ get_alarms NOTIFY alarmschanged)
+    Q_PROPERTY(QVariantList events_onDay READ get_events_onDay NOTIFY events_onDaychanged)
 public:
     explicit MqttClient(QObject *parent = nullptr);
     ~MqttClient();
     int connectionStatus() const { return m_connectionStatus; }
     Q_INVOKABLE QVariantList get_events() const {return m_events;}
     Q_INVOKABLE QVariantList get_alarms() const {return m_alarms;}
+    Q_INVOKABLE QVariantList get_events_onDay() const {return m_events_onDay;}
 
     Q_INVOKABLE void alarm_start();
-
+    Q_INVOKABLE void get_events_onDay(qint64 timestamp);
+    Q_INVOKABLE int check_eventOnDay(qint64 timestamp);
 signals:
     void messageReceived();
     void connectionStatusChanged();
     void eventschanged();
     void alarmschanged();
+    void events_onDaychanged();
 
 private slots:
     void setConnectionStatus(int status);
@@ -109,6 +113,7 @@ private:
 
     int m_connectionStatus;
     QVariantList m_events;
+    QVariantList m_events_onDay;
     QVariantList m_alarms;
     std::thread iocThread;
 };

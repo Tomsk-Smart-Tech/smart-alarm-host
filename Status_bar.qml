@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls
-import QtQuick.VirtualKeyboard
+//import QtQuick.VirtualKeyboard
 
 Item {
     id: bar

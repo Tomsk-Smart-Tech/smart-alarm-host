@@ -41,6 +41,8 @@ resources.files = \
     weather_iconkit \
     connection \
     Big_Calendar.qml\
+    Status_bar.qml\
+    Mini_Events.qml\
     Wi-Fi
 
 resources.prefix = /$${TARGET}
