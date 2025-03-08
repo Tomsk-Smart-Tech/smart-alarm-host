@@ -58,7 +58,9 @@ loading.png \
 weather_iconkit \
 Big_Calendar.qml \
 Wi-Fi \
-Mini_Events.qml
+Mini_Events.qml \
+icon_6.png\
+icon_7.png
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -78,12 +80,13 @@ QT += quickcontrols2
 QT += core gui opengl
 
 DISTFILES += \
+    About_Page.qml \
+    Alarm_Page.qml \
     Alarms.qml \
     Big_Calendar.qml \
     Big_Calendar.qml \
     Big_Weather.qml \
     Bluetooth_Page.qml \
-    Calendar.qml \
     Color_Page.qml \
     Date_and_time_Page.qml \
     InitialPage.qml \

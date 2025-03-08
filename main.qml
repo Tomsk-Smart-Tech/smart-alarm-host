@@ -14,15 +14,18 @@ Window {
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property var connection_status: mqttclient.connectionStatus
 
+
     Image {
         id: back
         source: "mounts.jpg"
         anchors.fill: parent
     }
+
     Rectangle{
         anchors.fill: parent
         color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.5)
     }
+
 
     SwipeView{
         id:ver_sv
@@ -98,135 +101,12 @@ Window {
                         x_pos:16 + 236 + 16 + 236 + 16
                         y_pos:56
                     }
-                    Image{
-                        id: connection
-                        width: 36
-                        height: 36
-                        anchors.right: parent.right
-                        anchors.bottom: parent.bottom
-                        anchors.rightMargin: 6
-                        anchors.bottomMargin: 8
-                        source :"connection/no_phone_connection.png";
-                        // source: window.connection_status === 1 ? "connection/phone_connection.png" : "connection/no_phone_connection.png"
-                        Connections {
-                            target: mqttclient
-                            function onConnectionStatusChanged() {
-                                if (mqttclient.connectionStatus=== 1) {
-                                    console.log("city ->", weatherr.city);
-                                    connection.source = "connection/phone_connection.png";
-                                    weatherr.request_position()
-                                }
-                            }
-                        }
-                    }
-                    // Rectangle {
-                    //     id: downArrowButton
-                    //     width: 80
-                    //     height: 40
-                    //     color: "transparent"
-                    //     anchors.left: parent.left
-                    //     anchors.top: parent.top
 
-                    //     // Анимация движения вверх и вниз
-                    //     SequentialAnimation {
-                    //         id: bounceAnimation
-                    //         running: true
-                    //         loops: Animation.Infinite
-
-                    //         NumberAnimation {
-                    //             target: downArrowButton
-                    //             property: "y"
-                    //             from: downArrowButton.y
-                    //             to: downArrowButton.y - 8
-                    //             duration: 800
-                    //             easing.type: Easing.OutQuad
-                    //         }
-
-                    //         NumberAnimation {
-                    //             target: downArrowButton
-                    //             property: "y"
-                    //             from: downArrowButton.y - 8
-                    //             to: downArrowButton.y
-                    //             duration: 800
-                    //             easing.type: Easing.InQuad
-                    //         }
-                    //     }
-
-                    //     // Стрелка вниз
-                    //     Canvas {
-                    //         id: arrowCanvas
-                    //         anchors.fill: parent
-                    //         opacity: 0.7 // Полупрозрачность
-
-                    //         onPaint: {
-                    //             var ctx = getContext("2d");
-                    //             ctx.reset();
-                    //             ctx.strokeStyle = "#FFFFFF";
-                    //             ctx.lineWidth = 6;
-                    //             ctx.lineCap = "round";
-
-                    //             // Рисуем стрелку вниз (просто как линия)
-                    //             ctx.beginPath();
-                    //             ctx.moveTo(width * 0.2, height * 0.5);
-
-                    //             ctx.lineTo(width * 0.8, height * 0.5);
-                    //             ctx.stroke();
-                    //         }
-                    //     }
-
-                    //     // Обработка кликов
-                    //     MouseArea {
-                    //         id: mouseArea
-                    //         anchors.fill: parent
-                    //         hoverEnabled: true
-                    //         onClicked: {
-                    //             console.log("Кнопка со стрелкой нажата")
-                    //             // Включаем interactive перед переходом на экран настроек
-                    //             ver_sv.interactive = true
-                    //             // Переходим на экран настроек
-                    //             ver_sv.currentIndex = 0
-                    //         }
-                    //     }
-
-                    //     // Эффект нажатия
-                    //     states: [
-                    //         State {
-                    //             name: "pressed"
-                    //             when: mouseArea.pressed
-                    //             PropertyChanges {
-                    //                 target: downArrowButton
-                    //                 scale: 0.9
-                    //             }
-                    //         }
-                    //     ]
-
-                    //     transitions: [
-                    //         Transition {
-                    //             from: ""
-                    //             to: "pressed"
-                    //             NumberAnimation {
-                    //                 properties: "scale"
-                    //                 duration: 100
-                    //             }
-                    //         },
-                    //         Transition {
-                    //             from: "pressed"
-                    //             to: ""
-                    //             NumberAnimation {
-                    //                 properties: "scale"
-                    //                 duration: 100
-                    //             }
-                    //         }
-                    //     ]
-                    // }
                 }
                 Rectangle{
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
                     Big_Calendar{}
                 }
-
-
-
             }
             Component.onCompleted: {
                 hor_sv.currentIndex = 1
@@ -246,37 +126,11 @@ Window {
             readonly property date currentDate: new Date()
 
         }
-
-
-
     }
 
     Component.onCompleted: {
         ver_sv.currentIndex = 1
     }
-    // Connections {
-    //     target: ver_sv
-    //     property bool ignoreIndexChange: false
-
-    //     function onCurrentIndexChanged() {
-    //         if (!ignoreIndexChange) {
-    //             ignoreIndexChange = true
-
-    //             console.log("Индекс изменился на:", ver_sv.currentIndex)
-
-    //             // Если текущий индекс 1 (главный экран) - отключаем свайпы
-    //             if (ver_sv.currentIndex === 1) {
-    //                 ver_sv.interactive = false
-    //             }
-    //             // Если текущий индекс 0 (экран настроек) - оставляем свайпы включенными
-    //             else if (ver_sv.currentIndex === 0) {
-    //                 ver_sv.interactive = true
-    //             }
-
-    //             ignoreIndexChange = false
-    //         }
-    //     }
-    // }
 }
 
 

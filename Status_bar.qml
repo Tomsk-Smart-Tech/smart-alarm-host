@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Controls
-//import QtQuick.VirtualKeyboard
 
 Item {
     id: bar
@@ -39,7 +38,6 @@ Item {
             anchors.bottomMargin: 10
             border.color: bar.textColorSecond
             color : Qt.rgba(242/255, 73/255, 84/255, 1.0)
-            // source: window.connection_status === 1 ? "connection/phone_connection.png" : "connection/no_phone_connection.png"
             Connections {
                 target: mqttclient
                 function onConnectionStatusChanged() {
@@ -51,103 +49,5 @@ Item {
                 }
             }
         }
-        // Rectangle {
-        //     id: downArrowButton
-        //     width: 80
-        //     height: 40
-        //     color: "transparent"
-        //     anchors.left: parent.left
-        //     anchors.top: parent.top
-
-        //     // Анимация движения вверх и вниз
-        //     SequentialAnimation {
-        //         id: bounceAnimation
-        //         running: true
-        //         loops: Animation.Infinite
-
-        //         NumberAnimation {
-        //             target: downArrowButton
-        //             property: "y"
-        //             from: downArrowButton.y
-        //             to: downArrowButton.y - 8
-        //             duration: 800
-        //             easing.type: Easing.OutQuad
-        //         }
-
-        //         NumberAnimation {
-        //             target: downArrowButton
-        //             property: "y"
-        //             from: downArrowButton.y - 8
-        //             to: downArrowButton.y
-        //             duration: 800
-        //             easing.type: Easing.InQuad
-        //         }
-        //     }
-
-        //     // Стрелка вниз
-        //     Canvas {
-        //         id: arrowCanvas
-        //         anchors.fill: parent
-        //         opacity: 0.7 // Полупрозрачность
-
-        //         onPaint: {
-        //             var ctx = getContext("2d");
-        //             ctx.reset();
-        //             ctx.strokeStyle = "#FFFFFF";
-        //             ctx.lineWidth = 6;
-        //             ctx.lineCap = "round";
-
-        //             // Рисуем стрелку вниз (просто как линия)
-        //             ctx.beginPath();
-        //             ctx.moveTo(width * 0.3, height * 0.4);
-        //             ctx.lineTo(width * 0.5, height * 0.6);
-        //             ctx.lineTo(width * 0.7, height * 0.4);
-        //             ctx.stroke();
-        //         }
-        //     }
-
-        //     // Обработка кликов
-        //     MouseArea {
-        //         id: mouseArea
-        //         anchors.fill: parent
-        //         hoverEnabled: true
-        //         onClicked: {
-        //             console.log("Кнопка со стрелкой вниз нажата")
-        //             // Здесь можно добавить дополнительные действия при нажатии
-        //         }
-        //     }
-
-        //     // Эффект нажатия
-        //     states: [
-        //         State {
-        //             name: "pressed"
-        //             when: mouseArea.pressed
-        //             PropertyChanges {
-        //                 target: downArrowButton
-        //                 scale: 0.9
-        //             }
-        //         }
-        //     ]
-
-        //     transitions: [
-        //         Transition {
-        //             from: ""
-        //             to: "pressed"
-        //             NumberAnimation {
-        //                 properties: "scale"
-        //                 duration: 100
-        //             }
-        //         },
-        //         Transition {
-        //             from: "pressed"
-        //             to: ""
-        //             NumberAnimation {
-        //                 properties: "scale"
-        //                 duration: 100
-        //             }
-        //         }
-        //     ]
-        // }
-
     }
 }

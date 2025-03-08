@@ -6,6 +6,7 @@ Item {
     property int y_pos: 0
     property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
     property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
 
     Rectangle {
         id: left_panel
@@ -31,6 +32,8 @@ Item {
                 ListElement { name: "Дата и время" }
                 ListElement { name: "Кастомизация" }
                 ListElement { name: "Хранилище" }
+                ListElement { name: "Умные будильники" }
+                ListElement { name: "Об устройстве" }
             }
 
             delegate: Rectangle {
@@ -41,7 +44,7 @@ Item {
                 radius: 15
                 color: ListView.isCurrentItem ? Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0) : "transparent"
 
-                anchors.margins: 15
+                anchors.margins: 10
 
                 Image {
                     id: image
@@ -97,12 +100,22 @@ Item {
                             loader.source = "Storage_Page.qml";
                             loader.item.backgroundColor = backgroundColor
                             loader.item.textColor = textColor
+                        } else if (model.name === "Умные будильники") {
+                            loader.source = "Alarm_Page.qml";
+                            loader.item.backgroundColor = backgroundColor
+                            loader.item.textColor = textColor
+                        } else if (model.name === "Об устройстве") {
+                            loader.source = "About_Page.qml";
+                            loader.item.backgroundColor = backgroundColor
+                            loader.item.textColor = textColor
                         }
                     }
                 }
             }
         }
     }
+
+
 
     Rectangle {
         x: settings.x_pos
@@ -137,4 +150,12 @@ Item {
             loader.item.textColor = settings.textColor
         }
     }
+    Rectangle {
+        x: 1024/3
+        y: 0
+        width: 2
+        height: 600
+        color: settings.separatorColor
+    }
+
 }
