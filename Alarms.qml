@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls
 import GlobalTime 1.0
-
+import QtQuick.VirtualKeyboard 2.15
 
 
 
@@ -74,27 +74,55 @@ Item {
             anchors.fill: parent
             anchors.margins: 10
             spacing: 10
-
-            Rectangle {
-                id: header
-                width: parent.width
+            Row{
                 height: 50
-                radius: 15
-                color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+                spacing: 10
+                width: parent.width
+                Rectangle {
+                    id: header
+                    width: 157
+                    height: 50
+                    radius: 15
+                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
 
-                FontLoader {
-                    id: castFont
-                    source: "ofont.ru_Nunito.ttf"
+                    FontLoader {
+                        id: castFont
+                        source: "ofont.ru_Nunito.ttf"
+                    }
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "Через "+ diff.h+"ч " +diff.m+"мин"
+                        font.pointSize: 12
+                        font.family: castFont.name
+                        color: "white"
+                    }
+                }
+                Rectangle{
+                    width: 50
+                    height: 50
+                    color: "#b5d96a27"
+                    radius: 15
+                    Text{
+                        color: "#ffffff"
+                        text: "+"
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.pointSize: 34
+                        font.family: castFont.name
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            alarmPopup.open()
+                        }
+                    }
                 }
 
-                Text {
-                    anchors.centerIn: parent
-                    text: "Через "+ diff.h+"ч " +diff.m+"мин"
-                    font.pointSize: 14
-                    font.family: castFont.name
-                    color: "white"
-                }
             }
+
+
 
             Rectangle{
                 id: rec_page
@@ -110,7 +138,6 @@ Item {
                     model: mqttclient.alarms
                     snapMode: ListView.SnapToItem
                     delegate: Rectangle {
-                        id:rect
                         width: 236 - 10* 2
                         height: 94
                         radius: 15
@@ -153,8 +180,6 @@ Item {
                             onCheckedChanged: {
                                 mqttclient.update_alarm_status(modelData["id"], list_switch.checked)
                             }
-
-
                         }
                         Text {
                             // x: 10
@@ -169,15 +194,71 @@ Item {
                             elide: Text.ElideRight
                             width: parent.width - 10
                         }
+                        MouseArea {
+                            anchors.fill: parent
 
+                            // Используем PressAndHold для определения долгого нажатия
+                            onPressAndHold: {
+                                alarmDialog.open()
+                            }
+                        }
                     }
+                }
+            }
+        }
+    }
+    Popup {
+        id: alarmDialog
+        modal: true
+        dim: true
+        focus: true
+        closePolicy: Popup.NoAutoClose
+        width:  1024
+        height:  600
+        background: Rectangle{
+            anchors.fill: parent
+            anchors.margins: 100
+            color: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0)
+            radius: 15
 
+            Column {
+                id: column
+                anchors.fill: parent
+                anchors.leftMargin: 10
+                anchors.rightMargin: 10
+                anchors.topMargin: 10
+                anchors.bottomMargin: 10
+                spacing: 4
 
+                Text {
+                    id: _text
+                    color: "#ffffff"
+                    text: qsTr("Название:")
+                    font.pixelSize: 18
+                }
+
+                Rectangle {
+                    id: rectangle
+                    width: 417
+                    height: 30
+                    color: "#7da5a5a5"
+                    radius: 10
+                    TextInput {
+                        id: textInput
+                        color: "#ffffff"
+                        text: qsTr("Введите название")
+                        anchors.fill: parent
+                        anchors.leftMargin: 6
+                        font.letterSpacing: 0
+                        font.pixelSize: 16
+                        verticalAlignment: Text.AlignVCenter
+                    }
                 }
             }
         }
     }
 }
+
 
 
 

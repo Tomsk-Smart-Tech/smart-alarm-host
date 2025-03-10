@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Window 2.15
 
 Item {
     property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
@@ -20,5 +21,6 @@ Item {
             font.pointSize:30
             color: textColor
         }
+        //CumSquad OS / KumkwatOS 1.0
     }
 }

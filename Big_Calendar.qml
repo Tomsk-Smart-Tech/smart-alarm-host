@@ -69,6 +69,47 @@ Item {
                 }
                 font.family: castFont.name
             }
+            Rectangle {
+                width: 50
+                height: 50
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
+                color: "transparent"
+
+                Text {
+                    anchors.centerIn: parent
+                    text: "◀"
+                    font.pixelSize: 36
+                    color: calendar.textColor
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {}
+                }
+            }
+
+            Rectangle {
+                width: 50
+                height: 50
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.rightMargin: 10
+                color: "transparent"
+
+                Text {
+                    anchors.centerIn: parent
+                    text: "▶"
+                    font.pixelSize: 36
+                    color: calendar.textColor
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {}
+                }
+            }
         }
         Rectangle {
             x: 16
@@ -149,7 +190,7 @@ Item {
                             Repeater{
                                 model: mqttclient.check_eventOnDay(return_timestamp_of_day(firstday,dayText.text-1).getTime())
                                 Rectangle{
-                                    width: 14
+                                    width: 50
                                     height: 14
                                     radius: 7
                                     border.color: "#bcccf7"
@@ -201,6 +242,20 @@ Item {
                         radius: 15
                         width: parent.width
                         height: column.implicitHeight + 24
+                        // Canvas{
+                        //     id: canvas
+                        //     width: parent.width
+                        //     height: parent.height
+                        //     onPaint: {
+                        //         var ctx = canvas.getContext("2d");
+                        //         ctx.strokeStyle = "#9DAEE4";
+                        //         ctx.lineWidth = 2;
+                        //         ctx.beginPath();
+                        //         ctx.moveTo(12, 85);
+                        //         ctx.lineTo(12 + 512 - 32*2 + 8, 85);
+                        //         ctx.stroke();
+                        //     }
+                        // }
                         Column {
                             id: column
                             width: parent.width
@@ -239,6 +294,7 @@ Item {
                                         wrapMode: Text.Wrap
                                         font.family: castFont.name
                                     }
+                                    // "" "" ""
                                 }
 
                                 Column {
@@ -261,7 +317,7 @@ Item {
                             Text {
                                 id: description
                                 width: parent.width
-                                text: modelData["desc"]
+                                text:  modelData["desc"] !== "" ? modelData["location"] : "Нет описания"
                                 wrapMode: Text.Wrap
                                 color: calendar.textColor
                                 font.pixelSize: 24

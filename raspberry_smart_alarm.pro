@@ -60,7 +60,8 @@ Big_Calendar.qml \
 Wi-Fi \
 Mini_Events.qml \
 icon_6.png\
-icon_7.png
+icon_7.png\
+AlarmScreen.qml
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -97,6 +98,7 @@ DISTFILES += \
     Storage_Page.qml \
     Test.qml \
     Big_Calendar.qml \
+    Test_Poput.qml \
     humidity.png\
     temp.png\
     Mini_Events.qml

@@ -45,7 +45,7 @@ Item {
                 text: tempreture
                 font.family: castFont.name
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 32
+                font.pointSize: 28
                 color: sensors.textColor
 
             }
@@ -89,7 +89,7 @@ Item {
                 text: humidity_text
                 font.family: castFont.name
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 32
+                font.pointSize: 28
                 color: sensors.textColor
             }
 
