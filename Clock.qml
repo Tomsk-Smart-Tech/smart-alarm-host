@@ -23,6 +23,7 @@ Item {
         running: true
         repeat: true
         onTriggered: {
+
             // Обновляем currentDateTime каждую секунду
             // currentDateTime = new Date(clock.currentDateTime.getTime() + 1000)
             GlobalTime.currentDateTime = new Date(GlobalTime.currentDateTime.getTime() + 1000)
@@ -31,6 +32,12 @@ Item {
                 weatherr.request_position() //обновляю погоду каждый час
                 graphCanvas.requestPaint();
             }
+            if (GlobalTime.currentDateTime.getSeconds() % 10 === 0) {
+                mqttclient.publish_sensor_data(dht22.temp,dht22.humidity)
+            }
+            // if (GlobalTime.currentDateTime.getSeconds() % 10 === 0) {
+            //     mqttclient.publish_alarms()
+            // }
         }
     }
 

@@ -43,7 +43,11 @@ resources.files = \
     Big_Calendar.qml\
     Status_bar.qml\
     Mini_Events.qml\
-    Wi-Fi
+    Wi-Fi \
+    Mini_Events.qml\
+    Mini_Events.qml \
+    icon_6.png\
+    icon_7.png
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -65,8 +69,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    AlarmScreen.qml \
     Big_Weather.qml \
-    GlobalTime.qml
+    GlobalTime.qml \
+    About_Page.qml \
+    Alarm_Page.qml \
 
 HEADERS += \
     dht22sensor.h \

@@ -10,8 +10,6 @@
 #include "dht22sensor.h"
 
 
-// #include <qtwebengineglobal.h>
-
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);

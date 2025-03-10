@@ -85,9 +85,15 @@ public:
     Q_INVOKABLE QVariantList get_alarms() const {return m_alarms;}
     Q_INVOKABLE QVariantList get_events_onDay() const {return m_events_onDay;}
 
-    Q_INVOKABLE void alarm_start();
+    Q_INVOKABLE void alarm_start(int id);
     Q_INVOKABLE void get_events_onDay(qint64 timestamp);
     Q_INVOKABLE int check_eventOnDay(qint64 timestamp);
+
+    Q_INVOKABLE void publish_sensor_data(QString temp,QString hum);
+    Q_INVOKABLE void publish_alarms();
+
+    Q_INVOKABLE void update_alarm_status(int id,bool status);
+
 signals:
     void messageReceived();
     void connectionStatusChanged();

@@ -146,17 +146,21 @@ boost::asio::awaitable<bool> subscribe(auto& client, MqttClient* parent) {
     // Список топиков для подписки
     std::vector<boost::mqtt5::subscribe_topic> sub_topics = {
         { "mqtt/test", { boost::mqtt5::qos_e::exactly_once,
-                            boost::mqtt5::no_local_e::no,
+                            boost::mqtt5::no_local_e::yes,
                             boost::mqtt5::retain_as_published_e::retain,
                             boost::mqtt5::retain_handling_e::send } },
         { "mqtt/events", { boost::mqtt5::qos_e::at_least_once,
-                            boost::mqtt5::no_local_e::no,
+                            boost::mqtt5::no_local_e::yes,
                             boost::mqtt5::retain_as_published_e::retain,
                             boost::mqtt5::retain_handling_e::send } },
         { "mqtt/alarms", { boost::mqtt5::qos_e::at_most_once,
-                            boost::mqtt5::no_local_e::no,
+                            boost::mqtt5::no_local_e::yes,
                             boost::mqtt5::retain_as_published_e::retain,
-                            boost::mqtt5::retain_handling_e::send } }
+                            boost::mqtt5::retain_handling_e::send } },
+        { "mqtt/sensors", { boost::mqtt5::qos_e::at_most_once,
+                         boost::mqtt5::no_local_e::yes,
+                         boost::mqtt5::retain_as_published_e::retain,
+                         boost::mqtt5::retain_handling_e::send } }
     };
     // Subscribe to a single Topic.
     auto&& [ec, sub_codes, sub_props] = co_await client.async_subscribe(
@@ -283,17 +287,7 @@ MqttClient::MqttClient(QObject *parent):
         }
         );
 
-    // client.async_publish<boost::mqtt5::qos_e::at_most_once> (
-    //     "mqtt/test", "Hello world!",
-    //     boost::mqtt5::retain_e::no,         // Retain
-    //     boost::mqtt5::publish_props{},      // Свойства публикации
-    //     [this](boost::system::error_code ec) {
-    //         if (ec) {
-    //             std::cerr << "Publish error: " << ec.message() << std::endl;
-    //         }
-    //         client.async_disconnect(boost::asio::detached);
-    //     }
-    //     );
+
 
     //ioc.run();
     iocThread = std::thread([this]() { ioc.run(); });
@@ -330,18 +324,21 @@ void MqttClient::setAlarms(const QVariantList &newAlarms) {
     emit alarmschanged();
 }
 
-Q_INVOKABLE void MqttClient::alarm_start()
+Q_INVOKABLE void MqttClient::alarm_start(int id)
 {
-    if(!m_alarms.isEmpty())
+    for (int i = 0; i < m_alarms.size(); ++i)
     {
-        m_alarms.removeFirst();
-        emit alarmschanged();
-
-        QJsonArray jsonArray=alarms_to_json(m_alarms);
-        QJsonDocument jsonDoc(jsonArray);
-        save_data(jsonDoc,"alarms");
-
+        if (m_alarms[i].toMap()["id"].toInt() == id) {
+            m_alarms.removeAt(i);
+            break;
+        }
     }
+
+    emit alarmschanged();
+    QJsonArray jsonArray=alarms_to_json(m_alarms);
+    QJsonDocument jsonDoc(jsonArray);
+    save_data(jsonDoc,"alarms");
+    publish_alarms();
 }
 
 Q_INVOKABLE void MqttClient::get_events_onDay(qint64 timestamp)
@@ -396,4 +393,59 @@ Q_INVOKABLE int MqttClient::check_eventOnDay(qint64 timestamp)
     }
 
     return result;
+}
+
+
+Q_INVOKABLE void MqttClient::publish_sensor_data(QString temp,QString hum)
+{
+    std::string data=(temp+" "+hum).toStdString();;
+    client.async_publish<boost::mqtt5::qos_e::at_most_once> (
+        "mqtt/sensors", data,
+        boost::mqtt5::retain_e::no,
+        boost::mqtt5::publish_props{},
+        [this](boost::system::error_code ec) {
+            if (ec) {
+                std::cerr << "Publish error: " << ec.message() << std::endl;
+            }
+        }
+        );
+    qDebug()<<"отправлено: "<<temp<<" "<<hum;
+}
+
+
+Q_INVOKABLE void MqttClient::publish_alarms()
+{
+    QJsonArray jsonArray=alarms_to_json(m_alarms);
+    QJsonDocument jsonDoc(jsonArray);
+    std::string jsonString = jsonDoc.toJson(QJsonDocument::Compact).toStdString();
+    client.async_publish<boost::mqtt5::qos_e::at_most_once> (
+        "mqtt/alarms", jsonString,
+        boost::mqtt5::retain_e::no,
+        boost::mqtt5::publish_props{},
+        [this](boost::system::error_code ec) {
+            if (ec) {
+                std::cerr << "Publish error: " << ec.message() << std::endl;
+            }
+        }
+        );
+    qDebug()<<"отправлено: "<<jsonString;
+}
+
+Q_INVOKABLE void MqttClient::update_alarm_status(int id,bool status)
+{
+    for (int i = 0; i < m_alarms.size(); ++i)
+    {
+        QVariantMap map = m_alarms[i].toMap();
+        if (id == map["id"].toInt())
+        {
+            map["isEnabled"] = status;
+            m_alarms[i] = map;
+            break;
+        }
+    }
+
+    QJsonArray jsonArray=alarms_to_json(m_alarms);
+    QJsonDocument jsonDoc(jsonArray);
+    save_data(jsonDoc,"alarms");
+    publish_alarms();
 }

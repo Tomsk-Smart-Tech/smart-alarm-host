@@ -1,18 +1,29 @@
 import QtQuick 2.0
 import QtQuick.Controls
 import GlobalTime 1.0
+
+
+
+
 Item {
     id: alarm
     property int x_pos: 0
     property int y_pos: 0
     property var alarms: valueOf
 
+    AlarmScreen {
+        id: alarmPopup
+    }
+
     function getTimeDiff(globaldate,first_alarm)
     {
+        if (!first_alarm) {
+            return { h: '-', m: '-' };  // Возвращаем 0, если нет времени для будильника
+        }
         var hours = globaldate.getHours();
         var minutes = globaldate.getMinutes();
 
-        var alarmParts = first_alarm.split(":");
+        var alarmParts = first_alarm.time.split(":");
         var alarmHours = parseInt(alarmParts[0],10);
         var alarmMinutes = parseInt(alarmParts[1],10);
 
@@ -33,12 +44,23 @@ Item {
         var rminutes = difference % 60;
         if(rhours==24 && rminutes==0)
         {
-            mqttclient.alarm_start()
+            mqttclient.alarm_start(first_alarm.id)
+            alarmPopup.show()
+
         }
         return { h: rhours, m: rminutes };
     }
 
-    property var diff:getTimeDiff(GlobalTime.currentDateTime,mqttclient.alarms[0]["time"])
+
+
+    property var diff: getTimeDiff(
+        GlobalTime.currentDateTime,
+        mqttclient.alarms?.find(alarm => alarm["isEnabled"] === true)
+    )
+
+    // property var diff:getTimeDiff(GlobalTime.currentDateTime,mqttclient.alarms?.[0]?.["time"])
+
+
 
     Rectangle {
         id: rec2
@@ -127,6 +149,12 @@ Item {
                                     color: list_switch.down ? Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.5) : Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1)
                                 }
                             }
+
+                            onCheckedChanged: {
+                                mqttclient.update_alarm_status(modelData["id"], list_switch.checked)
+                            }
+
+
                         }
                         Text {
                             // x: 10
