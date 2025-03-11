@@ -5,29 +5,28 @@ Item {
     property int x_pos: 0
     property int y_pos: 0
     property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
-    property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
 
     Rectangle {
         id: left_panel
         x: settings.x_pos
-        y: settings.y_pos + 100
+        y: settings.y_pos + 50
         width: 1024 / 3
-        height: 600 - 100
+        height: 600 - 50
         color: settings.backgroundColor
 
         ListView {
             id: listSettings
             visible: true
             anchors.margins: 15
-            anchors.bottomMargin: 0
+            anchors.bottomMargin: 15
             anchors.fill: parent
             spacing: 5
             clip: true
 
             model: ListModel {
                 ListElement { name: "Wi-fi" }
-                ListElement { name: "Bluetooth" }
                 ListElement { name: "Звук" }
                 ListElement { name: "Дата и время" }
                 ListElement { name: "Кастомизация" }
@@ -37,14 +36,12 @@ Item {
             }
 
             delegate: Rectangle {
-                id: rect
-
                 width: ListView.view.width
-                height: ListView.view.height / 6
+                height: (ListView.view.height-35) / 7
                 radius: 15
                 color: ListView.isCurrentItem ? Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0) : "transparent"
 
-                anchors.margins: 10
+                anchors.margins: 8
 
                 Image {
                     id: image
@@ -52,8 +49,9 @@ Item {
                     width: 50
                     height: 50
                     fillMode: Image.PreserveAspectFit
-                    x: 15
-                    y: 15
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
                 }
 
                 FontLoader {
@@ -63,51 +61,36 @@ Item {
 
                 Text {
                     text: model.name
-                    font.pointSize: 20
+                    font.pointSize: 18
                     color: settings.textColor
                     font.family: castFont.name
                     anchors.left: parent.left
-                    anchors.leftMargin: 90
+                    anchors.leftMargin: 75
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        listSettings.currentIndex = index
-                        if (model.name === "Wi-fi") {
-                            loader.source = "Wi-Fi_Page.qml";
-                            loader.item.backgroundColor = backgroundColor
-                            loader.item.textColor = textColor
-                            terminal.scanNets()
-                        } else if (model.name === "Bluetooth") {
-                            loader.source = "Bluetooth_Page.qml";
-                            loader.item.backgroundColor = backgroundColor
-                            loader.item.textColor = textColor
-                        } else if (model.name === "Звук") {
-                            loader.source = "Sound_Page.qml";
-                            loader.item.backgroundColor = backgroundColor
-                            loader.item.textColor = textColor
-                        } else if (model.name === "Дата и время") {
-                            loader.source = "Date_and_time_Page.qml";
-                            loader.item.backgroundColor = backgroundColor
-                            loader.item.textColor = textColor
-                        } else if (model.name === "Кастомизация") {
-                            loader.source = "Color_Page.qml";
-                            loader.item.backgroundColor = backgroundColor
-                            loader.item.textColor = textColor
-                        } else if (model.name === "Хранилище") {
-                            loader.source = "Storage_Page.qml";
-                            loader.item.backgroundColor = backgroundColor
-                            loader.item.textColor = textColor
-                        } else if (model.name === "Умные будильники") {
-                            loader.source = "Alarm_Page.qml";
-                            loader.item.backgroundColor = backgroundColor
-                            loader.item.textColor = textColor
-                        } else if (model.name === "Об устройстве") {
-                            loader.source = "About_Page.qml";
-                            loader.item.backgroundColor = backgroundColor
-                            loader.item.textColor = textColor
+                        listSettings.currentIndex = index;
+                        let pages = {
+                            "Wi-fi": "Wi-Fi_Page.qml",
+                            "Звук": "Sound_Page.qml",
+                            "Дата и время": "Date_and_time_Page.qml",
+                            "Кастомизация": "Color_Page.qml",
+                            "Хранилище": "Storage_Page.qml",
+                            "Умные будильники": "Alarm_Page.qml",
+                            "Об устройстве": "About_Page.qml"
+                        };
+
+                        if (model.name in pages) {
+                            loader.source = pages[model.name];
+                            loader.item.backgroundColor = backgroundColor;
+                            loader.item.textColor = textColor;
+
+                            if (model.name === "Wi-fi") {
+                                terminal.scanNets();
+                            }
                         }
                     }
                 }
@@ -118,10 +101,10 @@ Item {
 
 
     Rectangle {
-        x: settings.x_pos
-        y: settings.y_pos
+        x: 0
+        y: 0
         width: 1024 / 3
-        height: 100
+        height: 55
         color: settings.backgroundColor
 
         FontLoader {
@@ -132,7 +115,7 @@ Item {
         Text {
             font.family: castFont1.name
             text: "Настройки"
-            font.pointSize: 30
+            font.pointSize: 27
             color: settings.textColor
             anchors.centerIn: parent
         }

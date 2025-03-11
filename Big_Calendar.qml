@@ -190,9 +190,9 @@ Item {
                             Repeater{
                                 model: mqttclient.check_eventOnDay(return_timestamp_of_day(firstday,dayText.text-1).getTime())
                                 Rectangle{
-                                    width: 50
-                                    height: 14
-                                    radius: 7
+                                    width: 40
+                                    height: 10
+                                    radius: 5
                                     border.color: "#bcccf7"
                                     border.width: 2
                                     color: "#739ef0"

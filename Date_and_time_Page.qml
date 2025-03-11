@@ -4,9 +4,13 @@ import QtQuick.Controls
 Item {
     id: page
     property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
-    property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
     property ListModel cityModel: ListModel {}
+
+    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
+    property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
 
     Rectangle {
         id: rec
@@ -30,8 +34,8 @@ Item {
 
         ScrollView {
             anchors.fill: parent
-            anchors.leftMargin: 12
-            anchors.rightMargin: 12
+            anchors.leftMargin: 20
+            anchors.rightMargin: 20
             anchors.topMargin: 74
 
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
@@ -52,6 +56,7 @@ Item {
                     id: row
                     width: parent.width
                     height: 40
+                    spacing: 0
                     Text {
                         text: qsTr("Регион:")
                         anchors.verticalCenter: parent.verticalCenter
@@ -93,6 +98,8 @@ Item {
 
                         contentItem: Text {
                             text: regionComboBox.currentText
+                            anchors.left: parent.left
+                            anchors.leftMargin: 8
                             color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
                             font.pixelSize: 24
                             verticalAlignment: Text.AlignVCenter
@@ -100,24 +107,23 @@ Item {
                         }
 
                         delegate: Item {
+
                             width: 500
                             height: 40
                             Rectangle {
+                                id: del
                                 anchors.fill: parent
-                                color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+                                color: regionComboBox.highlightedIndex === index ? page.choiceColor : page.backgroundColor
 
-                                Row {
-                                    spacing: 10
-                                    anchors.verticalCenter: parent.verticalCenter
-
-                                    Text {
-                                        text: model.region // Отображаем имя региона
-                                        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-                                        font.pixelSize: 24
-                                        verticalAlignment: Text.AlignVCenter
-                                        font.family: castFont.name
-                                    }
+                                Text {
+                                    text: model.region // Отображаем имя региона
+                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                    font.pixelSize: 24
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 8
+                                    font.family: castFont.name
                                 }
+
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -168,7 +174,7 @@ Item {
                         height: 40
                         anchors.right: parent.right
                         textRole: "name"
-                        model: cityModel
+                        model: page.cityModel
 
                         background: Rectangle {
                             color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
@@ -186,7 +192,7 @@ Item {
                             Text {
                                 anchors.centerIn: parent
                                 text: "▼"
-                                color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+                                color: page.choiceColor
                                 font.family: castFont.name
                                 font.pixelSize: 24
                             }
@@ -194,7 +200,9 @@ Item {
 
                         contentItem: Text {
                             text: cityComboBox.currentText
-                            color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                            anchors.left: parent.left
+                            anchors.leftMargin: 8
+                            color: page.textColor
                             font.pixelSize: 24
                             verticalAlignment: Text.AlignVCenter
                             font.family: castFont.name
@@ -205,20 +213,17 @@ Item {
                             height: 40
                             Rectangle {
                                 anchors.fill: parent
-                                color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+                                color: cityComboBox.highlightedIndex === index ? page.choiceColor : page.backgroundColor
 
-                                Row {
-                                    spacing: 10
-                                    anchors.verticalCenter: parent.verticalCenter
-
-                                    Text {
-                                        text: model.name // Отображаем имя города
-                                        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-                                        font.pixelSize: 24
-                                        verticalAlignment: Text.AlignVCenter
-                                        font.family: castFont.name
-                                    }
+                                Text {
+                                    text: model.name // Отображаем имя города
+                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                    font.pixelSize: 24
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 8
+                                    font.family: castFont.name
                                 }
+
 
                                 MouseArea {
                                     anchors.fill: parent

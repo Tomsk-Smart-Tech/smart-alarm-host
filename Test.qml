@@ -1,53 +1,104 @@
-
-import QtQuick 2.0
+import QtQuick
 
 Item {
-        width: 400
-        height: 300
+    id: alarmPopup
+    width:  1024
+    height:  600
 
-        ListView {
-            id: settingsList
-            anchors.fill: parent
-            model: ListModel {
-                ListElement { name: "Wi-Fi" }
-                ListElement { name: "Bluetooth" }
-                ListElement { name: "Звук" }
-                ListElement { name: "Дата и время" }
-                ListElement { name: "Кастомизация" }
-                ListElement { name: "Хранилище" }
-            }
+    Rectangle {
+        id: rectangle2
+        anchors.fill: parent
+        color: Qt.rgba(0/255, 0/255, 0/255, 0.8)
 
-            delegate: Rectangle {
-                id: rect
-                width: parent.width
-                height: 50
-                color: ListView.isCurrentItem ? "#2196F3" : "transparent" // Синий фон для выбранного элемента
-                border.color: ListView.isCurrentItem ? "#1976D2" : "#E0E0E0" // Бордюр для выбранного элемента
-                radius: 5
+        FontLoader {
+            id: castFont
+            source: "ofont.ru_Nunito.ttf"
+        }
+        Column {
+            id: column
+            anchors.centerIn: parent
+            spacing: 78
+            Text {
+                width: 216
+                text: "Будильник"
+                font.pixelSize: 50
+                horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-
-                Row {
-                    anchors.fill: parent
-                    spacing: 10
-
+                color: "white"
+                font.family: castFont.name
+            }
+            Column{
+                id: column1
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 12
+                Rectangle{
+                    id: rectangle
+                    width: 350
+                    height: 70
+                    color: "#545454"
+                    radius: 25
+                    border.width: 0
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     Text {
-                        text: model.name
-                        color: ListView.isCurrentItem ? "white" : "#333333" // Белый цвет текста для выбранного
-                        anchors.verticalCenter: parent.verticalCenter
+                        id: _text1
+                        color: "#ffffff"
+                        text: qsTr("Отложить на 15 мин.")
+                        anchors.fill: parent
+                        font.pixelSize: 30
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: castFont.name
                     }
                 }
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        settingsList.currentIndex = index // Установить выбранный элемент
+                Rectangle{
+                    id: rectangle1
+                    width: 300
+                    height: 70
+                    color: "#944f1a"
+                    radius: 25
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    Text {
+                        id: _text2
+                        color: "#e4e4e4"
+                        text: qsTr("ОСТАНОВИТЬ")
+                        anchors.fill: parent
+                        font.pixelSize: 30
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: castFont.name
                     }
                 }
-            }
-
-            highlight: Rectangle { // Эффект подсветки при смене
-                color: "transparent"
             }
         }
+
+        Column {
+            id: column2
+            anchors.top: parent.top
+            anchors.topMargin: 40
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Text {
+                id: _text
+                color: "#aaaaaa"
+                text: qsTr("12 Марта")
+                font.pixelSize: 30
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.family: castFont.name
+            }
+
+            Text {
+                id: _text3
+                color: "#ffffff"
+                text: qsTr("3:00")
+                font.pixelSize: 60
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.family: castFont.name
+            }
+        }
+    }
 }

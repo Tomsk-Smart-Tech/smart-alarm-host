@@ -60,7 +60,6 @@ Big_Calendar.qml \
 Wi-Fi \
 Mini_Events.qml \
 icon_6.png\
-icon_7.png\
 AlarmScreen.qml
 
 resources.prefix = /$${TARGET}
