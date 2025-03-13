@@ -91,6 +91,9 @@ Item {
                             if (model.name === "Wi-fi") {
                                 terminal.scanNets();
                             }
+                            else if(model.name === "Звук"){
+                                terminal.scanSongs(songsPath);
+                            }
                         }
                     }
                 }

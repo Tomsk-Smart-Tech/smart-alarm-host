@@ -47,7 +47,7 @@ resources.files = \
     Mini_Events.qml\
     Mini_Events.qml \
     icon_6.png\
-    icon_7.png
+
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources

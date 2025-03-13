@@ -25,23 +25,17 @@ Item {
         return newdate;
     }
 
-    // Функция для получения первого дня месяца
+    //  для получения первого дня месяца
     function getFirstDayOfWeek(date) {
         var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
         return firstDay === 0 ? 6 : firstDay - 1;
     }
 
-    // Функция для получения количества дней в месяце
+    // для получения количества дней в месяце
     function getDaysInMonth(date) {
         return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     }
 
-    function isCurrentDay(dayNumber) {
-        var today = GlobalTime.currentDateTime;
-        return (dayNumber === today.getDate() &&
-                GlobalTime.currentDateTime.getMonth() === today.getMonth() &&
-                GlobalTime.currentDateTime.getFullYear() === today.getFullYear());
-    }
     function getMonthName(date)
     {
         var days = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
@@ -86,7 +80,10 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {}
+                    onClicked:
+                    {
+                        firstday=new Date(firstday.setMonth(firstday.getMonth()-1))
+                    }
                 }
             }
 
@@ -107,7 +104,10 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {}
+                    onClicked:
+                    {
+                        firstday=new Date(firstday.setMonth(firstday.getMonth()+1))
+                    }
                 }
             }
         }
