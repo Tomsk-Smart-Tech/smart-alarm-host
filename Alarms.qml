@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls
 import GlobalTime 1.0
-import QtQuick.VirtualKeyboard 2.15
+//import QtQuick.VirtualKeyboard 2.15
 
 
 
@@ -18,7 +18,7 @@ Item {
     function getTimeDiff(globaldate,first_alarm)
     {
         if (!first_alarm) {
-            return { h: '-', m: '-' };  // Возвращаем 0, если нет времени для будильника
+            return { h: '-', m: '-' };
         }
         var hours = globaldate.getHours();
         var minutes = globaldate.getMinutes();
@@ -45,7 +45,7 @@ Item {
         if(rhours==24 && rminutes==0)
         {
             mqttclient.alarm_start(first_alarm.id)
-            alarmPopup.show()
+            alarmPopup.show(first_alarm)
 
         }
         return { h: rhours, m: rminutes };
@@ -115,7 +115,7 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            alarmPopup.open()
+                            alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["isEnabled"] === true))
                         }
                     }
                 }

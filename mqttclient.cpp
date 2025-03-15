@@ -409,7 +409,7 @@ Q_INVOKABLE void MqttClient::publish_sensor_data(QString temp,QString hum)
             }
         }
         );
-    qDebug()<<"отправлено: "<<temp<<" "<<hum;
+    //qDebug()<<"отправлено: "<<temp<<" "<<hum;
 }
 
 
@@ -428,7 +428,7 @@ Q_INVOKABLE void MqttClient::publish_alarms()
             }
         }
         );
-    qDebug()<<"отправлено: "<<jsonString;
+    //qDebug()<<"отправлено: "<<jsonString;
 }
 
 Q_INVOKABLE void MqttClient::update_alarm_status(int id,bool status)

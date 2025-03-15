@@ -102,15 +102,7 @@ Item {
                 width: parent.width
                 height: 40
 
-                model: ListModel {
-                    ListElement { text: "Мелодия 1" }
-                    ListElement { text: "Мелодия 2" }
-                    ListElement { text: "Мелодия 3" }
-                    ListElement { text: "Мелодия 4" }
-                    ListElement { text: "Мелодия 5" }
-                }
-
-                textRole: "text"  // Связываем с моделью
+                model: terminal.songs
 
                 background: Rectangle {
                     color: sound.choiceColor
@@ -157,7 +149,7 @@ Item {
                             // anchors.centerIn: parent
                             anchors.fill: parent
                             anchors.leftMargin: 8
-                            text: model.text
+                            text: modelData["songName"]
                             color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
                             font.pixelSize: 24
                             font.family: castFont.name
@@ -168,6 +160,8 @@ Item {
                         anchors.fill: parent
                         onClicked: {
                             soundComboBox.currentIndex = index
+                            console.log(modelData["songPath"])
+                            terminal.set_song(modelData["songPath"])
                             soundComboBox.popup.close()
                         }
                     }

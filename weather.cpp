@@ -1,5 +1,6 @@
 #include "weather.h"
 
+
 QString read_user_json(const QString key)
 {
     QDir currentDir = QDir::currentPath();
@@ -44,7 +45,6 @@ void write_user_json(const QString key,const QString newval)
     file.write(updatedJsonDoc.toJson());
     file.close();
 }
-
 
 Weather::Weather() : n_manager(new QNetworkAccessManager(this))
 {

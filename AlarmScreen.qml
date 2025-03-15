@@ -3,13 +3,32 @@ import QtQuick.Controls
 import QtMultimedia 6.0
 
 Popup {
-    id: alarmPopup
+    id: alarmPopup    
     modal: true
     dim: true
     focus: true
     closePolicy: Popup.NoAutoClose
     width:  1024
     height:  600
+
+    property var cur_date : GlobalTime.currentDateTime.getDate()+" "+getMonthName(GlobalTime.currentDateTime)
+    property var cur_time
+    property var label
+
+
+    function show(first_alarm)
+    {
+        cur_time=first_alarm.time
+        label=first_alarm.label
+        alarmPopup.open();
+        alarmSound.play();
+    }
+
+    function getMonthName(date)
+    {
+        var days = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"];
+        return days[date.getMonth()];
+    }
 
     background:         Rectangle {
         id: rectangle2
@@ -26,7 +45,7 @@ Popup {
             spacing: 78
             Text {
                 width: 216
-                text: "Будильник"
+                text: label
                 font.pixelSize: 50
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -96,7 +115,7 @@ Popup {
             Text {
                 id: _text
                 color: "#aaaaaa"
-                text: qsTr("12 Марта")
+                text: cur_date
                 font.pixelSize: 30
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.family: castFont.name
@@ -105,7 +124,7 @@ Popup {
             Text {
                 id: _text3
                 color: "#ffffff"
-                text: qsTr("3:00")
+                text: cur_time
                 font.pixelSize: 60
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -118,7 +137,7 @@ Popup {
     MediaPlayer {
         id: alarmSound
         audioOutput: audioOutput
-        source: "file:///home/nikita/Downloads/alarmtest.mp3"
+        source: "file://"+terminal.cur_song
         loops: MediaPlayer.Infinite
     }
     AudioOutput {
@@ -126,10 +145,6 @@ Popup {
         volume: 1.0
     }
 
-    function show() {
-        alarmPopup.open();
-        alarmSound.play();
-    }
     // MouseArea {
     //     anchors.fill: parent
     //     onClicked: {

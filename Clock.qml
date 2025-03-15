@@ -30,7 +30,6 @@ Item {
             if (GlobalTime.currentDateTime.getMinutes() === 0 && GlobalTime.currentDateTime.getSeconds() === 0)
             {
                 weatherr.request_position() //обновляю погоду каждый час
-                graphCanvas.requestPaint();
             }
             if (GlobalTime.currentDateTime.getSeconds() % 10 === 0) {
                 mqttclient.publish_sensor_data(dht22.temp,dht22.humidity)
