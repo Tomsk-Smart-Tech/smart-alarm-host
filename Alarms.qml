@@ -10,6 +10,7 @@ Item {
     property int x_pos: 0
     property int y_pos: 0
     property var alarms: valueOf
+    property var popup: valueOf
 
     AlarmScreen {
         id: alarmPopup
@@ -138,6 +139,7 @@ Item {
                     model: mqttclient.alarms
                     snapMode: ListView.SnapToItem
                     delegate: Rectangle {
+                        id: rec
                         width: 236 - 10* 2
                         height: 94
                         radius: 15
@@ -148,6 +150,7 @@ Item {
                             source: "ofont.ru_Nunito.ttf"
                         }
                         Text {
+                            id: text3
                             anchors.left: parent.left
                             anchors.top: parent.top
                             anchors.leftMargin: 10
@@ -156,14 +159,28 @@ Item {
                             font.family: castFont1.name
                             color: "white"
                         }
-                        // MouseArea {
-                        //     anchors.fill: parent
-
-                        //     // Используем PressAndHold для определения долгого нажатия
-                        //     onPressAndHold: {
-                        //         alarmDialog.open()
-                        //     }
-                        // }
+                        SequentialAnimation {
+                            id: playAnimation
+                            PropertyAnimation {
+                                target: text3, text1, list_switch, rec
+                                property: "scale"
+                                duration: 50
+                                to: 0.8
+                            }
+                            PropertyAnimation {
+                                target:  text3, text1, list_switch, rec
+                                property: "scale"
+                                duration: 100
+                                to: 1
+                            }
+                        }
+                        MouseArea {
+                            width: parent.width/2
+                            height: parent.height
+                            onClicked: {
+                                alarm.popup.open()
+                            }
+                        }
                         Switch {
                             id: list_switch
                             x: 140
@@ -190,6 +207,7 @@ Item {
                             }
                         }
                         Text {
+                            id: text1
                             // x: 10
                             // y: 60
                             anchors.left: parent.left
@@ -214,24 +232,27 @@ Item {
     //     dim: true
     //     focus: true
     //     closePolicy: Popup.NoAutoClose | Popup.CloseOnPressOutside
-    //     background: Rectangle{
-    //         anchors.fill: parent
+
+    //     background: Rectangle {
+    //         anchors.centerIn: parent
+    //         width: 450 // Установи фиксированную ширину, если нужно
+    //         height: 200 // Установи фиксированную высоту, если нужно
     //         color: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0)
     //         radius: 15
+
     //         Column {
     //             id: column
     //             anchors.fill: parent
-    //             anchors.leftMargin: 10
-    //             anchors.rightMargin: 10
-    //             anchors.topMargin: 10
-    //             anchors.bottomMargin: 10
+    //             anchors.margins: 10
     //             spacing: 4
+
     //             Text {
     //                 id: _text
     //                 color: "#ffffff"
     //                 text: qsTr("Название:")
     //                 font.pixelSize: 18
     //             }
+
     //             Rectangle {
     //                 id: rectangle
     //                 width: 417
@@ -244,7 +265,6 @@ Item {
     //                     text: qsTr("Введите название")
     //                     anchors.fill: parent
     //                     anchors.leftMargin: 6
-    //                     font.letterSpacing: 0
     //                     font.pixelSize: 16
     //                     verticalAlignment: Text.AlignVCenter
     //                 }

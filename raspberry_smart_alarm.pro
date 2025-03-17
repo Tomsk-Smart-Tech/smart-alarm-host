@@ -6,6 +6,7 @@ QT += concurrent
 
 
 
+
 SOURCES += \
         linuxterminal.cpp \
         main.cpp \
@@ -60,7 +61,11 @@ Big_Calendar.qml \
 Wi-Fi \
 Mini_Events.qml \
 icon_6.png\
-AlarmScreen.qml
+AlarmScreen.qml \
+Kumkwat.png \
+KumkwatNew.png \
+Mini_Music.qml \
+pyro.png
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -91,6 +96,7 @@ DISTFILES += \
     Date_and_time_Page.qml \
     InitialPage.qml \
     Mini_Events.qml \
+    Mini_Music.qml \
     Sensors.qml \
     Sound_Page.qml \
     Status_bar.qml \
@@ -100,7 +106,7 @@ DISTFILES += \
     Test_Poput.qml \
     humidity.png\
     temp.png\
-    Mini_Events.qml
+
 
 
 

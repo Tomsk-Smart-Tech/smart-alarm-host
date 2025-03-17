@@ -30,7 +30,7 @@ Popup {
         return days[date.getMonth()];
     }
 
-    background:         Rectangle {
+    background: Rectangle {
         id: rectangle2
         anchors.fill: parent
         color: Qt.rgba(0/255, 0/255, 0/255, 0.8)
@@ -45,7 +45,7 @@ Popup {
             spacing: 78
             Text {
                 width: 216
-                text: label
+                text: alarmPopup.label
                 font.pixelSize: 50
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -115,7 +115,7 @@ Popup {
             Text {
                 id: _text
                 color: "#aaaaaa"
-                text: cur_date
+                text: alarmPopup.cur_date
                 font.pixelSize: 30
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.family: castFont.name
@@ -124,7 +124,7 @@ Popup {
             Text {
                 id: _text3
                 color: "#ffffff"
-                text: cur_time
+                text: alarmPopup.cur_time
                 font.pixelSize: 60
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -143,6 +143,12 @@ Popup {
     AudioOutput {
         id: audioOutput
         volume: 1.0
+    }
+
+    Rectangle {
+        id: rectangle3
+        color: "#ffffff"
+        anchors.fill: parent
     }
 
     // MouseArea {

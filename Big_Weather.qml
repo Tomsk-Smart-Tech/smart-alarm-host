@@ -502,26 +502,26 @@ Item {
                             anchors.right: parent.right
                             anchors.bottom: parent.bottom
                             anchors.rightMargin: 0
-                            anchors.bottomMargin: 14
+                            anchors.bottomMargin: 8
                             horizontalAlignment: Text.AlignHCenter
                             font.bold: false
                             font.pointSize: 20
                             color: weather.textColorSecond
                             font.family: castFont.name
                         }
-                        // Canvas {
-                        //     anchors.fill: parent
-                        //     onPaint: {
-                        //         var ctx = getContext("2d");
-                        //         ctx.strokeStyle = "#757575";
-                        //         ctx.lineWidth = 2;
-                        //         ctx.beginPath();
-                        //         var y = 16 + 80 + 16;
-                        //         ctx.moveTo(16, y);
-                        //         ctx.lineTo(236 - 16, y);
-                        //         ctx.stroke();
-                        //     }
-                        // }
+                        Canvas {
+                            anchors.fill: parent
+                            onPaint: {
+                                var ctx = getContext("2d");
+                                ctx.strokeStyle = "#757575";
+                                ctx.lineWidth = 2;
+                                ctx.beginPath();
+                                var y = 16 + 80 + 16+ 16;
+                                ctx.moveTo(16, y);
+                                ctx.lineTo(236 - 16, y);
+                                ctx.stroke();
+                            }
+                        }
 
                         Column {
                             id: column1
@@ -656,6 +656,19 @@ Item {
                                 font.pointSize: 24
                                 color: weather.textColorSecond
                                 font.family: castFont.name
+                            }
+                        }
+                        Canvas {
+                            anchors.fill: parent
+                            onPaint: {
+                                var ctx = getContext("2d");
+                                ctx.strokeStyle = "#757575";
+                                ctx.lineWidth = 2;
+                                ctx.beginPath();
+                                var y = 16 + 80 + 16 + 16;
+                                ctx.moveTo(16, y);
+                                ctx.lineTo(236 - 16, y);
+                                ctx.stroke();
                             }
                         }
                         Text {
