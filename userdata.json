@@ -1,4 +1,10 @@
 {
-    "city": "Астрахань",
+    "city": "Томск",
+    "current_song": "/home/nikita/Downloads/alarmtest.mp3",
+    "spotify_access_token": "BQB1cqXLb6D5DE5IYIBqEzFGQZoIpTT-8CRW1-wAsGZj9T_31rGydDmLbBOv-5160rHp4x-nqTGqxh1pJHTb51z3YOaYzIdbPGo23It_i1whi_98WoLl0M8BNcHst1l54f34u3JbyyZhhW4FX_JyaTJbMcR27PKiXM6wHoNXuzA_mIWg5HhV38zpqX8oJl7ceHdNhG7M-zcRN_Ee3ETCzVZW5M13adGtcbeD6qtTpUnUgWz-Rr6w0q7zDHixY4Aecl614OkFXNi4Jm8BZtjwAx01CM9jg1urLXikMR9EwV89EtJup9QdfuPKQNpYlrRSngSDJoPclHlFTZzvRjiuggVPjdnv6gLs6WlTicUjJ_018tbVCEA",
+    "spotify_clientID": "7a6a3b51c2404b26beb7273c142f4a86",
+    "spotify_clientSecret": "afcf740bc2be470e9ae65c888d49a197",
+    "spotify_refresh_token": "AQD07PPkfbbE5SCkyZdYNnF_RvW7reUk2wyV-dX0YemnGRO0aY26PS7iFCg64TgFcW4VMGYKIaTxv2cxE0MtQ38sQp_V26dUENlO0vc_cWq00X0x5l8CtnvsKJg-zPEGOQc",
+    "spotify_scope": "user-read-private%20user-read-email%20user-read-playback-state%20user-modify-playback-state%20user-read-currently-playing%20user-read-recently-played%20user-top-read%20playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20playlist-modify-private%20user-follow-read%20user-follow-modify%20user-library-read%20user-library-modify%20streaming%20app-remote-control",
     "theme": ""
 }

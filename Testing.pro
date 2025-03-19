@@ -7,9 +7,11 @@ QT += quickcontrols2
 
 SOURCES += \
     dht22sensor.cpp \
+    general_func.cpp \
     linuxterminal.cpp \
     main.cpp \
     mqttclient.cpp \
+    spotify.cpp \
     weather.cpp \
 
 resources.files = \
@@ -44,8 +46,7 @@ resources.files = \
     Status_bar.qml\
     Mini_Events.qml\
     Wi-Fi \
-    Mini_Events.qml\
-    Mini_Events.qml \
+    Mini_Music.qml\
     icon_6.png\
 
 
@@ -77,6 +78,8 @@ DISTFILES += \
 
 HEADERS += \
     dht22sensor.h \
+    general_func.h \
     linuxterminal.h \
     mqttclient.h \
+    spotify.h \
     weather.h \

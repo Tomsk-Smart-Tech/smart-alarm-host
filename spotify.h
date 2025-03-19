@@ -1,0 +1,39 @@
+#ifndef SPOTIFY_H
+#define SPOTIFY_H
+
+#include <QObject>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QUrlQuery>
+#include <QJsonDocument>
+#include <QJsonObject>
+
+class Spotify : public QObject
+{
+    Q_OBJECT
+public:
+    explicit Spotify(QObject *parent = nullptr);
+
+    Q_INVOKABLE void change_track_status();
+    Q_INVOKABLE void get_access_token();
+    Q_INVOKABLE void play_track();
+    Q_INVOKABLE void pause_track();
+    Q_INVOKABLE void next_track();
+    Q_INVOKABLE void prev_track();
+
+signals:
+    void accessTokenUpdated();
+
+
+private slots:
+    void handleTokenReply();
+
+private:
+    QNetworkAccessManager *n_manager;
+    QString refresh_token;
+    QString access_token;
+    QString clientID;
+    QString clientSecret;
+};
+
+#endif // SPOTIFY_H

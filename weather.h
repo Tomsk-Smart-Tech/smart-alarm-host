@@ -18,9 +18,6 @@
 
 
 
-QString read_user_json(const QString key);
-void write_user_json(const QString key, const QString newval);
-
 class Weather:public QObject
 {
     Q_OBJECT

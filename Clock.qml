@@ -27,7 +27,7 @@ Item {
             // Обновляем currentDateTime каждую секунду
             // currentDateTime = new Date(clock.currentDateTime.getTime() + 1000)
             GlobalTime.currentDateTime = new Date(GlobalTime.currentDateTime.getTime() + 1000)
-            if (GlobalTime.currentDateTime.getMinutes() === 0 && GlobalTime.currentDateTime.getSeconds() === 0)
+            if (GlobalTime.currentDateTime.getMinutes() === 0 && GlobalTime.currentDateTime.getSeconds() === 00) //обновление погоды каждые 5 минут надо сделать!!
             {
                 weatherr.request_position() //обновляю погоду каждый час
             }

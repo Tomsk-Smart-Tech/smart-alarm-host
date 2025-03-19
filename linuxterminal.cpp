@@ -1,5 +1,5 @@
 #include "linuxterminal.h"
-#include "weather.h"
+#include "general_func.h"
 
 LinuxTerminal::LinuxTerminal(QObject *parent)
     : QObject{parent}
@@ -60,7 +60,7 @@ void LinuxTerminal::scanNets()
             nets.removeAt(0); // Убираем первую строку
         }
 
-        // Обновление данных в основном потоке
+
         QMetaObject::invokeMethod(this, [this, nets]() {
             m_nets.clear();
             m_nets = nets;
@@ -73,7 +73,7 @@ void LinuxTerminal::scanNets()
 
 Q_INVOKABLE void LinuxTerminal::scanSongs(QString path)
 {
-    QVariantMap songsMap;
+
     QDirIterator it(path, QStringList() << "*.mp3", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
         QVariantMap map;

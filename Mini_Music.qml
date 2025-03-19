@@ -143,6 +143,7 @@ Item {
                 id: playPauseButton
                 anchors.fill: parent
                 onClicked: {
+                    spotify.change_track_status()
                     playAnimation.start()
                 }
             }
@@ -195,6 +196,7 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     playAnimation1.start()
+                    spotify.prev_track()
                 }
             }
         }
@@ -246,6 +248,7 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     playAnimation2.start()
+                    spotify.next_track()
                 }
             }
         }

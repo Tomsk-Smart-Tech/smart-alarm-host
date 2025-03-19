@@ -8,7 +8,7 @@
 #include "mqttclient.h"
 #include "linuxterminal.h"
 #include "dht22sensor.h"
-
+#include "spotify.h"
 
 int main(int argc, char *argv[])
 {
@@ -35,6 +35,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("terminal",&linuxterminal);
     Dht22sensor dht22;
     engine.rootContext()->setContextProperty("dht22",&dht22);
+    Spotify spotify;
+    engine.rootContext()->setContextProperty("spotify",&spotify);
 
     engine.rootContext()->setContextProperty("jsonFilePath", QUrl::fromLocalFile(currentDir.filePath("russian_cities.json")));
     engine.rootContext()->setContextProperty("icons_path", QUrl::fromLocalFile(currentDir.filePath("weather_iconkit")));
