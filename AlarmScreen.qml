@@ -145,11 +145,11 @@ Popup {
         volume: 1.0
     }
 
-    Rectangle {
-        id: rectangle3
-        color: "#ffffff"
-        anchors.fill: parent
-    }
+    // Rectangle {
+    //     id: rectangle3
+    //     color: "#ffffff"
+    //     anchors.fill: parent
+    // }
 
     // MouseArea {
     //     anchors.fill: parent

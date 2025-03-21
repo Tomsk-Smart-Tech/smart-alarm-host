@@ -8,11 +8,13 @@ QT += concurrent
 
 
 SOURCES += \
-        linuxterminal.cpp \
-        main.cpp \
-        mqttclient.cpp \
-        weather.cpp \
-        dht22sensor.cpp \
+    dht22sensor.cpp \
+    general_func.cpp \
+    linuxterminal.cpp \
+    main.cpp \
+    mqttclient.cpp \
+    spotify.cpp \
+    weather.cpp \
 
 INCLUDEPATH+= C:/boost_1_87_0/
 INCLUDEPATH+= C:/FireDaemonOpenSSL3/include/
@@ -22,10 +24,12 @@ LIBS += -LC:/FireDaemonOpenSSL3/lib -lssl -lcrypto
 LIBS += -lws2_32
 # -lssl -lcrypto
 HEADERS += \
+    dht22sensor.h \
+    general_func.h \
     linuxterminal.h \
     mqttclient.h \
+    spotify.h \
     weather.h \
-    dht22sensor.h \
 
 # QMAKE_CXXFLAGS += -Wa,-mbig-obj
 # QMAKE_CFLAGS += -Wa,-mbig-obj
@@ -65,7 +69,8 @@ AlarmScreen.qml \
 Kumkwat.png \
 KumkwatNew.png \
 Mini_Music.qml \
-pyro.png
+pyro.png \
+events.json
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
