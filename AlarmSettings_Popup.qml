@@ -11,10 +11,19 @@ Popup {
     parent: Overlay.overlay
     anchors.centerIn: Overlay.overlay
 
-
-
+    property var alarm_time:""
+    property var alarm_name:""
+    property var alarm_song:""
     property var selectedDays: [] // Массив выбранных дней (например, ["Пн", "Ср", "Пт"])
+
     signal daysChanged(var days)
+
+    function show(selected_alarm)
+    {
+        alarm_time=selected_alarm["time"]
+        alarm_name=selected_alarm["label"]
+        alarmDialog.open();
+    }
 
     background:    Rectangle {
         id: rectangle1
@@ -40,7 +49,7 @@ Popup {
                 radius: 10
                 Text {
                     color: "#ffffff"
-                    text: qsTr("Хуева хуйня")
+                    text: alarm_name
                     anchors.fill: parent
                     anchors.leftMargin: 12
                     font.pixelSize: 28
@@ -62,6 +71,7 @@ Popup {
                 color: "#555555"
                 radius: 15
                 anchors.horizontalCenter: parent.horizontalCenter
+                clip: true
                 Row {
                     id: row
                     height: 70
