@@ -48,7 +48,7 @@ resources.files = \
     Wi-Fi \
     Mini_Music.qml\
     icon_6.png\
-
+    GlobalTime.qml \
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources

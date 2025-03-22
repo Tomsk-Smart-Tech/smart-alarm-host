@@ -1,4 +1,6 @@
 #include "mqttclient.h"
+#include <QTimeZone>
+#include "general_func.h"
 
 QJsonArray alarms_to_json(QVariantList &alarms)
 {
@@ -15,6 +17,9 @@ QJsonArray alarms_to_json(QVariantList &alarms)
         obj["label"] = map["label"].toString();
         obj["musicUri"] = map["musicUri"].toString();
         obj["isEnabled"] = map["isEnabled"].toBool();
+        obj["delay"]=map["delay"].toInt();
+        obj["delete_after"]=map["delete_after"].toBool();
+        obj["song"]=map["song"].toString();
 
         jsonArray.append(obj);
     }
@@ -63,6 +68,7 @@ QVariantList read_json_events(QJsonArray jsonArray)
 
 QVariantList read_json_alarms(QJsonArray jsonArray)
 {
+    QString defaultsong=read_user_json("current_song");
     QVariantList newAlarms;
     for (const QJsonValue &value : jsonArray)
     {
@@ -75,6 +81,19 @@ QVariantList read_json_alarms(QJsonArray jsonArray)
         map["label"]=obj["label"].toString();
         map["musicUri"]=obj["musicUri"].toString();
         map["isEnabled"]=obj["isEnabled"].toBool();
+
+        if(obj.contains("song"))
+        {
+            map["song"]=obj["song"].toString();
+            map["delay"] = obj["delay"].toInt();
+            map["delete_after"] = obj["delete_after"].toBool();
+        }
+        else
+        {
+            map["song"]=defaultsong;
+            map["delay"] = 0;
+            map["delete_after"] = false;
+        }
 
         newAlarms.append(map);
     }

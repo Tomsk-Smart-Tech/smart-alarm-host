@@ -178,7 +178,7 @@ Item {
                             width: parent.width/2
                             height: parent.height
                             onClicked: {
-                                alarm.popup.open()
+                                alarm.popup.show(modelData)
                             }
                         }
                         Switch {

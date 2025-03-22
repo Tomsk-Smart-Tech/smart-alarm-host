@@ -151,8 +151,19 @@ Window {
         parent: Overlay.overlay
         anchors.centerIn: Overlay.overlay
 
+        property var alarm_time:""
+        property var alarm_name:""
+        property var alarm_song:""
         property var selectedDays: [] // Массив выбранных дней (например, ["Пн", "Ср", "Пт"])
+
         signal daysChanged(var days)
+
+        function show(selected_alarm)
+        {
+            alarm_time=selected_alarm["time"]
+            alarm_name=selected_alarm["label"]
+            alarmDialog.open();
+        }
 
         background:    Rectangle {
             id: rectangle1

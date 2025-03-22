@@ -145,3 +145,64 @@ Q_INVOKABLE void Spotify::change_track_status()
         reply->deleteLater();
     });
 }
+
+
+
+void Spotify::get_current_track()
+{
+    QNetworkRequest request(QUrl("https://api.spotify.com/v1/me/player"));
+    request.setRawHeader("Authorization", ("Bearer " + access_token).toUtf8());
+
+    QNetworkReply *reply = n_manager->get(request);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() == QNetworkReply::NoError)
+        {
+            QByteArray responseData = reply->readAll();
+            QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
+            QJsonObject jsonObj = jsonResponse.object();
+
+            current_track["progress"]=jsonObj["progress_ms"].toInt();
+            if (jsonObj.contains("item"))
+            {
+                QJsonObject item = jsonObj["item"].toObject();
+                current_track["track"]=item["name"].toString();
+                current_track["duration"]=item["duration_ms"].toInt();
+
+                if (item.contains("artists")) {
+                    QJsonArray artists = item["artists"].toArray();
+                    if (!artists.isEmpty()) {
+                        current_track["artists"] = artists[0].toObject()["name"].toString();
+                    }
+                }
+
+                if (item.contains("album")) {
+                    QJsonObject album = item["album"].toObject();
+                    if (album.contains("images")) {
+                        QJsonArray images = album["images"].toArray();
+                        if (!images.isEmpty()) {
+                            current_track["icon"] = images[0].toObject()["url"].toString();
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                current_track["progress"]=0;
+                current_track["track"]="empty";
+                current_track["artists"]="empty";
+                current_track["duration"]="0";
+            }
+        }
+        else {
+            qDebug() << "Error getting playback status:" << reply->errorString();
+        }
+        reply->deleteLater();
+    });
+}
+
+
+Q_INVOKABLE QVariant Spotify::current_track_info(const QString &key)
+{
+    return current_track.value(key);
+}
