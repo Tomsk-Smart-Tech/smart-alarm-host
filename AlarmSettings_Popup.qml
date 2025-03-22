@@ -11,6 +11,14 @@ Popup {
     parent: Overlay.overlay
     anchors.centerIn: Overlay.overlay
 
+    property color backgroundColor: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0)
+    property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
+    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
+    property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+
     property var alarm_time:""
     property var alarm_name:""
     property var alarm_song:""
@@ -225,8 +233,9 @@ Popup {
 
                 model: terminal.songs
 
+
                 background: Rectangle {
-                    color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+                    color: alarmDialog.choiceColor
                     radius: 10
                 }
 
@@ -264,7 +273,7 @@ Popup {
                     Rectangle {
                         width: parent.width
                         height: 40
-                        color: soundComboBox.highlightedIndex === index ? sound.choiceColor : sound.backgroundColor
+                        color: soundComboBox.highlightedIndex === index ? alarmDialog.choiceColor : alarmDialog.backgroundColor
 
                         Text {
                             // anchors.centerIn: parent
