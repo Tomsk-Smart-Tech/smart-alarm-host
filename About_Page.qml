@@ -40,7 +40,7 @@ Item {
                 id: image
                 width: 256
                 height: 256
-                source: "KumkwatNew.png"
+                source: "Kumkwat.png"
                 fillMode: Image.PreserveAspectFit
             }
             Rectangle{
@@ -57,7 +57,7 @@ Item {
                         color: about.textColor
                         text: qsTr("KumkwatOS")
                         width: parent.width
-                        font.pixelSize: 32
+                        font.pixelSize: 41
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         font.family: castFont.name
@@ -67,7 +67,7 @@ Item {
                         id: _text1
                         color: about.textColorSecond
                         text: qsTr("Ver: 1.0")
-                        font.pixelSize: 24
+                        font.pixelSize: 20
                         width: parent.width
                         horizontalAlignment: Text.AlignHCenter
                         font.family: castFont.name
