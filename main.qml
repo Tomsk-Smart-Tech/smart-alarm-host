@@ -162,7 +162,7 @@ Window {
             Column {
                 anchors.fill: parent
                 anchors.margins: 10
-                spacing: 4
+                spacing: 3
 
                 Text {
                     color: "#ffffff"
@@ -503,7 +503,7 @@ Window {
                 id: rectangle2
                 width: 145
                 height: 40
-                color: "#b33b3b"
+                color: "#767676"
                 radius: 15
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
@@ -527,7 +527,7 @@ Window {
                 Text {
                     id: _text1
                     color: "#ffffff"
-                    text: qsTr("Удалить")
+                    text: qsTr("Отменить")
                     anchors.fill: parent
                     anchors.topMargin: 0
                     anchors.bottomMargin: 4
@@ -540,6 +540,54 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         playAnimation2.start()
+                    }
+                }
+            }
+
+            Rectangle {
+                id: rectangle3
+                width: 145
+                height: 40
+                color: "#b33b3b"
+                radius: 15
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                anchors.leftMargin: 10
+                anchors.bottomMargin: 10
+                SequentialAnimation {
+                    id: playAnimation3
+                    PropertyAnimation {
+                        target: rectangle3
+                        property: "scale"
+                        duration: 100
+                        to: 0.8
+                    }
+
+                    PropertyAnimation {
+                        target: rectangle3
+                        property: "scale"
+                        duration: 100
+                        to: 1
+                    }
+                }
+
+                Text {
+                    id: _text2
+                    color: "#ffffff"
+                    text: qsTr("Удалить")
+                    anchors.fill: parent
+                    anchors.topMargin: 0
+                    anchors.bottomMargin: 4
+                    font.pixelSize: 27
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.family: castFont.name
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        playAnimation3.start()
                     }
                 }
             }
