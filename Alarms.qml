@@ -15,6 +15,9 @@ Item {
     AlarmScreen {
         id: alarmPopup
     }
+    AlarmSettings_Popup{
+        id: alarmDialog
+    }
 
     function getTimeDiff(globaldate,first_alarm)
     {
@@ -178,7 +181,7 @@ Item {
                             width: parent.width/2
                             height: parent.height
                             onClicked: {
-                                alarm.popup.show(modelData)
+                                alarmDialog.show(modelData)
                             }
                         }
                         Switch {
@@ -226,52 +229,6 @@ Item {
             }
         }
     }
-    // Popup {
-    //     id: alarmDialog
-    //     modal: true
-    //     dim: true
-    //     focus: true
-    //     closePolicy: Popup.NoAutoClose | Popup.CloseOnPressOutside
-
-    //     background: Rectangle {
-    //         anchors.centerIn: parent
-    //         width: 450 // Установи фиксированную ширину, если нужно
-    //         height: 200 // Установи фиксированную высоту, если нужно
-    //         color: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0)
-    //         radius: 15
-
-    //         Column {
-    //             id: column
-    //             anchors.fill: parent
-    //             anchors.margins: 10
-    //             spacing: 4
-
-    //             Text {
-    //                 id: _text
-    //                 color: "#ffffff"
-    //                 text: qsTr("Название:")
-    //                 font.pixelSize: 18
-    //             }
-
-    //             Rectangle {
-    //                 id: rectangle
-    //                 width: 417
-    //                 height: 30
-    //                 color: "#7da5a5a5"
-    //                 radius: 10
-    //                 TextInput {
-    //                     id: textInput
-    //                     color: "#ffffff"
-    //                     text: qsTr("Введите название")
-    //                     anchors.fill: parent
-    //                     anchors.leftMargin: 6
-    //                     font.pixelSize: 16
-    //                     verticalAlignment: Text.AlignVCenter
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 }
 
 

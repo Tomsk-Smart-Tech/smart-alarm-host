@@ -96,7 +96,7 @@ Window {
                     Alarms{
                         x_pos:16 + 236 + 16
                         y_pos:56
-                        popup: alarmDialog
+
                     }
                     Weather{
                         x_pos: 16 + 236 + 16 + 236 + 16
@@ -141,6 +141,7 @@ Window {
     Component.onCompleted: {
         ver_sv.currentIndex = 1
     }
+<<<<<<< Updated upstream
     Popup {
         id: alarmDialog
         modal: true
@@ -622,6 +623,8 @@ Window {
             }
         }
     }
+=======
+>>>>>>> Stashed changes
 }
 
 

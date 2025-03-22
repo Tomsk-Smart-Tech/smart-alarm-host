@@ -235,6 +235,7 @@ Item {
                             }
                         }
 
+
                         onCurrentIndexChanged: {
                             var city = cityModel.get(cityComboBox.currentIndex);
                             if (city) {
