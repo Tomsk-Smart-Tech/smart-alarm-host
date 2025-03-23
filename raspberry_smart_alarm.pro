@@ -70,8 +70,8 @@ Kumkwat.png \
 KumkwatNew.png \
 Mini_Music.qml \
 pyro.png \
-events.json \
-AlarmSetting_Popup.qml
+events.json\
+AlarmSettings_Popup.qml
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -92,7 +92,7 @@ QT += core gui opengl
 
 DISTFILES += \
     About_Page.qml \
-    AlarmSetting_Popup.qml \
+    AlarmSettings_Popup.qml \
     Alarm_Page.qml \
     Alarms.qml \
     Big_Calendar.qml \
@@ -113,7 +113,6 @@ DISTFILES += \
     Test_Poput.qml \
     humidity.png\
     temp.png\
-
 
 
 

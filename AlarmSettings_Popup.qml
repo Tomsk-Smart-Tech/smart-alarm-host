@@ -11,7 +11,6 @@ Popup {
     parent: Overlay.overlay
     anchors.centerIn: Overlay.overlay
 
-<<<<<<< Updated upstream
     property color backgroundColor: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0)
     property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
@@ -20,11 +19,9 @@ Popup {
 
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
 
-    property var alarm_time:""
-=======
     property var alarm_min
     property var alarm_hours
->>>>>>> Stashed changes
+
     property var alarm_name:""
     property var alarm_song:""
     property var selectedDays: [] // Массив выбранных дней (например, ["Пн", "Ср", "Пт"])
@@ -189,6 +186,8 @@ Popup {
                             height: parent.height
                             checkable: true
                             background: Rectangle {
+                                id: rec
+                                // color: dayButton.checked ? "#cf8a29" : "#444"
                                 color: dayButton.checked ? "#cf8a29" : "#444"
                                 radius: 10
                             }
@@ -220,7 +219,8 @@ Popup {
                                 id: playPauseButton2
                                 anchors.fill: parent
                                 onClicked: {
-                                    playAnimation.start()
+                                    playAnimation.start();
+                                    dayButton.checked = !dayButton.checked; // Правильное изменение состояния
                                 }
                             }
                         }
@@ -235,78 +235,124 @@ Popup {
                 verticalAlignment: Text.AlignVCenter
                 font.family: castFont.name
             }
-
-            ComboBox {
-                id: soundComboBox
-                width: parent.width
-                height: 40
-
-                model: terminal.songs
-
-
-                background: Rectangle {
-                    color: alarmDialog.choiceColor
-                    radius: 10
-                }
-
-                indicator: Rectangle {
-                    width: 40
+            Row{
+                id: row1
+                spacing: 20
+                ComboBox {
+                    id: soundComboBox
+                    width: 650
                     height: 40
-                    radius: 10
-                    color: "#e5e5e5"
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
 
-                    Text {
-                        anchors.centerIn: parent
-                        text: "▼"
-                        color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
-                        font.family: castFont.name
-                        font.pixelSize: 24
+                    model: terminal.songs
+
+
+                    background: Rectangle {
+                        color: alarmDialog.choiceColor
+                        radius: 10
                     }
-                }
 
-                contentItem: Text {
-                    text: soundComboBox.currentText
-                    anchors.left: parent.left
-                    anchors.leftMargin: 8
-                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-                    font.pixelSize: 24
-                    verticalAlignment: Text.AlignVCenter
-                    font.family: castFont.name
-                }
-
-                delegate: Item {
-                    width: soundComboBox.width
-                    height: 40
-
-                    Rectangle {
-                        width: parent.width
+                    indicator: Rectangle {
+                        width: 40
                         height: 40
-                        color: soundComboBox.highlightedIndex === index ? alarmDialog.choiceColor : alarmDialog.backgroundColor
+                        radius: 10
+                        color: "#e5e5e5"
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
 
                         Text {
-                            // anchors.centerIn: parent
-                            anchors.fill: parent
-                            anchors.leftMargin: 8
-                            text: modelData["songName"]
-                            color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-                            font.pixelSize: 24
+                            anchors.centerIn: parent
+                            text: "▼"
+                            color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
                             font.family: castFont.name
+                            font.pixelSize: 24
                         }
                     }
 
+                    contentItem: Text {
+                        text: soundComboBox.currentText
+                        anchors.left: parent.left
+                        anchors.leftMargin: 8
+                        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                        font.pixelSize: 24
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: castFont.name
+                    }
+
+                    delegate: Item {
+                        width: soundComboBox.width
+                        height: 40
+
+                        Rectangle {
+                            width: parent.width
+                            height: 40
+                            color: soundComboBox.highlightedIndex === index ? alarmDialog.choiceColor : alarmDialog.backgroundColor
+
+                            Text {
+                                // anchors.centerIn: parent
+                                anchors.fill: parent
+                                anchors.leftMargin: 8
+                                text: modelData["songName"]
+                                color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                font.pixelSize: 24
+                                font.family: castFont.name
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                soundComboBox.currentIndex = index
+                                console.log(modelData["songPath"])
+                                //terminal.set_song(modelData["songPath"])
+                                soundComboBox.popup.close()
+                            }
+                        }
+                    }
+                }
+                Button{
+                    id: melodyButoon
+                    width: 110
+                    height: 40
+                    checked: false
+                    anchors.verticalCenter: parent.verticalCenter
+                    background: Rectangle{
+                        radius: 25
+                        color: "#555555"
+                        Text{
+                            color: "#ffffff"
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.pointSize: 14
+                            text: melodyButoon.checked ? "►" : "▐ ▌"
+                        }
+                    }
+                    SequentialAnimation{
+                        id: playAnimation4
+                        PropertyAnimation {
+                            target: melodyButoon
+                            property: "scale"
+                            duration: 100
+                            to: 0.8
+                        }
+                        PropertyAnimation {
+                            target: melodyButoon
+                            property: "scale"
+                            duration: 100
+                            to: 1
+                        }
+                    }
                     MouseArea {
+                        id: playPauseButton1
                         anchors.fill: parent
                         onClicked: {
-                            soundComboBox.currentIndex = index
-                            console.log(modelData["songPath"])
-                            //terminal.set_song(modelData["songPath"])
-                            soundComboBox.popup.close()
+                            playAnimation4.start();
+                            melodyButoon.checked = !melodyButoon.checked;
                         }
                     }
                 }
             }
+
 
             Row{
                 width: 373
