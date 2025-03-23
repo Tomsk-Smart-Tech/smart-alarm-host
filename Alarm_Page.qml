@@ -61,6 +61,11 @@ Item {
                             anchors.verticalCenterOffset: 0
                             visibleItemCount: 1
                             spacing: 5
+
+                            onCurrentIndexChanged: {
+                                var selectedMinute = currentIndex
+                                console.log("Выбрано минут:", selectedMinute)
+                            }
                             delegate: Rectangle{
                                 color:"transparent"
                                 Text{
@@ -75,6 +80,7 @@ Item {
                                     }
                                 }
                             }
+
                         }
                         Text {
                             text: qsTr("минут")

@@ -22,6 +22,7 @@ public:
     Q_INVOKABLE void prev_track();
     void get_current_track();
     Q_INVOKABLE QVariant current_track_info(const QString &key);
+    Q_INVOKABLE void set_volume(int value);
 
 signals:
     void accessTokenUpdated();
@@ -37,6 +38,7 @@ private:
     QString clientID;
     QString clientSecret;
     QVariantMap current_track;
+    int volume;
 };
 
 #endif // SPOTIFY_H

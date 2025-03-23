@@ -161,7 +161,7 @@ Item {
                         onClicked: {
                             soundComboBox.currentIndex = index
                             console.log(modelData["songPath"])
-                            terminal.set_song(modelData["songPath"])
+                            //terminal.set_song(modelData["songPath"])
                             soundComboBox.popup.close()
                         }
                     }

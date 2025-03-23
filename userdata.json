@@ -6,5 +6,7 @@
     "spotify_clientSecret": "afcf740bc2be470e9ae65c888d49a197",
     "spotify_refresh_token": "AQD07PPkfbbE5SCkyZdYNnF_RvW7reUk2wyV-dX0YemnGRO0aY26PS7iFCg64TgFcW4VMGYKIaTxv2cxE0MtQ38sQp_V26dUENlO0vc_cWq00X0x5l8CtnvsKJg-zPEGOQc",
     "spotify_scope": "user-read-private%20user-read-email%20user-read-playback-state%20user-modify-playback-state%20user-read-currently-playing%20user-read-recently-played%20user-top-read%20playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20playlist-modify-private%20user-follow-read%20user-follow-modify%20user-library-read%20user-library-modify%20streaming%20app-remote-control",
-    "theme": ""
+    "theme": "",
+    "volume": "100",
+    "standart_delay":"15"
 }

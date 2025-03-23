@@ -11,6 +11,7 @@ Popup {
     parent: Overlay.overlay
     anchors.centerIn: Overlay.overlay
 
+<<<<<<< Updated upstream
     property color backgroundColor: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0)
     property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
@@ -20,6 +21,10 @@ Popup {
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
 
     property var alarm_time:""
+=======
+    property var alarm_min
+    property var alarm_hours
+>>>>>>> Stashed changes
     property var alarm_name:""
     property var alarm_song:""
     property var selectedDays: [] // Массив выбранных дней (например, ["Пн", "Ср", "Пт"])
@@ -28,8 +33,11 @@ Popup {
 
     function show(selected_alarm)
     {
-        alarm_time=selected_alarm["time"]
+        terminal.scanSongs(songsPath);
         alarm_name=selected_alarm["label"]
+        var time_parts=selected_alarm["time"].split(":")
+        alarm_hours=parseInt(time_parts[0])
+        alarm_min=parseInt(time_parts[1])
         alarmDialog.open();
     }
 
@@ -87,6 +95,7 @@ Popup {
                     Tumbler {
                         id: hoursTumbler
                         model: 24
+                        currentIndex:alarm_hours
                         width: 80
                         height: 75
                         visibleItemCount: 1
@@ -121,6 +130,7 @@ Popup {
                         model: 60
                         width: 80
                         height: 75
+                        currentIndex:alarm_min
                         visibleItemCount: 1
                         delegate: Rectangle{
                             color:"transparent"
@@ -291,7 +301,7 @@ Popup {
                         onClicked: {
                             soundComboBox.currentIndex = index
                             console.log(modelData["songPath"])
-                            terminal.set_song(modelData["songPath"])
+                            //terminal.set_song(modelData["songPath"])
                             soundComboBox.popup.close()
                         }
                     }
@@ -303,14 +313,14 @@ Popup {
                 spacing: 8
                 Text {
                     color: "#ffffff"
-                    text: qsTr("Удалять после проигрывания")
+                    text: qsTr("Удалить после проигрывания")
                     font.pixelSize: 28
                     verticalAlignment: Text.AlignVCenter
                     font.family: castFont.name
                 }
                 Switch {
                     id: list_switch
-                    checked: true
+                    checked: false
                     indicator : Rectangle{
                         anchors.centerIn: parent
                         implicitWidth: 50

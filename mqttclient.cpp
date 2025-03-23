@@ -17,7 +17,7 @@ QJsonArray alarms_to_json(QVariantList &alarms)
         obj["label"] = map["label"].toString();
         obj["musicUri"] = map["musicUri"].toString();
         obj["isEnabled"] = map["isEnabled"].toBool();
-        obj["delay"]=map["delay"].toInt();
+        obj["delay"]=map["delay"].toString();
         obj["delete_after"]=map["delete_after"].toBool();
         obj["song"]=map["song"].toString();
 
@@ -85,7 +85,7 @@ QVariantList read_json_alarms(QJsonArray jsonArray)
         if(obj.contains("song"))
         {
             map["song"]=obj["song"].toString();
-            map["delay"] = obj["delay"].toInt();
+            map["delay"] = obj["delay"].toString();
             map["delete_after"] = obj["delete_after"].toBool();
         }
         else

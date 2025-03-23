@@ -73,7 +73,7 @@ void LinuxTerminal::scanNets()
 
 Q_INVOKABLE void LinuxTerminal::scanSongs(QString path)
 {
-
+    m_songs.clear();
     QDirIterator it(path, QStringList() << "*.mp3", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
         QVariantMap map;
