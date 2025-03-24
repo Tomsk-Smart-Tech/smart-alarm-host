@@ -66,7 +66,7 @@ Popup {
                 radius: 10
                 Text {
                     color: "#ffffff"
-                    text: alarm_name
+                    text: alarmDialog.alarm_name
                     anchors.fill: parent
                     anchors.leftMargin: 12
                     font.pixelSize: 28
@@ -96,13 +96,13 @@ Popup {
                     Tumbler {
                         id: hoursTumbler
                         model: 24
-                        currentIndex:alarm_hours
+                        currentIndex:alarmDialog.alarm_hours
                         width: 80
                         height: 75
                         visibleItemCount: 1
                         spacing: 5
                         onCurrentIndexChanged: {
-                            alarm_hours = currentIndex
+                            alarmDialog.alarm_hours = currentIndex
                         }
                         delegate: Rectangle{
                             color:"transparent"
@@ -134,7 +134,7 @@ Popup {
                         model: 60
                         width: 80
                         height: 75
-                        currentIndex:alarm_min
+                        currentIndex:alarmDialog.alarm_min
                         visibleItemCount: 1
                         onCurrentIndexChanged: {
                             alarm_min = currentIndex
@@ -255,8 +255,16 @@ Popup {
                     id: soundComboBox
                     width: 650
                     height: 40
-
                     model: terminal.songs
+                    // Component.onCompleted: {
+                    //     for (var i = 0; i < terminal.songs.length; i++) {
+                    //         if (terminal.songs[i]["songPath"] === alarm_song) {
+                    //             soundComboBox.currentIndex = i;
+                    //             break;
+                    //         }
+                    //     }
+                    // }
+
 
 
                     background: Rectangle {

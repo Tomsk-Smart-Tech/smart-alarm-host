@@ -98,6 +98,9 @@ public:
     Q_INVOKABLE void delete_alarm(int id);
     Q_INVOKABLE void change_alarm(int id,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays);
 
+    Q_INVOKABLE void set_alarm_delay(int value);
+    Q_INVOKABLE int get_alarm_delay(){return alarm_delay;};
+
 signals:
     void messageReceived();
     void connectionStatusChanged();
@@ -126,6 +129,7 @@ private:
     QVariantList m_events;
     QVariantList m_events_onDay;
     QVariantList m_alarms;
+    int alarm_delay;
     std::thread iocThread;
 };
 

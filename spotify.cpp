@@ -11,6 +11,7 @@ Spotify::Spotify(QObject *parent)
     refresh_token=read_user_json("spotify_refresh_token");
     clientID=read_user_json("spotify_clientID");
     clientSecret=read_user_json("spotify_clientSecret");
+    volume=read_user_json("volume").toInt();
 
     //get_access_token();
 }
@@ -211,5 +212,5 @@ Q_INVOKABLE QVariant Spotify::current_track_info(const QString &key)
 Q_INVOKABLE void Spotify::set_volume(int value)
 {
     volume=value;
-    //write_user_json("volume")
+    write_user_json("volume",QString::number(volume));
 }

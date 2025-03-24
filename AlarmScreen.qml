@@ -14,12 +14,16 @@ Popup {
     property var cur_date : GlobalTime.currentDateTime.getDate()+" "+getMonthName(GlobalTime.currentDateTime)
     property var cur_time
     property var label
+    property var delay :mqttclient.get_alarm_delay()
+    property var song_path
+    property var volume :spotify.get_volume()
 
 
     function show(first_alarm)
     {
         cur_time=first_alarm.time
         label=first_alarm.label
+        song_path=first_alarm.song
         alarmPopup.open();
         alarmSound.play();
     }
@@ -68,7 +72,7 @@ Popup {
                     Text {
                         id: _text1
                         color: "#ffffff"
-                        text: qsTr("Отложить на 15 мин.")
+                        text: "Отложить на "+alarmPopup.delay+" минут"
                         anchors.fill: parent
                         font.pixelSize: 30
                         horizontalAlignment: Text.AlignHCenter
@@ -137,12 +141,12 @@ Popup {
     MediaPlayer {
         id: alarmSound
         audioOutput: audioOutput
-        source: "file://"+terminal.cur_song
+        source: "file://"+alarmPopup.song_path
         loops: MediaPlayer.Infinite
     }
     AudioOutput {
         id: audioOutput
-        volume: 1.0
+        volume: alarmPopup.volume/100
     }
 
     // Rectangle {

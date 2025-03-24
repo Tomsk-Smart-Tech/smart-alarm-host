@@ -23,7 +23,7 @@ Item {
 
     function getTimeDiff(globaldate,first_alarm)
     {
-        console.log("first_alarm= ",first_alarm)
+
         if (first_alarm=="") {
             return { h: '-', m: '-' };
         }
@@ -53,8 +53,8 @@ Item {
         var rminutes = difference % 60;
         if(rhours==24 && rminutes==0)
         {
-            //mqttclient.alarm_start(first_alarm.id)
-            //alarmPopup.show(first_alarm) // передавать аларм исходя из id
+            mqttclient.alarm_start(id)
+            alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["id"] === id)) // передавать аларм исходя из id
 
         }
         return { h: rhours, m: rminutes };

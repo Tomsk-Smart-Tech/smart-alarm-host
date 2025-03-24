@@ -61,10 +61,11 @@ Item {
                             anchors.verticalCenterOffset: 0
                             visibleItemCount: 1
                             spacing: 5
-
+                            currentIndex:mqttclient.get_alarm_delay()
                             onCurrentIndexChanged: {
                                 var selectedMinute = currentIndex
-                                console.log("Выбрано минут:", selectedMinute)
+                                mqttclient.set_alarm_delay(selectedMinute)
+
                             }
                             delegate: Rectangle{
                                 color:"transparent"

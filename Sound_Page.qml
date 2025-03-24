@@ -70,18 +70,24 @@ Item {
                             font.family: castFont.name
                             font.pointSize:18
                             color: sound.textColor
+                            text:spotify.get_volume()+"%"
                         }
                     }
                     Slider {
                         id: control
                         from: 0
-                        value: 0
+                        value: spotify.get_volume()
                         width: parent.width
                         height: 30
                         to: 100
                         stepSize: 1
                         snapMode: Slider.SnapAlways
-                        onMoved: {output.text = value + '%'}
+
+                        onMoved:
+                        {
+                            output.text = value + '%'
+                            spotify.set_volume(value)
+                        }
                         // contentItem: Rectangle {
                         //     width: control.visualPosition * control.width
                         //     height: 2

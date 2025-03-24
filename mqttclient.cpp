@@ -311,6 +311,7 @@ MqttClient::MqttClient(QObject *parent):
 
     setEvents(all_data[0]);
     setAlarms(all_data[1]);
+    alarm_delay=read_user_json("standart_delay").toInt();
 
     co_spawn(
         ioc,
@@ -365,8 +366,18 @@ Q_INVOKABLE void MqttClient::alarm_start(int id)
 {
     for (int i = 0; i < m_alarms.size(); ++i)
     {
-        if (m_alarms[i].toMap()["id"].toInt() == id) {
-            m_alarms.removeAt(i);
+        QVariantMap alarm = m_alarms[i].toMap();
+        if (alarm["id"].toInt() == id)
+        {
+            if(alarm["delete_after"].toBool()==true)
+            {
+                m_alarms.removeAt(i);
+            }
+            else
+            {
+                alarm["isEnabled"]=false;
+                m_alarms[i] = alarm;
+            }
             break;
         }
     }
@@ -380,7 +391,7 @@ Q_INVOKABLE void MqttClient::alarm_start(int id)
 
 Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day)
 {
-    qDebug()<<cur_day;
+    //qDebug()<<cur_day;
     QTime min_time(23,59);
     int id=-1;
     QTime min_time_rep(23,59);
@@ -393,7 +404,7 @@ Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day)
         QVariantMap map = m_alarms[i].toMap();
         QString time=map["time"].toString();
         QTime time_formatted=QTime::fromString(time,"hh:mm");
-        qDebug()<<time_formatted;
+        //qDebug()<<time_formatted;
         if (map["isEnabled"].toBool()==true)
         {
             all_off=false;
@@ -449,7 +460,7 @@ Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day)
         }
     }
 
-    qDebug()<<"whatday= "<<whatday;
+    //qDebug()<<"whatday= "<<whatday;
     if(whatday==cur_day || whatday==-1) // если будильник с повторениями не нашелся или будильник с повторениями на текущий день
     {
         if(min_time<min_time_rep && find_without_rep==true)
@@ -628,15 +639,11 @@ Q_INVOKABLE void MqttClient::delete_alarm(int id)
 
 Q_INVOKABLE void MqttClient::change_alarm(int id,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays)
 {
-    qDebug()<<"id: "<<id;
-    qDebug()<<"alarm_min"<<alarm_min;
-    qDebug()<<alarm_hours;
-    qDebug()<<alarm_song;
-    qDebug()<<delete_after;
-
-
-
-
+    // qDebug()<<"id: "<<id;
+    // qDebug()<<"alarm_min"<<alarm_min;
+    // qDebug()<<alarm_hours;
+    // qDebug()<<alarm_song;
+    // qDebug()<<delete_after;
 
     QVariantMap new_map;
     QString new_time=(alarm_hours<10 ? "0"+QString::number(alarm_hours) : QString::number(alarm_hours))+":"+(alarm_min<10 ? "0"+QString::number(alarm_min) : QString::number(alarm_min));
@@ -672,7 +679,6 @@ Q_INVOKABLE void MqttClient::change_alarm(int id,int alarm_min,int alarm_hours,Q
             m_alarms.insert(i+1,new_map);
             break;
         }
-
     }
 
     emit alarmschanged();
@@ -680,4 +686,10 @@ Q_INVOKABLE void MqttClient::change_alarm(int id,int alarm_min,int alarm_hours,Q
     QJsonDocument jsonDoc(jsonArray);
     save_data(jsonDoc,"alarms");
     publish_alarms();
+}
+
+Q_INVOKABLE void MqttClient::set_alarm_delay(int value)
+{
+    alarm_delay=value;
+    write_user_json("standart_delay",QString::number(alarm_delay));
 }

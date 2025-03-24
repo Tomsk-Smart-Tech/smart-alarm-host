@@ -23,6 +23,7 @@ public:
     void get_current_track();
     Q_INVOKABLE QVariant current_track_info(const QString &key);
     Q_INVOKABLE void set_volume(int value);
+    Q_INVOKABLE int get_volume(){return volume;}
 
 signals:
     void accessTokenUpdated();
