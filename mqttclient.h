@@ -85,14 +85,18 @@ public:
     Q_INVOKABLE QVariantList get_alarms() const {return m_alarms;}
     Q_INVOKABLE QVariantList get_events_onDay() const {return m_events_onDay;}
 
-    Q_INVOKABLE void alarm_start(int id);
+    Q_INVOKABLE QString  find_first_alarm(int cur_day);
+    Q_INVOKABLE void alarm_start(int id); //функция основная для срабатываня будильника
+
     Q_INVOKABLE void get_events_onDay(qint64 timestamp);
     Q_INVOKABLE int check_eventOnDay(qint64 timestamp);
 
     Q_INVOKABLE void publish_sensor_data(QString temp,QString hum);
     Q_INVOKABLE void publish_alarms();
 
-    Q_INVOKABLE void update_alarm_status(int id,bool status);
+    Q_INVOKABLE void update_alarm_status(int id,bool status); //для мини будильника
+    Q_INVOKABLE void delete_alarm(int id);
+    Q_INVOKABLE void change_alarm(int id,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays);
 
 signals:
     void messageReceived();
@@ -110,6 +114,7 @@ private:
     config cfg;
     boost::asio::io_context ioc;
     boost::asio::ssl::context context;
+
     boost::mqtt5::mqtt_client<
         boost::asio::ssl::stream<boost::asio::ip::tcp::socket>,
         boost::asio::ssl::context,

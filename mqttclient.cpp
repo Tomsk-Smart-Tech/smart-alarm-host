@@ -378,6 +378,127 @@ Q_INVOKABLE void MqttClient::alarm_start(int id)
     publish_alarms();
 }
 
+Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day)
+{
+    qDebug()<<cur_day;
+    QTime min_time(23,59);
+    int id=-1;
+    QTime min_time_rep(23,59);
+    QVariantList repeatDaysList;
+    int id_rep=-1;
+    bool all_off=true;
+    bool find_without_rep=false;
+    for (int i = 0; i < m_alarms.size(); ++i)
+    {
+        QVariantMap map = m_alarms[i].toMap();
+        QString time=map["time"].toString();
+        QTime time_formatted=QTime::fromString(time,"hh:mm");
+        qDebug()<<time_formatted;
+        if (map["isEnabled"].toBool()==true)
+        {
+            all_off=false;
+            if(map["repeatDays"].toList().contains(true))
+            {
+                if(time_formatted<=min_time_rep)
+                {
+                    min_time_rep=time_formatted;
+                    repeatDaysList = map["repeatDays"].toList();
+                    id_rep=map["id"].toInt();
+                }
+            }
+            else
+            {
+                if(time_formatted<=min_time)
+                {
+                    find_without_rep=true;
+                    min_time=time_formatted;
+                    id=map["id"].toInt();
+                }
+            }
+        }
+    }
+
+    if(all_off==true)
+    {
+        QString res="";
+        return res;
+    }
+
+    int minutes;
+    int hours;
+    int res_id=-1;
+
+    int whatday=-1;
+
+    for(int i=cur_day;i<repeatDaysList.size();i++)
+    {
+        if(repeatDaysList[i]==true) // ищем ближайщий день справа
+        {
+            whatday=i;
+            break;
+        }
+    }
+    if(whatday==-1) // если не нашли день справа то ищем слева
+    {
+        for(int i=cur_day;i>0;i--)
+        {
+            if(repeatDaysList[i]==true)
+            {
+                whatday=i;
+            }
+        }
+    }
+
+    qDebug()<<"whatday= "<<whatday;
+    if(whatday==cur_day || whatday==-1) // если будильник с повторениями не нашелся или будильник с повторениями на текущий день
+    {
+        if(min_time<min_time_rep && find_without_rep==true)
+        {
+            minutes=min_time.minute();
+            hours=min_time.hour();
+            res_id=id;
+        }
+        else
+        {
+            minutes=min_time_rep.minute();
+            hours=min_time_rep.hour();
+            res_id=id_rep;
+        }
+    }
+    else if(whatday>cur_day)
+    {
+        int additional=(whatday-cur_day)*24;
+        minutes=min_time_rep.minute();
+        hours=min_time_rep.hour()+additional;
+        res_id=id_rep;
+    }
+    else
+    {
+        int additional=(repeatDaysList.size()-1-cur_day+whatday)*24;
+        minutes=min_time_rep.minute();
+        hours=min_time_rep.hour()+additional;
+        res_id=id_rep;
+    }
+
+
+    if(hours*24+minutes>min_time.hour()*24+minutes && find_without_rep==true) //итоговое сравнение будльинков если нашелся без повторений и с повторениями
+    {
+        hours=min_time.hour();
+        minutes=min_time.minute();
+    }
+    // if(hours>min_time.hour())
+    // {
+    //     hours=min_time.hour();
+    //     minutes=min_time.minute();
+    // }
+
+    QString result=QString::number(hours)+":"+QString::number(minutes)+":"+QString::number(res_id);
+    return result;
+
+}
+
+
+
 Q_INVOKABLE void MqttClient::get_events_onDay(qint64 timestamp)
 {
     m_events_onDay.clear();
@@ -481,6 +602,80 @@ Q_INVOKABLE void MqttClient::update_alarm_status(int id,bool status)
         }
     }
 
+    QJsonArray jsonArray=alarms_to_json(m_alarms);
+    QJsonDocument jsonDoc(jsonArray);
+    save_data(jsonDoc,"alarms");
+    publish_alarms();
+}
+
+
+Q_INVOKABLE void MqttClient::delete_alarm(int id)
+{
+    for (int i = 0; i < m_alarms.size(); ++i)
+    {
+        if (m_alarms[i].toMap()["id"].toInt() == id) {
+            m_alarms.removeAt(i);
+            break;
+        }
+    }
+    emit alarmschanged();
+    QJsonArray jsonArray=alarms_to_json(m_alarms);
+    QJsonDocument jsonDoc(jsonArray);
+    save_data(jsonDoc,"alarms");
+    publish_alarms();
+
+}
+
+Q_INVOKABLE void MqttClient::change_alarm(int id,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays)
+{
+    qDebug()<<"id: "<<id;
+    qDebug()<<"alarm_min"<<alarm_min;
+    qDebug()<<alarm_hours;
+    qDebug()<<alarm_song;
+    qDebug()<<delete_after;
+
+
+
+
+
+    QVariantMap new_map;
+    QString new_time=(alarm_hours<10 ? "0"+QString::number(alarm_hours) : QString::number(alarm_hours))+":"+(alarm_min<10 ? "0"+QString::number(alarm_min) : QString::number(alarm_min));
+    for (int i = 0; i < m_alarms.size(); ++i)
+    {
+        QVariantMap map = m_alarms[i].toMap();
+        if (id == map["id"].toInt())
+        {
+            map["time"] = new_time;
+            map["song"]=alarm_song;
+            map["delete_after"]=delete_after;
+            map["repeatDays"]=selectedDays;
+            new_map=map;
+            m_alarms.removeAt(i);
+            break;
+        }
+    }
+
+    QTime new_time_formatted=QTime::fromString(new_time,"hh:mm");
+
+    for (int i = 0; i < m_alarms.size(); ++i)
+    {
+        QVariantMap map = m_alarms[i].toMap();
+        QString time=map["time"].toString();
+        QTime time_formatted=QTime::fromString(time,"hh:mm");
+        if (new_time_formatted<time_formatted)
+        {
+            m_alarms.insert(i,new_map);
+            break;
+        }
+        if(i==m_alarms.size()-1)
+        {
+            m_alarms.insert(i+1,new_map);
+            break;
+        }
+
+    }
+
+    emit alarmschanged();
     QJsonArray jsonArray=alarms_to_json(m_alarms);
     QJsonDocument jsonDoc(jsonArray);
     save_data(jsonDoc,"alarms");
