@@ -20,6 +20,13 @@ QJsonArray alarms_to_json(QVariantList &alarms)
         obj["delay"]=map["delay"].toString();
         obj["delete_after"]=map["delete_after"].toBool();
         obj["song"]=map["song"].toString();
+        QVariantList repeatDaysList = map["repeatDays"].toList();
+        QJsonArray repeatDaysJson;
+        for (const QVariant &day : repeatDaysList)
+        {
+            repeatDaysJson.append(day.toBool());
+        }
+        obj["repeatDays"] = repeatDaysJson;
 
         jsonArray.append(obj);
     }
@@ -69,6 +76,7 @@ QVariantList read_json_events(QJsonArray jsonArray)
 QVariantList read_json_alarms(QJsonArray jsonArray)
 {
     QString defaultsong=read_user_json("current_song");
+    QString defaultdelay=read_user_json("standart_delay");
     QVariantList newAlarms;
     for (const QJsonValue &value : jsonArray)
     {
@@ -91,9 +99,17 @@ QVariantList read_json_alarms(QJsonArray jsonArray)
         else
         {
             map["song"]=defaultsong;
-            map["delay"] = 0;
+            map["delay"] = defaultdelay;
             map["delete_after"] = false;
         }
+
+        QJsonArray repeatArray = obj["repeatDays"].toArray();
+        QVariantList repeatDays;
+        for (const QJsonValue &repeatVal : repeatArray)
+        {
+            repeatDays.append(repeatVal.toBool());
+        }
+        map["repeatDays"] = repeatDays;
 
         newAlarms.append(map);
     }
@@ -211,6 +227,8 @@ boost::asio::awaitable<void> subscribe_and_receive(const config& cfg, auto& clie
     client.brokers(cfg.brokers, cfg.port) // Broker that we want to connect to.
         .credentials(cfg.client_id,cfg.username, cfg.password) // Set the Client Identifier. (optional)
         .async_run(boost::asio::detached); // Start the client.
+
+
 
     // Before attempting to receive an Application Message from the Topic we just subscribed to,
     // it is advisable to verify that the subscription succeeded.

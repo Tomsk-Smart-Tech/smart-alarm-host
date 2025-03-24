@@ -19,22 +19,26 @@ Popup {
 
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
 
-    property var alarm_min
-    property var alarm_hours
-
+    property int alarm_min
+    property int alarm_hours
+    property bool delete_after:false
+    property var alarm_id
     property var alarm_name:""
     property var alarm_song:""
-    property var selectedDays: [] // Массив выбранных дней (например, ["Пн", "Ср", "Пт"])
+    property var selectedDays
 
     signal daysChanged(var days)
 
     function show(selected_alarm)
     {
         terminal.scanSongs(songsPath);
+        selectedDays=selected_alarm["repeatDays"]
         alarm_name=selected_alarm["label"]
         var time_parts=selected_alarm["time"].split(":")
         alarm_hours=parseInt(time_parts[0])
         alarm_min=parseInt(time_parts[1])
+        alarm_id=selected_alarm["id"]
+        alarm_song=selected_alarm["song"]
         alarmDialog.open();
     }
 
@@ -97,6 +101,9 @@ Popup {
                         height: 75
                         visibleItemCount: 1
                         spacing: 5
+                        onCurrentIndexChanged: {
+                            alarm_hours = currentIndex
+                        }
                         delegate: Rectangle{
                             color:"transparent"
                             Text{
@@ -129,6 +136,9 @@ Popup {
                         height: 75
                         currentIndex:alarm_min
                         visibleItemCount: 1
+                        onCurrentIndexChanged: {
+                            alarm_min = currentIndex
+                        }
                         delegate: Rectangle{
                             color:"transparent"
                             Text{
@@ -185,6 +195,8 @@ Popup {
                             width: parent.width/7 - 7
                             height: parent.height
                             checkable: true
+                            property int index:model.index
+                            checked: selectedDays[index]
                             background: Rectangle {
                                 id: rec
                                 // color: dayButton.checked ? "#cf8a29" : "#444"
@@ -220,7 +232,8 @@ Popup {
                                 anchors.fill: parent
                                 onClicked: {
                                     playAnimation.start();
-                                    dayButton.checked = !dayButton.checked; // Правильное изменение состояния
+                                    dayButton.checked = !dayButton.checked;
+                                    selectedDays[index] = dayButton.checked;
                                 }
                             }
                         }
@@ -303,6 +316,7 @@ Popup {
                             onClicked: {
                                 soundComboBox.currentIndex = index
                                 console.log(modelData["songPath"])
+                                alarm_song=modelData["songPath"]
                                 //terminal.set_song(modelData["songPath"])
                                 soundComboBox.popup.close()
                             }
@@ -383,7 +397,7 @@ Popup {
                         }
                     }
                     onCheckedChanged: {
-
+                        alarmDialog.delete_after = checked
                     }
                 }
             }
@@ -432,6 +446,8 @@ Popup {
                 anchors.fill: parent
                 onClicked: {
                     playAnimation1.start()
+                    mqttclient.change_alarm(alarm_id,alarm_min,alarm_hours,alarm_song,delete_after,selectedDays)
+                    alarmDialog.close()
                 }
             }
         }
@@ -477,6 +493,7 @@ Popup {
                 anchors.fill: parent
                 onClicked: {
                     playAnimation2.start()
+                    alarmDialog.close()
                 }
             }
         }
@@ -525,6 +542,8 @@ Popup {
                 anchors.fill: parent
                 onClicked: {
                     playAnimation3.start()
+                    mqttclient.delete_alarm(alarm_id)
+                    alarmDialog.close()
                 }
             }
         }

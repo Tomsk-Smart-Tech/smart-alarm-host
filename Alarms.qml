@@ -12,6 +12,8 @@ Item {
     property var alarms: valueOf
     property var popup: valueOf
 
+    property var time_of_first_alarm: mqttclient.find_first_alarm((GlobalTime.currentDateTime.getDay()===0) ? 6: GlobalTime.currentDateTime.getDay()-1)
+
     AlarmScreen {
         id: alarmPopup
     }
@@ -21,15 +23,18 @@ Item {
 
     function getTimeDiff(globaldate,first_alarm)
     {
-        if (!first_alarm) {
+        console.log("first_alarm= ",first_alarm)
+        if (first_alarm=="") {
             return { h: '-', m: '-' };
         }
+
         var hours = globaldate.getHours();
         var minutes = globaldate.getMinutes();
 
-        var alarmParts = first_alarm.time.split(":");
+        var alarmParts = first_alarm.split(":");
         var alarmHours = parseInt(alarmParts[0],10);
         var alarmMinutes = parseInt(alarmParts[1],10);
+        var id = parseInt(alarmParts[2],10);
 
         var globalTotalMinutes = hours * 60 + minutes;
         var alarmTotalMinutes = alarmHours * 60 + alarmMinutes;
@@ -48,8 +53,8 @@ Item {
         var rminutes = difference % 60;
         if(rhours==24 && rminutes==0)
         {
-            mqttclient.alarm_start(first_alarm.id)
-            alarmPopup.show(first_alarm)
+            //mqttclient.alarm_start(first_alarm.id)
+            //alarmPopup.show(first_alarm) // передавать аларм исходя из id
 
         }
         return { h: rhours, m: rminutes };
@@ -59,10 +64,11 @@ Item {
 
     property var diff: getTimeDiff(
         GlobalTime.currentDateTime,
-        mqttclient.alarms?.find(alarm => alarm["isEnabled"] === true)
+        time_of_first_alarm
+        //mqttclient.alarms?.find(alarm => alarm["isEnabled"] === true )//&& alarm["repeatDays"][((GlobalTime.currentDateTime.getDay()===0) ? 6: GlobalTime.currentDateTime.getDay()-1)]===true
     )
 
-    // property var diff:getTimeDiff(GlobalTime.currentDateTime,mqttclient.alarms?.[0]?.["time"])
+
 
 
 
@@ -119,7 +125,7 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["isEnabled"] === true))
+                            //alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["isEnabled"] === true))
                         }
                     }
                 }

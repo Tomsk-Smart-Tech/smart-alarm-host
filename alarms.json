@@ -1,164 +1,28 @@
 [
     {
-        "id": 8,
-        "isEnabled": true,
-        "isHaptic": false,
-        "isSended": false,
-        "label": "❤️",
-        "musicUri": "content://settings/system/alarm_alert",
-        "repeatDays": [
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
-        ],
-        "time": "23:50"
-    },
-    {
-        "id": 7,
-        "isEnabled": false,
-        "isHaptic": false,
-        "isSended": false,
-        "label": "Никита",
-        "musicUri": "content://settings/system/alarm_alert",
-        "repeatDays": [
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
-        ],
-        "time": "02:10"
-    },
-    {
-        "id": 4,
-        "isEnabled": false,
-        "isHaptic": false,
-        "isSended": false,
-        "label": "п",
-        "musicUri": "content://settings/system/alarm_alert",
-        "repeatDays": [
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
-        ],
-        "time": "04:25"
-    },
-    {
-        "id": 3,
-        "isEnabled": false,
-        "isHaptic": false,
-        "isSended": true,
-        "label": "Новый будильник",
-        "musicUri": "content://settings/system/alarm_alert",
-        "repeatDays": [
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
-        ],
-        "time": "05:25"
-    },
-    {
-        "id": 5,
-        "isEnabled": false,
-        "isHaptic": false,
-        "isSended": true,
-        "label": "Новый будильник",
-        "musicUri": "content://media/external/audio/media/240",
-        "repeatDays": [
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
-        ],
-        "time": "05:30"
-    },
-    {
-        "id": 6,
-        "isEnabled": false,
-        "isHaptic": false,
-        "isSended": true,
-        "label": "Новый будильник",
-        "musicUri": "content://settings/system/alarm_alert",
-        "repeatDays": [
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
-        ],
-        "time": "08:45"
-    },
-    {
-        "id": 9,
-        "isEnabled": false,
-        "isHaptic": false,
-        "isSended": true,
-        "label": "Новый будильник",
-        "musicUri": "content://settings/system/alarm_alert",
-        "repeatDays": [
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
-        ],
-        "time": "10:09"
-    },
-    {
-        "id": 1,
-        "isEnabled": false,
-        "isHaptic": true,
-        "isSended": true,
-        "label": "Новый будильник",
-        "musicUri": "content://settings/system/alarm_alert",
-        "repeatDays": [
-            false,
-            false,
-            false,
-            false,
-            true,
-            false,
-            false
-        ],
-        "time": "11:15"
-    },
-    {
+        "delay": "0",
+        "delete_after": false,
         "id": 2,
-        "isEnabled": false,
-        "isHaptic": false,
-        "isSended": true,
+        "isEnabled": true,
+        "isHaptic": "",
         "label": "Новый будильник",
         "musicUri": "content://settings/system/alarm_alert",
         "repeatDays": [
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
         ],
-        "time": "11:45"
+        "song": "/home/nikita/Downloads/alarmtest.mp3",
+        "time": "13:20"
+    },
+    {
+        "delay": "0",
+        "delete_after": false,
+        "id": 1,
+        "isEnabled": true,
+        "isHaptic": "",
+        "label": "Новый будильник",
+        "musicUri": "content://settings/system/alarm_alert",
+        "repeatDays": [
+        ],
+        "song": "/home/nikita/Downloads/alarmtest.mp3",
+        "time": "05:27"
     }
 ]
