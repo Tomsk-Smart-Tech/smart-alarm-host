@@ -9,6 +9,7 @@ RU:
   3.	Автоматическую синхронизацию данных с мобильным приложением с использованием протокола MQTT и платформы HiveMQ.
   4.  Удобное отображение важных погодных условий.
   5.  Встроенные датчики отображают микроклимат комнаты на экране.
+  6.  Интеграция с музыкальным сервисом Spotify.
 
 EN:
 The Smart Alarm Clock project is a home device developed on the Raspberry Pi platform, which is ideal for use in the home. 
@@ -20,4 +21,5 @@ The purpose of this part of the project is to create a program that provides:
   3.  Automatic data synchronization with the mobile application using the MQTT protocol and the HiveMQ platform.
   4.  Convenient display of important weather conditions.
   5.  Built-in sensors display room climate on the screen.
+  6.  Integration with the Spotify music service.
 
