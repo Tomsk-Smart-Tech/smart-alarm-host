@@ -34,7 +34,8 @@ class Weather:public QObject
 public:
     Weather();
 
-    QString get_city() const { return m_city; }
+    Q_INVOKABLE QString get_city() const { return m_city; }
+    Q_INVOKABLE QString get_region() const { return m_region; }
     QString get_latitude() const { return m_latitude; }
     QString get_longitude() const { return m_longitude; }
     quint64 get_time() const {return cur_time;}
@@ -44,6 +45,7 @@ public:
 
 
     Q_INVOKABLE void set_city(const QString &value);
+    Q_INVOKABLE void set_region(const QString &value);
     Q_INVOKABLE void request_position();
     Q_INVOKABLE void request_data();
 
@@ -66,6 +68,7 @@ private:
     QString weatherapi_key;
     QString openweathermap_key;
     QString m_city;
+    QString m_region;
     QString m_latitude;
     QString m_longitude;
     quint64 cur_time;

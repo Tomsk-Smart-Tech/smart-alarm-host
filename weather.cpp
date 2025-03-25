@@ -6,6 +6,7 @@ Weather::Weather() : n_manager(new QNetworkAccessManager(this))
     //setup city
     QString city=read_user_json("city");
     m_city=city;
+    m_region=read_user_json("region");
     //read api keys
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
@@ -37,6 +38,12 @@ void Weather::set_city(const QString &value)
         request_position();
 
     }
+}
+
+void Weather::set_region(const QString &value)
+{
+    m_region=value;
+    write_user_json("region",m_region);
 }
 
 void Weather::request_position()

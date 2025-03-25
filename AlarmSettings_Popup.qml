@@ -256,6 +256,7 @@ Popup {
                     width: 650
                     height: 40
                     model: terminal.songs
+                    textRole: "songName"
                     // Component.onCompleted: {
                     //     for (var i = 0; i < terminal.songs.length; i++) {
                     //         if (terminal.songs[i]["songPath"] === alarm_song) {
@@ -264,6 +265,7 @@ Popup {
                     //         }
                     //     }
                     // }
+                    //currentText:terminal.songs[soundComboBox.currentIndex]["songName"]
 
 
 

@@ -12,6 +12,9 @@ Item {
 
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
 
+    property var region_string:weatherr.get_region()
+    property var city_string :weatherr.get_city()
+
     Rectangle {
         id: rec
         anchors.fill: parent
@@ -70,6 +73,7 @@ Item {
                         height: 40
                         anchors.right: parent.right
                         textRole: "region"
+                        displayText:region_string
                         model: ListModel {
                             id: regionModel
                         }
@@ -97,7 +101,8 @@ Item {
                         }
 
                         contentItem: Text {
-                            text: regionComboBox.currentText
+                            //text: regionComboBox.currentText
+                            text: regionComboBox.displayText
                             anchors.left: parent.left
                             anchors.leftMargin: 8
                             color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
@@ -128,6 +133,8 @@ Item {
                                 MouseArea {
                                     anchors.fill: parent
                                     onClicked: {
+                                        region_string=model.region
+                                        city_string=""
                                         regionComboBox.currentIndex = index
                                         regionComboBox.popup.close()
                                     }
@@ -174,6 +181,7 @@ Item {
                         height: 40
                         anchors.right: parent.right
                         textRole: "name"
+                        displayText:city_string
                         model: page.cityModel
 
                         background: Rectangle {
@@ -199,7 +207,8 @@ Item {
                         }
 
                         contentItem: Text {
-                            text: cityComboBox.currentText
+                            //text: cityComboBox.currentText
+                            text: cityComboBox.displayText
                             anchors.left: parent.left
                             anchors.leftMargin: 8
                             color: page.textColor
@@ -228,6 +237,7 @@ Item {
                                 MouseArea {
                                     anchors.fill: parent
                                     onClicked: {
+                                        city_string=model.name
                                         cityComboBox.currentIndex = index
                                         cityComboBox.popup.close()
                                     }
@@ -240,6 +250,7 @@ Item {
                             var city = cityModel.get(cityComboBox.currentIndex);
                             if (city) {
                                 weatherr.set_city(city.name);
+                                weatherr.set_region(region_string);
                             }
                         }
                     }

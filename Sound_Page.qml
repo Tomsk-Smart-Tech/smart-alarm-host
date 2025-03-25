@@ -107,7 +107,7 @@ Item {
                 id: soundComboBox
                 width: parent.width
                 height: 40
-
+                textRole: "songName"
                 model: terminal.songs
 
                 background: Rectangle {
