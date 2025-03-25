@@ -39,6 +39,8 @@ Popup {
         alarm_min=parseInt(time_parts[1])
         alarm_id=selected_alarm["id"]
         alarm_song=selected_alarm["song"]
+
+        melodyButoon.checked = false;
         alarmDialog.open();
     }
 
@@ -352,7 +354,7 @@ Popup {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                             font.pointSize: 14
-                            text: melodyButoon.checked ? "►" : "▐ ▌"
+                            text: melodyButoon.checked ? "▐ ▌" : "►"
                         }
                     }
                     SequentialAnimation{
