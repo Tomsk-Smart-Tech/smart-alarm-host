@@ -32,7 +32,7 @@ Popup {
     function show(selected_alarm)
     {
         terminal.scanSongs(songsPath);
-        selectedDays=selected_alarm["repeatDays"]
+        selectedDays=selected_alarm["repeatDays"].slice()
         alarm_name=selected_alarm["label"]
         var time_parts=selected_alarm["time"].split(":")
         alarm_hours=parseInt(time_parts[0])
@@ -197,6 +197,10 @@ Popup {
                             checkable: true
                             property int index:model.index
                             checked: selectedDays[index]
+                            //checked:false
+                            // Component.onCompleted: {
+                            //     checked = popup.selectedDays[index];
+                            // }
                             background: Rectangle {
                                 id: rec
                                 // color: dayButton.checked ? "#cf8a29" : "#444"
