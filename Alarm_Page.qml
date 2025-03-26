@@ -269,7 +269,7 @@ Item {
                         }
 
                         Tumbler {
-                            id: minutesTumbler1
+                            id: minutesTumbler2
                             width: 80
                             height: 64
                             anchors.verticalCenter: parent.verticalCenter
@@ -298,7 +298,6 @@ Item {
                                     anchors.centerIn: parent
                                 }
                             }
-                            currentIndex: mqttclient.get_alarm_delay()
                             anchors.verticalCenterOffset: 0
                         }
 
@@ -314,7 +313,6 @@ Item {
                     Row {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
-                        anchors.rightMargin: 10
                         Rectangle {
                             id: button2
                             width: 50
@@ -330,14 +328,14 @@ Item {
                             SequentialAnimation {
                                 id: playAnimation2
                                 PropertyAnimation {
-                                    target: button2
+                                    target: button3
                                     property: "scale"
                                     duration: 100
                                     to: 0.8
                                 }
 
                                 PropertyAnimation {
-                                    target: button2
+                                    target: button3
                                     property: "scale"
                                     duration: 100
                                     to: 1
@@ -347,9 +345,9 @@ Item {
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
-                                    playAnimation2.start()
-                                    if (minutesTumbler1.currentIndex < minutesTumbler1.model - 1)
-                                        minutesTumbler1.currentIndex++
+                                    playAnimation3.start()
+                                    if (minutesTumbler2.currentIndex < minutesTumbler2.model - 1)
+                                        minutesTumbler2.currentIndex++
                                 }
                             }
                         }
@@ -387,8 +385,8 @@ Item {
                                 anchors.fill: parent
                                 onClicked: {
                                     playAnimation3.start()
-                                    if (minutesTumbler1.currentIndex > 0)
-                                        minutesTumbler1.currentIndex--
+                                    if (minutesTumbler2.currentIndex > 0)
+                                        minutesTumbler2.currentIndex--
                                 }
                             }
                         }
@@ -420,9 +418,8 @@ Item {
                     height: 61
                     anchors.right: parent.right
                     Tumbler {
-                        id: hoursTumbler2
+                        id: hoursTumbler3
                         model: 24
-                        currentIndex:alarmDialog.alarm_hours
                         width: 80
                         height: 60
                         visibleItemCount: 1
@@ -457,11 +454,10 @@ Item {
                         font.family: castFont.name
                     }
                     Tumbler {
-                        id: minutesTumbler2
+                        id: minutesTumbler4
                         model: 60
                         width: 80
                         height: 60
-                        currentIndex:alarmDialog.alarm_min
                         visibleItemCount: 1
                         // onCurrentIndexChanged: {
                         //     alarm_min = currentIndex
