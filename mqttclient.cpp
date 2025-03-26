@@ -515,6 +515,7 @@ Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day)
     // }
 
     QString result=QString::number(hours)+":"+QString::number(minutes)+":"+QString::number(res_id);
+    qDebug()<<"find_firs_alarm (без учета cur_time):"<<result;
     return result;
 
 }
@@ -676,28 +677,36 @@ Q_INVOKABLE void MqttClient::change_alarm(int id,int alarm_min,int alarm_hours,Q
 
     QTime new_time_formatted=QTime::fromString(new_time,"hh:mm");
 
-    for (int i = 0; i < m_alarms.size(); ++i)
+
+    if(m_alarms.isEmpty())
     {
-        QVariantMap map = m_alarms[i].toMap();
-        QString time=map["time"].toString();
-        QTime time_formatted=QTime::fromString(time,"hh:mm");
-        if (new_time_formatted<time_formatted)
+        m_alarms.push_back(new_map);
+    }
+    else
+    {
+        for (int i = 0; i < m_alarms.size(); ++i)
         {
-            m_alarms.insert(i,new_map);
-            break;
-        }
-        if(i==m_alarms.size()-1)
-        {
-            m_alarms.insert(i+1,new_map);
-            break;
+            QVariantMap map = m_alarms[i].toMap();
+            QString time=map["time"].toString();
+            QTime time_formatted=QTime::fromString(time,"hh:mm");
+            if (new_time_formatted<time_formatted)
+            {
+                m_alarms.insert(i,new_map);
+                break;
+            }
+            if(i==m_alarms.size()-1)
+            {
+                m_alarms.insert(i+1,new_map);
+                break;
+            }
         }
     }
-
     emit alarmschanged();
     QJsonArray jsonArray=alarms_to_json(m_alarms);
     QJsonDocument jsonDoc(jsonArray);
     save_data(jsonDoc,"alarms");
     publish_alarms();
+    qDebug()<<"alarm changed and saved";
 }
 
 Q_INVOKABLE void MqttClient::set_alarm_delay(int value)

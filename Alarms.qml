@@ -28,30 +28,33 @@ Item {
             return { h: '-', m: '-' };
         }
 
-        var hours = globaldate.getHours();
-        var minutes = globaldate.getMinutes();
+        var cur_hours = globaldate.getHours();
+        var cur_minutes = globaldate.getMinutes();
+        var cur_seconds = globaldate.getSeconds();
 
         var alarmParts = first_alarm.split(":");
         var alarmHours = parseInt(alarmParts[0],10);
         var alarmMinutes = parseInt(alarmParts[1],10);
+        var alarmSeconds = 0;
         var id = parseInt(alarmParts[2],10);
 
-        var globalTotalMinutes = hours * 60 + minutes;
-        var alarmTotalMinutes = alarmHours * 60 + alarmMinutes;
+        var cur_total_seconds=cur_hours*3600+cur_minutes*60+cur_seconds;
+        var alarm_total_seconds=alarmHours*3600+alarmMinutes*60+alarmSeconds;
 
         var difference;
-        if (alarmTotalMinutes > globalTotalMinutes)
+        if (alarm_total_seconds > cur_total_seconds)
         {
-            difference = alarmTotalMinutes - globalTotalMinutes;
+            difference = alarm_total_seconds - cur_total_seconds;
         }
         else
         {
-            difference = (24 * 60 )- (globalTotalMinutes-alarmTotalMinutes);
+            difference = (24 * 3600 )- (cur_total_seconds-alarm_total_seconds);
         }
 
-        var rhours = Math.floor(difference / 60);
-        var rminutes = difference % 60;
-        if(rhours==24 && rminutes==0)
+        var rhours = Math.floor(difference / 3600);
+        var remainingseconds=difference%3600;
+        var rminutes = Math.floor(remainingseconds / 60);
+        if(difference<=1)
         {
             mqttclient.alarm_start(id)
             alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["id"] === id)) // передавать аларм исходя из id
