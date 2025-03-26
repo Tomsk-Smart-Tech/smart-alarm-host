@@ -42,6 +42,28 @@ Item {
                 height: 256
                 source: "Kumkwat.png"
                 fillMode: Image.PreserveAspectFit
+                SequentialAnimation {
+                    id: playAnimation
+                    PropertyAnimation {
+                        target: image
+                        property: "scale"
+                        duration: 70
+                        to: 0.9
+                    }
+
+                    PropertyAnimation {
+                        target: image
+                        property: "scale"
+                        duration: 70
+                        to: 1
+                    }
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                       playAnimation.start()
+                    }
+                }
             }
             Rectangle{
                 width: 185

@@ -114,73 +114,126 @@ Item {
                 font.family: castFont.name
                 color: sound.textColor
             }
-            ComboBox {
-                id: soundComboBox
+            Row{
                 width: parent.width
                 height: 40
-                textRole: "songName"
-                model: terminal.songs
-                currentIndex:findSongIndex(terminal.cur_song);
-
-                background: Rectangle {
-                    color: sound.choiceColor
-                    radius: 10
-                }
-
-                indicator: Rectangle {
-                    width: 40
+                spacing: 20
+                ComboBox {
+                    id: soundComboBox
+                    width: parent.width - 110 - 20
                     height: 40
-                    radius: 10
-                    color: "#e5e5e5"
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
+                    textRole: "songName"
+                    model: terminal.songs
+                    currentIndex:findSongIndex(terminal.cur_song);
 
-                    Text {
-                        anchors.centerIn: parent
-                        text: "▼"
-                        color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
-                        font.family: castFont.name
-                        font.pixelSize: 24
+                    background: Rectangle {
+                        color: sound.choiceColor
+                        radius: 10
                     }
-                }
 
-                contentItem: Text {
-                    text: soundComboBox.currentText
-                    anchors.left: parent.left
-                    anchors.leftMargin: 8
-                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-                    font.pixelSize: 24
-                    verticalAlignment: Text.AlignVCenter
-                    font.family: castFont.name
-                }
-
-                delegate: Item {
-                    width: soundComboBox.width
-                    height: 40
-
-                    Rectangle {
-                        width: parent.width
+                    indicator: Rectangle {
+                        width: 40
                         height: 40
-                        color: soundComboBox.highlightedIndex === index ? sound.choiceColor : sound.backgroundColor
+                        radius: 10
+                        color: "#e5e5e5"
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
 
                         Text {
-                            // anchors.centerIn: parent
-                            anchors.fill: parent
-                            anchors.leftMargin: 8
-                            text: modelData["songName"]
-                            color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-                            font.pixelSize: 24
+                            anchors.centerIn: parent
+                            text: "▼"
+                            color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
                             font.family: castFont.name
+                            font.pixelSize: 24
                         }
                     }
 
+                    contentItem: Text {
+                        text: soundComboBox.currentText
+                        anchors.left: parent.left
+                        anchors.leftMargin: 8
+                        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                        font.pixelSize: 24
+                        verticalAlignment: Text.AlignVCenter
+                        font.family: castFont.name
+                    }
+
+                    delegate: Item {
+                        width: soundComboBox.width
+                        height: 40
+
+                        Rectangle {
+                            width: parent.width
+                            height: 40
+                            color: soundComboBox.highlightedIndex === index ? sound.choiceColor : sound.backgroundColor
+
+                            Text {
+                                // anchors.centerIn: parent
+                                anchors.fill: parent
+                                anchors.leftMargin: 8
+                                text: modelData["songName"]
+                                color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                font.pixelSize: 24
+                                font.family: castFont.name
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                soundComboBox.currentIndex = index
+                                console.log(modelData["songPath"])
+                                //terminal.set_song(modelData["songPath"])
+                                soundComboBox.popup.close()
+                            }
+                        }
+                    }
+                }
+                Button{
+                    id: melodyButoon
+                    width: 110
+                    height: 40
+                    checked: false
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    background: Rectangle{
+                        radius: 10
+                        color: "#555555"
+                        Text{
+                            color: "#ffffff"
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.pointSize: 14
+                            text: melodyButoon.checked ? "▐ ▌" : "►"
+                            font.family: castFont.name
+                        }
+                    }
+                    SequentialAnimation{
+                        id: playAnimation4
+                        PropertyAnimation {
+                            target: melodyButoon
+                            property: "scale"
+                            duration: 100
+                            to: 0.8
+                        }
+                        PropertyAnimation {
+                            target: melodyButoon
+                            property: "scale"
+                            duration: 100
+                            to: 1
+                        }
+                    }
                     MouseArea {
+                        id: playPauseButton1
                         anchors.fill: parent
                         onClicked: {
-                            soundComboBox.currentIndex = index
-                            console.log(modelData["songPath"])
-                            terminal.set_song(modelData["songPath"])
-                            soundComboBox.popup.close()
+                            // soundComboBox.currentIndex = index
+                            // console.log(modelData["songPath"])
+                            // terminal.set_song(modelData["songPath"])
+                            // soundComboBox.popup.close()
+                            playAnimation4.start();
+                            melodyButoon.checked = !melodyButoon.checked;
                         }
                     }
                 }

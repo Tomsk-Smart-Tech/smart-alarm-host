@@ -31,7 +31,7 @@ Item {
                 ListElement { name: "Дата и время" }
                 ListElement { name: "Кастомизация" }
                 ListElement { name: "Хранилище" }
-                ListElement { name: "Умные будильники" }
+                ListElement { name: "Спец. настройки" }
                 ListElement { name: "Об устройстве" }
             }
 
@@ -79,7 +79,7 @@ Item {
                             "Дата и время": "Date_and_time_Page.qml",
                             "Кастомизация": "Color_Page.qml",
                             "Хранилище": "Storage_Page.qml",
-                            "Умные будильники": "Alarm_Page.qml",
+                            "Спец. настройки": "Alarm_Page.qml",
                             "Об устройстве": "About_Page.qml"
                         };
 
@@ -131,11 +131,27 @@ Item {
         width: 1024 - 1024 / 3
         height: 600
         source: "InitialPage.qml"
+
+        onSourceChanged: {
+            slideAnimation.start();
+        }
+
+        PropertyAnimation {
+            id: slideAnimation
+            target: loader
+            property: "x"
+            from: 1024
+            to: 1024 / 3
+            duration: 300
+            easing.type: Easing.OutCubic
+        }
+
         onLoaded: {
             loader.item.backgroundColor = settings.backgroundColor
             loader.item.textColor = settings.textColor
         }
     }
+
     Rectangle {
         x: 1024/3
         y: 0

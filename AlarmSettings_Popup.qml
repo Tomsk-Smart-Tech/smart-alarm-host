@@ -360,7 +360,7 @@ Popup {
                     checked: false
                     anchors.verticalCenter: parent.verticalCenter
                     background: Rectangle{
-                        radius: 25
+                        radius: 10
                         color: "#555555"
                         Text{
                             color: "#ffffff"
@@ -369,6 +369,7 @@ Popup {
                             verticalAlignment: Text.AlignVCenter
                             font.pointSize: 14
                             text: melodyButoon.checked ? "▐ ▌" : "►"
+                            font.family: castFont.name
                         }
                     }
                     SequentialAnimation{

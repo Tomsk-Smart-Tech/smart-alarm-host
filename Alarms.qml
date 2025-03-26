@@ -226,7 +226,7 @@ Item {
                             anchors.bottom: parent.bottom
                             anchors.leftMargin: 10
                             text: modelData["label"]
-                            font.pointSize: 18
+                            font.pointSize: 16
                             font.family: castFont1.name
                             color: "white"
                             elide: Text.ElideRight
