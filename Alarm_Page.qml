@@ -269,18 +269,18 @@ Item {
                         }
 
                         Tumbler {
-                            id: minutesTumbler2
+                            id: daytumbler
                             width: 80
                             height: 64
                             anchors.verticalCenter: parent.verticalCenter
                             visibleItemCount: 1
                             spacing: 5
-                            currentIndex:mqttclient.alarm_delay
-                            onCurrentIndexChanged: {
-                                var selectedMinute = currentIndex
-                                mqttclient.set_alarm_delay(selectedMinute)
+                            // currentIndex:mqttclient.alarm_delay
+                            // onCurrentIndexChanged: {
+                            //     var selectedMinute = currentIndex
+                            //     mqttclient.set_alarm_delay(selectedMinute)
 
-                            }
+                            // }
                             model: 8
                             delegate: Rectangle {
                                 color: "#00000000"
@@ -314,52 +314,13 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         Rectangle {
-                            id: button2
-                            width: 50
-                            height: 50
-                            color: "#00000000"
-                            Text {
-                                color: page.textColor
-                                text: "\u25b2"
-                                font.pixelSize: 24
-                                anchors.centerIn: parent
-                            }
-
-                            SequentialAnimation {
-                                id: playAnimation2
-                                PropertyAnimation {
-                                    target: button3
-                                    property: "scale"
-                                    duration: 100
-                                    to: 0.8
-                                }
-
-                                PropertyAnimation {
-                                    target: button3
-                                    property: "scale"
-                                    duration: 100
-                                    to: 1
-                                }
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    playAnimation3.start()
-                                    if (minutesTumbler2.currentIndex < minutesTumbler2.model - 1)
-                                        minutesTumbler2.currentIndex++
-                                }
-                            }
-                        }
-
-                        Rectangle {
                             id: button3
                             width: 50
                             height: 50
                             color: "#00000000"
                             Text {
                                 color: page.textColor
-                                text: "\u25bc"
+                                text: "\u25b2"
                                 font.pixelSize: 24
                                 anchors.centerIn: parent
                             }
@@ -385,8 +346,47 @@ Item {
                                 anchors.fill: parent
                                 onClicked: {
                                     playAnimation3.start()
-                                    if (minutesTumbler2.currentIndex > 0)
-                                        minutesTumbler2.currentIndex--
+                                    if (daytumbler.currentIndex < daytumbler.model - 1)
+                                        daytumbler.currentIndex++
+                                }
+                            }
+                        }
+
+                        Rectangle {
+                            id: button4
+                            width: 50
+                            height: 50
+                            color: "#00000000"
+                            Text {
+                                color: page.textColor
+                                text: "\u25bc"
+                                font.pixelSize: 24
+                                anchors.centerIn: parent
+                            }
+
+                            SequentialAnimation {
+                                id: playAnimation4
+                                PropertyAnimation {
+                                    target: button4
+                                    property: "scale"
+                                    duration: 100
+                                    to: 0.8
+                                }
+
+                                PropertyAnimation {
+                                    target: button4
+                                    property: "scale"
+                                    duration: 100
+                                    to: 1
+                                }
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    playAnimation4.start()
+                                    if (daytumbler.currentIndex > 0)
+                                        daytumbler.currentIndex--
                                 }
                             }
                         }
@@ -418,7 +418,7 @@ Item {
                     height: 61
                     anchors.right: parent.right
                     Tumbler {
-                        id: hoursTumbler3
+                        id: hoursTumbler4
                         model: 24
                         width: 80
                         height: 60
