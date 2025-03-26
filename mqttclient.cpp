@@ -469,8 +469,8 @@ Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day)
             }
         }
     }
-    qDebug()<<"whatday="<<whatday;
-    qDebug()<<"cur_day="<<cur_day;
+    // qDebug()<<"whatday="<<whatday;
+    // qDebug()<<"cur_day="<<cur_day;
     if(whatday==cur_day || whatday==-1) // если будильник с повторениями не нашелся или будильник с повторениями на текущий день
     {
         if(min_time<min_time_rep && find_without_rep==true)
@@ -703,5 +703,6 @@ Q_INVOKABLE void MqttClient::change_alarm(int id,int alarm_min,int alarm_hours,Q
 Q_INVOKABLE void MqttClient::set_alarm_delay(int value)
 {
     alarm_delay=value;
+    emit alarm_delay_changed();
     write_user_json("standart_delay",QString::number(alarm_delay));
 }

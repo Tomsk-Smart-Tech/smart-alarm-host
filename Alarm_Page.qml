@@ -61,7 +61,7 @@ Item {
                             anchors.verticalCenterOffset: 0
                             visibleItemCount: 1
                             spacing: 5
-                            currentIndex:mqttclient.get_alarm_delay()
+                            currentIndex:mqttclient.alarm_delay
                             onCurrentIndexChanged: {
                                 var selectedMinute = currentIndex
                                 mqttclient.set_alarm_delay(selectedMinute)

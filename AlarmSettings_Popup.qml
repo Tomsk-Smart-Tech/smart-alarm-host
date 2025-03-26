@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import QtMultimedia 6.0
 
 Popup {
     id: alarmDialog
@@ -18,7 +19,7 @@ Popup {
     property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
 
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
-
+    property var volume :spotify.volume
     property int alarm_min
     property int alarm_hours
     property bool delete_after:false
@@ -28,6 +29,15 @@ Popup {
     property var selectedDays
 
     signal daysChanged(var days)
+
+
+    function findSongIndex(songPath) {
+        for (var i = 0; i < terminal.songs.length; i++) {
+            if (terminal.songs[i]["songPath"] === songPath) {
+                return i;
+            }
+        }
+    }
 
     function show(selected_alarm)
     {
@@ -41,8 +51,12 @@ Popup {
         alarm_song=selected_alarm["song"]
 
         melodyButoon.checked = false;
+        soundComboBox.currentIndex=findSongIndex(alarm_song);
         alarmDialog.open();
     }
+
+
+    onClosed:{alarmSound.stop()}
 
     background:    Rectangle {
         id: rectangle1
@@ -271,7 +285,7 @@ Popup {
                     //         }
                     //     }
                     // }
-                    //currentText:terminal.songs[soundComboBox.currentIndex]["songName"]
+                    // displayText:terminal.songs[soundComboBox.currentIndex]["songName"]
 
 
 
@@ -378,6 +392,16 @@ Popup {
                         onClicked: {
                             playAnimation4.start();
                             melodyButoon.checked = !melodyButoon.checked;
+                            if(melodyButoon.checked===true)
+                            {
+                                alarmSound.play()
+                            }
+                            else
+                            {
+                                alarmSound.pause()
+                            }
+
+
                         }
                     }
                 }
@@ -464,6 +488,7 @@ Popup {
                     playAnimation1.start()
                     mqttclient.change_alarm(alarm_id,alarm_min,alarm_hours,alarm_song,delete_after,selectedDays)
                     alarmDialog.close()
+
                 }
             }
         }
@@ -510,6 +535,7 @@ Popup {
                 onClicked: {
                     playAnimation2.start()
                     alarmDialog.close()
+
                 }
             }
         }
@@ -560,6 +586,7 @@ Popup {
                     playAnimation3.start()
                     mqttclient.delete_alarm(alarm_id)
                     alarmDialog.close()
+
                 }
             }
         }
@@ -581,5 +608,16 @@ Popup {
             to: 0.9
             easing.type: Easing.InBack
         }
+    }
+
+    MediaPlayer {
+        id: alarmSound
+        audioOutput: audioOutput
+        source: "file://"+alarmDialog.alarm_song
+        loops: MediaPlayer.Infinite
+    }
+    AudioOutput {
+        id: audioOutput
+        volume: alarmDialog.volume/100
     }
 }

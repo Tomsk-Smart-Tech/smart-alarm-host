@@ -212,5 +212,6 @@ Q_INVOKABLE QVariant Spotify::current_track_info(const QString &key)
 Q_INVOKABLE void Spotify::set_volume(int value)
 {
     volume=value;
+    emit volume_changed();
     write_user_json("volume",QString::number(volume));
 }

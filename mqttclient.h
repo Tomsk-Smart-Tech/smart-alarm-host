@@ -43,7 +43,7 @@
 struct config {
     std::string brokers = "6a41760a26ec43f2b0e532601ce780e1.s1.eu.hivemq.cloud";
     uint16_t port = 8883;
-    std::string client_id = "meme";
+    std::string client_id = "meme1";
     std::string username = "nikita";
     std::string password = "Flowers123";
 };
@@ -77,6 +77,7 @@ class MqttClient : public QObject
     Q_PROPERTY(QVariantList events READ get_events NOTIFY eventschanged)
     Q_PROPERTY(QVariantList alarms READ get_alarms NOTIFY alarmschanged)
     Q_PROPERTY(QVariantList events_onDay READ get_events_onDay NOTIFY events_onDaychanged)
+    Q_PROPERTY(int alarm_delay READ get_alarm_delay NOTIFY alarm_delay_changed )
 public:
     explicit MqttClient(QObject *parent = nullptr);
     ~MqttClient();
@@ -107,6 +108,7 @@ signals:
     void eventschanged();
     void alarmschanged();
     void events_onDaychanged();
+    void alarm_delay_changed();
 
 private slots:
     void setConnectionStatus(int status);

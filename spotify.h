@@ -11,6 +11,7 @@
 class Spotify : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(int volume READ get_volume NOTIFY volume_changed)
 public:
     explicit Spotify(QObject *parent = nullptr);
 
@@ -27,6 +28,7 @@ public:
 
 signals:
     void accessTokenUpdated();
+    void volume_changed();
 
 
 private slots:

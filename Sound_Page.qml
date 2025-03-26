@@ -12,6 +12,17 @@ Item {
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
 
     property alias controlWidth: control.width
+
+    function findSongIndex(songPath) {
+        for (var i = 0; i < terminal.songs.length; i++) {
+            if (terminal.songs[i]["songPath"] === songPath) {
+                return i;
+            }
+        }
+    }
+
+
+
     Rectangle{
         id:rec
         anchors.fill: parent
@@ -76,7 +87,7 @@ Item {
                     Slider {
                         id: control
                         from: 0
-                        value: spotify.get_volume()
+                        value: spotify.volume
                         width: parent.width
                         height: 30
                         to: 100
@@ -109,6 +120,7 @@ Item {
                 height: 40
                 textRole: "songName"
                 model: terminal.songs
+                currentIndex:findSongIndex(terminal.cur_song);
 
                 background: Rectangle {
                     color: sound.choiceColor
@@ -167,7 +179,7 @@ Item {
                         onClicked: {
                             soundComboBox.currentIndex = index
                             console.log(modelData["songPath"])
-                            //terminal.set_song(modelData["songPath"])
+                            terminal.set_song(modelData["songPath"])
                             soundComboBox.popup.close()
                         }
                     }
