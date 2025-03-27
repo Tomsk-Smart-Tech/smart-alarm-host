@@ -128,7 +128,7 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            //alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["isEnabled"] === true))
+                            alarmDialog.add_show()
                         }
                     }
                 }

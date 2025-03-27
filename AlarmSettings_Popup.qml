@@ -55,6 +55,16 @@ Popup {
         alarmDialog.open();
     }
 
+    function add_show()
+    {
+        terminal.scanSongs(songsPath);
+        alarm_name="Быстрый будильник"
+        melodyButoon.checked = false;
+        rectangle3.visible = false
+        alarmDialog.open();
+
+    }
+
 
     onClosed:{alarmSound.stop()}
 
