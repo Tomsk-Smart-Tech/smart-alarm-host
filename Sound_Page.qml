@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import QtMultimedia 6.0
 
 Item {
     id: sound
@@ -182,8 +183,8 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 soundComboBox.currentIndex = index
-                                console.log(modelData["songPath"])
-                                //terminal.set_song(modelData["songPath"])
+                                //console.log(modelData["songPath"])
+                                terminal.set_song(modelData["songPath"])
                                 soundComboBox.popup.close()
                             }
                         }
@@ -228,16 +229,32 @@ Item {
                         id: playPauseButton1
                         anchors.fill: parent
                         onClicked: {
-                            // soundComboBox.currentIndex = index
-                            // console.log(modelData["songPath"])
-                            // terminal.set_song(modelData["songPath"])
-                            // soundComboBox.popup.close()
                             playAnimation4.start();
                             melodyButoon.checked = !melodyButoon.checked;
+                            if(melodyButoon.checked===true)
+                            {
+                                alarmSound.play()
+                            }
+                            else
+                            {
+                                alarmSound.stop()
+                            }
                         }
                     }
                 }
             }
         }
     }
+
+    MediaPlayer {
+        id: alarmSound
+        audioOutput: audioOutput
+        source: "file://"+terminal.cur_song
+        loops: MediaPlayer.Infinite
+    }
+    AudioOutput {
+        id: audioOutput
+        volume: spotify.volume/100
+    }
+
 }

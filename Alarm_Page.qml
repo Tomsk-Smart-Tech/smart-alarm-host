@@ -7,6 +7,25 @@ Item {
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
 
     property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
+    // property var delay:mqttclient.alarm_delay
+    property var smooth_sound:user.smooth_sound
+
+    property var time_event_min
+    property var time_event_hours
+    property var res_time_event
+
+    Component.onCompleted:
+    {
+        var str=user.get_time_event()
+        console.log(str)
+        var alarmParts = str.split(":");
+        time_event_hours = parseInt(alarmParts[0],10);
+        time_event_min = parseInt(alarmParts[1],10);
+        console.log(time_event_hours,":",time_event_min)
+    }
+
+
     Rectangle{
         id:rec
         anchors.fill: parent
@@ -72,11 +91,13 @@ Item {
                         anchors.verticalCenterOffset: 0
                         visibleItemCount: 1
                         spacing: 5
+                        // Component.onCompleted: {
+                        //     minutesTumbler.currentIndex = page.delay//mqttclient.alarm_delay
+                        // }
                         currentIndex:mqttclient.get_alarm_delay()
                         onCurrentIndexChanged: {
                             var selectedMinute = currentIndex
                             mqttclient.set_alarm_delay(selectedMinute)
-
                         }
                         delegate: Rectangle{
                             color:"transparent"
@@ -206,7 +227,7 @@ Item {
                     id: list_switch
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    checked: false
+                    checked: page.smooth_sound
                     indicator : Rectangle{
                         anchors.centerIn: parent
                         implicitWidth: 50
@@ -222,15 +243,22 @@ Item {
                             color: list_switch.down ? Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.5) : Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1)
                         }
                     }
-                    // onCheckedChanged: {
+                    Binding {
+                        target: list_switch
+                        property: "checked"
+                        value: page.smooth_sound
+                        when: !list_switch.pressed
+                    }
 
-                    // }
+                    onToggled: {
+                        user.set_smooth_sound(checked)
+                    }
                 }
             }
             Text {
                 width: 327
                 height: 31
-                text: qsTr("Настройки календаря")
+                text: qsTr("Настройки напоминаний")
                 font.pixelSize: 24
                 font.family: castFont.name
                 color: page.textColor
@@ -275,13 +303,16 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
                             visibleItemCount: 1
                             spacing: 5
-                            // currentIndex:mqttclient.alarm_delay
-                            // onCurrentIndexChanged: {
-                            //     var selectedMinute = currentIndex
-                            //     mqttclient.set_alarm_delay(selectedMinute)
-
-                            // }
                             model: 8
+                            // Component.onCompleted: {
+                            //     daytumbler.currentIndex = user.event_remind
+                            // }
+                            currentIndex:user.get_event_remind()
+                            onCurrentIndexChanged: {
+                                var days = daytumbler.currentIndex
+                                user.set_event_remind(days)
+                            }
+
                             delegate: Rectangle {
                                 color: "#00000000"
                                 Text {
@@ -298,6 +329,7 @@ Item {
                                     anchors.centerIn: parent
                                 }
                             }
+
                             anchors.verticalCenterOffset: 0
                         }
 
@@ -424,8 +456,11 @@ Item {
                         height: 60
                         visibleItemCount: 1
                         spacing: 5
+                        // currentIndex:page.time_event_hours
                         // onCurrentIndexChanged: {
-                        //     alarmDialog.alarm_hours = currentIndex
+                        //     page.time_event_hours = currentIndex
+                        //     page.res_time_event=page.time_event_hours+":"+page.time_event_min
+                        //     user.set_time_event(page.res_time_event)
                         // }
                         delegate: Rectangle{
                             color:"transparent"
@@ -459,8 +494,12 @@ Item {
                         width: 80
                         height: 60
                         visibleItemCount: 1
+                        // currentIndex:page.time_event_min
+                        // currentIndex:parseInt(user.get_time_event.substring(3, 5))
                         // onCurrentIndexChanged: {
-                        //     alarm_min = currentIndex
+                        //     page.time_event_min= currentIndex
+                        //     page.res_time_event=page.time_event_hours+":"+page.time_event_min
+                        //     user.set_time_event(page.res_time_event)
                         // }
                         delegate: Rectangle{
                             color:"transparent"

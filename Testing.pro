@@ -12,6 +12,7 @@ SOURCES += \
     main.cpp \
     mqttclient.cpp \
     spotify.cpp \
+    user.cpp \
     weather.cpp \
 
 resources.files = \
@@ -84,4 +85,5 @@ HEADERS += \
     linuxterminal.h \
     mqttclient.h \
     spotify.h \
+    user.h \
     weather.h \

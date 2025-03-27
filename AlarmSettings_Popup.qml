@@ -163,7 +163,7 @@ Popup {
                         currentIndex:alarmDialog.alarm_min
                         visibleItemCount: 1
                         onCurrentIndexChanged: {
-                            alarm_min = currentIndex
+                            alarmDialog.alarm_min = currentIndex
                         }
                         delegate: Rectangle{
                             color:"transparent"
@@ -355,9 +355,9 @@ Popup {
                             anchors.fill: parent
                             onClicked: {
                                 soundComboBox.currentIndex = index
-                                console.log(modelData["songPath"])
+                                //console.log(modelData["songPath"])
                                 alarm_song=modelData["songPath"]
-                                //terminal.set_song(modelData["songPath"])
+                                terminal.set_song(modelData["songPath"])
                                 soundComboBox.popup.close()
                             }
                         }

@@ -4,6 +4,7 @@
 #include <QQmlContext>
 #include <QtQml>
 
+#include "user.h"
 #include "weather.h"
 #include "mqttclient.h"
 #include "linuxterminal.h"
@@ -26,7 +27,8 @@ int main(int argc, char *argv[])
     // QtWebEngineQuick::initialize();
     QQuickStyle::setStyle("Basic");
 
-
+    User user;
+    engine.rootContext()->setContextProperty("user",&user);
     Weather weather;
     engine.rootContext()->setContextProperty("weatherr", &weather);
     MqttClient client;
