@@ -134,6 +134,7 @@ Window {
             id: cal
             color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
             readonly property date currentDate: new Date()
+            Music{}
 
         }
     }
