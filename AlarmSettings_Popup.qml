@@ -51,8 +51,13 @@ Popup {
         alarm_song=selected_alarm["song"]
 
         melodyButoon.checked = false;
-        soundComboBox.currentIndex=findSongIndex(alarm_song);
+        // soundComboBox.currentIndex=findSongIndex(alarm_song);
         alarmDialog.open();
+
+        rectangle7.visible = false
+        rectangle6.visible = true
+
+        rectangle3.visible = true
     }
 
     function add_show()
@@ -63,6 +68,8 @@ Popup {
         rectangle3.visible = false
         alarmDialog.open();
 
+        rectangle6.visible = false
+        rectangle7.visible = true
     }
 
 
@@ -498,6 +505,56 @@ Popup {
                 onClicked: {
                     playAnimation1.start()
                     mqttclient.change_alarm(alarm_id,alarm_min,alarm_hours,alarm_song,delete_after,selectedDays)
+                    alarmDialog.close()
+
+                }
+            }
+        }
+        Rectangle {
+            id: rectangle7
+            width: 150
+            height: 40
+            color: "#67b145"
+            radius: 15
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.rightMargin: 10
+            anchors.bottomMargin: 10
+
+            SequentialAnimation{
+                id: playAnimation7
+                PropertyAnimation {
+                    target: rectangle7
+                    property: "scale"
+                    duration: 100
+                    to: 0.8
+                }
+                PropertyAnimation {
+                    target: rectangle7
+                    property: "scale"
+                    duration: 100
+                    to: 1
+                }
+            }
+
+            Text {
+                id: _text12
+                color: "#ffffff"
+                text: qsTr("Создать")
+                anchors.fill: parent
+                anchors.topMargin: 0
+                anchors.bottomMargin: 4
+                font.pixelSize: 27
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font.family: castFont.name
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    // Кнопка создания
+                    playAnimation1.start()
+
                     alarmDialog.close()
 
                 }
