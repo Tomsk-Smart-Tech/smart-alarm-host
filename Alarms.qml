@@ -12,7 +12,7 @@ Item {
     property var alarms: valueOf
     property var popup: valueOf
 
-    property var time_of_first_alarm: mqttclient.find_first_alarm((GlobalTime.currentDateTime.getDay()===0) ? 6: GlobalTime.currentDateTime.getDay()-1)
+    property var time_of_first_alarm: mqttclient.find_first_alarm((GlobalTime.currentDateTime.getDay()===0) ? 6: GlobalTime.currentDateTime.getDay()-1,GlobalTime.currentDateTime)
 
     AlarmScreen {
         id: alarmPopup
@@ -56,8 +56,9 @@ Item {
         var rminutes = Math.floor(remainingseconds / 60);
         if(difference<=1)
         {
-            mqttclient.alarm_start(id)
+
             alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["id"] === id)) // передавать аларм исходя из id
+            mqttclient.alarm_start(id)
 
         }
         return { h: rhours, m: rminutes };

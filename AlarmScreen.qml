@@ -17,6 +17,7 @@ Popup {
     property var delay :mqttclient.get_alarm_delay()
     property var song_path
     property var volume :spotify.volume
+    property var smooth_sound:user.smooth_sound
 
 
     function show(first_alarm)
@@ -78,6 +79,15 @@ Popup {
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         font.family: castFont.name
+                    }
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked: {
+                            mqttclient.create_alarm(delay,parseInt(cur_time.substring(3,5)),parseInt(cur_time.substring(0,2)),song_path,true,[false,false,false,false,false,false,false],label,true)
+                            alarmSound.stop();
+                            alarmPopup.close();
+                        }
                     }
                 }
 
@@ -143,12 +153,37 @@ Popup {
         audioOutput: audioOutput
         source: "file://"+alarmPopup.song_path
         loops: MediaPlayer.Infinite
+        onPlaybackStateChanged:
+        {
+            if(playbackState===MediaPlayer.PlayingState)
+            {
+                if(alarmPopup.smooth_sound)
+                {
+                    audioOutput.volume=0
+                    volumechanger.running=true
+                }
+                else
+                {
+                    audioOutput.volume=alarmPopup.volume/100
+                }
+            }
+        }
     }
     AudioOutput {
         id: audioOutput
-        volume: alarmPopup.volume/100
+        volume: 0
     }
 
+    NumberAnimation {
+        id: volumechanger
+        target: audioOutput
+        property: "volume"
+        from: 0
+        to: alarmPopup.volume / 100
+        duration: 15000
+        easing.type: Easing.InQuad
+
+    }
     // Rectangle {
     //     id: rectangle3
     //     color: "#ffffff"

@@ -13,18 +13,15 @@ Item {
 
     property var time_event_min
     property var time_event_hours
-    property var res_time_event
 
-    Component.onCompleted:
-    {
-        var str=user.get_time_event()
-        console.log(str)
-        var alarmParts = str.split(":");
-        time_event_hours = parseInt(alarmParts[0],10);
-        time_event_min = parseInt(alarmParts[1],10);
-        console.log(time_event_hours,":",time_event_min)
+
+
+    function updateTimeString() {
+        // Без создания Date объекта
+        var hh = time_event_hours < 10 ? "0" + time_event_hours : time_event_hours;
+        var mm = time_event_min < 10 ? "0" + time_event_min : time_event_min;
+        user.set_time_event(hh + ":" + mm);
     }
-
 
     Rectangle{
         id:rec
@@ -456,12 +453,13 @@ Item {
                         height: 60
                         visibleItemCount: 1
                         spacing: 5
-                        // currentIndex:page.time_event_hours
-                        // onCurrentIndexChanged: {
-                        //     page.time_event_hours = currentIndex
-                        //     page.res_time_event=page.time_event_hours+":"+page.time_event_min
-                        //     user.set_time_event(page.res_time_event)
-                        // }
+                        currentIndex:user.get_time_event().substring(0,2)
+                        onCurrentIndexChanged: {
+                            if (time_event_hours !== currentIndex) {
+                                time_event_hours = currentIndex;
+                                updateTimeString();
+                            }
+                        }
                         delegate: Rectangle{
                             color:"transparent"
                             Text{
@@ -494,13 +492,13 @@ Item {
                         width: 80
                         height: 60
                         visibleItemCount: 1
-                        // currentIndex:page.time_event_min
-                        // currentIndex:parseInt(user.get_time_event.substring(3, 5))
-                        // onCurrentIndexChanged: {
-                        //     page.time_event_min= currentIndex
-                        //     page.res_time_event=page.time_event_hours+":"+page.time_event_min
-                        //     user.set_time_event(page.res_time_event)
-                        // }
+                        currentIndex:user.get_time_event().substring(3,5)
+                        onCurrentIndexChanged: {
+                            if (time_event_min !== currentIndex) {
+                                time_event_min = currentIndex;
+                                updateTimeString();
+                            }
+                        }
                         delegate: Rectangle{
                             color:"transparent"
                             Text{

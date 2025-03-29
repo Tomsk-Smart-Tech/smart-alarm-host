@@ -8,7 +8,7 @@ class User: public QObject
     Q_OBJECT
     Q_PROPERTY(bool smooth_sound READ get_smooth_sound NOTIFY smooth_sound_changed)
     Q_PROPERTY(int event_remind READ get_event_remind NOTIFY event_remind_changed )
-    Q_PROPERTY(QString time_event READ get_time_event NOTIFY time_event_changed)
+    Q_PROPERTY(QString time_event READ get_time_event WRITE set_time_event NOTIFY time_event_changed)
 public:
     User();
     Q_INVOKABLE bool get_smooth_sound(){return smooth_sound;};

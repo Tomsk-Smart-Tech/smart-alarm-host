@@ -86,7 +86,7 @@ public:
     Q_INVOKABLE QVariantList get_alarms() const {return m_alarms;}
     Q_INVOKABLE QVariantList get_events_onDay() const {return m_events_onDay;}
 
-    Q_INVOKABLE QString  find_first_alarm(int cur_day);
+    Q_INVOKABLE QString  find_first_alarm(int cur_day,const QVariant cur_time);
     Q_INVOKABLE void alarm_start(int id); //функция основная для срабатываня будильника
 
     Q_INVOKABLE void get_events_onDay(qint64 timestamp);
@@ -98,6 +98,7 @@ public:
     Q_INVOKABLE void update_alarm_status(int id,bool status); //для мини будильника
     Q_INVOKABLE void delete_alarm(int id);
     Q_INVOKABLE void change_alarm(int id,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays);
+    Q_INVOKABLE void create_alarm(int additional,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays,QString label,bool is_temp);
 
     Q_INVOKABLE void set_alarm_delay(int value);
     Q_INVOKABLE int get_alarm_delay(){return alarm_delay;};
