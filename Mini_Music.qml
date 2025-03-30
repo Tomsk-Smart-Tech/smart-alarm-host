@@ -7,6 +7,9 @@ Item {
     property int x_pos: 10
     property int y_pos: 10
 
+    property bool currentlyPlaying: false
+    signal playPauseClicked()
+
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
@@ -24,6 +27,7 @@ Item {
         id: castFont
         source: "ofont.ru_Nunito.ttf"
     }
+
 
     Rectangle {
         id: blurRect
@@ -72,10 +76,12 @@ Item {
         Rectangle {
             id: rectangle
             anchors.left: parent.left
+            anchors.right: parent.right
             anchors.top: parent.top
             anchors.leftMargin: 10
+            anchors.rightMargin: 140
             anchors.topMargin: 10
-            width: 86  // Установите ширину
+            // Установите ширину
             height: 86 // Установите высоту
             color: "transparent"
             radius: 15
@@ -87,6 +93,15 @@ Item {
                 fillMode: Image.PreserveAspectCrop // Это важно для правильного масштабирования
             }
         }
+        // Image{
+        //     width: 45
+        //     height: 45
+        //     anchors.right: parent.right
+        //     anchors.top: parent.top
+        //     anchors.rightMargin: 10
+        //     anchors.topMargin: 10
+        //     source: "music_icon/music.png"
+        // }
 
 
         Text {
@@ -94,163 +109,165 @@ Item {
             text: qsTr("mea maxima culpa")
             anchors.top: parent.top
             anchors.topMargin: 104
-            font.pixelSize: 22
+            font.pixelSize: 23
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width
             font.family: castFont.name
             color: miniMusic.textColor
         }
-
-
-        Rectangle {
-            id: rectangle1
-            width: 65
-            height: 65
-            // color: miniMusic.widColorSecond
-            radius: 38
-            anchors.left: parent.left
+        Text {
+            id: _text1
+            text: qsTr("pyrokinesis")
             anchors.top: parent.top
-            anchors.leftMargin: 86
-            anchors.topMargin: 163
-            color: "transparent"
-            Text {
-                id: buttonText
-                height: 39
-                text: "▐ ▌"
-                font.pixelSize: 26
-                anchors.verticalCenterOffset: -2
-                anchors.centerIn: parent
-                color: "white"
-            }
-            SequentialAnimation {
-                id: playAnimation
-                PropertyAnimation {
-                    target: buttonText
-                    property: "scale"
-                    duration: 100
-                    to: 0.8
+            anchors.topMargin: 135
+            font.pixelSize: 21
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width
+            font.family: castFont.name
+            color: miniMusic.textColorSecond
+        }
+        Row{
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 15
+            spacing: 17
+            anchors.horizontalCenter: parent.horizontalCenter
+            Rectangle {
+                id: rectangle2
+                width: 50
+                height: 50
+                color: "transparent"
+                Image{
+                    anchors.fill: parent
+                    source:"music_icon/rewind.png"
                 }
+                // Text {
+                //     id: buttonText1
+                //     width: 49
+                //     height: 32
+                //     color: "#ffffff"
+                //     text: qsTr("◄◄")
+                //     anchors.verticalCenter: parent.verticalCenter
+                //     font.letterSpacing: -10
+                //     font.pixelSize: 26
+                //     horizontalAlignment: Text.AlignHCenter
+                //     verticalAlignment: Text.AlignVCenter
+                //     anchors.horizontalCenter: parent.horizontalCenter
+                //     font.family: castFont.name
+                // }
 
-                PropertyAnimation {
-                    target: buttonText
-                    property: "scale"
-                    duration: 100
-                    to: 1
+                SequentialAnimation {
+                    id: playAnimation1
+                    PropertyAnimation {
+                        target: rectangle2
+                        property: "scale"
+                        duration: 100
+                        to: 0.8
+                    }
+
+                    PropertyAnimation {
+                        target: rectangle2
+                        property: "scale"
+                        duration: 100
+                        to: 1
+                    }
+                }
+                MouseArea {
+                    id: playPauseButton1
+                    anchors.fill: parent
+                    onClicked: {
+                        playAnimation1.start()
+                        spotify.prev_track()
+                    }
                 }
             }
-            MouseArea {
-                id: playPauseButton
-                anchors.fill: parent
-                onClicked: {
-                    spotify.change_track_status()
-                    playAnimation.start()
+            Rectangle {
+                id: rectangle1
+                width: 50
+                height: 50
+                color: "transparent"
+                Image{
+                    anchors.fill: parent
+                    source:miniMusic.currentlyPlaying ? "music_icon/pause.png" : "music_icon/play.png"
+                }
+                // Text {
+                //     id: buttonText
+                //     text: miniMusic.currentlyPlaying ? "▐ ▌" : "►"
+                //     // text: "▐ ▌"
+                //     anchors.verticalCenter: parent.verticalCenter
+                //     font.letterSpacing: 0
+                //     font.pixelSize: 30
+                //     horizontalAlignment: Text.AlignHCenter
+                //     verticalAlignment: Text.AlignVCenter
+                //     anchors.horizontalCenterOffset: 5
+                //     anchors.horizontalCenter: parent.horizontalCenter
+                //     font.weight: Font.Normal
+                //     font.wordSpacing: 0
+                //     font.family: castFont.name
+                //     color: "white"
+                // }
+                SequentialAnimation {
+                    id: playAnimation
+                    PropertyAnimation {
+                        target: rectangle1
+                        property: "scale"
+                        duration: 100
+                        to: 0.8
+                    }
+
+                    PropertyAnimation {
+                        target: rectangle1
+                        property: "scale"
+                        duration: 100
+                        to: 1
+                    }
+                }
+                MouseArea {
+                    id: playPauseButton
+                    anchors.fill: parent
+                    onClicked: {
+                        spotify.change_track_status()
+                        miniMusic.playPauseClicked()
+                        playAnimation.start()
+                    }
+                }
+            }
+            Rectangle {
+                id: rectangle3
+                width: 50
+                height: 50
+                color: "transparent"
+                Image{
+                    anchors.fill: parent
+                    source:"music_icon/next.png"
+                }
+                SequentialAnimation {
+                    id: playAnimation2
+                    PropertyAnimation {
+                        target: rectangle3
+                        property: "scale"
+                        duration: 100
+                        to: 0.8
+                    }
+
+                    PropertyAnimation {
+                        target: rectangle3
+                        property: "scale"
+                        duration: 100
+                        to: 1
+                    }
+                }
+                MouseArea {
+                    id: playPauseButton2
+                    anchors.fill: parent
+                    onClicked: {
+                        playAnimation2.start()
+                        spotify.next_track()
+                    }
                 }
             }
         }
 
-        Rectangle {
-            id: rectangle2
-            x: 96
-            y: 173
-            width: 65
-            height: 65
-            color: "#00000000"
-            radius: 38
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.leftMargin: 11
-            anchors.topMargin: 163
-            Text {
-                id: buttonText1
-                width: 49
-                height: 32
-                color: "#ffffff"
-                text: qsTr("◄◄")
-                font.letterSpacing: -10
-                font.pixelSize: 26
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.family: "Arial"
-                anchors.verticalCenterOffset: -2
-                anchors.centerIn: parent
-            }
-            SequentialAnimation {
-                id: playAnimation1
-                PropertyAnimation {
-                    target: buttonText1
-                    property: "scale"
-                    duration: 100
-                    to: 0.8
-                }
-
-                PropertyAnimation {
-                    target: buttonText1
-                    property: "scale"
-                    duration: 100
-                    to: 1
-                }
-            }
-            MouseArea {
-                id: playPauseButton1
-                anchors.fill: parent
-                onClicked: {
-                    playAnimation1.start()
-                    spotify.prev_track()
-                }
-            }
-        }
-
-        Rectangle {
-            id: rectangle3
-            x: 10
-            y: 153
-            width: 65
-            height: 65
-            color: "#00000000"
-            radius: 38
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.leftMargin: 151
-            anchors.topMargin: 163
-            Text {
-                id: buttonText2
-                width: 47
-                height: 35
-                color: "#ffffff"
-                text: "►►"
-                font.letterSpacing: -10
-                font.pixelSize: 26
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.family: "Tahoma"
-                anchors.verticalCenterOffset: -4
-                anchors.centerIn: parent
-            }
-            SequentialAnimation {
-                id: playAnimation2
-                PropertyAnimation {
-                    target: buttonText2
-                    property: "scale"
-                    duration: 100
-                    to: 0.8
-                }
-
-                PropertyAnimation {
-                    target: buttonText2
-                    property: "scale"
-                    duration: 100
-                    to: 1
-                }
-            }
-            MouseArea {
-                id: playPauseButton2
-                anchors.fill: parent
-                onClicked: {
-                    playAnimation2.start()
-                    spotify.next_track()
-                }
-            }
-        }
     }
 }

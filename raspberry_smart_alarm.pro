@@ -15,6 +15,7 @@ SOURCES += \
     mqttclient.cpp \
     spotify.cpp \
     weather.cpp \
+    user.cpp
 
 INCLUDEPATH+= C:/boost_1_87_0/
 INCLUDEPATH+= C:/FireDaemonOpenSSL3/include/
@@ -30,6 +31,7 @@ HEADERS += \
     mqttclient.h \
     spotify.h \
     weather.h \
+    user.h
 
 # QMAKE_CXXFLAGS += -Wa,-mbig-obj
 # QMAKE_CFLAGS += -Wa,-mbig-obj
@@ -71,7 +73,11 @@ KumkwatNew.png \
 Mini_Music.qml \
 pyro.png \
 events.json\
-AlarmSettings_Popup.qml
+AlarmSettings_Popup.qml\
+alarms.json\
+Music.qml\
+GlobalTime.qml\
+music_icon \
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -104,6 +110,7 @@ DISTFILES += \
     InitialPage.qml \
     Mini_Events.qml \
     Mini_Music.qml \
+    Music.qml \
     Sensors.qml \
     Sound_Page.qml \
     Status_bar.qml \
@@ -112,7 +119,7 @@ DISTFILES += \
     Big_Calendar.qml \
     Test_Poput.qml \
     humidity.png\
-    temp.png\
+    temp.png
 
 
 

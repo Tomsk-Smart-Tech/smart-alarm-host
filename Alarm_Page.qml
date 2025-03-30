@@ -73,7 +73,7 @@ Item {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     Text {
-                        text: qsTr("Откладывать будильник на: ")
+                        text: qsTr("Откладывать будильник на ")
                         anchors.verticalCenter: parent.verticalCenter
                         font.pixelSize: 24
                         font.family: castFont.name
