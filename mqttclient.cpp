@@ -397,141 +397,255 @@ Q_INVOKABLE void MqttClient::alarm_start(int id)
     publish_alarms();
 }
 
+// Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day,const QVariant cur_time)
+// {
+//     //qDebug()<<"cur_day="<<cur_day;
+//     QTime min_time(23,59);
+//     int id=-1;
+//     QTime min_time_rep(23,59);
+//     QVariantList repeatDaysList{false,false,false,false,false,false,false};
+//     int id_rep=-1;
+//     bool all_off=true;
+//     bool find_without_rep=false;
+//     for (int i = 0; i < m_alarms.size(); ++i)
+//     {
+//         QVariantMap map = m_alarms[i].toMap();
+//         QString time=map["time"].toString();
+//         QTime time_formatted=QTime::fromString(time,"hh:mm");
+//         //qDebug()<<time_formatted;
+//         if (map["isEnabled"].toBool()==true)
+//         {
+//             all_off=false;
+
+//             if(map["repeatDays"].toList().contains(true))
+//             {
+//                 if(time_formatted<=min_time_rep)
+//                 {
+//                     min_time_rep=time_formatted;
+//                     repeatDaysList = map["repeatDays"].toList();
+//                     id_rep=map["id"].toInt();
+//                 }
+//             }
+//             else
+//             {
+//                 if(time_formatted<=min_time)
+//                 {
+//                     //qDebug() << "Alarm" << i << "repeatDays:" << map["repeatDays"];
+//                     find_without_rep=true;
+//                     min_time=time_formatted;
+//                     id=map["id"].toInt();
+//                 }
+//             }
+//         }
+//     }
+//     // qDebug()<<"repsize="<<repeatDaysList.size();
+//     // for(int i=0;i<repeatDaysList.size();i++)
+//     // {
+//     //     qDebug()<<"repeatedDaysList"<<"["<<i<<"]"<<"="<<repeatDaysList[i];
+//     // }
+//     if(all_off==true)
+//     {
+//         QString res="";
+//         return res;
+//     }
+
+//     int minutes=-1;
+//     int hours=-1;
+//     int res_id=-1;
+
+//     int whatday=-1;
+
+//     // if(cur_day!=6)
+//     // {
+
+//     // }
+//     for(int i=cur_day;i<repeatDaysList.size();i++)
+//     {
+//         //qDebug()<<"repeatedDaysList"<<"["<<i<<"]"<<"="<<repeatDaysList[i];
+//         if(repeatDaysList[i]==true) // ищем ближайщий день справа
+//         {
+//             whatday=i;
+//             break;
+//         }
+//     }
+//     if(whatday==-1) // если не нашли день справа то ищем слева
+//     {
+//         for(int i=cur_day;i>=0;i--)
+//         {
+//             if(repeatDaysList[i]==true)
+//             {
+//                 whatday=i;
+//             }
+//         }
+//     }
+//     // qDebug()<<"whatday="<<whatday;
+//     // qDebug()<<"cur_day="<<cur_day;
+//     if(whatday==cur_day || whatday==-1) // если будильник с повторениями не нашелся или будильник с повторениями на текущий день
+//     {
+//         if(min_time<min_time_rep && find_without_rep==true)
+//         {
+//             minutes=min_time.minute();
+//             hours=min_time.hour();
+//             res_id=id;
+//         }
+//         else
+//         {
+//             QTime cur_qtime = cur_time.toDateTime().time();
+//             int additional=(cur_qtime<min_time_rep ? 0: 24*7);
+//             minutes=min_time_rep.minute();
+//             hours=min_time_rep.hour()+additional;
+//             res_id=id_rep;
+//         }
+//     }
+//     else if(whatday>cur_day)
+//     {
+//         int additional=(whatday-cur_day)*24;
+//         minutes=min_time_rep.minute();
+//         hours=min_time_rep.hour()+additional;
+//         res_id=id_rep;
+//     }
+//     else if(whatday<cur_day)
+//     {
+
+//         //int additional=(repeatDaysList.size()-1-cur_day+(whatday==0 ? 1 :whatday))*24;
+//         int additional=(repeatDaysList.size()-cur_day+whatday)*24;
+//         minutes=min_time_rep.minute();
+//         hours=min_time_rep.hour()+additional;
+//         res_id=id_rep;
+//     }
+
+
+//     // if(hours*24+minutes>min_time.hour()*24+minutes && find_without_rep==true) //итоговое сравнение будльинков если нашелся без повторений и с повторениями
+//     // {
+//     //     hours=min_time.hour();
+//     //     minutes=min_time.minute();
+//     // }
+
+//     if(hours*24+minutes>min_time.hour()*24+min_time.minute() && find_without_rep==true) //итоговое сравнение будльинков если нашелся без повторений и с повторениями
+//     {
+//         hours=min_time.hour();
+//         minutes=min_time.minute();
+//     }
+//     QString result=QString::number(hours)+":"+QString::number(minutes)+":"+QString::number(res_id);
+//     //qDebug()<<"find_firs_alarm (без учета cur_time):"<<result;
+//     return result;
+
+// }
+
+
+
+
 Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day,const QVariant cur_time)
 {
-    //qDebug()<<"cur_day="<<cur_day;
-    QTime min_time(23,59);
-    int id=-1;
-    QTime min_time_rep(23,59);
-    QVariantList repeatDaysList{false,false,false,false,false,false,false};
-    int id_rep=-1;
-    bool all_off=true;
-    bool find_without_rep=false;
-    for (int i = 0; i < m_alarms.size(); ++i)
+    int id=-1; //id будильника с минимальным временем
+    int min_min=10000;
+    int min_hours=1000;
+    int min_res=100000000;
+    QTime cur_qtime = cur_time.toDateTime().time(); //время из qml
+    for(int i=0;i<m_alarms.size();i++)
     {
         QVariantMap map = m_alarms[i].toMap();
         QString time=map["time"].toString();
         QTime time_formatted=QTime::fromString(time,"hh:mm");
-        //qDebug()<<time_formatted;
         if (map["isEnabled"].toBool()==true)
         {
-            all_off=false;
-
-            if(map["repeatDays"].toList().contains(true))
+            QVariantList selectedDays=map["repeatDays"].toList();
+            if(selectedDays.contains(true)) //если будильник с повторениями
             {
-                if(time_formatted<=min_time_rep)
+                int whatday=-1;
+                if(selectedDays[cur_day]==true && time_formatted>cur_qtime) //если день срабатывания-сегодня и время еще не наступило
                 {
-                    min_time_rep=time_formatted;
-                    repeatDaysList = map["repeatDays"].toList();
-                    id_rep=map["id"].toInt();
+                    int res=time_formatted.hour()*24+time_formatted.minute();
+                    if(res<min_res)
+                    {
+                        id=map["id"].toInt();
+                        min_hours=time_formatted.hour();
+                        min_min=time_formatted.minute();
+                        min_res=res;
+                    }
                 }
-            }
-            else
-            {
-                if(time_formatted<=min_time)
+                else if(selectedDays[cur_day]==true && time_formatted<cur_qtime) //если день срабатывания-сегодня и время уже прошло
                 {
-                    //qDebug() << "Alarm" << i << "repeatDays:" << map["repeatDays"];
-                    find_without_rep=true;
-                    min_time=time_formatted;
+                    qDebug()<<"все ок зачел";
+                    int res=(time_formatted.hour()+24*7)*60+time_formatted.minute();
+                    if(res<min_res)
+                    {
+                        id=map["id"].toInt();
+                        min_hours=(time_formatted.hour()+24*7);
+                        min_min=time_formatted.minute();
+                        min_res=res;
+                    }
+                }
+                for(int i=cur_day;i<selectedDays.size();i++) // ищем ближайщий день справа
+                {
+                    if(selectedDays[i]==true)
+                    {
+                        whatday=i;
+                        break;
+                    }
+                }
+                if(whatday>cur_day) //
+                {
+                    int additional=(whatday-cur_day)*24;
+                    int res=(time_formatted.hour()+additional)*60+time_formatted.minute();
+                    if(res<min_res)
+                    {
+                        id=map["id"].toInt();
+                        min_hours=(time_formatted.hour()+additional);
+                        min_min=time_formatted.minute();
+                        min_res=res;
+                    }
+                }
+                for(int i=cur_day;i>=0;i--)// ищем ближайщий день слева
+                {
+                    if(selectedDays[i]==true)
+                    {
+                        whatday=i;
+                    }
+                }
+                if(whatday!=-1 && whatday<cur_day)
+                {
+                    qDebug()<<"и слева я тоже зашел";
+                    int additional=(selectedDays.size()-cur_day+whatday)*24;
+                    int res=(time_formatted.hour()+additional)*60+time_formatted.minute();
+                    qDebug()<<res<<"  id:"<<map["id"].toInt();
+                    qDebug()<<"min_res до изменения="<<min_res;
+                    if(res<min_res)
+                    {
+                        qDebug()<<"обновил значение до"<<res;
+                        id=map["id"].toInt();
+                        min_hours=(time_formatted.hour()+additional);
+                        min_min=time_formatted.minute();
+                        min_res=res;
+                    }
+                }
+                qDebug()<<QString::number(min_hours)<<":"<<QString::number(min_min);
+            }
+            else // если будильник без повторений
+            {
+                int res=time_formatted.hour()*60+time_formatted.minute();
+                if(res<min_res)
+                {
                     id=map["id"].toInt();
+                    min_hours=time_formatted.hour();
+                    min_min=time_formatted.minute();
+                    min_res=res;
                 }
             }
         }
     }
-    // qDebug()<<"repsize="<<repeatDaysList.size();
-    // for(int i=0;i<repeatDaysList.size();i++)
-    // {
-    //     qDebug()<<"repeatedDaysList"<<"["<<i<<"]"<<"="<<repeatDaysList[i];
-    // }
-    if(all_off==true)
+
+    if(id==-1)
     {
         QString res="";
         return res;
     }
 
-    int minutes=-1;
-    int hours=-1;
-    int res_id=-1;
-
-    int whatday=-1;
-
-    // if(cur_day!=6)
-    // {
-
-    // }
-    for(int i=cur_day;i<repeatDaysList.size();i++)
-    {
-        //qDebug()<<"repeatedDaysList"<<"["<<i<<"]"<<"="<<repeatDaysList[i];
-        if(repeatDaysList[i]==true) // ищем ближайщий день справа
-        {
-            whatday=i;
-            break;
-        }
-    }
-    if(whatday==-1) // если не нашли день справа то ищем слева
-    {
-        for(int i=cur_day;i>=0;i--)
-        {
-            if(repeatDaysList[i]==true)
-            {
-                whatday=i;
-            }
-        }
-    }
-    // qDebug()<<"whatday="<<whatday;
-    // qDebug()<<"cur_day="<<cur_day;
-    if(whatday==cur_day || whatday==-1) // если будильник с повторениями не нашелся или будильник с повторениями на текущий день
-    {
-        if(min_time<min_time_rep && find_without_rep==true)
-        {
-            minutes=min_time.minute();
-            hours=min_time.hour();
-            res_id=id;
-        }
-        else
-        {
-            QTime cur_qtime = cur_time.toDateTime().time();
-            int additional=(cur_qtime<min_time_rep ? 0: 24*7);
-            minutes=min_time_rep.minute();
-            hours=min_time_rep.hour()+additional;
-            res_id=id_rep;
-        }
-    }
-    else if(whatday>cur_day)
-    {
-        int additional=(whatday-cur_day)*24;
-        minutes=min_time_rep.minute();
-        hours=min_time_rep.hour()+additional;
-        res_id=id_rep;
-    }
-    else if(whatday<cur_day)
-    {
-
-        //int additional=(repeatDaysList.size()-1-cur_day+(whatday==0 ? 1 :whatday))*24;
-        int additional=(repeatDaysList.size()-cur_day+whatday)*24;
-        minutes=min_time_rep.minute();
-        hours=min_time_rep.hour()+additional;
-        res_id=id_rep;
-    }
-
-
-    // if(hours*24+minutes>min_time.hour()*24+minutes && find_without_rep==true) //итоговое сравнение будльинков если нашелся без повторений и с повторениями
-    // {
-    //     hours=min_time.hour();
-    //     minutes=min_time.minute();
-    // }
-
-    if(hours*24+minutes>min_time.hour()*24+min_time.minute() && find_without_rep==true) //итоговое сравнение будльинков если нашелся без повторений и с повторениями
-    {
-        hours=min_time.hour();
-        minutes=min_time.minute();
-    }
-    QString result=QString::number(hours)+":"+QString::number(minutes)+":"+QString::number(res_id);
+    QString result=QString::number(min_hours)+":"+QString::number(min_min)+":"+QString::number(id);
     //qDebug()<<"find_firs_alarm (без учета cur_time):"<<result;
     return result;
 
 }
-
 
 
 

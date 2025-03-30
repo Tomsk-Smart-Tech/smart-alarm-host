@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtMultimedia 6.0
+import GlobalTime 1.0
 
 Popup {
     id: alarmDialog
@@ -37,6 +38,19 @@ Popup {
                 return i;
             }
         }
+        if(terminal.songs.length===0)
+        {
+            return 0;
+        }
+    }
+
+    function updateDayButtons() {
+        for (var i = 0; i < day_selector_repeater.count; i++) {
+            var btn = day_selector_repeater.itemAt(i);
+            if (btn) {
+                btn.checked = selectedDays[btn.index];
+            }
+        }
     }
 
     function show(selected_alarm)
@@ -45,13 +59,17 @@ Popup {
         selectedDays=selected_alarm["repeatDays"].slice()
         alarm_name=selected_alarm["label"]
         var time_parts=selected_alarm["time"].split(":")
+        updateDayButtons()
         alarm_hours=parseInt(time_parts[0])
         alarm_min=parseInt(time_parts[1])
         alarm_id=selected_alarm["id"]
         alarm_song=selected_alarm["song"]
-
+        delete_after=selected_alarm["delete_after"]
+        Qt.callLater(function() {
+            list_switch.checked = delete_after;
+        });
         melodyButoon.checked = false;
-        // soundComboBox.currentIndex=findSongIndex(alarm_song);
+        soundComboBox.currentIndex=findSongIndex(alarm_song);
         alarmDialog.open();
 
         rectangle7.visible = false
@@ -63,6 +81,16 @@ Popup {
     function add_show()
     {
         terminal.scanSongs(songsPath);
+        selectedDays=[false,false,false,false,false,false,false]
+        updateDayButtons()
+        alarm_min=GlobalTime.currentDateTime.getMinutes()
+        alarm_hours=GlobalTime.currentDateTime.getHours()
+        delete_after=false
+        Qt.callLater(function() {
+            list_switch.checked = delete_after;
+        });
+        alarm_song=terminal.cur_song
+        soundComboBox.currentIndex=findSongIndex(alarm_song);
         alarm_name="Быстрый будильник"
         melodyButoon.checked = false;
         rectangle3.visible = false
@@ -221,6 +249,7 @@ Popup {
                     anchors.margins: 7
                     spacing: 8
                     Repeater {
+                        id:day_selector_repeater
                         model: daysModel
                         Button {
                             id: dayButton
@@ -552,7 +581,7 @@ Popup {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    // Кнопка создания
+                    mqttclient.create_alarm(0,alarm_min,alarm_hours,alarm_song,delete_after,selectedDays,alarm_name,false)
                     playAnimation1.start()
 
                     alarmDialog.close()

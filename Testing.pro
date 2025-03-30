@@ -51,6 +51,8 @@ resources.files = \
     icon_6.png\
     GlobalTime.qml \
     AlarmSettings_Popup.qml \
+    Music.qml\
+
 
 
 resources.prefix = /$${TARGET}
@@ -78,6 +80,7 @@ DISTFILES += \
     GlobalTime.qml \
     About_Page.qml \
     Alarm_Page.qml \
+
 
 HEADERS += \
     dht22sensor.h \
