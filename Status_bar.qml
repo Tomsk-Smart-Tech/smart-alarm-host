@@ -37,7 +37,7 @@ Item {
             anchors.rightMargin: 10
             anchors.bottomMargin: 10
             border.color: bar.textColorSecond
-            color : Qt.rgba(242/255, 73/255, 84/255, 1.0)
+            color : Qt.rgba(154/255, 247/255, 134/255, 1.0)
             Connections {
                 target: mqttclient
                 function onConnectionStatusChanged() {

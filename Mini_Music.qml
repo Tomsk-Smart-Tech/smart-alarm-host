@@ -1,5 +1,6 @@
 import QtQuick 2.0
-// import QtQuick.Effects
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls
 
 Item {
     id: miniMusic
@@ -16,6 +17,8 @@ Item {
     property color backColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color backColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
     property color backColorThird: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 0.1)
+
+    property color backProgress: Qt.rgba(80 / 255, 80 / 255, 80 / 255, 1)
 
 
     property color widColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
@@ -76,22 +79,70 @@ Item {
         Rectangle {
             id: rectangle
             anchors.left: parent.left
-            anchors.right: parent.right
             anchors.top: parent.top
             anchors.leftMargin: 10
-            anchors.rightMargin: 140
             anchors.topMargin: 10
             // Установите ширину
             height: 86 // Установите высоту
+            width: 86
             color: "transparent"
             radius: 15
             clip: true // Это свойство обрезает содержимое по границам прямоугольника
-            Image {
-                id: image
-                source: "pyro.png"
+            OpacityMask {
+                id: roundedImageEffect
                 anchors.fill: parent
-                fillMode: Image.PreserveAspectCrop // Это важно для правильного масштабирования
+                source: Image {
+                    id: imageSource
+                    width: roundedImageEffect.width
+                    height: roundedImageEffect.height
+                    source: "pyro.png"
+                    fillMode: Image.PreserveAspectCrop
+                    visible: false
+                }
+                maskSource: Rectangle {
+                    id: imageMaskShape
+                    width: roundedImageEffect.width
+                    height: roundedImageEffect.height
+                    radius: 10
+                    visible: false
+                }
             }
+        }
+        ProgressBar {
+            id: progressBar
+            width: 190
+            height: 8
+            to: 100
+            value: 34
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: 49
+            anchors.horizontalCenter: parent.horizontalCenter
+            background: Rectangle {
+                implicitWidth: 300
+                implicitHeight: 10
+                color: miniMusic.backProgress
+                radius: 5
+            }
+
+            contentItem: Item {
+                implicitWidth: 300
+                implicitHeight: 10
+                Rectangle {
+                    width: progressBar.visualPosition * parent.width
+                    height: parent.height
+                    radius: 5
+                    color: miniMusic.textColor
+                }
+            }
+        }
+        Image {
+            width: 40
+            height: 40
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin: 10
+            anchors.topMargin: 10
+            source: "music_icon/playlist.png"
         }
         // Image{
         //     width: 45
@@ -108,7 +159,7 @@ Item {
             id: _text
             text: qsTr("mea maxima culpa")
             anchors.top: parent.top
-            anchors.topMargin: 104
+            anchors.topMargin: 100
             font.pixelSize: 23
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
@@ -120,17 +171,18 @@ Item {
             id: _text1
             text: qsTr("pyrokinesis")
             anchors.top: parent.top
-            anchors.topMargin: 135
+            anchors.topMargin: 127
             font.pixelSize: 21
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width
+            height: 24
             font.family: castFont.name
             color: miniMusic.textColorSecond
         }
         Row{
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 15
+            anchors.bottomMargin: 10
             spacing: 17
             anchors.horizontalCenter: parent.horizontalCenter
             Rectangle {

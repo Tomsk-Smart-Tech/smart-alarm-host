@@ -78,6 +78,7 @@ alarms.json\
 Music.qml\
 GlobalTime.qml\
 music_icon \
+sensors \
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
