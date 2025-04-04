@@ -132,24 +132,6 @@ Item {
         height: 600
         source: "InitialPage.qml"
 
-        onSourceChanged: {
-            slideAnimation.start();
-        }
-
-        PropertyAnimation {
-            id: slideAnimation
-            target: loader
-            property: "x"
-            from: 1024
-            to: 1024 / 3
-            duration: 300
-            easing.type: Easing.OutCubic
-        }
-
-        onLoaded: {
-            loader.item.backgroundColor = settings.backgroundColor
-            loader.item.textColor = settings.textColor
-        }
     }
 
     Rectangle {

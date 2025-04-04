@@ -8,6 +8,7 @@ Item {
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
     property string tempreture: dht22.temp
     property string humidity_text: dht22.humidity
+    property string voc_index: dht22.voc_index
     Rectangle {
         x: sensors.x_pos
         y: sensors.y_pos
@@ -50,7 +51,7 @@ Item {
                     x: 80
                     width: 151
                     height: 36
-                    text: "10°C"
+                    text: tempreture
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.rightMargin: 2
@@ -101,7 +102,7 @@ Item {
                     x: 80
                     width: 151
                     height: 36
-                    text: "36%"
+                    text: humidity_text
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.rightMargin: 2
@@ -152,7 +153,7 @@ Item {
                     x: 80
                     width: 151
                     height: 36
-                    text: "110"
+                    text: voc_index
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.rightMargin: 2
