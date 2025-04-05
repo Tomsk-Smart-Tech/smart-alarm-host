@@ -95,7 +95,7 @@ Item {
                     id: imageSource
                     width: roundedImageEffect.width
                     height: roundedImageEffect.height
-                    source: "pyro.png"
+                    source: spotify.current["icon"]//"pyro.png"
                     fillMode: Image.PreserveAspectCrop
                     visible: false
                 }
@@ -142,7 +142,7 @@ Item {
             anchors.top: parent.top
             anchors.rightMargin: 10
             anchors.topMargin: 10
-            source: "music_icon/playlist.png"
+            source:"music_icon/playlist.png"
         }
         // Image{
         //     width: 45
@@ -157,7 +157,7 @@ Item {
 
         Text {
             id: _text
-            text: qsTr("mea maxima culpa")
+            text: spotify.current["name"]//qsTr("mea maxima culpa")
             anchors.top: parent.top
             anchors.topMargin: 100
             font.pixelSize: 23
@@ -169,7 +169,7 @@ Item {
         }
         Text {
             id: _text1
-            text: qsTr("pyrokinesis")
+            text: spotify.current["artists"]//qsTr("pyrokinesis")
             anchors.top: parent.top
             anchors.topMargin: 127
             font.pixelSize: 21

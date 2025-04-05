@@ -66,6 +66,7 @@ QVariantList read_json_events(QJsonArray jsonArray)
         map["calendarname"]=obj["calendarDisplayName"].toString();
         map["desc"]=obj["description"].toString();
         map["location"]=obj["location"].toString();
+        map["rrule"]=obj["rrule"].toString();
 
         newEvents.append(map);
     }
@@ -196,7 +197,15 @@ boost::asio::awaitable<bool> subscribe(auto& client, MqttClient* parent) {
         { "mqtt/sensors", { boost::mqtt5::qos_e::at_most_once,
                          boost::mqtt5::no_local_e::yes,
                          boost::mqtt5::retain_as_published_e::retain,
-                         boost::mqtt5::retain_handling_e::send } }
+                         boost::mqtt5::retain_handling_e::send } },
+        { "mqtt/spotifyAuth", { boost::mqtt5::qos_e::at_most_once,
+                          boost::mqtt5::no_local_e::yes,
+                          boost::mqtt5::retain_as_published_e::retain,
+                          boost::mqtt5::retain_handling_e::send } },
+        { "mqtt/check", { boost::mqtt5::qos_e::at_most_once,
+                              boost::mqtt5::no_local_e::yes,
+                              boost::mqtt5::retain_as_published_e::retain,
+                              boost::mqtt5::retain_handling_e::send } }
     };
     // Subscribe to a single Topic.
     auto&& [ec, sub_codes, sub_props] = co_await client.async_subscribe(
@@ -279,6 +288,17 @@ boost::asio::awaitable<void> subscribe_and_receive(const config& cfg, auto& clie
             std::cout << "Received message from the Broker" << std::endl;
             std::cout << "\t topic: " << topic << std::endl;
             std::cout << "\t payload: " << payload << std::endl;
+        }
+        else if(topic=="mqtt/spotifyAuth")
+        {
+            QString data = QString::fromStdString(payload);
+            QMetaObject::invokeMethod(parent, "spotifycode_received",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(QString, data));
+            std::cout << "Received message from the Broker" << std::endl;
+            std::cout << "\t topic: " << topic << std::endl;
+            std::cout << "\t payload: " << payload << std::endl;
+
         }
         if (ec == boost::mqtt5::client::error::session_expired) {
             // The Client has reconnected, and the prior session has expired.
@@ -506,7 +526,6 @@ Q_INVOKABLE void MqttClient::alarm_start(int id)
 //     }
 //     else if(whatday<cur_day)
 //     {
-
 //         //int additional=(repeatDaysList.size()-1-cur_day+(whatday==0 ? 1 :whatday))*24;
 //         int additional=(repeatDaysList.size()-cur_day+whatday)*24;
 //         minutes=min_time_rep.minute();
@@ -555,9 +574,12 @@ Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day,const QVariant cur_
                 int whatday=-1;
                 if(selectedDays[cur_day]==true && time_formatted>cur_qtime) //если день срабатывания-сегодня и время еще не наступило
                 {
-                    int res=time_formatted.hour()*24+time_formatted.minute();
+                    //qDebug()<<"min_res до "<<min_res;
+                    int res=time_formatted.hour()*60+time_formatted.minute();
+
                     if(res<min_res)
                     {
+                        //qDebug()<<"res="<<res;
                         id=map["id"].toInt();
                         min_hours=time_formatted.hour();
                         min_min=time_formatted.minute();
@@ -566,7 +588,6 @@ Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day,const QVariant cur_
                 }
                 else if(selectedDays[cur_day]==true && time_formatted<cur_qtime) //если день срабатывания-сегодня и время уже прошло
                 {
-                    qDebug()<<"все ок зачел";
                     int res=(time_formatted.hour()+24*7)*60+time_formatted.minute();
                     if(res<min_res)
                     {
@@ -605,31 +626,37 @@ Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day,const QVariant cur_
                 }
                 if(whatday!=-1 && whatday<cur_day)
                 {
-                    qDebug()<<"и слева я тоже зашел";
+                    // qDebug()<<"и слева я тоже зашел";
+                    // qDebug()<<"whatday="<<whatday;
+                    // qDebug()<<"cur_day="<<cur_day;
                     int additional=(selectedDays.size()-cur_day+whatday)*24;
+                    //qDebug()<<"add="<<additional;
                     int res=(time_formatted.hour()+additional)*60+time_formatted.minute();
-                    qDebug()<<res<<"  id:"<<map["id"].toInt();
-                    qDebug()<<"min_res до изменения="<<min_res;
+                    //qDebug()<<res<<"  id:"<<map["id"].toInt();
+                    //qDebug()<<"min_res до изменения="<<min_res;
                     if(res<min_res)
                     {
-                        qDebug()<<"обновил значение до"<<res;
+                        //qDebug()<<"обновил значение до"<<res;
                         id=map["id"].toInt();
                         min_hours=(time_formatted.hour()+additional);
                         min_min=time_formatted.minute();
                         min_res=res;
                     }
                 }
-                qDebug()<<QString::number(min_hours)<<":"<<QString::number(min_min);
+
             }
             else // если будильник без повторений
             {
                 int res=time_formatted.hour()*60+time_formatted.minute();
+                //qDebug()<<"без повторений res="<<res;
                 if(res<min_res)
                 {
+
                     id=map["id"].toInt();
                     min_hours=time_formatted.hour();
                     min_min=time_formatted.minute();
                     min_res=res;
+                    //qDebug()<<"обновил значение без повторений до "<<min_res;
                 }
             }
         }
@@ -640,7 +667,7 @@ Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day,const QVariant cur_
         QString res="";
         return res;
     }
-
+    //qDebug()<<QString::number(min_hours)<<":"<<QString::number(min_min)<<"  id="<<id;
     QString result=QString::number(min_hours)+":"+QString::number(min_min)+":"+QString::number(id);
     //qDebug()<<"find_firs_alarm (без учета cur_time):"<<result;
     return result;
@@ -705,9 +732,9 @@ Q_INVOKABLE int MqttClient::check_eventOnDay(qint64 timestamp)
 }
 
 
-Q_INVOKABLE void MqttClient::publish_sensor_data(QString temp,QString hum)
+Q_INVOKABLE void MqttClient::publish_sensor_data(QString temp,QString hum,QString voc)
 {
-    std::string data=(temp+" "+hum).toStdString();;
+    std::string data=(temp+" "+hum+" "+voc).toStdString();;
     client.async_publish<boost::mqtt5::qos_e::at_most_once> (
         "mqtt/sensors", data,
         boost::mqtt5::retain_e::no,
@@ -728,7 +755,7 @@ Q_INVOKABLE void MqttClient::publish_alarms()
     QJsonDocument jsonDoc(jsonArray);
     std::string jsonString = jsonDoc.toJson(QJsonDocument::Compact).toStdString();
     client.async_publish<boost::mqtt5::qos_e::at_most_once> (
-        "mqtt/alarms", jsonString,
+        "mqtt/check", jsonString,
         boost::mqtt5::retain_e::no,
         boost::mqtt5::publish_props{},
         [this](boost::system::error_code ec) {
@@ -845,15 +872,22 @@ Q_INVOKABLE void MqttClient::create_alarm(int additional,int alarm_min,int alarm
     QTime time_formatted_withAdd=time_formatted_withoutAdd.addSecs(additional*60);
     QString new_time=time_formatted_withAdd.toString("hh:mm");
     int id=-1000;
-    for (int i = 0; i < m_alarms.size(); ++i)
+    if(m_alarms.size()==0)
     {
-        QVariantMap map = m_alarms[i].toMap();
-        if(id<map["id"].toInt())
-        {
-            id=map["id"].toInt();
-        }
-
+        id=0;
     }
+    else
+    {
+        for (int i = 0; i < m_alarms.size(); ++i)
+        {
+            QVariantMap map = m_alarms[i].toMap();
+            if(id<map["id"].toInt())
+            {
+                id=map["id"].toInt();
+            }
+        }
+    }
+
     id+=1;
     new_map["id"]=id;
     new_map["time"]=new_time;
@@ -904,7 +938,8 @@ Q_INVOKABLE void MqttClient::create_alarm(int additional,int alarm_min,int alarm
     publish_alarms();
 }
 
-
+Q_INVOKABLE void MqttClient::from_events_to_alarms()
+{}
 
 
 Q_INVOKABLE void MqttClient::set_alarm_delay(int value)

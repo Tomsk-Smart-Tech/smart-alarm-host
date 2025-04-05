@@ -81,6 +81,8 @@ class MqttClient : public QObject
 public:
     explicit MqttClient(QObject *parent = nullptr);
     ~MqttClient();
+
+    //Q_INVOKABLE void get_spotify_code();
     int connectionStatus() const { return m_connectionStatus; }
     Q_INVOKABLE QVariantList get_events() const {return m_events;}
     Q_INVOKABLE QVariantList get_alarms() const {return m_alarms;}
@@ -92,13 +94,14 @@ public:
     Q_INVOKABLE void get_events_onDay(qint64 timestamp);
     Q_INVOKABLE int check_eventOnDay(qint64 timestamp);
 
-    Q_INVOKABLE void publish_sensor_data(QString temp,QString hum);
+    Q_INVOKABLE void publish_sensor_data(QString temp, QString hum, QString voc);
     Q_INVOKABLE void publish_alarms();
 
     Q_INVOKABLE void update_alarm_status(int id,bool status); //для мини будильника
     Q_INVOKABLE void delete_alarm(int id);
     Q_INVOKABLE void change_alarm(int id,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays);
     Q_INVOKABLE void create_alarm(int additional,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays,QString label,bool is_temp);
+    Q_INVOKABLE void from_events_to_alarms();
 
     Q_INVOKABLE void set_alarm_delay(int value);
     Q_INVOKABLE int get_alarm_delay(){return alarm_delay;};
@@ -110,6 +113,7 @@ signals:
     void alarmschanged();
     void events_onDaychanged();
     void alarm_delay_changed();
+    void spotifycode_received(const QString &data);
 
 private slots:
     void setConnectionStatus(int status);

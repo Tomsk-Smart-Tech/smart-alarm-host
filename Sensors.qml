@@ -6,9 +6,11 @@ Item {
     property int y_pos: 10
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-    property string tempreture: dht22.temp
-    property string humidity_text: dht22.humidity
-    property string voc_index: dht22.voc_index
+
+    property string tempreture: sensorss.temp
+    property string humidity_text: sensorss.humidity
+    property string voc_index:sensorss.voc_index
+
     Rectangle {
         x: sensors.x_pos
         y: sensors.y_pos
@@ -51,7 +53,8 @@ Item {
                     x: 80
                     width: 151
                     height: 36
-                    text: tempreture
+                    text: sensors.tempreture
+
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.rightMargin: 2
@@ -67,7 +70,7 @@ Item {
                     y: 52
                     width: 151
                     height: 23
-                    text: "температура"
+                    text: "Температура"
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
                     anchors.rightMargin: 0
@@ -102,7 +105,9 @@ Item {
                     x: 80
                     width: 151
                     height: 36
-                    text: humidity_text
+
+                    text: sensors.humidity_text
+
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.rightMargin: 2
@@ -153,7 +158,9 @@ Item {
                     x: 80
                     width: 151
                     height: 36
-                    text: voc_index
+
+                    text: sensors.voc_index
+
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.rightMargin: 2
@@ -169,7 +176,7 @@ Item {
                     y: 52
                     width: 151
                     height: 23
-                    text: "voc"
+                    text: "VOC-индекс"
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
                     anchors.rightMargin: 0

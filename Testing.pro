@@ -6,11 +6,11 @@ QT += concurrent
 QT += quickcontrols2
 
 SOURCES += \
-    dht22sensor.cpp \
     general_func.cpp \
     linuxterminal.cpp \
     main.cpp \
     mqttclient.cpp \
+    sensors.cpp \
     spotify.cpp \
     user.cpp \
     weather.cpp \
@@ -52,6 +52,7 @@ resources.files = \
     GlobalTime.qml \
     AlarmSettings_Popup.qml \
     Music.qml\
+    music_icon\
 
 
 
@@ -83,10 +84,10 @@ DISTFILES += \
 
 
 HEADERS += \
-    dht22sensor.h \
     general_func.h \
     linuxterminal.h \
     mqttclient.h \
+    sensors.h \
     spotify.h \
     user.h \
     weather.h \

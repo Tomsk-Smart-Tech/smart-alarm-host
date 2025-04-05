@@ -19,6 +19,7 @@ Window {
     function togglePlayback() {
         // Вызываем реальное действие в бэкенде
         // spotify.change_track_status();
+        spotify.change_track_status()
         // Меняем наше центральное состояние
         window.isMusicPlaying = !window.isMusicPlaying;
         // Можно добавить лог для отладки

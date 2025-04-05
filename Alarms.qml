@@ -60,6 +60,7 @@ Item {
             alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["id"] === id)) // передавать аларм исходя из id
             mqttclient.alarm_start(id)
 
+
         }
         return { h: rhours, m: rminutes };
     }

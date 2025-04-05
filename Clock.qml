@@ -32,7 +32,10 @@ Item {
                 weatherr.request_position() //обновляю погоду каждый час
             }
             if (GlobalTime.currentDateTime.getSeconds() % 10 === 0) {
-                mqttclient.publish_sensor_data(dht22.temp,dht22.humidity)
+                mqttclient.publish_sensor_data(sensorss.temp,sensorss.humidity,sensorss.voc_index)
+            }
+            if(GlobalTime.currentDateTime.getMinutes()%30 === 0 && GlobalTime.currentDateTime.getSeconds()===0){
+                spotify.get_access_token()
             }
             // if (GlobalTime.currentDateTime.getSeconds() % 10 === 0) {
             //     mqttclient.publish_alarms()

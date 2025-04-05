@@ -8,7 +8,7 @@
 #include "weather.h"
 #include "mqttclient.h"
 #include "linuxterminal.h"
-#include "dht22sensor.h"
+#include "sensors.h"
 #include "spotify.h"
 
 int main(int argc, char *argv[])
@@ -35,10 +35,12 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("mqttclient",&client);
     LinuxTerminal linuxterminal;
     engine.rootContext()->setContextProperty("terminal",&linuxterminal);
-    Dht22sensor dht22;
-    engine.rootContext()->setContextProperty("dht22",&dht22);
+    Sensors sensors;
+    engine.rootContext()->setContextProperty("sensorss",&sensors);
     Spotify spotify;
     engine.rootContext()->setContextProperty("spotify",&spotify);
+    QObject::connect(&client, &MqttClient::spotifycode_received,
+            &spotify, &Spotify::handleSpotifyCode);
 
     engine.rootContext()->setContextProperty("jsonFilePath", QUrl::fromLocalFile(currentDir.filePath("russian_cities.json")));
     engine.rootContext()->setContextProperty("icons_path", QUrl::fromLocalFile(currentDir.filePath("weather_iconkit")));

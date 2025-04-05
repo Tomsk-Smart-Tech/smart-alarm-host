@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import Qt5Compat.GraphicalEffects
+// import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 
 Item {
@@ -109,9 +109,10 @@ Item {
                         spacing: 3
                         clip: true
                         snapMode: ListView.SnapToItem
-                        model: ListModel {
-                            ListElement { name: "mea maxima culpa"; autor: "pyrokinesis"; image: "pyro.png"}
-                        }
+                        // model: ListModel {
+                        //     ListElement { name: "mea maxima culpa"; autor: "pyrokinesis"; image: "pyro.png"}
+                        // }
+                        model:spotify.playlists_list
                         delegate: Rectangle {
                             id: delegateRect
                             height: 60
@@ -131,7 +132,7 @@ Item {
                                     id: trackImage
                                     height: 45
                                     width: 45
-                                    source: model.image
+                                    source: modelData["icon"]
                                     anchors.verticalCenter: parent.verticalCenter
                                     fillMode: Image.PreserveAspectCrop
                                     smooth: true
@@ -143,7 +144,7 @@ Item {
                                     anchors.verticalCenter: parent.verticalCenter
                                     spacing: -5
                                     Text {
-                                        text: model.name
+                                        text: modelData["name"]
 
                                         font.pointSize: 16
                                         color: music.textColor
@@ -151,20 +152,21 @@ Item {
                                         elide: Text.ElideRight
                                         width: delegateRect.width - trackImage.width - parent.spacing - 10
                                     }
-                                    Text {
-                                        text: model.autor
-                                        font.pointSize: 14
-                                        color: music.textColorSecond
-                                        font.family: castFont.name
-                                        elide: Text.ElideRight
-                                        width: delegateRect.width - trackImage.width - parent.spacing - 10
-                                    }
+                                    // Text {
+                                    //     text: model.autor
+                                    //     font.pointSize: 14
+                                    //     color: music.textColorSecond
+                                    //     font.family: castFont.name
+                                    //     elide: Text.ElideRight
+                                    //     width: delegateRect.width - trackImage.width - parent.spacing - 10
+                                    // }
                                 }
                             }
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
                                     playlists.currentIndex = index;
+                                    spotify.scan_playlist_tracks(modelData["id"])
                                 }
                             }
                         }
@@ -218,17 +220,18 @@ Item {
                         spacing: 3
                         clip: true
                         snapMode: ListView.SnapToItem
-                        model: ListModel {
-                            ListElement { name: "моя великая вина"; autor: "pyrokinesis"; image: "pyro.png"}
-                            ListElement { name: "темная сторона Бога"; autor: "pyrokinesis"; image: "pyro.png"}
-                            ListElement { name: "похвала бичам"; autor: "pyrokinesis"; image: "pyro.png"}
-                            ListElement { name: "ее влюбенные глаза"; autor: "pyrokinesis"; image: "pyro.png"}
-                            ListElement { name: "день рождение наоборот"; autor: "pyrokinesis"; image: "pyro.png"}
-                            ListElement { name: "50 на 50"; autor: "pyrokinesis"; image: "pyro.png"}
-                            ListElement { name: "Апокалипсис Андрея"; autor: "pyrokinesis"; image: "pyro.png"}
-                            ListElement { name: "mea maxima culpa"; autor: "pyrokinesis"; image: "pyro.png"}
-                            ListElement { name: "дьявол в деталях"; autor: "pyrokinesis"; image: "pyro.png"}
-                        }
+                        // model: ListModel {
+                        //     ListElement { name: "моя великая вина"; autor: "pyrokinesis"; image: "pyro.png"}
+                        //     ListElement { name: "темная сторона Бога"; autor: "pyrokinesis"; image: "pyro.png"}
+                        //     ListElement { name: "похвала бичам"; autor: "pyrokinesis"; image: "pyro.png"}
+                        //     ListElement { name: "ее влюбенные глаза"; autor: "pyrokinesis"; image: "pyro.png"}
+                        //     ListElement { name: "день рождение наоборот"; autor: "pyrokinesis"; image: "pyro.png"}
+                        //     ListElement { name: "50 на 50"; autor: "pyrokinesis"; image: "pyro.png"}
+                        //     ListElement { name: "Апокалипсис Андрея"; autor: "pyrokinesis"; image: "pyro.png"}
+                        //     ListElement { name: "mea maxima culpa"; autor: "pyrokinesis"; image: "pyro.png"}
+                        //     ListElement { name: "дьявол в деталях"; autor: "pyrokinesis"; image: "pyro.png"}
+                        // }
+                        model:spotify.tracks
                         delegate: Rectangle {
                             id: delegateRect1
                             height: 60
@@ -247,7 +250,7 @@ Item {
                                     id: trackImage1
                                     height: 45
                                     width: 45
-                                    source: model.image
+                                    source: modelData["icon"]
                                     anchors.verticalCenter: parent.verticalCenter
                                     fillMode: Image.PreserveAspectCrop
                                     smooth: true
@@ -259,7 +262,7 @@ Item {
                                     anchors.verticalCenter: parent.verticalCenter
                                     spacing: -5
                                     Text {
-                                        text: model.name
+                                        text: modelData["name"]
 
                                         font.pointSize: 16
                                         color: music.textColor
@@ -268,7 +271,7 @@ Item {
                                         width: delegateRect1.width - trackImage1.width - parent.spacing - 10
                                     }
                                     Text {
-                                        text: model.autor
+                                        text: modelData["artists"]
                                         font.pointSize: 14
                                         color: music.textColorSecond
                                         font.family: castFont.name
@@ -281,6 +284,7 @@ Item {
                                 anchors.fill: parent
                                 onClicked: {
                                     songs.currentIndex = index;
+                                    spotify.set_track(modelData["id"])
                                 }
                             }
                         }
@@ -296,27 +300,36 @@ Item {
             anchors.right: parent.right
             anchors.rightMargin: 16
             spacing: 20
-            OpacityMask {
-                id: roundedImageEffect
+            Image {
+                id: imageSource
                 width: 250
                 height: 250
+                source: spotify.current["icon"]//"pyro.png"
+                fillMode: Image.PreserveAspectCrop
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: Image {
-                    id: imageSource
-                    width: roundedImageEffect.width
-                    height: roundedImageEffect.height
-                    source: "pyro.png"
-                    fillMode: Image.PreserveAspectCrop
-                    visible: false
-                }
-                maskSource: Rectangle {
-                    id: imageMaskShape
-                    width: roundedImageEffect.width
-                    height: roundedImageEffect.height
-                    radius: 15
-                    visible: false
-                }
+                visible: true
             }
+            // OpacityMask {
+            //     id: roundedImageEffect
+            //     width: 250
+            //     height: 250
+            //     anchors.horizontalCenter: parent.horizontalCenter
+            //     source: Image {
+            //         id: imageSource
+            //         width: roundedImageEffect.width
+            //         height: roundedImageEffect.height
+            //         source: "pyro.png"
+            //         fillMode: Image.PreserveAspectCrop
+            //         visible: false
+            //     }
+            //     maskSource: Rectangle {
+            //         id: imageMaskShape
+            //         width: roundedImageEffect.width
+            //         height: roundedImageEffect.height
+            //         radius: 15
+            //         visible: false
+            //     }
+            // }
 
 
             Column{
@@ -326,7 +339,7 @@ Item {
                     id: name
                     font.pixelSize: 32
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: "темная сторона Бога"
+                    text: spotify.current["name"]//"темная сторона Бога"
                     font.family: castFont.name
                     color: music.textColor
                 }
@@ -334,7 +347,7 @@ Item {
                     id: autor
                     font.pixelSize: 24
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: "pyrokinesis"
+                    text:spotify.current["artists"] //"pyrokinesis"
                     font.family: castFont.name
                     color: music.textColorSecond
                 }
