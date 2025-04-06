@@ -1,5 +1,28 @@
 [
     {
+        "allDay": false,
+        "calendarDisplayName": "nikita2005420054@gmail.com",
+        "description": "",
+        "endTime": 0,
+        "id": 276,
+        "location": "",
+        "organizer": "nikita2005420054@gmail.com",
+        "rrule": "FREQ=WEEKLY;INTERVAL=1;WKST=MO;BYDAY=SA",
+        "startTime": 1743814800000,
+        "title": "зомбиапокалипсис"
+    },
+    {
+        "allDay": false,
+        "calendarDisplayName": "nikita2005420054@gmail.com",
+        "description": "",
+        "endTime": 1744336800000,
+        "id": 277,
+        "location": "",
+        "organizer": "nikita2005420054@gmail.com",
+        "startTime": 1744333200000,
+        "title": "члены.... "
+    },
+    {
         "allDay": true,
         "calendarDisplayName": "Праздники России",
         "description": "Государственный праздник",
@@ -185,5 +208,27 @@
         "organizer": "ru.russian#holiday@group.v.calendar.google.com",
         "startTime": 1771804800000,
         "title": "День защитника Отечества"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1773014400000,
+        "id": 273,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1772928000000,
+        "title": "Восьмое марта"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1773100800000,
+        "id": 274,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1773014400000,
+        "title": "Восьмое марта перенесенный выходной день"
     }
 ]

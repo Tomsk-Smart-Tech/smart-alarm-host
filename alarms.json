@@ -1,28 +1,42 @@
 [
     {
-        "delay": "0",
-        "delete_after": false,
-        "id": 2,
-        "isEnabled": true,
-        "isHaptic": "",
-        "label": "Новый будильник",
-        "musicUri": "content://settings/system/alarm_alert",
-        "repeatDays": [
-        ],
-        "song": "/home/nikita/Downloads/alarmtest.mp3",
-        "time": "13:20"
-    },
-    {
-        "delay": "0",
+        "delay": "5",
         "delete_after": false,
         "id": 1,
-        "isEnabled": true,
+        "isEnabled": false,
         "isHaptic": "",
-        "label": "Новый будильник",
-        "musicUri": "content://settings/system/alarm_alert",
+        "label": "Быстрый будильник",
+        "musicUri": "",
         "repeatDays": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
         ],
-        "song": "/home/nikita/Downloads/alarmtest.mp3",
-        "time": "05:27"
+        "song": "/home/nikita/Downloads/xozyain.mp3",
+        "time": "20:27"
+    },
+    {
+        "delay": "5",
+        "delete_after": false,
+        "id": 2,
+        "isEnabled": false,
+        "isHaptic": "",
+        "label": "Быстрый будильник",
+        "musicUri": "",
+        "repeatDays": [
+            false,
+            false,
+            false,
+            true,
+            true,
+            false,
+            false
+        ],
+        "song": "/home/nikita/Downloads/xozyain.mp3",
+        "time": "20:42"
     }
 ]

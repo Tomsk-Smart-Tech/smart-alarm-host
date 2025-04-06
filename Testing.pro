@@ -6,58 +6,79 @@ QT += concurrent
 QT += quickcontrols2
 
 SOURCES += \
-    general_func.cpp \
-    linuxterminal.cpp \
-    main.cpp \
-    mqttclient.cpp \
-    sensors.cpp \
-    spotify.cpp \
-    user.cpp \
-    weather.cpp \
+    src/general_func.cpp \
+    src/linuxterminal.cpp \
+    src/main.cpp \
+    src/mqttclient.cpp \
+    src/sensors.cpp \
+    src/spotify.cpp \
+    src/user.cpp \
+    src/weather.cpp \
+
+HEADERS += \
+    headers/general_func.h \
+    headers/linuxterminal.h \
+    headers/mqttclient.h \
+    headers/sensors.h \
+    headers/spotify.h \
+    headers/user.h \
+    headers/weather.h \
+
+
+DISTFILES += \
+    qml/AlarmScreen.qml \
+    qml/Big_Weather.qml \
+    qml/About_Page.qml \
+    qml/Alarm_Page.qml \
+    qml/Music.qml\
+
 
 resources.files = \
-    main.qml \
-    Clock.qml \
-    Settings_for_Alarm.qml \
-    Wi-Fi_Page.qml \
+    qml/main.qml \
+    qml/Clock.qml \
+    qml/Settings_for_Alarm.qml \
+    qml/Wi-Fi_Page.qml \
     back.jpg \
     icon_0.png icon_1.png icon_2.png icon_3.png icon_4.png icon_5.png \
     back2.jpg \
     Roboto-Light.ttf \
     Roboto-Bold.ttf \
     Roboto-Medium.ttf \
-    Bluetooth_Page.qml \
-    Color_Page.qml \
-    Date_and_time_Page.qml \
-    Sound_Page.qml \
-    Storage_Page.qml \
+    qml/Bluetooth_Page.qml \
+    qml/Color_Page.qml \
+    qml/Date_and_time_Page.qml \
+    qml/Sound_Page.qml \
+    qml/Storage_Page.qml \
     InriaSans-Light.ttf \
     ofont.ru_Monoid.ttf \
     ofont.ru_Nunito.ttf \
-    Alarms.qml \
-    Sensors.qml \
+    qml/Alarms.qml \
+    qml/Sensors.qml \
     mounts.jpg \
-    Weather.qml \
+    qml/Weather.qml \
     russian_cities.json \
     userdata.json \
     weather_icon \
     weather_iconkit \
     connection \
-    Big_Calendar.qml\
-    Status_bar.qml\
-    Mini_Events.qml\
+    qml/Big_Calendar.qml\
+    qml/Status_bar.qml\
+    qml/Mini_Events.qml\
     Wi-Fi \
-    Mini_Music.qml\
+    qml/Mini_Music.qml\
     icon_6.png\
-    GlobalTime.qml \
-    AlarmSettings_Popup.qml \
-    Music.qml\
+    qml/GlobalTime.qml \
+    qml/AlarmSettings_Popup.qml \
     music_icon\
 
 
 
+TARGET = smart-alarm-host
+
 resources.prefix = /$${TARGET}
 RESOURCES += resources
+
+INCLUDEPATH += $$PWD/headers
 
 #mqtt
 INCLUDEPATH += $$PWD/lib-mqtt5/include
@@ -75,19 +96,4 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    AlarmScreen.qml \
-    Big_Weather.qml \
-    GlobalTime.qml \
-    About_Page.qml \
-    Alarm_Page.qml \
 
-
-HEADERS += \
-    general_func.h \
-    linuxterminal.h \
-    mqttclient.h \
-    sensors.h \
-    spotify.h \
-    user.h \
-    weather.h \
