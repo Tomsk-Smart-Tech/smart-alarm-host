@@ -41,16 +41,11 @@ resources.files = \
     back.jpg \
     icon_0.png icon_1.png icon_2.png icon_3.png icon_4.png icon_5.png \
     back2.jpg \
-    Roboto-Light.ttf \
-    Roboto-Bold.ttf \
-    Roboto-Medium.ttf \
     qml/Bluetooth_Page.qml \
     qml/Color_Page.qml \
     qml/Date_and_time_Page.qml \
     qml/Sound_Page.qml \
     qml/Storage_Page.qml \
-    InriaSans-Light.ttf \
-    ofont.ru_Monoid.ttf \
     qml/ofont.ru_Nunito.ttf \
     qml/Alarms.qml \
     qml/Sensors.qml \
