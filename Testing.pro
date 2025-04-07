@@ -38,9 +38,6 @@ resources.files = \
     qml/Clock.qml \
     qml/Settings_for_Alarm.qml \
     qml/Wi-Fi_Page.qml \
-    back.jpg \
-    icon_0.png icon_1.png icon_2.png icon_3.png icon_4.png icon_5.png \
-    back2.jpg \
     qml/Bluetooth_Page.qml \
     qml/Color_Page.qml \
     qml/Date_and_time_Page.qml \
@@ -49,22 +46,16 @@ resources.files = \
     qml/ofont.ru_Nunito.ttf \
     qml/Alarms.qml \
     qml/Sensors.qml \
-    mounts.jpg \
     qml/Weather.qml \
-    russian_cities.json \
-    userdata.json \
-    weather_icon \
-    weather_iconkit \
-    connection \
     qml/Big_Calendar.qml\
     qml/Status_bar.qml\
     qml/Mini_Events.qml\
-    Wi-Fi \
     qml/Mini_Music.qml\
-    icon_6.png\
     qml/GlobalTime.qml \
     qml/AlarmSettings_Popup.qml \
-    music_icon\
+    russian_cities.json \
+    userdata.json \
+    qml/resource_icon \
 
 
 
