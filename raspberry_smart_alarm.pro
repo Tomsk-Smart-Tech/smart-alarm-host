@@ -4,18 +4,57 @@ QT += quick
 QT += quick network
 QT += concurrent
 
-
-
-
 SOURCES += \
-    dht22sensor.cpp \
-    general_func.cpp \
-    linuxterminal.cpp \
-    main.cpp \
-    mqttclient.cpp \
-    spotify.cpp \
-    weather.cpp \
-    user.cpp
+    src/general_func.cpp \
+    src/linuxterminal.cpp \
+    src/main.cpp \
+    src/mqttclient.cpp \
+    src/sensors.cpp \
+    src/spotify.cpp \
+    src/user.cpp \
+    src/weather.cpp \
+
+HEADERS += \
+    headers/general_func.h \
+    headers/linuxterminal.h \
+    headers/mqttclient.h \
+    headers/sensors.h \
+    headers/spotify.h \
+    headers/user.h \
+    headers/weather.h \
+
+DISTFILES += \
+    qml/AlarmScreen.qml \
+    qml/Big_Weather.qml \
+    qml/About_Page.qml \
+    qml/Alarm_Page.qml \
+    qml/Music.qml\
+
+resources.files = \
+    qml/main.qml \
+    qml/Clock.qml \
+    qml/Settings_for_Alarm.qml \
+    qml/Wi-Fi_Page.qml \
+    qml/Bluetooth_Page.qml \
+    qml/Color_Page.qml \
+    qml/Date_and_time_Page.qml \
+    qml/Sound_Page.qml \
+    qml/Storage_Page.qml \
+    qml/ofont.ru_Nunito.ttf \
+    qml/Alarms.qml \
+    qml/Sensors.qml \
+    qml/Weather.qml \
+    qml/Big_Calendar.qml\
+    qml/Status_bar.qml\
+    qml/Mini_Events.qml\
+    qml/Mini_Music.qml\
+    qml/GlobalTime.qml \
+    qml/AlarmSettings_Popup.qml \
+    russian_cities.json \
+    userdata.json \
+    qml/resource_icon \
+
+TARGET = smart-alarm-host
 
 INCLUDEPATH+= C:/boost_1_87_0/
 INCLUDEPATH+= C:/FireDaemonOpenSSL3/include/
@@ -24,61 +63,15 @@ LIBS += -LC:/FireDaemonOpenSSL3/lib -lssl -lcrypto
 
 LIBS += -lws2_32
 # -lssl -lcrypto
-HEADERS += \
-    dht22sensor.h \
-    general_func.h \
-    linuxterminal.h \
-    mqttclient.h \
-    spotify.h \
-    weather.h \
-    user.h
+
 
 # QMAKE_CXXFLAGS += -Wa,-mbig-obj
 # QMAKE_CFLAGS += -Wa,-mbig-obj
 # QMAKE_CXXFLAGS += -Os
 
 INCLUDEPATH += $$PWD/lib-mqtt5/include
+INCLUDEPATH += $$PWD/headers
 
-resources.files = main.qml Clock.qml  Wi-Fi_Page.qml back.jpg icon_0.png icon_1.png icon_2.png icon_3.png icon_4.png icon_5.png back2.jpg Roboto-Light.ttf Roboto-Bold.ttf Roboto-Medium.ttf \
-Bluetooth_Page.qml \
-Color_Page.qml \
-Date_and_time_Page.qml \
-Settings_for_Alarm.qml \
-Sound_Page.qml \
-Storage_Page.qml \
-InriaSans-Light.ttf \
-ofont.ru_Monoid.ttf \
-ofont.ru_Nunito.ttf \
-Alarms.qml \
-Sensors.qml \
-mounts.jpg \
-Weather.qml \
-Settings_for_Alarm_copy.qml \
-Status_bar.qml \
-Test.qml \
-InitialPage.qml \
-russian_cities.json \
-Big_Weather.qml \
-weather_icon \
-userdata.json \
-loading.png \
-weather_iconkit \
-Big_Calendar.qml \
-Wi-Fi \
-Mini_Events.qml \
-icon_6.png\
-AlarmScreen.qml \
-Kumkwat.png \
-KumkwatNew.png \
-Mini_Music.qml \
-pyro.png \
-events.json\
-AlarmSettings_Popup.qml\
-alarms.json\
-Music.qml\
-GlobalTime.qml\
-music_icon \
-sensors \
 
 resources.prefix = /$${TARGET}
 RESOURCES += resources
@@ -97,30 +90,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 QT += quickcontrols2
 QT += core gui opengl
 
-DISTFILES += \
-    About_Page.qml \
-    AlarmSettings_Popup.qml \
-    Alarm_Page.qml \
-    Alarms.qml \
-    Big_Calendar.qml \
-    Big_Calendar.qml \
-    Big_Weather.qml \
-    Bluetooth_Page.qml \
-    Color_Page.qml \
-    Date_and_time_Page.qml \
-    InitialPage.qml \
-    Mini_Events.qml \
-    Mini_Music.qml \
-    Music.qml \
-    Sensors.qml \
-    Sound_Page.qml \
-    Status_bar.qml \
-    Storage_Page.qml \
-    Test.qml \
-    Big_Calendar.qml \
-    Test_Poput.qml \
-    humidity.png\
-    temp.png
 
 
 

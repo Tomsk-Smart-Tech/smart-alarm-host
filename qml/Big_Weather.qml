@@ -4,7 +4,6 @@ import QtQuick.Controls 2.15
 Item {
     id: weather
 
-    //поменял почти везде string на var ибо ругается
     property int x_pos: 0
     property int y_pos: 0
     property color backgroundColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
@@ -12,19 +11,19 @@ Item {
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
     property ListModel week_list: valueOf
 
-    property var currect_temp: ""
-    property var currect_temp_max: ""
-    property var currect_temp_min: ""
+    property var currect_temp: "None"
+    property var currect_temp_max: "None"
+    property var currect_temp_min: "None"
 
-    property var humidity: ""
-    property var wind: ""
-    property var feel_temp: ""
+    property var humidity: "None"
+    property var wind: "None"
+    property var feel_temp: "None"
 
-    property string sunrise: "000"
-    property string sunset: "000"
-    property var dew_point: "000"
-    property string uv: "000"
-    property var rain_sensor: "000"
+    property string sunrise: "None"
+    property string sunset: "None"
+    property var dew_point: "None"
+    property string uv: "None"
+    property var rain_sensor: "None"
 
     //обновление графика canvas
     Connections {
@@ -101,7 +100,7 @@ Item {
                                     anchors.verticalCenter: parent.verticalCenter
                                     width: 28
                                     height: 28
-                                    source: "weather_icon/temp_down.png"
+                                    source: "resource_icon/weather_icon/temp_down.png"
                                 }
                                 Text {
                                     text: Math.round(weather.currect_temp_min) + " °C"
@@ -119,7 +118,7 @@ Item {
                                     anchors.verticalCenter: parent.verticalCenter
                                     width: 28
                                     height: 28
-                                    source: "weather_icon/temp_up.png"
+                                    source: "resource_icon/weather_icon/temp_up.png"
                                 }
                                 Text {
                                     text: Math.round(weather.currect_temp_max) + " °C"
@@ -351,7 +350,7 @@ Item {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text:  getDayName_short(modelData["time"])
                                     font.pointSize: 18
-                                    color: textColor
+                                    color: weather.textColor
                                     font.weight: Font.DemiBold
                                     font.family: castFont1.name
                                 }
@@ -359,7 +358,7 @@ Item {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     text: Qt.formatDateTime(new Date(modelData["time"]*1000), "dd.MM")
                                     font.pointSize: 14
-                                    color: textColorSecond
+                                    color: weather.textColorSecond
                                     font.family: castFont1.name
                                 }
                                 Image {
@@ -375,7 +374,7 @@ Item {
                                     Text {
                                         text: index === 0 ? Math.round(weather.currect_temp_min) + "°" : modelData["min_temp"] + "°"
                                         font.pointSize: 16
-                                        color: textColorSecond
+                                        color: weather.textColorSecond
                                         font.family: castFont1.name
 
 
@@ -383,7 +382,7 @@ Item {
                                     Text {
                                         text: index === 0 ? Math.round(weather.currect_temp_max) + "°" : modelData["max_temp"] + "°"
                                         font.pointSize: 16
-                                        color: textColor
+                                        color: weather.textColor
                                         font.family: castFont1.name
                                     }
                                 }
@@ -407,7 +406,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 12
-                                source: "weather_icon/sunrise.png"
+                                source: "resource_icon/weather_icon/sunrise.png"
                                 anchors.verticalCenterOffset: 0
                             }
                             Text {
@@ -450,7 +449,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 12
-                                source: "weather_icon/sunset.png"
+                                source: "resource_icon/weather_icon/sunset.png"
                                 anchors.verticalCenterOffset: 0
                             }
                             Text {
@@ -494,7 +493,7 @@ Item {
                             anchors.top: parent.top
                             anchors.leftMargin: 16
                             anchors.topMargin: 16
-                            source: "weather_icon/pressure.png"
+                            source: "resource_icon/weather_icon/pressure.png"
                         }
                         Text {
                             text: "Давление"
@@ -625,7 +624,7 @@ Item {
                             anchors.top: parent.top
                             anchors.leftMargin: 16
                             anchors.topMargin: 16
-                            source: "weather_icon/rain_sensor.png"
+                            source: "resource_icon/weather_icon/rain_sensor.png"
                         }
                         Column{
                             id: column
@@ -699,7 +698,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 12
-                                source: "weather_icon/dew_point.png"
+                                source: "resource_icon/weather_icon/dew_point.png"
                                 anchors.verticalCenterOffset: 0
                             }
                             Text {
@@ -737,13 +736,38 @@ Item {
                             color: weather.backgroundColor
                             radius: 15
                             Image {
+                                id: image
                                 width: 64
                                 height: 64
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 12
-                                source: "weather_icon/UV.png"
+                                source: "resource_icon/weather_icon/UV.png"
                                 anchors.verticalCenterOffset: 0
+
+                                Rectangle {
+                                    id: uv_indicator
+                                    width: 14
+                                    height: 14
+                                    color: {
+                                        if (weather.uv <= 2) {
+                                            return "#3EA72D";
+                                        } else if (weather.uv <= 5) {
+                                            return "#FFF300";
+                                        } else if (weather.uv <= 7) {
+                                            return "#F18B00";
+                                        } else if (weather.uv <= 10) {
+                                            return "#E53210";
+                                        } else {
+                                            return "#B567A4";
+                                        }
+                                    }
+                                    radius: 7
+                                    anchors.left: parent.left
+                                    anchors.top: parent.top
+                                    anchors.leftMargin: 25
+                                    anchors.topMargin: 25
+                                }
                             }
                             Text {
                                 text: weather.uv

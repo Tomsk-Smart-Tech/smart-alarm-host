@@ -4,6 +4,7 @@ Item{
     id:page
     property color backgroundColor: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     Rectangle{
         id:rec
         anchors.fill: parent

@@ -1,0 +1,112 @@
+[
+    {
+        "allDay": true,
+        "calendarDisplayName": "nikita2005420054@gmail.com",
+        "description": "",
+        "endTime": 1743465600000,
+        "id": 275,
+        "location": "",
+        "organizer": "nikita2005420054@gmail.com",
+        "startTime": 1743379200000,
+        "title": "Контрольная по матеметике"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1746144000000,
+        "id": 74,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1746057600000,
+        "title": "Праздник Весны и Труда"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "nikita2005420054@gmail.com",
+        "description": "",
+        "endTime": 1746144000000,
+        "id": 266,
+        "location": "",
+        "organizer": "nikita2005420054@gmail.com",
+        "startTime": 1746057600000,
+        "title": "День рождения брата"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1746230400000,
+        "id": 249,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1746144000000,
+        "title": "Новогодние каникулы (замена)"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1746748800000,
+        "id": 245,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1746662400000,
+        "title": "День защитника Отечества"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1746835200000,
+        "id": 232,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1746748800000,
+        "title": "День Победы"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1749772800000,
+        "id": 233,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1749686400000,
+        "title": "День России"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1749859200000,
+        "id": 250,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1749772800000,
+        "title": "Substitute Holiday for International Women's Day"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1762214400000,
+        "id": 252,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1762128000000,
+        "title": "Выходной"
+    },
+    {
+        "allDay": true,
+        "calendarDisplayName": "Праздники России",
+        "description": "Государственный праздник",
+        "endTime": 1762300800000,
+        "id": 251,
+        "location": "",
+        "organizer": "ru.russian#holiday@group.v.calendar.google.com",
+        "startTime": 1762214400000,
+        "title": "День народного единства"
+    }
+]

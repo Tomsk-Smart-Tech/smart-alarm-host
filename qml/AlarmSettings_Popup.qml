@@ -106,7 +106,7 @@ Popup {
     background:    Rectangle {
         id: rectangle1
         anchors.fill: parent
-        color: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0)
+        color:alarmDialog.backgroundColor
         radius: 15
         Column {
             anchors.fill: parent

@@ -10,10 +10,9 @@ Window {
     visible: true
     title: qsTr("Hello World")
     // visibility: Window.FullScreen
-    property color backgroundColor: Qt.rgba(30 / 255, 30 / 255, 30 / 255, 1)
-    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property var connection_status: mqttclient.connectionStatus
 
+    // resource_icon/
 
     property bool isMusicPlaying: false
     function togglePlayback() {
@@ -41,6 +40,19 @@ Window {
         id: castFont
         source: "ofont.ru_Nunito.ttf"
     }
+    Item{
+        id: colors
+        // Текст
+        property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+        property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+        // Для непрозрачных объектов
+        property color backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
+        property color widColor: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
+        // Специальные
+        property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+        property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
+
+    }
 
 
     SwipeView{
@@ -51,8 +63,12 @@ Window {
         Rectangle{
             color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
             Settings_for_Alarm{
-                backgroundColor: window.backgroundColor
-                textColor: window.textColor
+                backgroundColor: colors.backgroundColor
+                textColor: colors.textColor
+                textColorSecond: colors.textColorSecond
+                choiceColor: colors.choiceColor
+                separatorColor: colors.separatorColor
+                widColor: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
             }
 
         }
@@ -67,7 +83,7 @@ Window {
                     color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
 
                     Big_Weather{
-                        textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                        textColor: colors.textColor
                         currect_temp: weatherr.cur_weather["temp"]
                         humidity:weatherr.cur_weather["humidity"]+"%"
                         currect_temp_max: weatherr.cur_weather["temp_max"]
@@ -93,6 +109,7 @@ Window {
 
 
                     Clock{
+
                         x_pos:16
                         y_pos:56
                         time: Qt.formatDateTime(currentDateTime, "HH:mm")

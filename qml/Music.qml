@@ -1,5 +1,5 @@
 import QtQuick 2.0
-// import Qt5Compat.GraphicalEffects
+import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 
 Item {
@@ -43,7 +43,7 @@ Item {
             anchors.top: parent.top
             anchors.rightMargin: 10
             anchors.topMargin: 10
-            source: "music_icon/spotify.png"
+            source: "resource_icon/music_icon/spotify.png"
         }
         Rectangle {
             id: rectangle1
@@ -79,7 +79,7 @@ Item {
                         height: 32
                         spacing: 5
                         Image{
-                            source: "music_icon/playlist.png"
+                            source: "resource_icon/music_icon/playlist.png"
                             width: 32
                             height: 32
                         }
@@ -128,16 +128,37 @@ Item {
                                 anchors.rightMargin: 5
                                 spacing: 10
 
-                                Image {
-                                    id: trackImage
-                                    height: 45
-                                    width: 45
-                                    source: modelData["icon"]
+                                OpacityMask {
+                                    id: roundedImageEffect2
+                                    width: 50
+                                    height: 50
                                     anchors.verticalCenter: parent.verticalCenter
-                                    fillMode: Image.PreserveAspectCrop
-                                    smooth: true
-                                    clip: true
+                                    source: Image {
+                                        id: imageSource2
+                                        width: roundedImageEffect2.width
+                                        height: roundedImageEffect2.height
+                                        source: modelData["icon"]
+                                        fillMode: Image.PreserveAspectCrop
+                                        visible: false
+                                    }
+                                    maskSource: Rectangle {
+                                        id: imageMaskShape2
+                                        width: roundedImageEffect2.width
+                                        height: roundedImageEffect2.height
+                                        radius: 8
+                                        visible: false
+                                    }
                                 }
+                                // Image {
+                                //     id: trackImage
+                                //     height: 45
+                                //     width: 45
+                                //     source: model.image
+                                //     anchors.verticalCenter: parent.verticalCenter
+                                //     fillMode: Image.PreserveAspectCrop
+                                //     smooth: true
+                                //     clip: true
+                                // }
 
                                 Column {
                                     id: textColumn
@@ -150,16 +171,8 @@ Item {
                                         color: music.textColor
                                         font.family: castFont.name
                                         elide: Text.ElideRight
-                                        width: delegateRect.width - trackImage.width - parent.spacing - 10
+                                        width: delegateRect.width - roundedImageEffect2.width - parent.spacing - 10
                                     }
-                                    // Text {
-                                    //     text: model.autor
-                                    //     font.pointSize: 14
-                                    //     color: music.textColorSecond
-                                    //     font.family: castFont.name
-                                    //     elide: Text.ElideRight
-                                    //     width: delegateRect.width - trackImage.width - parent.spacing - 10
-                                    // }
                                 }
                             }
                             MouseArea {
@@ -191,13 +204,13 @@ Item {
                         height: 32
                         spacing: 5
                         Image{
-                            source: "music_icon/lib.png"
+                            source: "resource_icon/music_icon/lib.png"
                             width: 32
                             height: 32
                         }
                         Text{
                             height: 32
-                            text: "Песни плейлиста"
+                            text: "Треки"
                             anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
                             font.bold: true
@@ -245,17 +258,38 @@ Item {
                                 anchors.leftMargin: 5
                                 anchors.rightMargin: 5
                                 spacing: 10
+                                OpacityMask {
+                                    id: roundedImageEffect1
+                                    width: 50
+                                    height: 50
 
-                                Image {
-                                    id: trackImage1
-                                    height: 45
-                                    width: 45
-                                    source: modelData["icon"]
                                     anchors.verticalCenter: parent.verticalCenter
-                                    fillMode: Image.PreserveAspectCrop
-                                    smooth: true
-                                    clip: true
+                                    source: Image {
+                                        id: imageSource1
+                                        width: roundedImageEffect1.width
+                                        height: roundedImageEffect1.height
+                                        source: modelData["icon"]
+                                        fillMode: Image.PreserveAspectCrop
+                                        visible: false
+                                    }
+                                    maskSource: Rectangle {
+                                        id: imageMaskShape1
+                                        width: roundedImageEffect1.width
+                                        height: roundedImageEffect1.height
+                                        radius: 8
+                                        visible: false
+                                    }
                                 }
+                                // Image {
+                                //     id: trackImage1
+                                //     height: 45
+                                //     width: 45
+                                //     source: model.image
+                                //     anchors.verticalCenter: parent.verticalCenter
+                                //     fillMode: Image.PreserveAspectCrop
+                                //     smooth: true
+                                //     clip: true
+                                // }
 
                                 Column {
                                     id: textColumn1
@@ -268,7 +302,7 @@ Item {
                                         color: music.textColor
                                         font.family: castFont.name
                                         elide: Text.ElideRight
-                                        width: delegateRect1.width - trackImage1.width - parent.spacing - 10
+                                        width: delegateRect1.width - roundedImageEffect1.width - parent.spacing - 10
                                     }
                                     Text {
                                         text: modelData["artists"]
@@ -276,7 +310,7 @@ Item {
                                         color: music.textColorSecond
                                         font.family: castFont.name
                                         elide: Text.ElideRight
-                                        width: delegateRect1.width - trackImage1.width - parent.spacing - 10
+                                        width: delegateRect1.width - roundedImageEffect1.width - parent.spacing - 10
                                     }
                                 }
                             }
@@ -366,7 +400,7 @@ Item {
                         width: 40
                         height: 40
                         anchors.verticalCenter: parent.verticalCenter
-                        source:"music_icon/shaffle_off.png"
+                        source:"resource_icon/music_icon/shaffle_off.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     SequentialAnimation {
@@ -402,7 +436,7 @@ Item {
                         width: 60
                         height: 60
                         anchors.verticalCenter: parent.verticalCenter
-                        source:"music_icon/rewind.png"
+                        source:"resource_icon/music_icon/rewind.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     SequentialAnimation {
@@ -438,7 +472,7 @@ Item {
                         width: 60
                         height: 60
                         anchors.verticalCenter: parent.verticalCenter
-                        source:music.currentlyPlaying ? "music_icon/pause.png" : "music_icon/play.png"
+                        source:music.currentlyPlaying ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     SequentialAnimation {
@@ -477,7 +511,7 @@ Item {
                         width: 60
                         height: 60
                         anchors.verticalCenter: parent.verticalCenter
-                        source:"music_icon/next.png"
+                        source:"resource_icon/music_icon/next.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     SequentialAnimation {
@@ -514,7 +548,7 @@ Item {
                         width: 40
                         height: 40
                         anchors.verticalCenter: parent.verticalCenter
-                        source:"music_icon/repeat_off.png"
+                        source:"resource_icon/music_icon/repeat_off.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     SequentialAnimation {

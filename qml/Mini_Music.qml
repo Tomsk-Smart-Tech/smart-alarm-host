@@ -142,7 +142,7 @@ Item {
             anchors.top: parent.top
             anchors.rightMargin: 10
             anchors.topMargin: 10
-            source:"music_icon/playlist.png"
+            source:"resource_icon/music_icon/playlist.png"
         }
         // Image{
         //     width: 45
@@ -192,7 +192,7 @@ Item {
                 color: "transparent"
                 Image{
                     anchors.fill: parent
-                    source:"music_icon/rewind.png"
+                    source:"resource_icon/music_icon/rewind.png"
                 }
                 // Text {
                 //     id: buttonText1
@@ -241,7 +241,7 @@ Item {
                 color: "transparent"
                 Image{
                     anchors.fill: parent
-                    source:miniMusic.currentlyPlaying ? "music_icon/pause.png" : "music_icon/play.png"
+                    source:miniMusic.currentlyPlaying ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
                 }
                 // Text {
                 //     id: buttonText
@@ -292,7 +292,7 @@ Item {
                 color: "transparent"
                 Image{
                     anchors.fill: parent
-                    source:"music_icon/next.png"
+                    source:"resource_icon/music_icon/next.png"
                 }
                 SequentialAnimation {
                     id: playAnimation2

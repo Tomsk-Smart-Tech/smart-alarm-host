@@ -19,6 +19,8 @@ Item {
     }
     AlarmSettings_Popup{
         id: alarmDialog
+        backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
+        widColorSecond: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
     }
 
     function getTimeDiff(globaldate,first_alarm)

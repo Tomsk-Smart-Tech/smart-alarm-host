@@ -4,6 +4,8 @@ Item {
     id: wifi
     property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
     property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color widColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
     Rectangle {
         id: rec
@@ -29,7 +31,7 @@ Item {
             id: rectangle
             // color: "transparent"
             radius: 15
-            color: Qt.rgba(60 / 255, 60 / 255, 60 / 255, 1.0)
+            color: wifi.widColor
             anchors.fill: parent
             anchors.leftMargin: 25
             anchors.rightMargin: 25
@@ -62,7 +64,7 @@ Item {
                             anchors.left: parent.left
                             anchors.top: parent.top
                             source: {
-                                var basePath = "Wi-Fi/";
+                                var basePath = "resource_icon/Wi-Fi/";
                                 var signalStrength = modelData["signal"];
                                 var isLocked = model.lock ? "_lock" : "";
                                 return basePath + "wifi" + signalStrength + isLocked + ".png";

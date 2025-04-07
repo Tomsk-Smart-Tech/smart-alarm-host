@@ -4,9 +4,17 @@ Item {
     id: settings
     property int x_pos: 0
     property int y_pos: 0
+
     property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
+    property color widColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
     property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
+
+    property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+
 
     Rectangle {
         id: left_panel
@@ -45,7 +53,7 @@ Item {
 
                 Image {
                     id: image
-                    source: "icon_" + index + ".png"
+                    source: "resource_icon/settings_icons/icon_" + index + ".png"
                     width: 50
                     height: 50
                     fillMode: Image.PreserveAspectFit
@@ -68,7 +76,7 @@ Item {
                     anchors.leftMargin: 75
                     anchors.verticalCenter: parent.verticalCenter
                 }
-
+                Component.onCompleted: console.log("icon path:", "qrc:/settings_icons/icon_" + index + ".png")
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -85,8 +93,11 @@ Item {
 
                         if (model.name in pages) {
                             loader.source = pages[model.name];
-                            loader.item.backgroundColor = backgroundColor;
-                            loader.item.textColor = textColor;
+                            loader.item.backgroundColor = settings.backgroundColor;
+                            loader.item.textColor = settings.textColor;
+                            loader.item.widColor = settings.widColor;
+                            loader.item.textColorSecond = settings.textColorSecond;
+
 
                             if (model.name === "Wi-fi")
                             {
@@ -137,6 +148,12 @@ Item {
         width: 1024 - 1024 / 3
         height: 600
         source: "InitialPage.qml"
+        Component.onCompleted:{
+            loader.item.backgroundColor = settings.backgroundColor;
+            loader.item.textColor = settings.textColor;
+            loader.item.widColor = settings.widColor
+            loader.item.textColorSecond = settings.textColorSecond
+        }
 
     }
 
@@ -147,5 +164,4 @@ Item {
         height: 600
         color: settings.separatorColor
     }
-
 }

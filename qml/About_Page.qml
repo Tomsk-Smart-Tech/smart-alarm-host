@@ -6,6 +6,7 @@ Item {
     property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
     property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200/255, 200/255, 200/255, 1.0)
+    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property alias rowWidth: row.width
 
     Rectangle {
@@ -40,7 +41,7 @@ Item {
                 id: image
                 width: 256
                 height: 256
-                source: "Kumkwat.png"
+                source: "resource_icon/special/Kumkwat.png"
                 fillMode: Image.PreserveAspectFit
                 SequentialAnimation {
                     id: playAnimation

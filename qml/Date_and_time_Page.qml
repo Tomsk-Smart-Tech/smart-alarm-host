@@ -3,14 +3,16 @@ import QtQuick.Controls
 
 Item {
     id: page
-    property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
-    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-    property ListModel cityModel: ListModel {}
 
-    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+    property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
+    property color widColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
+    property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+
+    property ListModel cityModel: ListModel {}
 
     property var region_string:weatherr.get_region()
     property var city_string :weatherr.get_city()
@@ -18,7 +20,7 @@ Item {
     Rectangle {
         id: rec
         anchors.fill: parent
-        color: backgroundColor
+        color: page.backgroundColor
 
         FontLoader {
             id: castFont
@@ -32,7 +34,7 @@ Item {
             text: "Дата и Время"
             font.family: castFont.name
             font.pointSize: 30
-            color: textColor
+            color: page.textColor
         }
 
         ScrollView {
@@ -73,13 +75,13 @@ Item {
                         height: 40
                         anchors.right: parent.right
                         textRole: "region"
-                        displayText:region_string
+                        displayText:page.region_string
                         model: ListModel {
                             id: regionModel
                         }
 
                         background: Rectangle {
-                            color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+                            color: page.widColor
                             radius: 10
                         }
 
@@ -87,17 +89,20 @@ Item {
                             width: 40
                             height: 40
                             radius: 10
-                            color: "#e5e5e5"
+                            color: page.textColor
                             anchors.right: parent.right
                             anchors.top: parent.top
-
-                            Text {
-                                anchors.centerIn: parent
-                                text: "▼"
-                                color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
-                                font.family: castFont.name
-                                font.pixelSize: 24
+                            Image{
+                                anchors.fill: parent
+                                source: "resource_icon/special/arrow_down"
                             }
+                            // Text {
+                            //     anchors.centerIn: parent
+                            //     text: "▼"
+                            //     color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+                            //     font.family: castFont.name
+                            //     font.pixelSize: 24
+                            // }
                         }
 
                         contentItem: Text {
@@ -105,7 +110,7 @@ Item {
                             text: regionComboBox.displayText
                             anchors.left: parent.left
                             anchors.leftMargin: 8
-                            color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                            color: page.textColor
                             font.pixelSize: 24
                             verticalAlignment: Text.AlignVCenter
                             font.family: castFont.name
@@ -118,11 +123,11 @@ Item {
                             Rectangle {
                                 id: del
                                 anchors.fill: parent
-                                color: regionComboBox.highlightedIndex === index ? page.choiceColor : page.backgroundColor
+                                color: regionComboBox.highlightedIndex === index ? page.choiceColor : page.widColor
 
                                 Text {
                                     text: model.region // Отображаем имя региона
-                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                    color: page.textColor
                                     font.pixelSize: 24
                                     anchors.left: parent.left
                                     anchors.leftMargin: 8
@@ -181,11 +186,11 @@ Item {
                         height: 40
                         anchors.right: parent.right
                         textRole: "name"
-                        displayText:city_string
+                        displayText:page.city_string
                         model: page.cityModel
 
                         background: Rectangle {
-                            color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+                            color: page.widColor
                             radius: 10
                         }
 
@@ -193,17 +198,20 @@ Item {
                             width: 40
                             height: 40
                             radius: 10
-                            color: "#e5e5e5"
+                            color: page.textColor
                             anchors.right: parent.right
                             anchors.top: parent.top
-
-                            Text {
-                                anchors.centerIn: parent
-                                text: "▼"
-                                color: page.choiceColor
-                                font.family: castFont.name
-                                font.pixelSize: 24
+                            Image{
+                                anchors.fill: parent
+                                source: "resource_icon/special/arrow_down"
                             }
+                            // Text {
+                            //     anchors.centerIn: parent
+                            //     text: "▼"
+                            //     color: page.choiceColor
+                            //     font.family: castFont.name
+                            //     font.pixelSize: 24
+                            // }
                         }
 
                         contentItem: Text {
@@ -222,11 +230,11 @@ Item {
                             height: 40
                             Rectangle {
                                 anchors.fill: parent
-                                color: cityComboBox.highlightedIndex === index ? page.choiceColor : page.backgroundColor
+                                color: cityComboBox.highlightedIndex === index ? page.choiceColor : page.widColor
 
                                 Text {
                                     text: model.name // Отображаем имя города
-                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                    color: page.textColor
                                     font.pixelSize: 24
                                     anchors.left: parent.left
                                     anchors.leftMargin: 8

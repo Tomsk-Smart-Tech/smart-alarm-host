@@ -46,7 +46,7 @@ Item {
                     anchors.top: parent.top
                     anchors.leftMargin: 3
                     anchors.topMargin: 3
-                    source: "sensors/temp.png"
+                    source: "resource_icon/sensors/temp.png"
                     fillMode: Image.PreserveAspectFit
                 }
                 Text{
@@ -98,7 +98,7 @@ Item {
                     anchors.top: parent.top
                     anchors.leftMargin: 3
                     anchors.topMargin: 3
-                    source: "sensors/humidity.png"
+                    source: "resource_icon/sensors/humidity.png"
                     fillMode: Image.PreserveAspectFit
                 }
                 Text{
@@ -151,7 +151,7 @@ Item {
                     anchors.top: parent.top
                     anchors.leftMargin: 3
                     anchors.topMargin: 3
-                    source: "sensors/voc.png"
+                    source: "resource_icon/sensors/voc.png"
                     fillMode: Image.PreserveAspectFit
                 }
                 Text{

@@ -5,10 +5,10 @@ import QtMultimedia 6.0
 Item {
     id: sound
     property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
+    property color widColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
     property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-
-    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
 
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
 
@@ -27,7 +27,7 @@ Item {
     Rectangle{
         id:rec
         anchors.fill: parent
-        color:backgroundColor
+        color:sound.backgroundColor
         FontLoader {
             id: castFont
             source: "ofont.ru_Nunito.ttf"
@@ -61,7 +61,7 @@ Item {
                 width: parent.width
                 height: 95
                 radius: 15
-                color: sound.widColorSecond
+                color: sound.widColor
                 Column{
                     anchors.fill:parent
                     anchors.margins: 10
@@ -121,14 +121,14 @@ Item {
                 spacing: 20
                 ComboBox {
                     id: soundComboBox
-                    width: parent.width - 110 - 20
+                    width: parent.width - 80 - 20
                     height: 40
                     textRole: "songName"
                     model: terminal.songs
                     currentIndex:findSongIndex(terminal.cur_song);
 
                     background: Rectangle {
-                        color: sound.choiceColor
+                        color: sound.widColor
                         radius: 10
                     }
 
@@ -136,24 +136,27 @@ Item {
                         width: 40
                         height: 40
                         radius: 10
-                        color: "#e5e5e5"
+                        color: sound.textColor
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-
-                        Text {
-                            anchors.centerIn: parent
-                            text: "▼"
-                            color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
-                            font.family: castFont.name
-                            font.pixelSize: 24
+                        Image{
+                            anchors.fill: parent
+                            source: "resource_icon/special/arrow_down"
                         }
+                        // Text {
+                        //     anchors.centerIn: parent
+                        //     text: "▼"
+                        //     color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+                        //     font.family: castFont.name
+                        //     font.pixelSize: 24
+                        // }
                     }
 
                     contentItem: Text {
                         text: soundComboBox.currentText
                         anchors.left: parent.left
                         anchors.leftMargin: 8
-                        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                        color: sound.textColor
                         font.pixelSize: 24
                         verticalAlignment: Text.AlignVCenter
                         font.family: castFont.name
@@ -173,7 +176,7 @@ Item {
                                 anchors.fill: parent
                                 anchors.leftMargin: 8
                                 text: modelData["songName"]
-                                color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                color: sound.textColor
                                 font.pixelSize: 24
                                 font.family: castFont.name
                             }
@@ -192,23 +195,29 @@ Item {
                 }
                 Button{
                     id: melodyButoon
-                    width: 110
+                    width: 80
                     height: 40
                     checked: false
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     background: Rectangle{
                         radius: 10
-                        color: "#555555"
-                        Text{
-                            color: "#ffffff"
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            font.pointSize: 14
-                            text: melodyButoon.checked ? "▐ ▌" : "►"
-                            font.family: castFont.name
+                        color: sound.widColor
+                        Image{
+                            width: 40
+                            height: 40
+                            anchors.centerIn: parent
+                            source:melodyButoon.checked ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
                         }
+                        // Text{
+                        //     color: sound.textColor
+                        //     anchors.fill: parent
+                        //     horizontalAlignment: Text.AlignHCenter
+                        //     verticalAlignment: Text.AlignVCenter
+                        //     font.pointSize: 14
+                        //     text: melodyButoon.checked ? "▐ ▌" : "►"
+                        //     font.family: castFont.name
+                        // }
                     }
                     SequentialAnimation{
                         id: playAnimation4

@@ -3,10 +3,9 @@ import QtQuick.Controls 2.15
 
 Item {
     id: page
-    property color backgroundColor: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
+    property color backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-
-    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+    property color widColorSecond: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
 
     // property var delay:mqttclient.alarm_delay
     property var smooth_sound:user.smooth_sound
@@ -128,12 +127,16 @@ Item {
                     Rectangle {
                         id: button
                         color: "transparent"
-                        Text{
-                            anchors.centerIn: parent
-                            text: "▲"
-                            font.pixelSize: 24
-                            color: page.textColor
+                        Image{
+                            anchors.fill: parent
+                            source: "resource_icon/special/arrow_up_white"
                         }
+                        // Text{
+                        //     anchors.centerIn: parent
+                        //     text: "▲"
+                        //     font.pixelSize: 24
+                        //     color: page.textColor
+                        // }
 
                         SequentialAnimation{
                             id: playAnimation
@@ -166,14 +169,18 @@ Item {
                     Rectangle {
                         id: button1
                         color: "transparent"
-                        Text{
-                            text: "▼"
-                            anchors.centerIn: parent
-                            font.pixelSize: 24
-                            color: page.textColor
-                        }
+                        // Text{
+                        //     text: "▼"
+                        //     anchors.centerIn: parent
+                        //     font.pixelSize: 24
+                        //     color: page.textColor
+                        // }
                         width: 50
                         height: 50
+                        Image{
+                            anchors.fill: parent
+                            source: "resource_icon/special/arrow_down_white"
+                        }
 
                         SequentialAnimation{
                             id: playAnimation1
@@ -279,8 +286,10 @@ Item {
                     anchors.rightMargin: 10
                     anchors.topMargin: 10
                     Row {
+                        width: 464
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
+                        spacing: 41
                         Text {
                             width: 287
                             height: 60
@@ -292,51 +301,54 @@ Item {
                             wrapMode: Text.WordWrap
                             font.family: castFont.name
                         }
-
-                        Tumbler {
-                            id: daytumbler
-                            width: 80
-                            height: 64
-                            anchors.verticalCenter: parent.verticalCenter
-                            visibleItemCount: 1
-                            spacing: 5
-                            model: 8
-                            // Component.onCompleted: {
-                            //     daytumbler.currentIndex = user.event_remind
-                            // }
-                            currentIndex:user.get_event_remind()
-                            onCurrentIndexChanged: {
-                                var days = daytumbler.currentIndex
-                                user.set_event_remind(days)
-                            }
-
-                            delegate: Rectangle {
-                                color: "#00000000"
-                                Text {
-                                    opacity: Math.max(0.3, 1.0 - Math.abs(Tumbler.displacement) * 0.5)
-                                    color: page.textColor
-                                    text: modelData
-                                    font.pixelSize: 38
-                                    font.family: castFont.name
-                                    Behavior {
-                                        NumberAnimation {
-                                            duration: 50
-                                        }
-                                    }
-                                    anchors.centerIn: parent
+                        Row{
+                            Tumbler {
+                                id: daytumbler
+                                width: 80
+                                height: 64
+                                anchors.verticalCenter: parent.verticalCenter
+                                visibleItemCount: 1
+                                spacing: 5
+                                model: 8
+                                // Component.onCompleted: {
+                                //     daytumbler.currentIndex = user.event_remind
+                                // }
+                                currentIndex:user.get_event_remind()
+                                onCurrentIndexChanged: {
+                                    var days = daytumbler.currentIndex
+                                    user.set_event_remind(days)
                                 }
+
+                                delegate: Rectangle {
+                                    color: "#00000000"
+                                    Text {
+                                        opacity: Math.max(0.3, 1.0 - Math.abs(Tumbler.displacement) * 0.5)
+                                        color: page.textColor
+                                        text: modelData
+                                        font.pixelSize: 38
+                                        font.family: castFont.name
+                                        Behavior {
+                                            NumberAnimation {
+                                                duration: 50
+                                            }
+                                        }
+                                        anchors.centerIn: parent
+                                    }
+                                }
+
+                                anchors.verticalCenterOffset: 0
                             }
 
-                            anchors.verticalCenterOffset: 0
+                            Text {
+                                color: page.textColor
+                                text: qsTr("дней")
+                                anchors.verticalCenter: parent.verticalCenter
+                                font.pixelSize: 24
+                                font.family: castFont.name
+                            }
                         }
 
-                        Text {
-                            color: page.textColor
-                            text: qsTr("дней")
-                            anchors.verticalCenter: parent.verticalCenter
-                            font.pixelSize: 24
-                            font.family: castFont.name
-                        }
+
                     }
 
                     Row {
@@ -347,11 +359,9 @@ Item {
                             width: 50
                             height: 50
                             color: "#00000000"
-                            Text {
-                                color: page.textColor
-                                text: "\u25b2"
-                                font.pixelSize: 24
-                                anchors.centerIn: parent
+                            Image{
+                                anchors.fill: parent
+                                source: "resource_icon/special/arrow_up_white"
                             }
 
                             SequentialAnimation {
@@ -386,11 +396,9 @@ Item {
                             width: 50
                             height: 50
                             color: "#00000000"
-                            Text {
-                                color: page.textColor
-                                text: "\u25bc"
-                                font.pixelSize: 24
-                                anchors.centerIn: parent
+                            Image{
+                                anchors.fill: parent
+                                source: "resource_icon/special/arrow_down_white"
                             }
 
                             SequentialAnimation {
