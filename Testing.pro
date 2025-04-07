@@ -51,7 +51,7 @@ resources.files = \
     qml/Storage_Page.qml \
     InriaSans-Light.ttf \
     ofont.ru_Monoid.ttf \
-    ofont.ru_Nunito.ttf \
+    qml/ofont.ru_Nunito.ttf \
     qml/Alarms.qml \
     qml/Sensors.qml \
     mounts.jpg \
