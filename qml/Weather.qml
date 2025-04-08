@@ -5,9 +5,12 @@ Item {
     property int x_pos: 0
     property int y_pos: 0
     property ListModel weather_list: valueOf
-    property color widgetBackgroundColor: Qt.rgba(0, 0, 0, 0.6)
-    property color textColor: Qt.rgba(255/255, 255/255, 255/255, 1.0)
-    property color textColorSecond: Qt.rgba(200/255, 200/255, 200/255, 1.0)
+
+    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
+    property color widColorAlphaFirst: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
+    property color widColorAlphaSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
 
 
     property var curr_temp: Math.round(weatherr.cur_weather["temp"])+"°C"
@@ -32,7 +35,7 @@ Item {
         width: 488
         height: 236
         radius: 15
-        color: weather.widgetBackgroundColor
+        color: weather.widColorAlphaFirst
 
 
         Rectangle {
@@ -41,7 +44,7 @@ Item {
             width: 468
             height: (236 - 10*3)/3
             radius: 15
-            color: Qt.rgba(255, 255, 255, 0.22)
+            color: weather.widColorAlphaSecond
             Image {
                 anchors.right: parent.right
                 anchors.top: parent.top
@@ -140,7 +143,7 @@ Item {
             width: 468
             height: (236 - 10*3)/3*2
             radius: 15
-            color: Qt.rgba(255, 255, 255, 0.22)
+            color: weather.widColorAlphaSecond
             Row {
                 anchors.centerIn: parent
                 spacing: 15
@@ -162,7 +165,7 @@ Item {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text:  getDayName_short(modelData["time"])
                             font.pointSize: 14
-                            color: textColor
+                            color: weather.textColor
                             font.weight: Font.DemiBold
                             font.family: castFont1.name
                         }
@@ -170,7 +173,7 @@ Item {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: Qt.formatDateTime(new Date(modelData["time"]*1000), "dd.MM")
                             font.pointSize: 14
-                            color: textColorSecond
+                            color: weather.textColorSecond
                             font.family: castFont1.name
                         }
                         Image {
@@ -185,13 +188,13 @@ Item {
                             Text {
                                 text: modelData["min_temp"] + "°"
                                 font.pointSize: 12
-                                color: textColorSecond
+                                color: weather.textColorSecond
                                 font.family: castFont1.name
                             }
                             Text {
                                 text: modelData["max_temp"] + "°"
                                 font.pointSize: 12
-                                color: textColor
+                                color: weather.textColor
                                 font.family: castFont1.name
                             }
                         }

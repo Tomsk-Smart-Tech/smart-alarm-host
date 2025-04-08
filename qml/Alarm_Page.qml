@@ -3,9 +3,15 @@ import QtQuick.Controls 2.15
 
 Item {
     id: page
-    property color backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
-    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    property color widColorSecond: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
+    property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
+    property color widColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
+    property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
+    property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+
+     property color switchColor: Qt.rgba(245/ 255, 178/ 255, 12/ 255, 1)
 
     // property var delay:mqttclient.alarm_delay
     property var smooth_sound:user.smooth_sound
@@ -62,7 +68,7 @@ Item {
                 id: rectangle
                 width: parent.width
                 height: 60
-                color: page.widColorSecond
+                color: page.widColor
                 anchors.margins: 10
                 anchors.horizontalCenter: parent.horizontalCenter
                 radius: 15
@@ -213,7 +219,7 @@ Item {
                 id: rectangle1
                 width: parent.width
                 height: 60
-                color: page.widColorSecond
+                color: page.widColor
                 anchors.margins: 10
                 anchors.horizontalCenter: parent.horizontalCenter
                 radius: 15
@@ -237,14 +243,14 @@ Item {
                         implicitWidth: 50
                         implicitHeight: 30
                         radius:15
-                        color: list_switch.checked ? Qt.rgba(180 / 255, 180 / 255, 180 / 255, 1) : Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1)
+                        color: list_switch.checked ? page.switchColor : page.choiceColor
                         Rectangle{
                             x: list_switch.checked ? parent.width - width - 2 : 2
                             y: 2
                             width:26
                             height:26
                             radius:13
-                            color: list_switch.down ? Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.5) : Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1)
+                            color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
                         }
                     }
                     Binding {
@@ -272,7 +278,7 @@ Item {
                 id: rectangle2
                 width: parent.width
                 height: 80
-                color: page.widColorSecond
+                color: page.widColor
                 radius: 15
                 anchors.margins: 10
                 clip: true
@@ -434,7 +440,7 @@ Item {
                 id: rectangle3
                 width: parent.width
                 height: 60
-                color: page.widColorSecond
+                color: page.widColor
                 radius: 15
                 // во сколько напоминать о событии?
                 Text {
@@ -472,7 +478,7 @@ Item {
                             color:"transparent"
                             Text{
                                 text: modelData < 10 ? "0" + modelData : modelData
-                                color: "white"
+                                color: page.textColor
                                 anchors.centerIn: parent
                                 font.pixelSize: 38
                                 font.family: castFont.name
@@ -490,7 +496,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         anchors.verticalCenterOffset: -3
-                        color: "white"
+                        color: page.textColor
                         anchors.verticalCenter: parent.verticalCenter
                         font.family: castFont.name
                     }
@@ -511,7 +517,7 @@ Item {
                             color:"transparent"
                             Text{
                                 text: modelData < 10 ? "0" + modelData : modelData
-                                color: "white"
+                                color: page.textColor
                                 anchors.centerIn: parent
                                 font.family: castFont.name
                                 font.pixelSize: 38

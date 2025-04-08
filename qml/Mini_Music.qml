@@ -11,20 +11,13 @@ Item {
     property bool currentlyPlaying: false
     signal playPauseClicked()
 
+
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
-    property color backColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    property color backColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-    property color backColorThird: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 0.1)
-
     property color backProgress: Qt.rgba(80 / 255, 80 / 255, 80 / 255, 1)
 
-
-    property color widColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
-    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
-
-    property color specialColor: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 0.5)
+    property color widColorAlphaFirst: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
 
     FontLoader {
         id: castFont
@@ -39,41 +32,8 @@ Item {
         width: 236
         height: 236
         radius : 15
-        color: miniMusic.widColor
+        color: miniMusic.widColorAlphaFirst
         clip: true
-
-        // MultiEffect {
-        //     id: bl
-        //     source: image
-        //     anchors.fill: image
-        //     maskEnabled: true
-        //     maskSource: mask
-        // }
-
-        // Image {
-        //     id: image
-        //     source: "pyro.png"
-        //     visible: false
-        //     anchors.fill: parent
-        //     Rectangle{
-        //         anchors.fill: parent
-        //         color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
-        //     }
-        // }
-
-        // MultiEffect{
-        //     source: bl
-        //     anchors.fill: bl
-        //     blurEnabled: true
-        //     blur: 20
-        // }
-
-
-        // Item {
-        //     id: mask
-        //     anchors.fill: image; layer.enabled: true; visible: false
-        //     Rectangle { anchors.fill: parent; radius: 15}
-        // }
 
 
         Rectangle {
@@ -194,21 +154,6 @@ Item {
                     anchors.fill: parent
                     source:"resource_icon/music_icon/rewind.png"
                 }
-                // Text {
-                //     id: buttonText1
-                //     width: 49
-                //     height: 32
-                //     color: "#ffffff"
-                //     text: qsTr("◄◄")
-                //     anchors.verticalCenter: parent.verticalCenter
-                //     font.letterSpacing: -10
-                //     font.pixelSize: 26
-                //     horizontalAlignment: Text.AlignHCenter
-                //     verticalAlignment: Text.AlignVCenter
-                //     anchors.horizontalCenter: parent.horizontalCenter
-                //     font.family: castFont.name
-                // }
-
                 SequentialAnimation {
                     id: playAnimation1
                     PropertyAnimation {
@@ -243,22 +188,6 @@ Item {
                     anchors.fill: parent
                     source:miniMusic.currentlyPlaying ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
                 }
-                // Text {
-                //     id: buttonText
-                //     text: miniMusic.currentlyPlaying ? "▐ ▌" : "►"
-                //     // text: "▐ ▌"
-                //     anchors.verticalCenter: parent.verticalCenter
-                //     font.letterSpacing: 0
-                //     font.pixelSize: 30
-                //     horizontalAlignment: Text.AlignHCenter
-                //     verticalAlignment: Text.AlignVCenter
-                //     anchors.horizontalCenterOffset: 5
-                //     anchors.horizontalCenter: parent.horizontalCenter
-                //     font.weight: Font.Normal
-                //     font.wordSpacing: 0
-                //     font.family: castFont.name
-                //     color: "white"
-                // }
                 SequentialAnimation {
                     id: playAnimation
                     PropertyAnimation {

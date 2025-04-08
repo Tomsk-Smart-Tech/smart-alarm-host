@@ -14,12 +14,15 @@ Popup {
     anchors.centerIn: Overlay.overlay
 
     property color backgroundColor: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0)
+    property color widColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
     property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
-    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
-
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+
+    property color switchColor: Qt.rgba(245/ 255, 178/ 255, 12/ 255, 1)
+
     property var volume :spotify.volume
     property int alarm_min
     property int alarm_hours
@@ -103,7 +106,7 @@ Popup {
 
     onClosed:{alarmSound.stop()}
 
-    background:    Rectangle {
+    background: Rectangle {
         id: rectangle1
         anchors.fill: parent
         color:alarmDialog.backgroundColor
@@ -114,7 +117,7 @@ Popup {
             spacing: 3
 
             Text {
-                color: "#ffffff"
+                color: alarmDialog.textColorSecond
                 text: qsTr("Название")
                 font.pixelSize: 28
                 verticalAlignment: Text.AlignVCenter
@@ -123,10 +126,10 @@ Popup {
             Rectangle {
                 width: parent.width
                 height: 44
-                color: "#555555"
+                color: alarmDialog.widColor
                 radius: 10
                 Text {
-                    color: "#ffffff"
+                    color: alarmDialog.textColor
                     text: alarmDialog.alarm_name
                     anchors.fill: parent
                     anchors.leftMargin: 12
@@ -137,7 +140,7 @@ Popup {
             }
 
             Text {
-                color: "#ffffff"
+                color: alarmDialog.textColorSecond
                 text: qsTr("Время")
                 font.pixelSize: 28
                 verticalAlignment: Text.AlignVCenter
@@ -146,7 +149,7 @@ Popup {
             Rectangle{
                 width: parent.width
                 height: 70
-                color: "#555555"
+                color: alarmDialog.widColor
                 radius: 15
                 anchors.horizontalCenter: parent.horizontalCenter
                 clip: true
@@ -169,7 +172,7 @@ Popup {
                             color:"transparent"
                             Text{
                                 text: modelData < 10 ? "0" + modelData : modelData
-                                color: "white"
+                                color: alarmDialog.textColor
                                 anchors.centerIn: parent
                                 font.pixelSize: 45
                                 font.family: castFont.name
@@ -186,7 +189,7 @@ Popup {
                         font.pixelSize: 45
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignTop
-                        color: "white"
+                        color: alarmDialog.textColor
                         anchors.verticalCenter: parent.verticalCenter
                         font.family: castFont.name
                     }
@@ -204,7 +207,7 @@ Popup {
                             color:"transparent"
                             Text{
                                 text: modelData < 10 ? "0" + modelData : modelData
-                                color: "white"
+                                color: alarmDialog.textColor
                                 anchors.centerIn: parent
                                 font.family: castFont.name
                                 font.pixelSize: 45
@@ -219,7 +222,7 @@ Popup {
             }
 
             Text {
-                color: "#ffffff"
+                color: alarmDialog.textColorSecond
                 text: qsTr("Дни недели")
                 font.pixelSize: 28
                 verticalAlignment: Text.AlignVCenter
@@ -240,7 +243,7 @@ Popup {
             Rectangle{
                 width: parent.width
                 height: 60
-                color: "#555555"
+                color: alarmDialog.widColor
                 radius: 15
                 anchors.horizontalCenter: parent.horizontalCenter
 
@@ -266,7 +269,7 @@ Popup {
                             background: Rectangle {
                                 id: rec
                                 // color: dayButton.checked ? "#cf8a29" : "#444"
-                                color: dayButton.checked ? "#cf8a29" : "#444"
+                                color: dayButton.checked ? alarmDialog.switchColor : alarmDialog.backgroundColor
                                 radius: 10
                             }
                             SequentialAnimation{
@@ -290,7 +293,7 @@ Popup {
                                 font.pixelSize: 30
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
-                                color: "white"
+                                color: alarmDialog.textColor
                                 font.family: castFont.name
                             }
                             MouseArea {
@@ -308,7 +311,7 @@ Popup {
             }
 
             Text {
-                color: "#ffffff"
+                color: alarmDialog.textColorSecond
                 text: qsTr("Мелодия")
                 font.pixelSize: 28
                 verticalAlignment: Text.AlignVCenter
@@ -319,7 +322,7 @@ Popup {
                 spacing: 20
                 ComboBox {
                     id: soundComboBox
-                    width: 650
+                    width: 650 + 30
                     height: 40
                     model: terminal.songs
                     textRole: "songName"
@@ -336,7 +339,7 @@ Popup {
 
 
                     background: Rectangle {
-                        color: alarmDialog.choiceColor
+                        color: alarmDialog.widColor
                         radius: 10
                     }
 
@@ -344,16 +347,12 @@ Popup {
                         width: 40
                         height: 40
                         radius: 10
-                        color: "#e5e5e5"
+                        color: alarmDialog.choiceColor
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-
-                        Text {
-                            anchors.centerIn: parent
-                            text: "▼"
-                            color: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
-                            font.family: castFont.name
-                            font.pixelSize: 24
+                        Image{
+                            anchors.fill: parent
+                            source: "resource_icon/special/arrow_down"
                         }
                     }
 
@@ -361,7 +360,7 @@ Popup {
                         text: soundComboBox.currentText
                         anchors.left: parent.left
                         anchors.leftMargin: 8
-                        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                        color: alarmDialog.textColor
                         font.pixelSize: 24
                         verticalAlignment: Text.AlignVCenter
                         font.family: castFont.name
@@ -370,7 +369,6 @@ Popup {
                     delegate: Item {
                         width: soundComboBox.width
                         height: 40
-
                         Rectangle {
                             width: parent.width
                             height: 40
@@ -381,7 +379,7 @@ Popup {
                                 anchors.fill: parent
                                 anchors.leftMargin: 8
                                 text: modelData["songName"]
-                                color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                color: alarmDialog.textColor
                                 font.pixelSize: 24
                                 font.family: castFont.name
                             }
@@ -401,22 +399,29 @@ Popup {
                 }
                 Button{
                     id: melodyButoon
-                    width: 110
+                    width: 80
                     height: 40
                     checked: false
                     anchors.verticalCenter: parent.verticalCenter
                     background: Rectangle{
                         radius: 10
-                        color: "#555555"
-                        Text{
-                            color: "#ffffff"
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            font.pointSize: 14
-                            text: melodyButoon.checked ? "▐ ▌" : "►"
-                            font.family: castFont.name
+                        color: alarmDialog.widColor
+                        Image{
+                            width: 40
+                            height: 40
+                            anchors.centerIn: parent
+                            source:melodyButoon.checked ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
                         }
+                        // Text{
+                        //     color: alarmDialog.textColor
+                        //     anchors.fill: parent
+                        //     horizontalAlignment: Text.AlignHCenter
+                        //     verticalAlignment: Text.AlignVCenter
+                        //     font.pointSize: 14
+                        //     // text: melodyButoon.checked ? "▐ ▌" : "►"
+
+                        //     font.family: castFont.name
+                        // }
                     }
                     SequentialAnimation{
                         id: playAnimation4
@@ -459,7 +464,7 @@ Popup {
                 width: 373
                 spacing: 8
                 Text {
-                    color: "#ffffff"
+                    color: alarmDialog.textColorSecond
                     text: qsTr("Удалить после проигрывания")
                     font.pixelSize: 28
                     verticalAlignment: Text.AlignVCenter
@@ -473,14 +478,14 @@ Popup {
                         implicitWidth: 50
                         implicitHeight: 30
                         radius:15
-                        color: list_switch.checked ? Qt.rgba(180 / 255, 180 / 255, 180 / 255, 1) : Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1)
+                        color: list_switch.checked ? alarmDialog.switchColor : alarmDialog.choiceColor
                         Rectangle{
                             x: list_switch.checked ? parent.width - width - 2 : 2
                             y: 2
                             width:26
                             height:26
                             radius:13
-                            color: list_switch.down ? Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.5) : Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1)
+                            color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
                         }
                     }
                     onCheckedChanged: {
@@ -519,7 +524,7 @@ Popup {
 
             Text {
                 id: _text
-                color: "#ffffff"
+                color: alarmDialog.textColor
                 text: qsTr("Сохранить")
                 anchors.fill: parent
                 anchors.topMargin: 0
@@ -568,7 +573,7 @@ Popup {
 
             Text {
                 id: _text12
-                color: "#ffffff"
+                color: alarmDialog.textColor
                 text: qsTr("Создать")
                 anchors.fill: parent
                 anchors.topMargin: 0
@@ -617,7 +622,7 @@ Popup {
             }
             Text {
                 id: _text1
-                color: "#ffffff"
+                color: alarmDialog.textColor
                 text: qsTr("Отменить")
                 anchors.fill: parent
                 anchors.topMargin: 0
@@ -666,7 +671,7 @@ Popup {
 
             Text {
                 id: _text2
-                color: "#ffffff"
+                color: alarmDialog.textColor
                 text: qsTr("Удалить")
                 anchors.fill: parent
                 anchors.topMargin: 0

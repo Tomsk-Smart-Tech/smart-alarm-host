@@ -3,8 +3,9 @@ import QtQuick.Controls 2.15
 import GlobalTime 1.0
 
 Item {
-    property color backgroundColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
-    property color widBackgroundColor: Qt.rgba(50/255, 50/255, 50/255, 0.5)
+    property color backgroundColorAlpha: Qt.rgba(50/255, 50/255, 50/255, 0.5)
+    property color widColorAlpha: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
+
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
@@ -45,13 +46,13 @@ Item {
     Rectangle{
         width: 1024 / 2
         height: 600
-        color: calendar.widBackgroundColor
+        color: calendar.backgroundColorAlpha
         Rectangle {
             x: 16
             y: 16
             height: 100 - 32
             width: 1024/2 - 32
-            color: calendar.backgroundColor
+            color: calendar.widColorAlpha
             radius: 15
             Text {
                 id: currentMonth
@@ -167,7 +168,7 @@ Item {
                         id: rectangle
                         width: 1024 / 2 /7 - 5 - 5
                         height: (600-100)/6 - 5 - 5 -5
-                        color: calendar.backgroundColor
+                        color: calendar.widColorAlpha
                         // color: rep.isCurrentItem ? Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0) : "transparent"
                         radius: 15
                         Text {
@@ -219,7 +220,7 @@ Item {
         x: 1024/2
         width: 1024/2
         height: 600
-        color: calendar.widBackgroundColor
+        color: calendar.backgroundColorAlpha
 
         ScrollView {
             id: scrollView
@@ -238,7 +239,7 @@ Item {
                     model: mqttclient.events_onDay
                     delegate: Rectangle {
                         id: rectangle5
-                        color: calendar.backgroundColor
+                        color: calendar.widColorAlpha
                         radius: 15
                         width: parent.width
                         height: column.implicitHeight + 24

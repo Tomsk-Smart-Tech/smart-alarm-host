@@ -29,6 +29,7 @@ DISTFILES += \
     qml/About_Page.qml \
     qml/Alarm_Page.qml \
     qml/Music.qml\
+    qml/Themes.qml
 
 resources.files = \
     qml/main.qml \
@@ -53,6 +54,8 @@ resources.files = \
     russian_cities.json \
     userdata.json \
     qml/resource_icon \
+    qml/qmldir\
+    qml/Themes.qml
 
 TARGET = smart-alarm-host
 

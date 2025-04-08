@@ -6,9 +6,13 @@ Item {
 
     property int x_pos: 0
     property int y_pos: 0
-    property color backgroundColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
+
+    property color backgroundColorAlpha: Qt.rgba(50/255, 50/255, 50/255, 0.5)
+    property color widColorAlpha: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
+
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
     property ListModel week_list: valueOf
 
     property var currect_temp: "None"
@@ -48,7 +52,7 @@ Item {
         height: 600
 
         //color: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
-        color: Qt.rgba(50/255, 50/255, 50/255, 0.5)
+        color: weather.backgroundColorAlpha
 
         FontLoader {
             id: castFont
@@ -73,7 +77,7 @@ Item {
                     id: rectangle5
                     width: parent.width
                     height: 178
-                    color: weather.backgroundColor
+                    color: weather.widColorAlpha
                     radius: 15
                     anchors.margins: 30
                     Row {
@@ -211,7 +215,7 @@ Item {
                     id: grah
                     width: parent.width
                     height: 178
-                    color: weather.backgroundColor
+                    color: weather.widColorAlpha
                     radius: 15
                     ScrollView {
                         id: scrollView
@@ -328,7 +332,7 @@ Item {
                 Rectangle{
                     width: parent.width
                     height: 178
-                    color: weather.backgroundColor
+                    color: weather.widColorAlpha
                     radius: 15
                     Row {
                         anchors.centerIn: parent
@@ -398,7 +402,7 @@ Item {
                             id: rectangle
                             width: 236
                             height: 81
-                            color: weather.backgroundColor
+                            color: weather.widColorAlpha
                             radius: 15
                             Image {
                                 width: 64
@@ -441,7 +445,7 @@ Item {
                             id: rectangle1
                             width: 236
                             height: 81
-                            color: weather.backgroundColor
+                            color: weather.widColorAlpha
                             radius: 15
                             Image {
                                 width: 64
@@ -484,7 +488,7 @@ Item {
                         id: rectangle2
                         width: 236
                         height: 178
-                        color: weather.backgroundColor
+                        color: weather.widColorAlpha
                         radius: 15
                         Image {
                             width: 80
@@ -615,7 +619,7 @@ Item {
                         id: rectangle4
                         width: 236
                         height: 178
-                        color: weather.backgroundColor
+                        color: weather.widColorAlpha
                         radius: 15
                         Image {
                             width: 80
@@ -690,7 +694,7 @@ Item {
                             id: rectangle89
                             width: 236
                             height: 81
-                            color: weather.backgroundColor
+                            color: weather.widColorAlpha
                             radius: 15
                             Image {
                                 width: 64
@@ -733,7 +737,7 @@ Item {
                             id: rectangle45
                             width: 236
                             height: 81
-                            color: weather.backgroundColor
+                            color: weather.widColorAlpha
                             radius: 15
                             Image {
                                 id: image

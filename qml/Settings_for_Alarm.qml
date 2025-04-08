@@ -15,6 +15,8 @@ Item {
 
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
 
+    property color switchColor: Qt.rgba(245/ 255, 178/ 255, 12/ 255, 1)
+
 
     Rectangle {
         id: left_panel
@@ -47,7 +49,7 @@ Item {
                 width: ListView.view.width
                 height: (ListView.view.height-35) / 7
                 radius: 15
-                color: ListView.isCurrentItem ? Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0) : "transparent"
+                color: ListView.isCurrentItem ? settings.widColor : "transparent"
 
                 anchors.margins: 8
 
@@ -97,6 +99,7 @@ Item {
                             loader.item.textColor = settings.textColor;
                             loader.item.widColor = settings.widColor;
                             loader.item.textColorSecond = settings.textColorSecond;
+                            loader.item.choiceColor = settings.choiceColor;
 
 
                             if (model.name === "Wi-fi")
@@ -110,6 +113,10 @@ Item {
                             else if(model.name==="Кастомизация")
                             {
                                 terminal.scanPhotos(photosPath);
+                            }
+                            else if(model.name==="Спец. настройки")
+                            {
+                                loader.item.switchColor = settings.switchColor
                             }
                         }
                     }

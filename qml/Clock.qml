@@ -1,20 +1,23 @@
 import QtQuick 2.0
 import GlobalTime 1.0
+import Qt5Compat.GraphicalEffects
 
 Item {
     id:clock
     property int x_pos: 10
     property int y_pos: 10
 
-    // property string time: "18:08"
-    // property string date: "Пн, 9 окт."
-    // property string year: "2032"
+    property var background: valueOf
 
-    //не пугайся кирилл это мой код для управления временем
+    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
+    property color widColorAlphaFirst: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
+    property color widColorAlphaSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
     property string time:""
     property string date: ""
     property string year: ""
-    property var back: valueOf
 
     // property var currentDateTime: new Date()
     Timer {
@@ -62,31 +65,17 @@ Item {
 
     //конец моего кода управления временем
 
-    ShaderEffectSource {
-        id: blurSource
-        sourceItem: clock.back
-        sourceRect: Qt.rect(blurRect.x, blurRect.y, blurRect.width, blurRect.height)
-        smooth: true
-
-    }
 
     Rectangle {
-        id: blurRect
+        id: widgetContainer
         x: clock.x_pos
         y: clock.y_pos
         width: 236
         height: 236
         radius : 15
-        color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
+        color: clock.widColorAlphaFirst
         layer.enabled: true
-        // MultiEffect {
-        //     anchors.fill: parent
-        //     source: blurSource
-        //     blurEnabled: true
-        //     blurMax: 64
-        //     blur: 0.5
-        //     autoPaddingEnabled: false
-        // }
+        clip: true
 
         FontLoader {
             id: castFont
@@ -99,7 +88,7 @@ Item {
             text: Qt.formatDateTime(GlobalTime.currentDateTime, "dd.MM.yyyy")
             font.pixelSize: 24
             font.family: castFont.name
-            color: "white"
+            color: clock.textColorSecond
         }
         Text {
             x: (parent.width - width) / 2
@@ -107,7 +96,7 @@ Item {
             text: getDayName(GlobalTime.currentDateTime)
             font.pixelSize: 24
             font.family: castFont.name
-            color: "white"
+            color: clock.textColor
         }
 
 
@@ -115,7 +104,7 @@ Item {
             id: timeRectangle
             width: 210
             height: 115
-            color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+            color: clock.widColorAlphaSecond
 
             radius : 15
             anchors.centerIn: parent
@@ -125,7 +114,7 @@ Item {
                 text: Qt.formatDateTime(GlobalTime.currentDateTime, "hh:mm")
                 font.pixelSize: 70
                 font.family: castFont.name
-                color: "white"
+                color: clock.textColor
             }
         }
     }

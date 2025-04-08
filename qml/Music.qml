@@ -13,18 +13,14 @@ Item {
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
-    property color backColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    property color backColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-    property color backColorThird: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 0.1)
+    property color backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
+    property color widColor: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
 
-    property color backProgress: Qt.rgba(80 / 255, 80 / 255, 80 / 255, 1)
+    property color backProgress: Qt.rgba(80 / 255, 80 / 255, 80 / 255, 1.0)
 
+    property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
 
-    property color widColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
-    property color widColorSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
-
-    property color specialColor: Qt.rgba(70 / 255, 70 / 255, 70 / 255, 0.5)
-    property color specialColorSecond: Qt.rgba(30 / 255, 30 / 255, 30 / 255, 1)
+    property color specialColor: Qt.rgba(20 / 255, 20 / 255, 25 / 255, 1.0)
 
     FontLoader {
         id: castFont
@@ -35,7 +31,7 @@ Item {
         id: rectangle
         width: 1024
         height: 600
-        color: music.specialColorSecond
+        color: music.backgroundColor
         Image{
             width: 50
             height: 50
@@ -49,7 +45,7 @@ Item {
             id: rectangle1
             width: 1024/4 * 2+ 16
             height: 600 - 32
-            color: music.widColor
+            color: music.specialColor
             radius: 15
             anchors.left: parent.left
             anchors.top: parent.top
@@ -117,7 +113,7 @@ Item {
                             id: delegateRect
                             height: 60
                             width: parent.width
-                            color: ListView.isCurrentItem ? Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0) : "transparent"
+                            color: ListView.isCurrentItem ? music.choiceColor : "transparent"
                             radius: 10
 
                             Row {
@@ -149,16 +145,6 @@ Item {
                                         visible: false
                                     }
                                 }
-                                // Image {
-                                //     id: trackImage
-                                //     height: 45
-                                //     width: 45
-                                //     source: model.image
-                                //     anchors.verticalCenter: parent.verticalCenter
-                                //     fillMode: Image.PreserveAspectCrop
-                                //     smooth: true
-                                //     clip: true
-                                // }
 
                                 Column {
                                     id: textColumn
@@ -166,12 +152,19 @@ Item {
                                     spacing: -5
                                     Text {
                                         text: modelData["name"]
-
                                         font.pointSize: 16
                                         color: music.textColor
                                         font.family: castFont.name
                                         elide: Text.ElideRight
                                         width: delegateRect.width - roundedImageEffect2.width - parent.spacing - 10
+                                    }
+                                    Text {
+                                        text: modelData["artists"]
+                                        font.pointSize: 14
+                                        color: music.textColorSecond
+                                        font.family: castFont.name
+                                        elide: Text.ElideRight
+                                        width: delegateRect1.width - roundedImageEffect1.width - parent.spacing - 10
                                     }
                                 }
                             }
@@ -249,7 +242,7 @@ Item {
                             id: delegateRect1
                             height: 60
                             width: parent.width
-                            color: ListView.isCurrentItem ? Qt.rgba(70 / 255, 70 / 255, 70 / 255, 1.0) : "transparent"
+                            color: ListView.isCurrentItem ? music.choiceColor: "transparent"
                             radius: 10
                             Row {
                                 anchors.verticalCenter: parent.verticalCenter
@@ -280,16 +273,6 @@ Item {
                                         visible: false
                                     }
                                 }
-                                // Image {
-                                //     id: trackImage1
-                                //     height: 45
-                                //     width: 45
-                                //     source: model.image
-                                //     anchors.verticalCenter: parent.verticalCenter
-                                //     fillMode: Image.PreserveAspectCrop
-                                //     smooth: true
-                                //     clip: true
-                                // }
 
                                 Column {
                                     id: textColumn1
@@ -297,7 +280,6 @@ Item {
                                     spacing: -5
                                     Text {
                                         text: modelData["name"]
-
                                         font.pointSize: 16
                                         color: music.textColor
                                         font.family: castFont.name
@@ -334,36 +316,36 @@ Item {
             anchors.right: parent.right
             anchors.rightMargin: 16
             spacing: 20
-            Image {
-                id: imageSource
-                width: 250
-                height: 250
-                source: spotify.current["icon"]//"pyro.png"
-                fillMode: Image.PreserveAspectCrop
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: true
-            }
-            // OpacityMask {
-            //     id: roundedImageEffect
+            // Image {
+            //     id: imageSource
             //     width: 250
             //     height: 250
+            //     source: spotify.current["icon"]
+            //     fillMode: Image.PreserveAspectCrop
             //     anchors.horizontalCenter: parent.horizontalCenter
-            //     source: Image {
-            //         id: imageSource
-            //         width: roundedImageEffect.width
-            //         height: roundedImageEffect.height
-            //         source: "pyro.png"
-            //         fillMode: Image.PreserveAspectCrop
-            //         visible: false
-            //     }
-            //     maskSource: Rectangle {
-            //         id: imageMaskShape
-            //         width: roundedImageEffect.width
-            //         height: roundedImageEffect.height
-            //         radius: 15
-            //         visible: false
-            //     }
+            //     visible: true
             // }
+            OpacityMask {
+                id: roundedImageEffect
+                width: 250
+                height: 250
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: Image {
+                    id: imageSource
+                    width: roundedImageEffect.width
+                    height: roundedImageEffect.height
+                    source: spotify.current["icon"]
+                    fillMode: Image.PreserveAspectCrop
+                    visible: false
+                }
+                maskSource: Rectangle {
+                    id: imageMaskShape
+                    width: roundedImageEffect.width
+                    height: roundedImageEffect.height
+                    radius: 15
+                    visible: false
+                }
+            }
 
 
             Column{
@@ -466,7 +448,7 @@ Item {
                     id: rectangle3
                     width: 80
                     height: 80
-                    color: music.widColor
+                    color: music.specialColor
                     radius: 50
                     Image{
                         width: 60

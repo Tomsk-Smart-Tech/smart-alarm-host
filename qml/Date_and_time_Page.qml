@@ -89,7 +89,7 @@ Item {
                             width: 40
                             height: 40
                             radius: 10
-                            color: page.textColor
+                            color: page.choiceColor
                             anchors.right: parent.right
                             anchors.top: parent.top
                             Image{
@@ -123,7 +123,7 @@ Item {
                             Rectangle {
                                 id: del
                                 anchors.fill: parent
-                                color: regionComboBox.highlightedIndex === index ? page.choiceColor : page.widColor
+                                color: regionComboBox.highlightedIndex === index ? page.widColor : page.backgroundColor
 
                                 Text {
                                     text: model.region // Отображаем имя региона
@@ -198,7 +198,7 @@ Item {
                             width: 40
                             height: 40
                             radius: 10
-                            color: page.textColor
+                            color: page.choiceColor
                             anchors.right: parent.right
                             anchors.top: parent.top
                             Image{
@@ -230,7 +230,7 @@ Item {
                             height: 40
                             Rectangle {
                                 anchors.fill: parent
-                                color: cityComboBox.highlightedIndex === index ? page.choiceColor : page.widColor
+                                color: cityComboBox.highlightedIndex === index ? page.widColor : page.backgroundColor
 
                                 Text {
                                     text: model.name // Отображаем имя города

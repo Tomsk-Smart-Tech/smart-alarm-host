@@ -7,6 +7,9 @@ Item {
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
+    property color widColorAlphaFirst: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
+    property color widColorAlphaSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
     property string tempreture: sensorss.temp
     property string humidity_text: sensorss.humidity
     property string voc_index:sensorss.voc_index
@@ -18,7 +21,7 @@ Item {
         width: 236
         height: 236
         radius : 15
-        color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
+        color: sensors.widColorAlphaFirst
         FontLoader {
             id: castFont
             source: "ofont.ru_Nunito.ttf"
@@ -36,7 +39,7 @@ Item {
                 width: 216
                 height: 59
                 radius: 15
-                color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+                color: sensors.widColorAlphaSecond
 
                 Image {
                     id: temp1
@@ -88,7 +91,7 @@ Item {
                 width: 216
                 height: 59
                 radius: 15
-                color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+                color: sensors.widColorAlphaSecond
 
                 Image {
                     id: humidity1
@@ -141,7 +144,7 @@ Item {
                 width: 216
                 height: 59
                 radius: 15
-                color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+                color: sensors.widColorAlphaSecond
 
                 Image {
                     id: voc1

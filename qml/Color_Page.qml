@@ -3,13 +3,13 @@ import QtQuick.Controls
 
 Item {
     id: color_set
-    property color backgroundColor: Qt.rgba(240 / 255, 240 / 255, 240 / 255, 1.0)
-    property color widColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+    property color backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
+    property color widColor: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
 
-    property color textColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
-    property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+    property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
 
 
     function findPhotoIndex(photoPath) {
@@ -53,88 +53,280 @@ Item {
             Column{
                 id: column
                 width: scroll.width
-                spacing: 10
-                Text {
-                    width: 327
-                    height: 31
-                    text: qsTr("Задний фон")
-                    font.pixelSize: 24
-                    font.family: castFont.name
-                    color: color_set.textColor
-                }
-                Image{
-                    id: back_image
-                    // width: 350
-                    // height: 184
-                    width: parent.width
-                    height: back_image.width / 1.77
-                    source: terminal.cur_photo
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                ComboBox {
-                    id: backComboBox
-                    width: parent.width
-                    height: 40
-                    textRole: "photoName"
-                    model: terminal.photos
-                    currentIndex:findPhotoIndex(terminal.cur_photo);
-
-                    background: Rectangle {
-                        color: color_set.choiceColor
-                        radius: 10
-                    }
-
-                    indicator: Rectangle {
-                        width: 40
-                        height: 40
-                        radius: 10
-                        color: color_set.textColor
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        Image{
-                            anchors.fill: parent
-                            source: "resource_icon/special/arrow_down"
-                        }
-                    }
-
-
-                    contentItem: Text {
-                        text: backComboBox.currentText
-                        anchors.left: parent.left
-                        anchors.leftMargin: 8
-                        color: color_set.textColor
-                        font.pixelSize: 24
-                        verticalAlignment: Text.AlignVCenter
+                spacing: 14
+                Column{
+                    width: scroll.width
+                    spacing: 24
+                    Text {
+                        width: 327
+                        height: 31
+                        text: qsTr("Настройки темы")
+                        font.pixelSize: 26
                         font.family: castFont.name
+                        color: color_set.textColor
                     }
+                    Column{
+                        id: column1
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.leftMargin: 50
+                        anchors.rightMargin: 50
+                        spacing: 8
+                        Row{
+                            height: 100
+                            spacing: (scroll.width - 155*3 - 100) / 2
+                            Column{
+                                width: 155
+                                spacing: 8
+                                Rectangle{
+                                    width: 100
+                                    height: 75
+                                    radius: 15
+                                    color: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
+                                    border.color: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
+                                    border.width: 3
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    Text{
+                                        y: 8
+                                        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                        text: "Aa"
+                                        font.pixelSize: 24
+                                        anchors.horizontalCenterOffset: -26
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        font.family: castFont.name
+                                    }
+                                    Text{
+                                        y: 10
+                                        color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+                                        text: "Aa"
+                                        font.pixelSize: 22
+                                        anchors.horizontalCenterOffset: 27
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        font.family: castFont.name
+                                    }
+                                    Rectangle{
+                                        x: 9
+                                        y: 39
+                                        width: 45
+                                        height: 28
+                                        color: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
+                                        radius: 13
+                                    }
 
-                    delegate: Item {
-                        width: column.width
-                        height: 40
+                                    Rectangle {
+                                        x: 63
+                                        y: 39
+                                        width: 28
+                                        height: 28
+                                        color: Qt.rgba(214 / 255, 174 / 255, 73 / 255, 1)
+                                        radius: 13
+                                    }
+                                }
+                                Text {
+                                    text: "Темная тема"
+                                    font.pixelSize: 24
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    font.family: castFont.name
+                                    color: color_set.textColorSecond
+                                }
+                            }
+                            Column{
+                                width: 155
+                                spacing: 8
+                                Rectangle{
+                                    width: 100
+                                    height: 75
+                                    radius: 15
+                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+                                    border.color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1)
+                                    border.width: 3
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    Text{
+                                        y: 8
+                                        color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
+                                        text: "Aa"
+                                        font.pixelSize: 24
+                                        anchors.horizontalCenterOffset: -26
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        font.family: castFont.name
+                                    }
+                                    Text{
+                                        y: 10
+                                        color: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
+                                        text: "Aa"
+                                        font.pixelSize: 22
+                                        anchors.horizontalCenterOffset: 27
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        font.family: castFont.name
+                                    }
+                                    Rectangle{
+                                        x: 9
+                                        y: 39
+                                        width: 45
+                                        height: 28
+                                        color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1)
+                                        radius: 13
+                                    }
 
-                        Rectangle {
-                            width: parent.width
-                            height: 40
-                            color: color_set.highlightedIndex === index ? color_set.choiceColor : color_set.backgroundColor
+                                    Rectangle {
+                                        x: 63
+                                        y: 39
+                                        width: 28
+                                        height: 28
+                                        color: Qt.rgba(214 / 255, 174 / 255, 73 / 255, 1)
+                                        radius: 13
+                                    }
+                                }
+                                Text {
+                                    text: "Светлая тема"
+                                    font.pixelSize: 24
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    font.family: castFont.name
+                                    color: color_set.textColorSecond
+                                }
+                            }
+                            Column{
+                                width: 155
+                                spacing: 8
+                                Rectangle{
+                                    width: 100
+                                    height: 75
+                                    radius: 15
+                                    color: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
+                                    border.color: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
+                                    border.width: 3
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+                                Text {
+                                    text: "Авто"
+                                    font.pixelSize: 24
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    font.family: castFont.name
+                                    color: color_set.textColorSecond
+                                }
+                            }
 
-                            Text {
-                                // anchors.centerIn: parent
-                                anchors.fill: parent
-                                anchors.leftMargin: 8
-                                text: modelData["photoName"]
-                                color:  color_set.textColor
-                                font.pixelSize: 24
-                                font.family: castFont.name
+                        }
+                        Row{
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            height: 60
+                            spacing: 148
+                            RadioButton {
+                                anchors.verticalCenter: parent.verticalCenter
+                                checked: Themes.currentThemeName === "dark"
+                                onClicked: {
+                                    Themes.setTheme("dark");
+                                    color_set.backgroundColor = Themes.backgroundColor
+                                    color_set.textColor = Themes.textColorSett
+                                    color_set.textColorSecond = Themes.textColorSecondSett
+                                    color_set.widColor = Themes.widColor
+                                    color_set.choiceColor = Themes.choiceColor
+                                }
+                            }
+                            RadioButton {
+                                anchors.verticalCenter: parent.verticalCenter
+                                checked: Themes.currentThemeName === "light"
+                                onClicked: {
+                                    Themes.setTheme("light");
+                                    color_set.backgroundColor = Themes.backgroundColor
+                                    color_set.textColor = Themes.textColorSett
+                                    color_set.textColorSecond = Themes.textColorSecondSett
+                                    color_set.widColor = Themes.widColor
+                                    color_set.choiceColor = Themes.choiceColor
+                                }
+                            }
+                            RadioButton {
+                                anchors.verticalCenter: parent.verticalCenter
                             }
                         }
 
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                backComboBox.currentIndex = index
-                                //console.log(modelData["songPath"])
-                                terminal.set_photo(modelData["photoPath"])
-                                backComboBox.popup.close()
+                    }
+                }
+                Column{
+                    width: scroll.width
+                    spacing: 24
+                    Text {
+                        width: 327
+                        height: 31
+                        color: color_set.textColor
+                        text: qsTr("Задний фон")
+                        font.pixelSize: 26
+                        font.family: castFont.name
+                    }
+                    Image{
+                        id: back_image
+                        // width: 350
+                        // height: 184
+                        width: parent.width
+                        height: back_image.width / 1.77
+                        source: terminal.cur_photo
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    ComboBox {
+                        id: backComboBox
+                        width: parent.width
+                        height: 40
+                        textRole: "photoName"
+                        model: terminal.photos
+                        currentIndex:findPhotoIndex(terminal.cur_photo);
+
+                        background: Rectangle {
+                            color: color_set.widColor
+                            radius: 10
+                        }
+
+                        indicator: Rectangle {
+                            width: 40
+                            height: 40
+                            radius: 10
+                            color: color_set.choiceColor
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            Image{
+                                anchors.fill: parent
+                                source: "resource_icon/special/arrow_down"
+                            }
+                        }
+
+
+                        contentItem: Text {
+                            text: backComboBox.currentText
+                            anchors.left: parent.left
+                            anchors.leftMargin: 8
+                            color: color_set.textColor
+                            font.pixelSize: 24
+                            verticalAlignment: Text.AlignVCenter
+                            font.family: castFont.name
+                        }
+
+                        delegate: Item {
+                            width: column.width
+                            height: 40
+
+                            Rectangle {
+                                width: parent.width
+                                height: 40
+                                color: backComboBox.highlightedIndex === index ? color_set.widColor : color_set.backgroundColor
+
+                                Text {
+                                    // anchors.centerIn: parent
+                                    anchors.fill: parent
+                                    anchors.leftMargin: 8
+                                    text: modelData["photoName"]
+                                    color:  color_set.textColor
+                                    font.pixelSize: 24
+                                    font.family: castFont.name
+                                }
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    backComboBox.currentIndex = index
+                                    //console.log(modelData["songPath"])
+                                    terminal.set_photo(modelData["photoPath"])
+                                    backComboBox.popup.close()
+                                }
                             }
                         }
                     }

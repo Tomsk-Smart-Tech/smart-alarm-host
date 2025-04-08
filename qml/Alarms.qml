@@ -14,13 +14,35 @@ Item {
 
     property var time_of_first_alarm: mqttclient.find_first_alarm((GlobalTime.currentDateTime.getDay()===0) ? 6: GlobalTime.currentDateTime.getDay()-1,GlobalTime.currentDateTime)
 
+    property color backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
+    property color widColor: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
+
+    property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+    property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
+    property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
+
+    property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
+
+    property color widColorAlphaFirst: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
+    property color widColorAlphaSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
+    property color switchColor: Qt.rgba(245/ 255, 178/ 255, 12/ 255, 1)
+
+    property color textColorSett: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+    property color textColorSecondSett: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
     AlarmScreen {
         id: alarmPopup
     }
     AlarmSettings_Popup{
         id: alarmDialog
-        backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
-        widColorSecond: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
+        backgroundColor: alarm.backgroundColor
+        widColor: alarm.widColor
+        textColor: alarm.textColorSett
+        textColorSecond: alarm.textColorSecondSett
+        choiceColor: alarm.choiceColor
+        switchColor: alarm.switchColor
     }
 
     function getTimeDiff(globaldate,first_alarm)
@@ -86,7 +108,7 @@ Item {
         width: 236
         height: 488
         radius: 15
-        color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
+        color: alarm.widColorAlphaFirst
         Column {
             anchors.fill: parent
             anchors.margins: 10
@@ -100,7 +122,7 @@ Item {
                     width: 157
                     height: 50
                     radius: 15
-                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+                    color: alarm.widColorAlphaSecond
 
                     FontLoader {
                         id: castFont
@@ -112,7 +134,7 @@ Item {
                         text: "Через "+ diff.h+"ч " +diff.m+"мин"
                         font.pointSize: 12
                         font.family: castFont.name
-                        color: "white"
+                        color: alarm.textColor
                     }
                 }
                 Rectangle{
@@ -121,7 +143,7 @@ Item {
                     color: "#b5d96a27"
                     radius: 15
                     Text{
-                        color: "#ffffff"
+                        color: alarm.textColor
                         text: "+"
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
@@ -146,7 +168,7 @@ Item {
                 width: 236 - 10* 2
                 height: parent.height - 60
                 visible: true
-                color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.0)
+                color: "transparent"
                 ListView {
                     id: listView
                     anchors.fill: parent
@@ -159,7 +181,7 @@ Item {
                         width: 236 - 10* 2
                         height: 94
                         radius: 15
-                        color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+                        color: alarm.widColorAlphaSecond
 
                         FontLoader {
                             id: castFont1
@@ -173,7 +195,7 @@ Item {
                             text: modelData["time"]
                             font.pointSize: 30
                             font.family: castFont1.name
-                            color: "white"
+                            color: alarm.textColor
                         }
                         SequentialAnimation {
                             id: playAnimation
@@ -207,14 +229,14 @@ Item {
                                 implicitWidth: 50
                                 implicitHeight: 30
                                 radius:15
-                                color: list_switch.checked ? Qt.rgba(180 / 255, 180 / 255, 180 / 255, 1) : Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1)
+                                color: list_switch.checked ? alarm.switchColor : alarm.choiceColor
                                 Rectangle{
                                     x: list_switch.checked ? parent.width - width - 2 : 2
                                     y: 2
                                     width:26
                                     height:26
                                     radius:13
-                                    color: list_switch.down ? Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.5) : Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1)
+                                    color: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
                                 }
                             }
 
@@ -232,7 +254,7 @@ Item {
                             text: modelData["label"]
                             font.pointSize: 16
                             font.family: castFont1.name
-                            color: "white"
+                            color: alarm.textColor
                             elide: Text.ElideRight
                             width: parent.width - 10
                         }

@@ -136,7 +136,7 @@ Item {
                         width: 40
                         height: 40
                         radius: 10
-                        color: sound.textColor
+                        color: sound.choiceColor
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
                         Image{
@@ -169,7 +169,7 @@ Item {
                         Rectangle {
                             width: parent.width
                             height: 40
-                            color: soundComboBox.highlightedIndex === index ? sound.choiceColor : sound.backgroundColor
+                            color: soundComboBox.highlightedIndex === index ? sound.widColor : sound.backgroundColor
 
                             Text {
                                 // anchors.centerIn: parent
