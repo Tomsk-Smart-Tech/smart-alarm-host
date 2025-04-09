@@ -10,6 +10,9 @@ Item {
     property bool currentlyPlaying: false
     signal playPauseClicked()
 
+    property bool shaffle: false
+    property int repeatState: 0
+
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
@@ -382,7 +385,13 @@ Item {
                         width: 40
                         height: 40
                         anchors.verticalCenter: parent.verticalCenter
-                        source:"resource_icon/music_icon/shaffle_off.png"
+                        source:{
+                            if(music.shaffle == false){
+                                "resource_icon/music_icon/shaffle_off.png"
+                            } else {
+                                "resource_icon/music_icon/shuffle_on.png"
+                            }
+                        }
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     SequentialAnimation {
@@ -404,7 +413,12 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            playAnimation6.start()
+                            playAnimation6.start();
+                            if(music.shaffle == false){
+                                music.shaffle = true
+                            } else {
+                                music.shaffle = false
+                            }
                         }
                     }
                 }
@@ -493,7 +507,7 @@ Item {
                         width: 60
                         height: 60
                         anchors.verticalCenter: parent.verticalCenter
-                        source:"resource_icon/music_icon/next.png"
+                        source: "resource_icon/music_icon/next.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     SequentialAnimation {
@@ -530,7 +544,15 @@ Item {
                         width: 40
                         height: 40
                         anchors.verticalCenter: parent.verticalCenter
-                        source:"resource_icon/music_icon/repeat_off.png"
+                        source:{
+                            if (music.repeatState == 0){
+                                "resource_icon/music_icon/repeat_off.png"
+                            } else if (music.repeatState == 1){
+                                "resource_icon/music_icon/repeat_on.png"
+                            } else{
+                                "resource_icon/music_icon/repeat_on_1.png"
+                            }
+                        }
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     SequentialAnimation {
@@ -553,6 +575,13 @@ Item {
                         anchors.fill: parent
                         onClicked: {
                             playAnimation8.start()
+                            if(music.repeatState == 0){
+                                music.repeatState = 1
+                            } else if(music.repeatState == 1){
+                                music.repeatState = 2
+                            } else {
+                                music.repeatState = 0
+                            }
                         }
                     }
                 }
