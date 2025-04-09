@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 //import QtQuick.VirtualKeyboard
 import GlobalTime 1.0
+import Themes 1.0
 
 
 Window {
@@ -15,7 +16,7 @@ Window {
 
     // resource_icon/
 
-    property bool isMusicPlaying: false
+    property bool isMusicPlaying: spotify.current["is_playing"] ||false
     function togglePlayback() {
         // Вызываем реальное действие в бэкенде
         // spotify.change_track_status();
@@ -265,7 +266,7 @@ Window {
                 hor_sv.currentIndex = 1
             }
             PageIndicator {
-                id: indicator
+                id: indicatormusic
                 count: hor_sv.count
                 currentIndex: hor_sv.currentIndex
 

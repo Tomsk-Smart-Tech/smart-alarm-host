@@ -1,7 +1,7 @@
 CONFIG += c++20
 
 QT += quick
-QT += quick network
+QT += network
 QT += concurrent
 QT += quickcontrols2
 
@@ -31,6 +31,7 @@ DISTFILES += \
     qml/About_Page.qml \
     qml/Alarm_Page.qml \
     qml/Music.qml\
+    qml/Themes.qml
 
 
 resources.files = \
@@ -56,6 +57,8 @@ resources.files = \
     russian_cities.json \
     userdata.json \
     qml/resource_icon \
+    qml/qmldir \
+    qml/Themes.qml
 
 
 

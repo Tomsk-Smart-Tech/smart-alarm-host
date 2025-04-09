@@ -278,6 +278,7 @@ Item {
                                 melodyButoon.checked = !melodyButoon.checked;
                                 if(melodyButoon.checked===true)
                                 {
+                                    alarmSound.setPosition(7000);
                                     alarmSound.play()
                                 }
                                 else

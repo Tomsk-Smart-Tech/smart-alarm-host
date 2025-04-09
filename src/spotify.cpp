@@ -12,12 +12,14 @@ Spotify::Spotify(QObject *parent)
     clientID=read_user_json("spotify_clientID");
     clientSecret=read_user_json("spotify_clientSecret");
     volume=read_user_json("volume").toInt();
-    //get_access_token();
+    get_access_token();
 }
 
 
 void Spotify::handleSpotifyCode(const QString &data)
 {
+    playlists.clear();
+    tracks.clear();
     qDebug()<<"ОБРАБАТЫВАЮ КОД ИЗ SPOTIFYCLASS";
     QJsonDocument jsonDoc = QJsonDocument::fromJson(data.toUtf8());
     QJsonObject jsonObj = jsonDoc.object();
@@ -66,12 +68,16 @@ Q_INVOKABLE void Spotify::get_access_token()
 
     QNetworkRequest request(QUrl("https://accounts.spotify.com/api/token"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    // request.setRawHeader(
+    //     "Authorization",
+    //     QByteArray("Basic ") + (clientID + ":" + clientSecret).toUtf8().toBase64()
+    //     );
 
     QUrlQuery params;
     params.addQueryItem("grant_type", "refresh_token");
     params.addQueryItem("refresh_token", refresh_token);
     params.addQueryItem("client_id", clientID);
-    params.addQueryItem("client_secret", clientSecret);
+    //params.addQueryItem("client_secret", clientSecret);
 
     QNetworkReply *reply = n_manager->post(request, params.toString(QUrl::FullyEncoded).toUtf8());
     connect(reply, &QNetworkReply::finished, this, &Spotify::handleTokenReply);
@@ -90,6 +96,11 @@ void Spotify::handleTokenReply() {
             emit accessTokenUpdated();
             write_user_json("spotify_access_token",access_token);
             qDebug()<<"ACCESS TOKEN CHANGED";
+            if (jsonObj.contains("refresh_token")) {
+                refresh_token = jsonObj["refresh_token"].toString();
+                write_user_json("spotify_refresh_token", refresh_token);
+                qDebug() << "NEW REFRESH TOKEN RECEIVED AND SAVED:" << refresh_token; // Логируем для отладки
+            }
             scan_playlists();
             get_current_track();
         }
@@ -145,7 +156,9 @@ Q_INVOKABLE void Spotify::next_track()
     connect(reply, &QNetworkReply::finished, this, [this,reply]() {
         if (reply->error() == QNetworkReply::NoError) {
             qDebug() << "Next track request successful!";
-            get_current_track();
+            QTimer::singleShot(500, this, [this]() {
+                get_current_track();
+            });
         } else {
             qDebug() << "Error switching to next track:" << reply->errorString();
             qWarning() << "Server response:" << reply->readAll();
@@ -165,7 +178,9 @@ Q_INVOKABLE void Spotify::prev_track()
     connect(reply, &QNetworkReply::finished, this, [this,reply]() {
         if (reply->error() == QNetworkReply::NoError) {
             qDebug() << "Previous track request successful!";
-            get_current_track();
+            QTimer::singleShot(500, this, [this]() {
+                get_current_track();
+            });
         } else {
             qDebug() << "Error switching to previous track:" << reply->errorString();
         }
@@ -204,7 +219,7 @@ Q_INVOKABLE void Spotify::change_track_status()
 
 
 
-void Spotify::get_current_track()
+Q_INVOKABLE void Spotify::get_current_track()
 {
     QNetworkRequest request(QUrl("https://api.spotify.com/v1/me/player"));
     request.setRawHeader("Authorization", ("Bearer " + access_token).toUtf8());
@@ -218,6 +233,9 @@ void Spotify::get_current_track()
             QJsonObject jsonObj = jsonResponse.object();
 
             current_track["progress"]=jsonObj["progress_ms"].toInt();
+            current_track["is_playing"] = jsonObj["is_playing"].toBool();
+            current_track["shuffle_state"]=jsonObj["shuffle_state"].toBool();
+            current_track["repeat_state"]=jsonObj["repeat_state"].toString();
             if (jsonObj.contains("item"))
             {
                 QJsonObject item = jsonObj["item"].toObject();
@@ -259,7 +277,7 @@ void Spotify::get_current_track()
         }
         reply->deleteLater();
     });
-    emit cur_track_changed();
+
 }
 
 
@@ -343,7 +361,7 @@ Q_INVOKABLE void Spotify::scan_playlist_tracks(const QString playlistID)
         }
         reply->deleteLater();
     });
-    emit tracks_changed();
+    //emit tracks_changed();
 }
 
 Q_INVOKABLE void Spotify::set_track(const QString playlistID)
@@ -388,7 +406,30 @@ Q_INVOKABLE void Spotify::set_volume(int value)
     write_user_json("volume",QString::number(volume));
 }
 
-Q_INVOKABLE void Spotify::tranform_auth_code()
+Q_INVOKABLE void Spotify::change_shuffle(bool state)
 {
+    QUrl url("https://api.spotify.com/v1/me/player/shuffle");
+    QUrlQuery query;
+    query.addQueryItem("state", state ? "true" : "false");
+    url.setQuery(query);
 
+    QNetworkRequest request(url);
+    QString authHeader = QString("Bearer %1").arg(access_token);
+    request.setRawHeader("Authorization", authHeader.toUtf8());
+
+    n_manager->put(request, QByteArray());
+}
+
+Q_INVOKABLE void Spotify::change_repeat_mode(QString state)
+{
+    QUrl url("https://api.spotify.com/v1/me/player/repeat");
+    QUrlQuery query;
+    query.addQueryItem("state", state);
+    url.setQuery(query);
+
+    QNetworkRequest request(url);
+    QString authHeader = QString("Bearer %1").arg(access_token);
+    request.setRawHeader("Authorization", authHeader.toUtf8());
+
+    n_manager->put(request, QByteArray());
 }

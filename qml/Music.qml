@@ -8,10 +8,13 @@ Item {
     property int y_pos: 0
 
     property bool currentlyPlaying: false
+
     signal playPauseClicked()
 
-    property bool shaffle: false
-    property int repeatState: 0
+    property bool shaffle: spotify.current["shuffle_state"] || false
+    property var repeatState: spotify.current["repeat_state"] || "off"
+
+    property int track_progress: spotify.current["progress"] || 0
 
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
@@ -28,6 +31,21 @@ Item {
     FontLoader {
         id: castFont
         source: "ofont.ru_Nunito.ttf"
+    }
+
+    function time_to_str(time_ms)
+    {
+        if(time_ms== undefined || time_ms== null)
+        {
+            return "--:--"
+        }
+        var totalSeconds = Math.floor(time_ms / 1000);
+        var minutes = Math.floor(totalSeconds / 60);
+        var seconds = totalSeconds % 60;
+        var minStr = minutes.toString();
+        var secStr = seconds < 10 ? "0" + seconds : seconds.toString();
+
+        return minStr + ":" + secStr;
     }
 
     Rectangle{
@@ -115,7 +133,7 @@ Item {
                         delegate: Rectangle {
                             id: delegateRect
                             height: 60
-                            width: parent.width
+                            width: playlists.width
                             color: ListView.isCurrentItem ? music.choiceColor : "transparent"
                             radius: 10
 
@@ -161,14 +179,14 @@ Item {
                                         elide: Text.ElideRight
                                         width: delegateRect.width - roundedImageEffect2.width - parent.spacing - 10
                                     }
-                                    Text {
-                                        text: modelData["artists"]
-                                        font.pointSize: 14
-                                        color: music.textColorSecond
-                                        font.family: castFont.name
-                                        elide: Text.ElideRight
-                                        width: delegateRect1.width - roundedImageEffect1.width - parent.spacing - 10
-                                    }
+                                    // Text {
+                                    //     text: modelData["artists"]
+                                    //     font.pointSize: 14
+                                    //     color: music.textColorSecond
+                                    //     font.family: castFont.name
+                                    //     elide: Text.ElideRight
+                                    //     width: delegateRect1.width - roundedImageEffect1.width - parent.spacing - 10
+                                    // }
                                 }
                             }
                             MouseArea {
@@ -229,22 +247,11 @@ Item {
                         spacing: 3
                         clip: true
                         snapMode: ListView.SnapToItem
-                        // model: ListModel {
-                        //     ListElement { name: "моя великая вина"; autor: "pyrokinesis"; image: "pyro.png"}
-                        //     ListElement { name: "темная сторона Бога"; autor: "pyrokinesis"; image: "pyro.png"}
-                        //     ListElement { name: "похвала бичам"; autor: "pyrokinesis"; image: "pyro.png"}
-                        //     ListElement { name: "ее влюбенные глаза"; autor: "pyrokinesis"; image: "pyro.png"}
-                        //     ListElement { name: "день рождение наоборот"; autor: "pyrokinesis"; image: "pyro.png"}
-                        //     ListElement { name: "50 на 50"; autor: "pyrokinesis"; image: "pyro.png"}
-                        //     ListElement { name: "Апокалипсис Андрея"; autor: "pyrokinesis"; image: "pyro.png"}
-                        //     ListElement { name: "mea maxima culpa"; autor: "pyrokinesis"; image: "pyro.png"}
-                        //     ListElement { name: "дьявол в деталях"; autor: "pyrokinesis"; image: "pyro.png"}
-                        // }
                         model:spotify.tracks
                         delegate: Rectangle {
                             id: delegateRect1
                             height: 60
-                            width: parent.width
+                            width: songs.width
                             color: ListView.isCurrentItem ? music.choiceColor: "transparent"
                             radius: 10
                             Row {
@@ -358,7 +365,7 @@ Item {
                     id: name
                     font.pixelSize: 32
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: spotify.current["name"]//"темная сторона Бога"
+                    text: spotify.current["name"]
                     font.family: castFont.name
                     color: music.textColor
                 }
@@ -366,7 +373,7 @@ Item {
                     id: autor
                     font.pixelSize: 24
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text:spotify.current["artists"] //"pyrokinesis"
+                    text:spotify.current["artists"]
                     font.family: castFont.name
                     color: music.textColorSecond
                 }
@@ -419,6 +426,7 @@ Item {
                             } else {
                                 music.shaffle = false
                             }
+                            spotify.change_shuffle(music.shaffle)
                         }
                     }
                 }
@@ -455,6 +463,10 @@ Item {
                         anchors.fill: parent
                         onClicked: {
                             playAnimation1.start()
+                            spotify.prev_track()
+                            console.log("теперь текущая песня:",spotify.current["name"])
+                            music.track_progress=spotify.current["progress"]-1500;
+                            time_string_progress=time_to_str(music.track_progress);
                         }
                     }
                 }
@@ -465,10 +477,12 @@ Item {
                     color: music.specialColor
                     radius: 50
                     Image{
+                        id:pause_state
                         width: 60
                         height: 60
                         anchors.verticalCenter: parent.verticalCenter
                         source:music.currentlyPlaying ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
+                        //source:spotify.current["is_playing"]? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     SequentialAnimation {
@@ -531,6 +545,13 @@ Item {
                         onClicked: {
                             playAnimation2.start()
                             spotify.next_track()
+
+
+                            console.log("теперь текущая песня:",spotify.current["name"])
+                            music.track_progress=spotify.current["progress"]-1500;
+                            time_string_progress=time_to_str(music.track_progress);
+
+
                         }
                     }
                 }
@@ -545,9 +566,9 @@ Item {
                         height: 40
                         anchors.verticalCenter: parent.verticalCenter
                         source:{
-                            if (music.repeatState == 0){
+                            if (music.repeatState == "off"){
                                 "resource_icon/music_icon/repeat_off.png"
-                            } else if (music.repeatState == 1){
+                            } else if (music.repeatState == "context"){
                                 "resource_icon/music_icon/repeat_on.png"
                             } else{
                                 "resource_icon/music_icon/repeat_on_1.png"
@@ -573,15 +594,18 @@ Item {
                     }
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: {
+                        onClicked:
+                        {
                             playAnimation8.start()
-                            if(music.repeatState == 0){
-                                music.repeatState = 1
-                            } else if(music.repeatState == 1){
-                                music.repeatState = 2
+                            if(music.repeatState == "off"){
+                                music.repeatState = "context"
+                            } else if(music.repeatState == "context"){
+                                music.repeatState = "track"
                             } else {
-                                music.repeatState = 0
+                                music.repeatState = "off"
                             }
+                            spotify.change_repeat_mode(music.repeatState)
+
                         }
                     }
                 }
@@ -591,17 +615,38 @@ Item {
                 spacing: 10
                 anchors.horizontalCenter: parent.horizontalCenter
                 Text{
+                    id:time_string_progress
                     height: 28
                     font.pixelSize: 20
-                    text: "0:52"
+                    text: time_to_str(spotify.current["progress"])
                     anchors.verticalCenter: parent.verticalCenter
                     font.family: castFont.name
                     color: music.textColor
                 }
+
+                Timer {
+                    id: progressTimer
+                    interval: 1000 // обновление каждую секунду
+                    repeat: true
+                    running: music.currentlyPlaying === true
+
+                    onTriggered: {
+                        music.track_progress+=1000;
+                        time_string_progress.text =time_to_str(music.track_progress);
+                        if (music.track_progress>spotify.current["duration"]) //может сделать и привязку к имени а не времени
+                        {
+                            spotify.get_current_track();
+                            console.log("теперь текущая песня:",spotify.current["name"])
+                            music.track_progress=spotify.current["progress"];
+                            time_string_progress.text=time_to_str(music.track_progress);
+                            console.log("конец песни(");
+                        }
+                    }
+                }
                 ProgressBar {
                     id: progressBar
-                    to: 100
-                    value: 34
+                    to: spotify.current["duration"] || 1
+                    value: music.track_progress
                     anchors.verticalCenter: parent.verticalCenter
                     background: Rectangle {
                         implicitWidth: 300
@@ -623,7 +668,7 @@ Item {
                 }
                 Text{
                     font.pixelSize: 20
-                    text: "2:32"
+                    text: time_to_str(spotify.current["duration"])
                     anchors.verticalCenter: parent.verticalCenter
                     font.family: castFont.name
                     color: music.textColor

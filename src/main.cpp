@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 
     //qmlRegisterSingletonType(QUrl("file:../../qml/GlobalTime.qml"), "GlobalTime", 1, 0, "GlobalTime");
     qmlRegisterSingletonType(QUrl("qrc:/smart-alarm-host/qml/GlobalTime.qml"), "GlobalTime", 1, 0, "GlobalTime");
+    qmlRegisterSingletonType(QUrl("qrc:/smart-alarm-host/qml/Themes.qml"), "Themes", 1, 0, "Themes");
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
     currentDir.cdUp();
@@ -52,11 +53,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("icons_path", QUrl::fromLocalFile(currentDir.filePath("weather_iconkit")));
     engine.rootContext()->setContextProperty("songsPath",currentDir.filePath("user_storage/ringtones"));
     engine.rootContext()->setContextProperty("photosPath",currentDir.filePath("user_storage/wallpapers"));
-    qDebug()<<"folder with photos:"<<currentDir.filePath("user_storage/ringtones");
-    //absolute ways
-    //const QUrl url(QStringLiteral("/home/nikita/fromgit/smart-alarm-host/main.qml"));
-    //const QUrl url(QStringLiteral("qrc:/raspberry_smart_alarm/main.qml"));
-    //const QUrl url(QStringLiteral("file:///C:/Users/kiril/Documents/raspberry_smart_alarm/main.qml"));
 
     QObject::connect(
         &engine,

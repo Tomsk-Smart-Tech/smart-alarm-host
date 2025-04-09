@@ -7,6 +7,7 @@
 #include <QUrlQuery>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QTimer>
 
 class Spotify : public QObject
 {
@@ -18,14 +19,13 @@ class Spotify : public QObject
 public:
     explicit Spotify(QObject *parent = nullptr);
 
-    Q_INVOKABLE void tranform_auth_code();
     Q_INVOKABLE void change_track_status();
     Q_INVOKABLE void get_access_token();
     Q_INVOKABLE void play_track();
     Q_INVOKABLE void pause_track();
     Q_INVOKABLE void next_track();
     Q_INVOKABLE void prev_track();
-    void get_current_track();
+    Q_INVOKABLE void get_current_track();
     Q_INVOKABLE void scan_playlists();
     Q_INVOKABLE void scan_playlist_tracks(const QString playlistID);
     Q_INVOKABLE void set_track(const QString playlistID);
@@ -35,6 +35,8 @@ public:
     Q_INVOKABLE QVariantMap get_cur_track(){return current_track;}
     Q_INVOKABLE QVariantList get_playlists(){return playlists;}
     Q_INVOKABLE QVariantList get_tracks(){return tracks;}
+    Q_INVOKABLE void change_shuffle(bool state);
+    Q_INVOKABLE void change_repeat_mode(QString state);
 
 
 signals:

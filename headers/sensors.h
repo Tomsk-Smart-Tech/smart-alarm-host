@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QProcess>
+#include <QRandomGenerator>
 
 class Sensors : public QObject
 {
@@ -25,9 +26,9 @@ private slots:
 
 private:
     QProcess *process;
-    QString m_temp="NaN";
-    QString m_humidity="NaN";
-    QString m_voc_index="NaN";
+    QString m_temp=QString::number(QRandomGenerator::global()->bounded(19, 29));
+    QString m_humidity=QString::number(QRandomGenerator::global()->bounded(20, 99));
+    QString m_voc_index=QString::number(QRandomGenerator::global()->bounded(0, 500));
 };
 
 #endif // SENSORS_H
