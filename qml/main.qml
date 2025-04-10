@@ -30,8 +30,11 @@ Window {
     Image {
         id: back
         source: terminal.cur_photo//"mounts.jpg"
+        layer.enabled: true
         anchors.fill: parent
     }
+
+    property int blur: 20
 
 
 
@@ -140,6 +143,9 @@ Window {
                 Rectangle{
                     color: "transparent"
                     Big_Weather{
+                        background: back
+
+
                         backgroundColorAlpha: Themes.backgroundColorAlpha
                         widColorAlpha: Themes.widColorAlpha
                         textColor: Themes.textColor
@@ -173,7 +179,7 @@ Window {
                     Clock{
                         x_pos:16
                         y_pos:56
-                        background:back.source
+                        background: back
                         time: Qt.formatDateTime(currentDateTime, "HH:mm")
                         year:Qt.formatDateTime(currentDateTime, "dd.MM.yyyy")
                         date: getDayName(currentDateTime)
@@ -183,6 +189,7 @@ Window {
 
                         widColorAlphaFirst: Themes.widColorAlphaFirst
                         widColorAlphaSecond: Themes.widColorAlphaSecond
+                        blur: window.blur
                     }
                     Sensors{
                         x_pos:16
@@ -193,6 +200,9 @@ Window {
 
                         widColorAlphaFirst: Themes.widColorAlphaFirst
                         widColorAlphaSecond: Themes.widColorAlphaSecond
+
+                        background: back
+                        blur: window.blur
                     }
                     Alarms{
                         x_pos:16 + 236 + 16
@@ -215,6 +225,9 @@ Window {
                         widColorAlphaSecond: Themes.widColorAlphaSecond
 
                         switchColor: Themes.switchColor
+
+                        background: back
+                        blur: window.blur
                     }
                     Weather{
                         x_pos: 16 + 236 + 16 + 236 + 16
@@ -226,6 +239,9 @@ Window {
 
                         widColorAlphaFirst: Themes.widColorAlphaFirst
                         widColorAlphaSecond: Themes.widColorAlphaSecond
+
+                        background: back
+                        blur: window.blur
                     }
                     Mini_Events{
                         x_pos:16 + 236 + 16 + 236 + 16
@@ -236,6 +252,9 @@ Window {
 
                         widColorAlphaFirst: Themes.widColorAlphaFirst
                         widColorAlphaSecond: Themes.widColorAlphaSecond
+
+                        background: back
+                        blur: window.blur
                     }
                     Mini_Music{
                         x_pos:16 + 236 + 16 + 236 + 16 + 236 + 16
@@ -249,6 +268,9 @@ Window {
                         backProgress:  Themes.backProgress
 
                         widColorAlphaFirst: Themes.widColorAlphaFirst
+
+                        background: back
+                        blur: window.blur
                     }
                 }
                 Rectangle{

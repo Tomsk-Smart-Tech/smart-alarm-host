@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls
 import GlobalTime 1.0
+import Qt5Compat.GraphicalEffects
 //import QtQuick.VirtualKeyboard 2.15
 
 
@@ -31,6 +32,10 @@ Item {
 
     property color textColorSett: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecondSett: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
+    property Image background: valueOf
+
+    property int blur: 20
 
     AlarmScreen {
         id: alarmPopup
@@ -109,6 +114,42 @@ Item {
         height: 488
         radius: 15
         color: alarm.widColorAlphaFirst
+        Item {
+            id: effectArea
+            anchors.fill: parent
+            OpacityMask {
+                id: roundedMask
+                anchors.fill: parent
+                source: Item {
+                    width: effectArea.width
+                    height: effectArea.height
+                    FastBlur {
+                        id: blurEffect
+                        anchors.fill: parent
+                        radius: alarm.blur
+                        source: ShaderEffectSource {
+                            sourceItem: alarm.background
+                            live: true
+                            sourceRect: Qt.rect(
+                                effectArea.mapToItem(alarm.background, 0, 0).x,
+                                effectArea.mapToItem(alarm.background, 0, 0).y,
+                                effectArea.width,
+                                effectArea.height
+                            )
+                        }
+                    }
+                    Rectangle {
+                        anchors.fill: parent
+                        color: alarm.widColorAlphaFirst
+                    }
+                }
+                maskSource: Rectangle {
+                    width: effectArea.width
+                    height: effectArea.height
+                    radius: 15
+                }
+            }
+        }
         Column {
             anchors.fill: parent
             anchors.margins: 10

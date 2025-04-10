@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
+import Qt5Compat.GraphicalEffects
 
 Item {
     id: weather
@@ -14,6 +15,8 @@ Item {
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
     property ListModel week_list: valueOf
+
+    property Image background: valueOf
 
     property var currect_temp: "None"
     property var currect_temp_max: "None"
@@ -53,6 +56,16 @@ Item {
 
         //color: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
         color: weather.backgroundColorAlpha
+
+        // FastBlur {
+        //     id: blurEffect
+        //     anchors.fill: parent
+        //     radius: 20
+        //     source: ShaderEffectSource {
+        //         sourceItem: weather.background
+        //         live: true
+        //     }
+        // }
 
         FontLoader {
             id: castFont

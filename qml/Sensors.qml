@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import Qt5Compat.GraphicalEffects
 
 Item {
     id:sensors
@@ -14,6 +15,10 @@ Item {
     property string humidity_text: sensorss.humidity
     property string voc_index:sensorss.voc_index
 
+    property Image background: valueOf
+
+    property int blur: 20
+
     Rectangle {
         x: sensors.x_pos
         y: sensors.y_pos
@@ -22,6 +27,43 @@ Item {
         height: 236
         radius : 15
         color: sensors.widColorAlphaFirst
+
+        Item {
+            id: effectArea
+            anchors.fill: parent
+            OpacityMask {
+                id: roundedMask
+                anchors.fill: parent
+                source: Item {
+                    width: effectArea.width
+                    height: effectArea.height
+                    FastBlur {
+                        id: blurEffect
+                        anchors.fill: parent
+                        radius: sensors.blur
+                        source: ShaderEffectSource {
+                            sourceItem: sensors.background
+                            live: true
+                            sourceRect: Qt.rect(
+                                effectArea.mapToItem(sensors.background, 0, 0).x,
+                                effectArea.mapToItem(sensors.background, 0, 0).y,
+                                effectArea.width,
+                                effectArea.height
+                            )
+                        }
+                    }
+                    Rectangle {
+                        anchors.fill: parent
+                        color: sensors.widColorAlphaFirst
+                    }
+                }
+                maskSource: Rectangle {
+                    width: effectArea.width
+                    height: effectArea.height
+                    radius: 15
+                }
+            }
+        }
         FontLoader {
             id: castFont
             source: "ofont.ru_Nunito.ttf"

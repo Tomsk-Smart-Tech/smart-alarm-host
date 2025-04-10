@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import Qt5Compat.GraphicalEffects
 
 Item {
     id: miniEvents
@@ -11,6 +12,9 @@ Item {
 
     property color widColorAlphaFirst: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
     property color widColorAlphaSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
+
+    property Image background: valueOf
+    property int blur: 20
 
     FontLoader {
         id: castFont
@@ -26,6 +30,42 @@ Item {
         radius : 15
         color: miniEvents.widColorAlphaFirst
         layer.enabled: true
+        Item {
+            id: effectArea
+            anchors.fill: parent
+            OpacityMask {
+                id: roundedMask
+                anchors.fill: parent
+                source: Item {
+                    width: effectArea.width
+                    height: effectArea.height
+                    FastBlur {
+                        id: blurEffect
+                        anchors.fill: parent
+                        radius: miniEvents.blur
+                        source: ShaderEffectSource {
+                            sourceItem: miniEvents.background
+                            live: true
+                            sourceRect: Qt.rect(
+                                effectArea.mapToItem(miniEvents.background, 0, 0).x,
+                                effectArea.mapToItem(miniEvents.background, 0, 0).y,
+                                effectArea.width,
+                                effectArea.height
+                            )
+                        }
+                    }
+                    Rectangle {
+                        anchors.fill: parent
+                        color: miniEvents.widColorAlphaFirst
+                    }
+                }
+                maskSource: Rectangle {
+                    width: effectArea.width
+                    height: effectArea.height
+                    radius: 15
+                }
+            }
+        }
         ListView{
             anchors.fill: parent
             anchors.margins: 10

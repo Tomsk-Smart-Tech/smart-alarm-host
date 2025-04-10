@@ -359,23 +359,122 @@ Item {
 
 
             Column{
-                spacing: -5
+                id: column1
+                anchors.horizontalCenterOffset: 0
+                spacing: 0
                 anchors.horizontalCenter: parent.horizontalCenter
-                Text{
-                    id: name
-                    font.pixelSize: 32
+                // Text{
+                //     id: name
+                //     font.pixelSize: 32
+                //     anchors.horizontalCenter: parent.horizontalCenter
+                //     text: spotify.current["name"]
+                //     font.family: castFont.name
+                //     color: music.textColor
+                // }
+                Rectangle {
+                    id: container
+                    width: 430
+                    height: 41
+                    color: "transparent"
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: spotify.current["name"]
-                    font.family: castFont.name
-                    color: music.textColor
+                    clip: true
+                    Text {
+                        id: _text
+                        height: 36
+                        text: spotify.current["name"]
+                        font.pixelSize: 32
+                        font.family: castFont.name
+                        color: Themes.textColor
+
+                        SequentialAnimation {
+                            id: anim
+                            loops: Animation.Infinite
+                            running: _text.contentWidth > container.width
+                            PropertyAnimation {
+                                target: _text
+                                property: "x"
+                                from: container.width
+                                to: 0
+                                duration: container.width * 20
+                            }
+                            PauseAnimation {
+                                duration: 3000
+                            }
+                            PropertyAnimation {
+                                target: _text
+                                property: "x"
+                                from: 0
+                                to: -_text.contentWidth
+                                duration: (_text.contentWidth - container.width/container.width) * 20
+                            }
+                        }
+                        onTextChanged: {
+                            anim.stop();
+                            _text.x = 0;
+                            if (_text.contentWidth > container.width) {
+                                _text.width = text.contentWidth
+                                anim.start();
+                            }
+                        }
+                    }
                 }
-                Text{
-                    id: autor
-                    font.pixelSize: 24
+                // Text{
+                //     id: autor
+                //     font.pixelSize: 24
+                //     anchors.horizontalCenter: parent.horizontalCenter
+                //     // text:spotify.current["artists"]
+                //     text: "mea maxima culpa mea maxima culpa mea maxima culpa"
+                //     font.family: castFont.name
+                //     color: music.textColorSecond
+                // }
+                Rectangle {
+                    id: container1
+                    width: 430
+                    height: 35
+                    clip: true
+                    color: "transparent"
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text:spotify.current["artists"]
-                    font.family: castFont.name
-                    color: music.textColorSecond
+
+
+                    Text {
+                        id: _text1
+                        x: 0
+                        height: 46
+                        text: spotify.current["name"]
+                        font.pixelSize: 24
+                        font.family: castFont.name
+                        color: Themes.textColorSecond
+
+                        SequentialAnimation {
+                            id: anim1
+                            loops: Animation.Infinite
+                            running: _text1.contentWidth > container1.width
+                            PropertyAnimation {
+                                target: _text1
+                                property: "x"
+                                from: container1.width
+                                to: 0
+                                duration: container1.width * 20
+                            }
+                            PauseAnimation {
+                                duration: 3000
+                            }
+                            PropertyAnimation {
+                                target: _text1
+                                property: "x"
+                                from: 0
+                                to: -_text1.contentWidth
+                                duration: (_text1.contentWidth - container1.width/container1.width) * 20
+                            }
+                        }
+                        onTextChanged: {
+                            anim1.stop();
+                            _text1.x = 0;
+                            if (_text1.contentWidth > container1.width) {
+                                anim1.start();
+                            }
+                        }
+                    }
                 }
             }
 

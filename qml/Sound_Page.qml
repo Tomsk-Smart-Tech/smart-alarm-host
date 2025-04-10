@@ -49,7 +49,7 @@ Item {
             anchors.rightMargin: 20
             anchors.topMargin: 74
             anchors.bottomMargin: 20
-            spacing: 15
+            spacing: 10
             Text {
                 text: qsTr("Настройки громкости")
                 font.pixelSize: 24
@@ -72,7 +72,7 @@ Item {
                         Text {
                             font.family: castFont.name
                             font.pointSize:18
-                            text: "Текущий уровень громкости:"
+                            text: "Текущий уровень громкости музыки:"
                             color: sound.textColorSecond
 
                         }
@@ -100,12 +100,52 @@ Item {
                             output.text = value + '%'
                             spotify.set_volume(value)
                         }
-                        // contentItem: Rectangle {
-                        //     width: control.visualPosition * control.width
-                        //     height: 2
-                        //     radius: 2
-                        //     color: "#FF5733"
-                        // }
+                    }
+                }
+            }
+            Rectangle{
+                x: 0
+                width: parent.width
+                height: 95
+                radius: 15
+                color: sound.widColor
+                Column{
+                    anchors.fill:parent
+                    anchors.margins: 10
+                    spacing: 10
+                    Row {
+                        id: row1
+                        spacing: 10
+                        Text {
+                            font.family: castFont.name
+                            font.pointSize:18
+                            text: "Текущий уровень громкости будильников:"
+                            color: sound.textColorSecond
+
+                        }
+                        Text {
+                            id: output1
+                            width: 100
+                            font.family: castFont.name
+                            font.pointSize:18
+                            color: sound.textColor
+                            text:"-1 %"
+                        }
+                    }
+                    Slider {
+                        id: control1
+                        from: 0
+                        value: 50
+                        width: parent.width
+                        height: 30
+                        to: 100
+                        stepSize: 1
+                        snapMode: Slider.SnapAlways
+
+                        onMoved:
+                        {
+                            // TODO
+                        }
                     }
                 }
             }

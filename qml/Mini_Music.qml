@@ -19,6 +19,9 @@ Item {
 
     property color widColorAlphaFirst: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
 
+    property Image background: valueOf
+    property int blur: 20
+
     FontLoader {
         id: castFont
         source: "ofont.ru_Nunito.ttf"
@@ -34,7 +37,42 @@ Item {
         radius : 15
         color: miniMusic.widColorAlphaFirst
         clip: true
-
+        Item {
+            id: effectArea
+            anchors.fill: parent
+            OpacityMask {
+                id: roundedMask
+                anchors.fill: parent
+                source: Item {
+                    width: effectArea.width
+                    height: effectArea.height
+                    FastBlur {
+                        id: blurEffect
+                        anchors.fill: parent
+                        radius: miniMusic.blur
+                        source: ShaderEffectSource {
+                            sourceItem: miniMusic.background
+                            live: true
+                            sourceRect: Qt.rect(
+                                effectArea.mapToItem(miniMusic.background, 0, 0).x,
+                                effectArea.mapToItem(miniMusic.background, 0, 0).y,
+                                effectArea.width,
+                                effectArea.height
+                            )
+                        }
+                    }
+                    Rectangle {
+                        anchors.fill: parent
+                        color: miniMusic.widColorAlphaFirst
+                    }
+                }
+                maskSource: Rectangle {
+                    width: effectArea.width
+                    height: effectArea.height
+                    radius: 15
+                }
+            }
+        }
 
         Rectangle {
             id: rectangle
@@ -104,38 +142,67 @@ Item {
             anchors.topMargin: 10
             source:"resource_icon/music_icon/playlist.png"
         }
-        // Image{
-        //     width: 45
-        //     height: 45
-        //     anchors.right: parent.right
-        //     anchors.top: parent.top
-        //     anchors.rightMargin: 10
-        //     anchors.topMargin: 10
-        //     source: "music_icon/music.png"
-        // }
 
-
-        Text {
-            id: _text
-            text: spotify.current["name"]//qsTr("mea maxima culpa")
+        Rectangle {
+            id: container
             anchors.top: parent.top
             anchors.topMargin: 100
-            font.pixelSize: 23
-            horizontalAlignment: Text.AlignHCenter
+            width: 206
+            height: 35
             anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width
-            font.family: castFont.name
-            color: miniMusic.textColor
+            clip: true
+            color: "transparent"
+
+            Text {
+                id: _text
+                anchors.verticalCenter: parent.verticalCenter
+                x: 0
+                text: spotify.current["name"]
+                font.pixelSize: 23
+                font.family: castFont.name
+                color: Themes.textColor
+
+                SequentialAnimation {
+                    id: anim
+                    loops: Animation.Infinite
+                    running: _text.contentWidth > container.width
+                    PropertyAnimation {
+                        target: _text
+                        property: "x"
+                        from: container.width
+                        to: 0
+                        duration: container.width * 20
+                    }
+                    PauseAnimation {
+                        duration: 3000
+                    }
+                    PropertyAnimation {
+                        target: _text
+                        property: "x"
+                        from: 0
+                        to: -_text.contentWidth
+                        duration: (_text.contentWidth - container.width/container.width) * 20
+                    }
+                }
+                onTextChanged: {
+                    anim.stop();
+                    _text.x = 0;
+                    if (_text.contentWidth > container.width) {
+                        anim.start();
+                    }
+                }
+            }
         }
         Text {
             id: _text1
-            text: spotify.current["artists"]//qsTr("pyrokinesis")
+            width: 200
+            text: spotify.current["artists"]
+            elide: Text.ElideRight
             anchors.top: parent.top
-            anchors.topMargin: 127
+            anchors.topMargin: 130//qsTr("pyrokinesis")
             font.pixelSize: 21
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width
             height: 24
             font.family: castFont.name
             color: miniMusic.textColorSecond

@@ -7,7 +7,9 @@ Item {
     property int x_pos: 10
     property int y_pos: 10
 
-    property var background: valueOf
+    property Image background: valueOf
+
+    property int blur: 20
 
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
@@ -53,7 +55,14 @@ Item {
             GlobalTime.currentDateTime = new Date(weatherr.unixtime);
         }
     }
+    // Connections {
+    //     target: clock.swipe
 
+    //     function onMovingChanged() {
+    //         shader.sourceRect = Qt.rect(widgetContainer.x, widgetContainer.y, widgetContainer.width, widgetContainer.height);
+    //         console.log("OKJDFSLKDS")
+    //     }
+    // }
 
     function getDayName(date)
     {
@@ -63,9 +72,6 @@ Item {
 
 
 
-    //конец моего кода управления временем
-
-
     Rectangle {
         id: widgetContainer
         x: clock.x_pos
@@ -73,9 +79,57 @@ Item {
         width: 236
         height: 236
         radius : 15
-        color: clock.widColorAlphaFirst
+        // color: clock.widColorAlphaFirst
+        color: "transparent"
         layer.enabled: true
         clip: true
+        Item {
+            id: effectArea
+            anchors.fill: parent
+            OpacityMask {
+                id: roundedMask
+                anchors.fill: parent
+                source: Item {
+                    width: effectArea.width
+                    height: effectArea.height
+                    FastBlur {
+                        id: blurEffect
+                        anchors.fill: parent
+                        radius: clock.blur
+                        source: ShaderEffectSource {
+                            id: shader
+                            sourceItem: clock.background
+                            live: true
+                            sourceRect: Qt.rect(
+                                effectArea.mapToItem(clock.background, 0, 0).x,
+                                effectArea.mapToItem(clock.background, 0, 0).y,
+                                effectArea.width,
+                                effectArea.height
+                            )
+                        }
+                    }
+                    Rectangle {
+                        anchors.fill: parent
+                        color: clock.widColorAlphaFirst
+                    }
+                }
+                maskSource: Rectangle {
+                    width: effectArea.width
+                    height: effectArea.height
+                    radius: 20
+                }
+                MouseArea {
+                    id: mouseArea
+                    anchors.fill: parent
+                    drag.target: widgetContainer
+                    onPositionChanged: {
+                        shader.sourceRect = Qt.rect(widgetContainer.x, widgetContainer.y, widgetContainer.width, widgetContainer.height);
+
+                    }
+                }
+            }
+        }
+
 
         FontLoader {
             id: castFont
@@ -83,6 +137,7 @@ Item {
         }
 
         Text {
+            id: text
             x: (parent.width - width) / 2
             y: 26
             text: Qt.formatDateTime(GlobalTime.currentDateTime, "dd.MM.yyyy")
@@ -90,7 +145,9 @@ Item {
             font.family: castFont.name
             color: clock.textColorSecond
         }
+
         Text {
+
             x: (parent.width - width) / 2
             y: 180
             text: getDayName(GlobalTime.currentDateTime)
@@ -108,14 +165,15 @@ Item {
 
             radius : 15
             anchors.centerIn: parent
-
             Text {
+                id: globalTime
                 anchors.centerIn: parent
                 text: Qt.formatDateTime(GlobalTime.currentDateTime, "hh:mm")
                 font.pixelSize: 70
                 font.family: castFont.name
                 color: clock.textColor
             }
+
         }
     }
 

@@ -55,7 +55,7 @@ Item {
             Column{
                 id: column
                 width: scroll.width
-                spacing: 14
+                spacing: 10
                 Column{
                     width: scroll.width
                     spacing: 24
