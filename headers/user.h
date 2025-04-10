@@ -20,15 +20,20 @@ public:
     Q_INVOKABLE QString get_time_event(){return time_event;}
     Q_INVOKABLE void set_time_event(QString value);
 
+    Q_INVOKABLE QString get_theme(){return theme;}
+    Q_INVOKABLE void set_theme(QString theme);
+
 signals:
     void smooth_sound_changed();
     void event_remind_changed();
     void time_event_changed();
+    void theme_changed();
 
 private:
     bool smooth_sound;
     int event_remind;
     QString time_event;
+    QString theme;
 
 };
 

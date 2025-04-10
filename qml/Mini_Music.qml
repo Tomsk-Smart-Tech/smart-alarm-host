@@ -55,7 +55,7 @@ Item {
                     id: imageSource
                     width: roundedImageEffect.width
                     height: roundedImageEffect.height
-                    source: spotify.current["icon"]//"pyro.png"
+                    source: spotify.current["icon"]
                     fillMode: Image.PreserveAspectCrop
                     visible: false
                 }
@@ -72,8 +72,8 @@ Item {
             id: progressBar
             width: 190
             height: 8
-            to: 100
-            value: 34
+            to: spotify.current["duration"] || 1
+            value: spotify.current["progress"] || 0
             anchors.verticalCenter: parent.verticalCenter
             anchors.verticalCenterOffset: 49
             anchors.horizontalCenter: parent.horizontalCenter

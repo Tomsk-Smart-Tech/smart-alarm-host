@@ -80,9 +80,9 @@ Item {
         var rminutes = Math.floor(remainingseconds / 60);
         if(difference<=1)
         {
-
-            alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["id"] === id)) // передавать аларм исходя из id
-            mqttclient.alarm_start(id)
+            spotify.pause_track();
+            alarmPopup.show(mqttclient.alarms?.find(alarm => alarm["id"] === id)); // передавать аларм исходя из id
+            mqttclient.alarm_start(id);
 
 
         }

@@ -87,6 +87,7 @@ Popup {
                             mqttclient.create_alarm(delay,parseInt(cur_time.substring(3,5)),parseInt(cur_time.substring(0,2)),song_path,true,[false,false,false,false,false,false,false],label,true)
                             alarmSound.stop();
                             alarmPopup.close();
+                            spotify.play_track()
                         }
                     }
                 }
@@ -114,6 +115,7 @@ Popup {
                         onClicked: {
                             alarmSound.stop();
                             alarmPopup.close();
+                            spotify.play_track()
                         }
                     }
                 }

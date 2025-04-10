@@ -26,7 +26,7 @@ Item {
         running: true
         repeat: true
         onTriggered: {
-
+            spotify.get_current_track()
             // Обновляем currentDateTime каждую секунду
             // currentDateTime = new Date(clock.currentDateTime.getTime() + 1000)
             GlobalTime.currentDateTime = new Date(GlobalTime.currentDateTime.getTime() + 1000)

@@ -464,9 +464,10 @@ Item {
                         onClicked: {
                             playAnimation1.start()
                             spotify.prev_track()
-                            console.log("теперь текущая песня:",spotify.current["name"])
-                            music.track_progress=spotify.current["progress"]-1500;
-                            time_string_progress=time_to_str(music.track_progress);
+
+                            // console.log("теперь текущая песня:",spotify.current["name"])
+                            // music.track_progress=spotify.current["progress"]-1500;
+                            // time_string_progress=time_to_str(music.track_progress);
                         }
                     }
                 }
@@ -545,13 +546,6 @@ Item {
                         onClicked: {
                             playAnimation2.start()
                             spotify.next_track()
-
-
-                            console.log("теперь текущая песня:",spotify.current["name"])
-                            music.track_progress=spotify.current["progress"]-1500;
-                            time_string_progress=time_to_str(music.track_progress);
-
-
                         }
                     }
                 }
@@ -624,29 +618,29 @@ Item {
                     color: music.textColor
                 }
 
-                Timer {
-                    id: progressTimer
-                    interval: 1000 // обновление каждую секунду
-                    repeat: true
-                    running: music.currentlyPlaying === true
+                // Timer {
+                //     id: progressTimer
+                //     interval: 1000 // обновление каждую секунду
+                //     repeat: true
+                //     running: music.currentlyPlaying === true
 
-                    onTriggered: {
-                        music.track_progress+=1000;
-                        time_string_progress.text =time_to_str(music.track_progress);
-                        if (music.track_progress>spotify.current["duration"]) //может сделать и привязку к имени а не времени
-                        {
-                            spotify.get_current_track();
-                            console.log("теперь текущая песня:",spotify.current["name"])
-                            music.track_progress=spotify.current["progress"];
-                            time_string_progress.text=time_to_str(music.track_progress);
-                            console.log("конец песни(");
-                        }
-                    }
-                }
+                //     onTriggered: {
+                //         music.track_progress+=1000;
+                //         time_string_progress.text =time_to_str(music.track_progress);
+                //         if (music.track_progress>spotify.current["duration"]) //может сделать и привязку к имени а не времени
+                //         {
+                //             spotify.get_current_track();
+                //             console.log("теперь текущая песня:",spotify.current["name"])
+                //             music.track_progress=spotify.current["progress"];
+                //             time_string_progress.text=time_to_str(music.track_progress);
+                //             console.log("конец песни(");
+                //         }
+                //     }
+                // }
                 ProgressBar {
                     id: progressBar
                     to: spotify.current["duration"] || 1
-                    value: music.track_progress
+                    value: spotify.current["progress"] || 0//music.track_progress
                     anchors.verticalCenter: parent.verticalCenter
                     background: Rectangle {
                         implicitWidth: 300

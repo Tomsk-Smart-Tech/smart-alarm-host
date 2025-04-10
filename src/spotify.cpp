@@ -242,13 +242,13 @@ Q_INVOKABLE void Spotify::get_current_track()
                 current_track["name"]=item["name"].toString();
                 current_track["duration"]=item["duration_ms"].toInt();
 
-                qDebug()<<"track"<<item["name"].toString();
+                //qDebug()<<"track"<<item["name"].toString();
 
                 if (item.contains("artists")) {
                     QJsonArray artists = item["artists"].toArray();
                     if (!artists.isEmpty()) {
                         current_track["artists"] = artists[0].toObject()["name"].toString();
-                        qDebug()<<"artist"<<artists[0].toObject()["name"].toString();
+                        //qDebug()<<"artist"<<artists[0].toObject()["name"].toString();
                     }
                 }
 
