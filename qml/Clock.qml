@@ -118,15 +118,6 @@ Item {
                     height: effectArea.height
                     radius: 20
                 }
-                MouseArea {
-                    id: mouseArea
-                    anchors.fill: parent
-                    drag.target: widgetContainer
-                    onPositionChanged: {
-                        shader.sourceRect = Qt.rect(widgetContainer.x, widgetContainer.y, widgetContainer.width, widgetContainer.height);
-
-                    }
-                }
             }
         }
 
