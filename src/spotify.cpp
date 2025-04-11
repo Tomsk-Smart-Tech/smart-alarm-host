@@ -11,7 +11,7 @@ Spotify::Spotify(QObject *parent)
     refresh_token=read_user_json("spotify_refresh_token");
     clientID=read_user_json("spotify_clientID");
     clientSecret=read_user_json("spotify_clientSecret");
-    volume=read_user_json("volume").toInt();
+    // volume=read_user_json("volume").toInt();
     get_access_token();
 }
 
@@ -236,6 +236,11 @@ Q_INVOKABLE void Spotify::get_current_track()
             current_track["is_playing"] = jsonObj["is_playing"].toBool();
             current_track["shuffle_state"]=jsonObj["shuffle_state"].toBool();
             current_track["repeat_state"]=jsonObj["repeat_state"].toString();
+            if(jsonObj.contains("device"))
+            {
+                QJsonObject device = jsonObj["device"].toObject();
+                current_track["volume"]=device["volume_percent"].toInt();
+            }
             if (jsonObj.contains("item"))
             {
                 QJsonObject item = jsonObj["item"].toObject();
@@ -269,6 +274,7 @@ Q_INVOKABLE void Spotify::get_current_track()
                 current_track["name"]="empty";
                 current_track["artists"]="empty";
                 current_track["duration"]="0";
+                current_track["volume"]=0;
             }
             emit cur_track_changed();
         }
@@ -305,7 +311,7 @@ Q_INVOKABLE void Spotify::scan_playlists()
                     playlist_map["icon"] = images.first().toObject()["url"].toString();
                 }
                 playlists.append(playlist_map);
-                qDebug()<<"playlist_name"<<playlistObj["name"].toString();
+                qDebug()<<"playlist_name"<<playlistObj["name"].toString()<<"  icon:"<<images.first().toObject()["url"].toString();
 
             }
             emit playlists_changed();
@@ -349,9 +355,17 @@ Q_INVOKABLE void Spotify::scan_playlist_tracks(const QString playlistID)
                 QJsonArray albumImages = trackObj["album"].toObject()["images"].toArray();
                 if (!albumImages.isEmpty()) {
                     track_map["icon"] = albumImages.first().toObject()["url"].toString();
+                    if(track_map["icon"]=="")
+                    {
+                        track_map["icon"] ="resource_icon/music_icon/no_cover.png";
+                    }
+                }
+                else
+                {
+                    track_map["icon"] ="resource_icon/music_icon/no_cover.png";
                 }
                 tracks.append(track_map);
-                qDebug()<<"track_name:"<<trackObj["name"].toString()<<" artists:"<<artists.first().toObject()["name"].toString()<<" icon:"<<albumImages.first().toObject()["url"].toString();
+                qDebug()<<"track_name:"<<trackObj["name"].toString()<<" artists:"<<artists.first().toObject()["name"].toString()<<" icon:"<<track_map["icon"];
             }
             emit tracks_changed();
         }
@@ -401,9 +415,20 @@ Q_INVOKABLE QVariant Spotify::current_track_info(const QString &key)
 
 Q_INVOKABLE void Spotify::set_volume(int value)
 {
-    volume=value;
-    emit volume_changed();
-    write_user_json("volume",QString::number(volume));
+    QUrl url(QString("https://api.spotify.com/v1/me/player/volume?volume_percent=%1").arg(value));
+    QNetworkRequest request(url);
+    request.setRawHeader("Authorization", ("Bearer " + access_token).toUtf8());
+
+    QNetworkReply* reply = n_manager->put(request, QByteArray());
+    connect(reply, &QNetworkReply::finished, this, [reply]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            qDebug() << "Volume changed successfully!";
+        } else {
+            qWarning() << "Failed to change volume:" << reply->errorString();
+            qWarning() << "Server response:" << reply->readAll();
+        }
+        reply->deleteLater();
+    });
 }
 
 Q_INVOKABLE void Spotify::change_shuffle(bool state)

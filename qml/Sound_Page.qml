@@ -72,7 +72,7 @@ Item {
                         Text {
                             font.family: castFont.name
                             font.pointSize:18
-                            text: "Текущий уровень громкости музыки:"
+                            text: "Текущий уровень громкости будильников:"
                             color: sound.textColorSecond
 
                         }
@@ -82,13 +82,13 @@ Item {
                             font.family: castFont.name
                             font.pointSize:18
                             color: sound.textColor
-                            text:spotify.get_volume()+"%"
+                            text:user.get_volume()+"%"
                         }
                     }
                     Slider {
                         id: control
                         from: 0
-                        value: spotify.volume
+                        value: user.volume
                         width: parent.width
                         height: 30
                         to: 100
@@ -98,7 +98,7 @@ Item {
                         onMoved:
                         {
                             output.text = value + '%'
-                            spotify.set_volume(value)
+                            user.set_volume(value)
                         }
                     }
                 }
@@ -119,7 +119,7 @@ Item {
                         Text {
                             font.family: castFont.name
                             font.pointSize:18
-                            text: "Текущий уровень громкости будильников:"
+                            text: "Текущий уровень громкости музыки:"
                             color: sound.textColorSecond
 
                         }
@@ -129,13 +129,13 @@ Item {
                             font.family: castFont.name
                             font.pointSize:18
                             color: sound.textColor
-                            text:"-1 %"
+                            text:(spotify.current["volume"] )+'%'
                         }
                     }
                     Slider {
                         id: control1
                         from: 0
-                        value: 50
+                        value: spotify.current["volume"]
                         width: parent.width
                         height: 30
                         to: 100
@@ -144,7 +144,10 @@ Item {
 
                         onMoved:
                         {
-                            // TODO
+
+                            output1.text=value+'%'
+                            spotify.set_volume(value)
+
                         }
                     }
                 }
@@ -318,7 +321,7 @@ Item {
                                 melodyButoon.checked = !melodyButoon.checked;
                                 if(melodyButoon.checked===true)
                                 {
-                                    alarmSound.setPosition(7000);
+                                    //alarmSound.setPosition(7000);
                                     alarmSound.play()
                                 }
                                 else
@@ -384,7 +387,7 @@ Item {
     }
     AudioOutput {
         id: audioOutput
-        volume: spotify.volume/100
+        volume: user.volume/100
     }
 
 

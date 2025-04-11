@@ -16,7 +16,7 @@ Popup {
     property var label
     property var delay :mqttclient.get_alarm_delay()
     property var song_path
-    property var volume :spotify.volume
+    property var volume :user.volume
     property var smooth_sound:user.smooth_sound
 
 

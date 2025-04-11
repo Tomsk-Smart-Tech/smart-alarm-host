@@ -23,7 +23,7 @@ Popup {
 
     property color switchColor: Qt.rgba(245/ 255, 178/ 255, 12/ 255, 1)
 
-    property var volume :spotify.volume
+    property var volume :user.volume
     property int alarm_min
     property int alarm_hours
     property bool delete_after:false

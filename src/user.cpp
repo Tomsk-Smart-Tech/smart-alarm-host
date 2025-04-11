@@ -7,6 +7,7 @@ User::User()
     event_remind=read_user_json("event_remind").toInt();
     time_event=read_user_json("time_event_create");
     theme=read_user_json("theme");
+    volume=read_user_json("volume").toInt();
     qDebug()<<"time_event_create from start="<<time_event;
 }
 
@@ -39,4 +40,11 @@ Q_INVOKABLE void User::set_theme(QString value)
     theme=value;
     emit theme_changed();
     write_user_json("theme",theme);
+}
+
+Q_INVOKABLE void User::set_volume(int value)
+{
+    volume=value;
+    emit volume_changed();
+    write_user_json("volume",QString::number(volume));
 }
