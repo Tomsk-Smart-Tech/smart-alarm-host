@@ -145,7 +145,7 @@ Item {
                         onMoved:
                         {
 
-                            output1.text=value+'%'
+                            //output1.text=value+'%'
                             spotify.set_volume(value)
 
                         }

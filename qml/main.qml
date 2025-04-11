@@ -11,7 +11,7 @@ Window {
     height: 600
     visible: true
     title: qsTr("Hello World")
-    // visibility: Window.FullScreen
+    //visibility: Window.FullScreen
     property var connection_status: mqttclient.connectionStatus
 
     // resource_icon/

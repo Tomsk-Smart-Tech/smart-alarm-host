@@ -273,8 +273,9 @@ Q_INVOKABLE void Spotify::get_current_track()
                 current_track["progress"]=0;
                 current_track["name"]="empty";
                 current_track["artists"]="empty";
-                current_track["duration"]="0";
+                current_track["duration"]=0;
                 current_track["volume"]=0;
+                current_track["icon"]="resource_icon/music_icon/no_song.png";
             }
             emit cur_track_changed();
         }
@@ -309,9 +310,17 @@ Q_INVOKABLE void Spotify::scan_playlists()
                 QJsonArray images = playlistObj["images"].toArray();
                 if (!images.isEmpty()) {
                     playlist_map["icon"] = images.first().toObject()["url"].toString();
+                    if(playlist_map["icon"]=="")
+                    {
+                        playlist_map["icon"] ="resource_icon/music_icon/no_cover.png";
+                    }
+                }
+                else
+                {
+                    playlist_map["icon"] ="resource_icon/music_icon/no_cover.png";
                 }
                 playlists.append(playlist_map);
-                qDebug()<<"playlist_name"<<playlistObj["name"].toString()<<"  icon:"<<images.first().toObject()["url"].toString();
+                //qDebug()<<"playlist_name"<<playlistObj["name"].toString()<<"  icon:"<<images.first().toObject()["url"].toString();
 
             }
             emit playlists_changed();
@@ -357,15 +366,15 @@ Q_INVOKABLE void Spotify::scan_playlist_tracks(const QString playlistID)
                     track_map["icon"] = albumImages.first().toObject()["url"].toString();
                     if(track_map["icon"]=="")
                     {
-                        track_map["icon"] ="resource_icon/music_icon/no_cover.png";
+                        track_map["icon"] ="resource_icon/music_icon/no_song.png";
                     }
                 }
                 else
                 {
-                    track_map["icon"] ="resource_icon/music_icon/no_cover.png";
+                    track_map["icon"] ="resource_icon/music_icon/no_song.png";
                 }
                 tracks.append(track_map);
-                qDebug()<<"track_name:"<<trackObj["name"].toString()<<" artists:"<<artists.first().toObject()["name"].toString()<<" icon:"<<track_map["icon"];
+                //qDebug()<<"track_name:"<<trackObj["name"].toString()<<" artists:"<<artists.first().toObject()["name"].toString()<<" icon:"<<track_map["icon"];
             }
             emit tracks_changed();
         }

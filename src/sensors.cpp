@@ -4,7 +4,7 @@ Sensors::Sensors(QObject *parent): QObject(parent)
 {
     process=new QProcess(this);
     process->setProgram("python3");
-    process->setArguments(QStringList()<<"/home/avopadla/dht22env/dht22sensor.py");
+    process->setArguments(QStringList()<<"/home/avopadla/dht22env/sensors.py");
     process->setProcessChannelMode(QProcess::MergedChannels);
 
     connect(process,&QProcess::readyReadStandardOutput,this,&Sensors::read_sensor);

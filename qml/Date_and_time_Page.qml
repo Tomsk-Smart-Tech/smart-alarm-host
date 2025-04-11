@@ -273,7 +273,7 @@ Item {
             //absolute ways
             //xhr.open("GET", "file:///C:/Users/kiril/Documents/raspberry_smart_alarm/russian_cities.json");
             //xhr.open("GET", "file:////home/nikita/fromgit/smart-alarm-host/russian_cities.json");
-            xhr.open("GET",jsonFilePath);
+            xhr.open("GET",jsonFilePath.toString());
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
                     try {
