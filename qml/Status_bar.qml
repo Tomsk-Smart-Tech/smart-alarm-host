@@ -17,8 +17,8 @@ Item {
         y: bar.y_pos
         width: 1024
         height: 40
-        // color: bar.widColorAlpha
-        color: "transparent"
+        color: bar.widColorAlpha
+        // color: "transparent"
         Rectangle{
             id: connection
             width: 20

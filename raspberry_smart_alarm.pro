@@ -29,6 +29,8 @@ DISTFILES += \
     qml/About_Page.qml \
     qml/Alarm_Page.qml \
     qml/Music.qml\
+    qml/Sensors_Popup.qml \
+    qml/TestingPopup.qml
 
 resources.files = \
     qml/main.qml \
@@ -54,7 +56,8 @@ resources.files = \
     userdata.json \
     qml/resource_icon \
     qml/qmldir \
-    qml/Themes.qml
+    qml/Themes.qml \
+    qml/AlarmScreen.qml \
 
 TARGET = smart-alarm-host
 

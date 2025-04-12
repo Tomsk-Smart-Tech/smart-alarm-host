@@ -32,6 +32,14 @@ Item {
     property string uv: "None"
     property var rain_sensor: "None"
 
+    onTextColorChanged: {
+        console.log("Weather textColor changed to:", textColor, "- Requesting Canvas repaint.");
+        // Запрашиваем перерисовку Canvas, если он уже создан
+        if (graphCanvas) {
+            graphCanvas.requestPaint();
+        }
+    }
+
     //обновление графика canvas
     Connections {
         target: weatherr
@@ -333,7 +341,7 @@ Item {
                                             ctx.closePath();
 
                                             var temperatureText = Math.round(data[i]["temp"]) + "°C";
-                                            ctx.fillStyle = "white";
+                                            ctx.fillStyle = weather.textColor;
                                             ctx.fillText(temperatureText, x, y - 8 + 90);
                                         }
                                     }

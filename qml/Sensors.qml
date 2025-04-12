@@ -5,6 +5,9 @@ Item {
     id:sensors
     property int x_pos: 10
     property int y_pos: 10
+    property color backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
+    property color widColor: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
+
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
@@ -18,6 +21,13 @@ Item {
     property Image background: valueOf
 
     property int blur: 20
+    Sensors_Popup{
+        id:sensorPopup
+        backgroundColor: sensors.backgroundColor
+        widColor: sensors.widColor
+        textColor: sensors.textColor
+        textColorSecond: sensors.textColorSecond
+    }
 
     Rectangle {
         x: sensors.x_pos
@@ -27,43 +37,6 @@ Item {
         height: 236
         radius : 15
         color: sensors.widColorAlphaFirst
-
-        Item {
-            id: effectArea
-            anchors.fill: parent
-            OpacityMask {
-                id: roundedMask
-                anchors.fill: parent
-                source: Item {
-                    width: effectArea.width
-                    height: effectArea.height
-                    FastBlur {
-                        id: blurEffect
-                        anchors.fill: parent
-                        radius: sensors.blur
-                        source: ShaderEffectSource {
-                            sourceItem: sensors.background
-                            live: true
-                            sourceRect: Qt.rect(
-                                effectArea.mapToItem(sensors.background, 0, 0).x,
-                                effectArea.mapToItem(sensors.background, 0, 0).y,
-                                effectArea.width,
-                                effectArea.height
-                            )
-                        }
-                    }
-                    Rectangle {
-                        anchors.fill: parent
-                        color: sensors.widColorAlphaFirst
-                    }
-                }
-                maskSource: Rectangle {
-                    width: effectArea.width
-                    height: effectArea.height
-                    radius: 15
-                }
-            }
-        }
         FontLoader {
             id: castFont
             source: "ofont.ru_Nunito.ttf"
@@ -98,7 +71,7 @@ Item {
                     x: 80
                     width: 151
                     height: 36
-                    text: sensors.tempreture
+                    text: sensors.tempreture + "°C"
 
                     anchors.right: parent.right
                     anchors.top: parent.top
@@ -151,7 +124,7 @@ Item {
                     width: 151
                     height: 36
 
-                    text: sensors.humidity_text
+                    text: sensors.humidity_text + "%"
 
                     anchors.right: parent.right
                     anchors.top: parent.top
@@ -246,6 +219,12 @@ Item {
             font.family: castFont.name
             horizontalAlignment: Text.AlignHCenter
             font.pointSize: 18
+        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                sensorPopup.show()
+            }
         }
     }
 }

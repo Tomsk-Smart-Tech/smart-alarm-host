@@ -40,43 +40,6 @@ Item {
         height: 236
         radius: 15
         color: weather.widColorAlphaFirst
-        Item {
-            id: effectArea
-            anchors.fill: parent
-            OpacityMask {
-                id: roundedMask
-                anchors.fill: parent
-                source: Item {
-                    width: effectArea.width
-                    height: effectArea.height
-                    FastBlur {
-                        id: blurEffect
-                        anchors.fill: parent
-                        radius: weather.blur
-                        source: ShaderEffectSource {
-                            sourceItem: weather.background
-                            live: true
-                            sourceRect: Qt.rect(
-                                effectArea.mapToItem(weather.background, 0, 0).x,
-                                effectArea.mapToItem(weather.background, 0, 0).y,
-                                effectArea.width,
-                                effectArea.height
-                            )
-                        }
-                    }
-                    Rectangle {
-                        anchors.fill: parent
-                        color: weather.widColorAlphaFirst
-                    }
-                }
-                maskSource: Rectangle {
-                    width: effectArea.width
-                    height: effectArea.height
-                    radius: 15
-                }
-            }
-        }
-
 
         Rectangle {
             x: 10

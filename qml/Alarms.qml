@@ -102,10 +102,6 @@ Item {
         //mqttclient.alarms?.find(alarm => alarm["isEnabled"] === true )//&& alarm["repeatDays"][((GlobalTime.currentDateTime.getDay()===0) ? 6: GlobalTime.currentDateTime.getDay()-1)]===true
     )
 
-
-
-
-
     Rectangle {
         id: rec2
         x: alarm.x_pos
@@ -114,42 +110,6 @@ Item {
         height: 488
         radius: 15
         color: alarm.widColorAlphaFirst
-        Item {
-            id: effectArea
-            anchors.fill: parent
-            OpacityMask {
-                id: roundedMask
-                anchors.fill: parent
-                source: Item {
-                    width: effectArea.width
-                    height: effectArea.height
-                    FastBlur {
-                        id: blurEffect
-                        anchors.fill: parent
-                        radius: alarm.blur
-                        source: ShaderEffectSource {
-                            sourceItem: alarm.background
-                            live: true
-                            sourceRect: Qt.rect(
-                                effectArea.mapToItem(alarm.background, 0, 0).x,
-                                effectArea.mapToItem(alarm.background, 0, 0).y,
-                                effectArea.width,
-                                effectArea.height
-                            )
-                        }
-                    }
-                    Rectangle {
-                        anchors.fill: parent
-                        color: alarm.widColorAlphaFirst
-                    }
-                }
-                maskSource: Rectangle {
-                    width: effectArea.width
-                    height: effectArea.height
-                    radius: 15
-                }
-            }
-        }
         Column {
             anchors.fill: parent
             anchors.margins: 10
@@ -181,10 +141,10 @@ Item {
                 Rectangle{
                     width: 50
                     height: 50
-                    color: "#b5d96a27"
+                    color: alarm.switchColor
                     radius: 15
                     Text{
-                        color: alarm.textColor
+                        color: "white"
                         text: "+"
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter

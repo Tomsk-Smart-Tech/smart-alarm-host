@@ -10,6 +10,7 @@ Item {
 
     property bool currentlyPlaying: false
     signal playPauseClicked()
+    signal tapMusic()
 
 
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
@@ -18,6 +19,8 @@ Item {
     property color backProgress: Qt.rgba(80 / 255, 80 / 255, 80 / 255, 1)
 
     property color widColorAlphaFirst: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
+
+    property color addColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
 
     property Image background: valueOf
     property int blur: 20
@@ -37,43 +40,6 @@ Item {
         radius : 15
         color: miniMusic.widColorAlphaFirst
         clip: true
-        Item {
-            id: effectArea
-            anchors.fill: parent
-            OpacityMask {
-                id: roundedMask
-                anchors.fill: parent
-                source: Item {
-                    width: effectArea.width
-                    height: effectArea.height
-                    FastBlur {
-                        id: blurEffect
-                        anchors.fill: parent
-                        radius: miniMusic.blur
-                        source: ShaderEffectSource {
-                            sourceItem: miniMusic.background
-                            live: true
-                            sourceRect: Qt.rect(
-                                effectArea.mapToItem(miniMusic.background, 0, 0).x,
-                                effectArea.mapToItem(miniMusic.background, 0, 0).y,
-                                effectArea.width,
-                                effectArea.height
-                            )
-                        }
-                    }
-                    Rectangle {
-                        anchors.fill: parent
-                        color: miniMusic.widColorAlphaFirst
-                    }
-                }
-                maskSource: Rectangle {
-                    width: effectArea.width
-                    height: effectArea.height
-                    radius: 15
-                }
-            }
-        }
-
         Rectangle {
             id: rectangle
             anchors.left: parent.left
@@ -113,7 +79,7 @@ Item {
             to: spotify.current["duration"] || 1
             value: spotify.current["progress"] || 0
             anchors.verticalCenter: parent.verticalCenter
-            anchors.verticalCenterOffset: 49
+            anchors.verticalCenterOffset: 46
             anchors.horizontalCenter: parent.horizontalCenter
             background: Rectangle {
                 implicitWidth: 300
@@ -133,15 +99,37 @@ Item {
                 }
             }
         }
-        Image {
+        Rectangle{
+            id: rectangle5
             width: 40
             height: 40
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.rightMargin: 10
             anchors.topMargin: 10
-            source:"resource_icon/music_icon/playlist.png"
+            color: miniMusic.addColor
+            radius: 11
+            Image {
+                width: 40
+                height: 40
+                anchors.verticalCenter: parent.verticalCenter
+                // anchors.right: parent.right
+                // anchors.top: parent.top
+                // anchors.rightMargin: 10
+                // anchors.topMargin: 10
+                source:"resource_icon/music_icon/playlist.png"
+                anchors.verticalCenterOffset: -1
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: parent.horizontalCenter
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        miniMusic.tapMusic()
+                    }
+                }
+            }
         }
+
 
         Rectangle {
             id: container
@@ -207,115 +195,124 @@ Item {
             font.family: castFont.name
             color: miniMusic.textColorSecond
         }
-        Row{
+        Rectangle{
+            id: rectangle4
+            width: 192
+            height: 50
+            color: miniMusic.addColor
+            radius: 19
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10
-            spacing: 17
+            anchors.horizontalCenterOffset: 0
             anchors.horizontalCenter: parent.horizontalCenter
-            Rectangle {
-                id: rectangle2
-                width: 50
-                height: 50
-                color: "transparent"
-                Image{
-                    anchors.fill: parent
-                    source:"resource_icon/music_icon/rewind.png"
-                }
-                SequentialAnimation {
-                    id: playAnimation1
-                    PropertyAnimation {
-                        target: rectangle2
-                        property: "scale"
-                        duration: 100
-                        to: 0.8
+            Row{
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 10
+                Rectangle {
+                    id: rectangle2
+                    width: 50
+                    height: 50
+                    color: "transparent"
+                    Image{
+                        anchors.fill: parent
+                        source:"resource_icon/music_icon/rewind.png"
                     }
+                    SequentialAnimation {
+                        id: playAnimation1
+                        PropertyAnimation {
+                            target: rectangle2
+                            property: "scale"
+                            duration: 100
+                            to: 0.8
+                        }
 
-                    PropertyAnimation {
-                        target: rectangle2
-                        property: "scale"
-                        duration: 100
-                        to: 1
+                        PropertyAnimation {
+                            target: rectangle2
+                            property: "scale"
+                            duration: 100
+                            to: 1
+                        }
+                    }
+                    MouseArea {
+                        id: playPauseButton1
+                        anchors.fill: parent
+                        onClicked: {
+                            playAnimation1.start()
+                            spotify.prev_track()
+                        }
                     }
                 }
-                MouseArea {
-                    id: playPauseButton1
-                    anchors.fill: parent
-                    onClicked: {
-                        playAnimation1.start()
-                        spotify.prev_track()
+                Rectangle {
+                    id: rectangle1
+                    width: 50
+                    height: 50
+                    color: "transparent"
+                    Image{
+                        anchors.fill: parent
+                        source:miniMusic.currentlyPlaying ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
                     }
-                }
-            }
-            Rectangle {
-                id: rectangle1
-                width: 50
-                height: 50
-                color: "transparent"
-                Image{
-                    anchors.fill: parent
-                    source:miniMusic.currentlyPlaying ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
-                }
-                SequentialAnimation {
-                    id: playAnimation
-                    PropertyAnimation {
-                        target: rectangle1
-                        property: "scale"
-                        duration: 100
-                        to: 0.8
-                    }
+                    SequentialAnimation {
+                        id: playAnimation
+                        PropertyAnimation {
+                            target: rectangle1
+                            property: "scale"
+                            duration: 100
+                            to: 0.8
+                        }
 
-                    PropertyAnimation {
-                        target: rectangle1
-                        property: "scale"
-                        duration: 100
-                        to: 1
+                        PropertyAnimation {
+                            target: rectangle1
+                            property: "scale"
+                            duration: 100
+                            to: 1
+                        }
+                    }
+                    MouseArea {
+                        id: playPauseButton
+                        anchors.fill: parent
+                        onClicked: {
+                            spotify.change_track_status()
+                            miniMusic.playPauseClicked()
+                            playAnimation.start()
+                        }
                     }
                 }
-                MouseArea {
-                    id: playPauseButton
-                    anchors.fill: parent
-                    onClicked: {
-                        spotify.change_track_status()
-                        miniMusic.playPauseClicked()
-                        playAnimation.start()
+                Rectangle {
+                    id: rectangle3
+                    width: 50
+                    height: 50
+                    color: "transparent"
+                    Image{
+                        anchors.fill: parent
+                        source:"resource_icon/music_icon/next.png"
                     }
-                }
-            }
-            Rectangle {
-                id: rectangle3
-                width: 50
-                height: 50
-                color: "transparent"
-                Image{
-                    anchors.fill: parent
-                    source:"resource_icon/music_icon/next.png"
-                }
-                SequentialAnimation {
-                    id: playAnimation2
-                    PropertyAnimation {
-                        target: rectangle3
-                        property: "scale"
-                        duration: 100
-                        to: 0.8
-                    }
+                    SequentialAnimation {
+                        id: playAnimation2
+                        PropertyAnimation {
+                            target: rectangle3
+                            property: "scale"
+                            duration: 100
+                            to: 0.8
+                        }
 
-                    PropertyAnimation {
-                        target: rectangle3
-                        property: "scale"
-                        duration: 100
-                        to: 1
+                        PropertyAnimation {
+                            target: rectangle3
+                            property: "scale"
+                            duration: 100
+                            to: 1
+                        }
                     }
-                }
-                MouseArea {
-                    id: playPauseButton2
-                    anchors.fill: parent
-                    onClicked: {
-                        playAnimation2.start()
-                        spotify.next_track()
+                    MouseArea {
+                        id: playPauseButton2
+                        anchors.fill: parent
+                        onClicked: {
+                            playAnimation2.start()
+                            spotify.next_track()
+                        }
                     }
                 }
             }
         }
-
     }
 }

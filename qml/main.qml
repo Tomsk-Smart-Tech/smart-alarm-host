@@ -10,9 +10,10 @@ Window {
     width: 1024
     height: 600
     visible: true
-    title: qsTr("Hello World")
-    //visibility: Window.FullScreen
+    title: qsTr("Smart Alarm")
+    // visibility: Window.FullScreen
     property var connection_status: mqttclient.connectionStatus
+    // flags: Qt.Popup | Qt.NoDropShadowWindowHint | Qt.WindowStaysOnTopHint | Qt.WA_AcceptTouchEvents
 
     // resource_icon/
 
@@ -27,6 +28,16 @@ Window {
         console.log("Playback toggled via mainRoot function. New state:", window.isMusicPlaying);
     }
 
+    function switchIndex(){
+        ver_sv.currentIndex = 2
+        console.log("Tap on music");
+    }
+    function alarmSwitchIndex(){
+        ver_sv.currentIndex = 1
+        hor_sv.currentIndex = 1
+    }
+
+
     Image {
         id: back
         source: terminal.cur_photo//"mounts.jpg"
@@ -36,87 +47,13 @@ Window {
 
     property int blur: 20
 
-
-
     FontLoader {
         id: castFont
         source: "ofont.ru_Nunito.ttf"
     }
-    // Item{
-    //     id: colors
-    //     // Текст
-    //     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    //     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-    //     // Для непрозрачных объектов
-    //     property color backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
-    //     property color widColor: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
-    //     // Специальные
-    //     property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
-    //     property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
-    //     // Для прозрачных объектов (Alpha)
-    //     property color backgroundColorAlpha: Qt.rgba(50/255, 50/255, 50/255, 0.5)
-    //     property color widColorAlpha: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
-    //     property color widColorAlphaFirst: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
-    //     property color widColorAlphaSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
-    //     // Специальные темовые цвета
-    //     property color specialColor: Qt.rgba(20 / 255, 20 / 255, 25 / 255, 1.0)
-    //     property color backProgress: Qt.rgba(80 / 255, 80 / 255, 80 / 255, 1)
-    // }
-    // Item{
-    //     id: colors
-    //     // Текст
-    //     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    //     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-    //     // Для непрозрачных объектов
-    //     property color backgroundColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
-    //     property color widColor: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
-    //     // Текст для непрозрачных объектов
-    //     property color textColorSett: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    //     property color textColorSecondSett: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
-    //     // Специальные
-    //     property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
-    //     property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
-    //     // Для прозрачных объектов (Alpha)
-    //     property color backgroundColorAlpha: Qt.rgba(50/255, 50/255, 50/255, 0.5)
-    //     property color widColorAlpha: Qt.rgba(10 / 255, 10 / 255, 15 / 255, 0.5)
-    //     property color widColorAlphaFirst: Qt.rgba(10 / 255, 10 / 255, 15 / 255, 0.8)
-    //     property color widColorAlphaSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.22)
-    //     // Специальные темовые цвета
-    //     property color specialColor: Qt.rgba(20 / 255, 20 / 255, 25 / 255, 1.0)
-    //     property color backProgress: Qt.rgba(80 / 255, 80 / 255, 80 / 255, 1)
-    //     property color switchColor: Qt.rgba(214 / 255, 174 / 255, 73 / 255, 1)
-    // }
-    // Item{
-    //     id: colors
-    //     // Текст
-    //     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    //     property color textColorSecond: Qt.rgba(220 / 255, 220 / 255, 220 / 255, 1.0)
-    //     // Для непрозрачных объектов
-    //     property color backgroundColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
-    //     property color widColor: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1)
-    //     // Текст для непрозрачных объектов
-    //     property color textColorSett: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 1.0)
-    //     property color textColorSecondSett: Qt.rgba(50 / 255, 50 / 255, 50 / 255, 1.0)
-    //     // Специальные
-    //     property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
-    //     property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
-    //     // Для прозрачных объектов (Alpha)
-    //     property color backgroundColorAlpha: Qt.rgba(50/255, 50/255, 50/255, 0.5)
-    //     property color widColorAlpha: Qt.rgba(100 / 255, 100 / 255, 105 / 255, 0.8)
-    //     property color widColorAlphaFirst: Qt.rgba(100 / 255, 100 / 255, 105 / 255, 0.8)
-    //     property color widColorAlphaSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.3)
-    //     // Специальные темовые цвета
-    //     property color specialColor: Qt.rgba(20 / 255, 20 / 255, 25 / 255, 1.0)
-    //     property color backProgress: Qt.rgba(80 / 255, 80 / 255, 80 / 255, 1)
-    //     // Для переключателей
-    //     property color switchColor: Qt.rgba(214 / 255, 174 / 255, 73 / 255, 1)
-    // }
 
 
-    Rectangle{
-        anchors.fill: parent
-        color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
-    }
+
     SwipeView{
         id:ver_sv
         anchors.fill: parent
@@ -145,7 +82,6 @@ Window {
                     Big_Weather{
                         background: back
 
-
                         backgroundColorAlpha: Themes.backgroundColorAlpha
                         widColorAlpha: Themes.widColorAlpha
                         textColor: Themes.textColor
@@ -171,6 +107,10 @@ Window {
                     height:1024
                     id: rectangle
                     color: "transparent"
+                    Rectangle{
+                        anchors.fill: parent
+                        color: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
+                    }
                     Status_bar{
                         textColor: Themes.textColor
                         textColorSecond: Themes.textColorSecond
@@ -194,6 +134,9 @@ Window {
                     Sensors{
                         x_pos:16
                         y_pos:56 + 236 + 16
+
+                        backgroundColor: Themes.backgroundColor
+                        widColor: Themes.widColor
 
                         textColor: Themes.textColor
                         textColorSecond: Themes.textColorSecond
@@ -253,6 +196,8 @@ Window {
                         widColorAlphaFirst: Themes.widColorAlphaFirst
                         widColorAlphaSecond: Themes.widColorAlphaSecond
 
+
+
                         background: back
                         blur: window.blur
                     }
@@ -261,6 +206,7 @@ Window {
                         y_pos:56
                         currentlyPlaying: window.isMusicPlaying
                         onPlayPauseClicked: window.togglePlayback()
+                        onTapMusic: window.switchIndex()
 
                         textColor: Themes.textColor
                         textColorSecond: Themes.textColorSecond
@@ -268,6 +214,8 @@ Window {
                         backProgress:  Themes.backProgress
 
                         widColorAlphaFirst: Themes.widColorAlphaFirst
+
+                        addColor: Themes.addColor
 
                         background: back
                         blur: window.blur
@@ -304,17 +252,17 @@ Window {
                 currentlyPlaying: window.isMusicPlaying
                 onPlayPauseClicked: window.togglePlayback()
 
-                textColor: Themes.textColorSett
-                textColorSecond: Themes.textColorSecondSett
+                // textColor: Themes.textColorSett
+                // textColorSecond: Themes.textColorSecondSett
 
-                backgroundColor: Themes.backgroundColor
-                widColor: Themes.widColor
+                // backgroundColor: Themes.backgroundColor
+                // widColor: Themes.widColor
 
-                backProgress: Themes.backProgress
+                // backProgress: Themes.backProgress
 
-                choiceColor: Themes.choiceColor
+                // choiceColor: Themes.choiceColor
 
-                specialColor: Themes.specialColor
+                // specialColor: Themes.specialColor
             }
         }
     }

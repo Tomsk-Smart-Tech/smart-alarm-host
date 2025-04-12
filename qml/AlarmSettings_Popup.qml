@@ -1,7 +1,8 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtMultimedia 6.0
 import GlobalTime 1.0
+import QtQuick.Layouts 1.15
 
 Popup {
     id: alarmDialog
@@ -111,6 +112,10 @@ Popup {
         anchors.fill: parent
         color:alarmDialog.backgroundColor
         radius: 15
+    }
+
+    contentItem: Item {
+        anchors.fill: parent
         Column {
             anchors.fill: parent
             anchors.margins: 10
