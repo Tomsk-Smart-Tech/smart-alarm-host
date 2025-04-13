@@ -101,7 +101,8 @@ public:
     Q_INVOKABLE void delete_alarm(int id);
     Q_INVOKABLE void change_alarm(int id,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays);
     Q_INVOKABLE void create_alarm(int additional,int alarm_min,int alarm_hours,QString alarm_song,bool delete_after,QVariantList selectedDays,QString label,bool is_temp);
-    Q_INVOKABLE void from_events_to_alarms();
+    Q_INVOKABLE void from_events_to_alarms(qint64 timestamp,int days,QString alarm_time,QString alarm_song);
+    Q_INVOKABLE void delete_past_events(qint64 cur_time);
 
     Q_INVOKABLE void set_alarm_delay(int value);
     Q_INVOKABLE int get_alarm_delay(){return alarm_delay;};

@@ -34,6 +34,36 @@ QJsonArray alarms_to_json(QVariantList &alarms)
     return jsonArray;
 }
 
+
+
+
+QJsonArray events_to_json(QVariantList &events)
+{
+    QJsonArray jsonArray;
+
+    for (const QVariant &item : events)
+    {
+        QVariantMap map = item.toMap();
+        QJsonObject obj;
+        obj["endTime"]=map["endTime"].toLongLong();
+        obj["startTime"]=map["startTime"].toLongLong();
+        obj["starttime_timestamp"]=map["starttime_timestamp"].toLongLong();
+        obj["title"]=map["title"].toString();
+        obj["starttime"]=map["starttime"].toString();
+        obj["endtime"]=map["endtime"].toString();
+        obj["id"]=map["id"].toInt();
+        obj["allday"]=map["allDay"].toBool();
+        obj["calendarname"]=map["calendarname"].toString();
+        obj["desc"]=map["desc"].toString();
+        obj["location"]=map["location"].toString();
+        obj["rrule"]=map["rrule"].toString();
+        jsonArray.append(obj);
+    }
+
+    return jsonArray;
+}
+
+
 QVariantList read_json_events(QJsonArray jsonArray)
 {
     QVariantList newEvents;
@@ -45,22 +75,26 @@ QVariantList read_json_events(QJsonArray jsonArray)
 
         qint64 startTime = obj["startTime"].toVariant().toLongLong();
         qint64 endTime = obj["endTime"].toVariant().toLongLong();
-        QDateTime startDate = QDateTime::fromSecsSinceEpoch(startTime/1000);
-        QDateTime endDate = QDateTime::fromSecsSinceEpoch(endTime/1000);
-        // Извлечение года, месяца и дня
-        int startYear = startDate.date().year();
-        int startMonth = startDate.date().month();
-        int startDay = startDate.date().day();
-        int endYear = endDate.date().year();
-        int endMonth = endDate.date().month();
-        int endDay = endDate.date().day();
-        QString start=QString::number(startDay)+"."+QString::number(startMonth)+"."+QString::number(startYear);
-        QString end=QString::number(endDay)+"."+QString::number(endMonth)+"."+QString::number(endYear);
+        QDateTime startDate = QDateTime::fromMSecsSinceEpoch(startTime);
+        QDateTime endDate = QDateTime::fromMSecsSinceEpoch(endTime);
+        // // Извлечение года, месяца и дня
+        // int startYear = startDate.date().year();
+        // int startMonth = startDate.date().month();
+        // int startDay = startDate.date().day();
+        // int endYear = endDate.date().year();
+        // int endMonth = endDate.date().month();
+        // int endDay = endDate.date().day();
+        // QString start=QString::number(startDay)+"."+QString::number(startMonth)+"."+QString::number(startYear);
+        // QString end=QString::number(endDay)+"."+QString::number(endMonth)+"."+QString::number(endYear);
+
+        QString start = startDate.toString("dd.MM.yyyy"); // dd - день с нулем, MM - месяц с нулем, yyyy - год
+        QString end = endDate.toString("dd.MM.yyyy");
 
         map["starttime_timestamp"]=obj["startTime"].toVariant().toLongLong();
         map["title"] = obj["title"].toString();
         map["starttime"]=start;
         map["endtime"]=end;
+        map["endTime"]=endTime;
         map["id"]=obj["id"].toInt();
         map["allday"]=obj["allDay"].toBool();
         map["calendarname"]=obj["calendarDisplayName"].toString();
@@ -259,11 +293,14 @@ boost::asio::awaitable<void> subscribe_and_receive(const config& cfg, auto& clie
             QString message = QString::fromStdString(payload);
 
             QJsonDocument jsonDoc = QJsonDocument::fromJson(message.toUtf8());
-            save_data(jsonDoc,"events"); //save data to events.json
+            //save_data(jsonDoc,"events");
 
             QJsonArray jsonArray = jsonDoc.array();
 
             newEvents=read_json_events(jsonArray);
+
+            QJsonDocument jsonDoc2(jsonArray);
+            save_data(jsonDoc2,"events");
 
             QMetaObject::invokeMethod(parent, "setEvents", Qt::QueuedConnection, Q_ARG(QVariantList, newEvents));
 
@@ -416,140 +453,6 @@ Q_INVOKABLE void MqttClient::alarm_start(int id)
     save_data(jsonDoc,"alarms");
     publish_alarms();
 }
-
-// Q_INVOKABLE QString MqttClient::find_first_alarm(int cur_day,const QVariant cur_time)
-// {
-//     //qDebug()<<"cur_day="<<cur_day;
-//     QTime min_time(23,59);
-//     int id=-1;
-//     QTime min_time_rep(23,59);
-//     QVariantList repeatDaysList{false,false,false,false,false,false,false};
-//     int id_rep=-1;
-//     bool all_off=true;
-//     bool find_without_rep=false;
-//     for (int i = 0; i < m_alarms.size(); ++i)
-//     {
-//         QVariantMap map = m_alarms[i].toMap();
-//         QString time=map["time"].toString();
-//         QTime time_formatted=QTime::fromString(time,"hh:mm");
-//         //qDebug()<<time_formatted;
-//         if (map["isEnabled"].toBool()==true)
-//         {
-//             all_off=false;
-
-//             if(map["repeatDays"].toList().contains(true))
-//             {
-//                 if(time_formatted<=min_time_rep)
-//                 {
-//                     min_time_rep=time_formatted;
-//                     repeatDaysList = map["repeatDays"].toList();
-//                     id_rep=map["id"].toInt();
-//                 }
-//             }
-//             else
-//             {
-//                 if(time_formatted<=min_time)
-//                 {
-//                     //qDebug() << "Alarm" << i << "repeatDays:" << map["repeatDays"];
-//                     find_without_rep=true;
-//                     min_time=time_formatted;
-//                     id=map["id"].toInt();
-//                 }
-//             }
-//         }
-//     }
-//     // qDebug()<<"repsize="<<repeatDaysList.size();
-//     // for(int i=0;i<repeatDaysList.size();i++)
-//     // {
-//     //     qDebug()<<"repeatedDaysList"<<"["<<i<<"]"<<"="<<repeatDaysList[i];
-//     // }
-//     if(all_off==true)
-//     {
-//         QString res="";
-//         return res;
-//     }
-
-//     int minutes=-1;
-//     int hours=-1;
-//     int res_id=-1;
-
-//     int whatday=-1;
-
-//     // if(cur_day!=6)
-//     // {
-
-//     // }
-//     for(int i=cur_day;i<repeatDaysList.size();i++)
-//     {
-//         //qDebug()<<"repeatedDaysList"<<"["<<i<<"]"<<"="<<repeatDaysList[i];
-//         if(repeatDaysList[i]==true) // ищем ближайщий день справа
-//         {
-//             whatday=i;
-//             break;
-//         }
-//     }
-//     if(whatday==-1) // если не нашли день справа то ищем слева
-//     {
-//         for(int i=cur_day;i>=0;i--)
-//         {
-//             if(repeatDaysList[i]==true)
-//             {
-//                 whatday=i;
-//             }
-//         }
-//     }
-//     // qDebug()<<"whatday="<<whatday;
-//     // qDebug()<<"cur_day="<<cur_day;
-//     if(whatday==cur_day || whatday==-1) // если будильник с повторениями не нашелся или будильник с повторениями на текущий день
-//     {
-//         if(min_time<min_time_rep && find_without_rep==true)
-//         {
-//             minutes=min_time.minute();
-//             hours=min_time.hour();
-//             res_id=id;
-//         }
-//         else
-//         {
-//             QTime cur_qtime = cur_time.toDateTime().time();
-//             int additional=(cur_qtime<min_time_rep ? 0: 24*7);
-//             minutes=min_time_rep.minute();
-//             hours=min_time_rep.hour()+additional;
-//             res_id=id_rep;
-//         }
-//     }
-//     else if(whatday>cur_day)
-//     {
-//         int additional=(whatday-cur_day)*24;
-//         minutes=min_time_rep.minute();
-//         hours=min_time_rep.hour()+additional;
-//         res_id=id_rep;
-//     }
-//     else if(whatday<cur_day)
-//     {
-//         //int additional=(repeatDaysList.size()-1-cur_day+(whatday==0 ? 1 :whatday))*24;
-//         int additional=(repeatDaysList.size()-cur_day+whatday)*24;
-//         minutes=min_time_rep.minute();
-//         hours=min_time_rep.hour()+additional;
-//         res_id=id_rep;
-//     }
-
-
-//     // if(hours*24+minutes>min_time.hour()*24+minutes && find_without_rep==true) //итоговое сравнение будльинков если нашелся без повторений и с повторениями
-//     // {
-//     //     hours=min_time.hour();
-//     //     minutes=min_time.minute();
-//     // }
-
-//     if(hours*24+minutes>min_time.hour()*24+min_time.minute() && find_without_rep==true) //итоговое сравнение будльинков если нашелся без повторений и с повторениями
-//     {
-//         hours=min_time.hour();
-//         minutes=min_time.minute();
-//     }
-//     QString result=QString::number(hours)+":"+QString::number(minutes)+":"+QString::number(res_id);
-//     //qDebug()<<"find_firs_alarm (без учета cur_time):"<<result;
-//     return result;
-
-// }
 
 
 
@@ -938,9 +841,89 @@ Q_INVOKABLE void MqttClient::create_alarm(int additional,int alarm_min,int alarm
     publish_alarms();
 }
 
-Q_INVOKABLE void MqttClient::from_events_to_alarms()
-{}
+Q_INVOKABLE void MqttClient::from_events_to_alarms(qint64 timestamp,int days,QString alarm_time,QString alarm_song)
+{
+    int additional=0;
 
+    QTimeZone timeZone = QTimeZone::utc();
+    qint64 cur_time=timestamp;
+    QDateTime cur_date = QDateTime::fromMSecsSinceEpoch(timestamp, timeZone);
+
+    // Теперь можем прибавить 1 день
+    QDateTime newDateTime = cur_date.addDays(days);
+    qint64 limittime = newDateTime.toMSecsSinceEpoch();
+    for(const QVariant& item : m_events)
+    {
+        QVariantMap map = item.toMap();
+        qint64 start_event=map["starttime_timestamp"].toLongLong();
+        if(start_event>=cur_time && start_event<=limittime)
+        {
+            QTime time = QTime::fromString(alarm_time, "hh:mm");
+            int alarm_hours=time.hour();
+            int alarm_min=time.minute();
+
+            QDate start_date=cur_date.date();
+            QDate end_date=(QDateTime::fromMSecsSinceEpoch(start_event)).date();
+            int days_diff = start_date.daysTo(end_date);
+            QString status;
+            switch(days_diff)
+            {
+                case 0:
+                    status = "Сегодня: ";
+                    break;
+                case 1:
+                    status = "Завтра: ";
+                    break;
+                case 2:
+                    status = "Послезавтра: ";
+                    break;
+                case 3:
+                case 4:
+                    status = "Через " + QString::number(days_diff) + " дня: ";
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                    status = "Через " + QString::number(days_diff) + " дней: ";
+                    break;
+                default:
+                    status = "Позже: ";
+                    break;
+            }
+
+            QString label=status+map["title"].toString();
+
+            create_alarm(additional,alarm_min,alarm_hours,alarm_song,true,{false,false,false,false,false,false,false},label,false);
+            additional+=1;
+        }
+    }
+
+}
+
+
+Q_INVOKABLE void MqttClient::delete_past_events(qint64 cur_time)
+{
+
+    for (int i = 0; i < m_events.size(); ++i)
+    {
+        QVariantMap map =m_events[i].toMap();
+        qint64 end_event=map["endTime"].toLongLong();
+        if(cur_time>end_event)
+        {
+            m_events.removeAt(i);
+            qDebug()<<"УДАЛИЛ СОБЫТИЕ"<<map["title"];
+            qDebug()<<"cur_time: "<<cur_time;
+            qDebug()<<"event end time:"<<end_event;
+            qDebug()<<"но starttime_timestamp"<<map["starttime_timestamp"];
+            --i;
+        }
+    }
+    emit eventschanged();
+    emit events_onDaychanged();
+    QJsonArray jsonArray=events_to_json(m_events);
+    QJsonDocument jsonDoc(jsonArray);
+    save_data(jsonDoc,"events");
+}
 
 Q_INVOKABLE void MqttClient::set_alarm_delay(int value)
 {

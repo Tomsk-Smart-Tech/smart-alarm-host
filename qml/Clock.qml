@@ -35,6 +35,7 @@ Item {
             if (GlobalTime.currentDateTime.getMinutes()%5 === 0 && GlobalTime.currentDateTime.getSeconds() === 00) //обновление погоды каждые 5 минут надо сделать!!
             {
                 weatherr.request_position() //обновляю погоду каждый час
+                mqttclient.delete_past_events(GlobalTime.currentDateTime.getTime())
             }
             if (GlobalTime.currentDateTime.getSeconds() % 10 === 0) {
                 mqttclient.publish_sensor_data(sensorss.temp,sensorss.humidity,sensorss.voc_index)
@@ -45,7 +46,17 @@ Item {
             // if (GlobalTime.currentDateTime.getSeconds() % 10 === 0) {
             //     mqttclient.publish_alarms()
             // }
+
+            if (GlobalTime.currentDateTime.getHours() === 23 && GlobalTime.currentDateTime.getMinutes() === 59 && GlobalTime.currentDateTime.getSeconds() === 50)
+            {
+                mqttclient.from_events_to_alarms(GlobalTime.currentDateTime.getTime(),user.event_remind,user.time_event,terminal.cur_song)
+            }
         }
+        Component.onCompleted: {
+            mqttclient.from_events_to_alarms(GlobalTime.currentDateTime.getTime(),user.event_remind,user.time_event,terminal.cur_song)
+            mqttclient.delete_past_events(GlobalTime.currentDateTime.getTime())
+        }
+
     }
 
     // Следим за изменением unixtime и обновляем currentDateTime

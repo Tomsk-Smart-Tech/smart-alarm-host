@@ -11,7 +11,7 @@ Window {
     height: 600
     visible: true
     title: qsTr("Smart Alarm")
-    // visibility: Window.FullScreen
+    //visibility: Window.FullScreen
     property var connection_status: mqttclient.connectionStatus
     // flags: Qt.Popup | Qt.NoDropShadowWindowHint | Qt.WindowStaysOnTopHint | Qt.WA_AcceptTouchEvents
 
@@ -59,6 +59,7 @@ Window {
         anchors.fill: parent
         orientation:Qt.Vertical
         interactive: true
+
         Rectangle{
             color: "transparent"
             Settings_for_Alarm{
