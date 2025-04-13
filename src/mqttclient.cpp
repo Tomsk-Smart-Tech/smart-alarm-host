@@ -95,6 +95,7 @@ QVariantList read_json_events(QJsonArray jsonArray)
         map["starttime"]=start;
         map["endtime"]=end;
         map["endTime"]=endTime;
+        map["startTime"]=startTime;
         map["id"]=obj["id"].toInt();
         map["allday"]=obj["allDay"].toBool();
         map["calendarname"]=obj["calendarDisplayName"].toString();
