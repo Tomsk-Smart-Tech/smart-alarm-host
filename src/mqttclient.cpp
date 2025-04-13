@@ -797,17 +797,18 @@ Q_INVOKABLE void MqttClient::create_alarm(int additional,int alarm_min,int alarm
     new_map["song"]=alarm_song;
     new_map["delete_after"]=delete_after;
     new_map["repeatDays"]=selectedDays;
+    new_map["isEnabled"]=true;
 
     new_map["label"]=label;
     new_map["delay"]=read_user_json("standart_delay").toInt();
 
     if(is_temp==true)
     {
-        new_map["isEnabled"]=true;
+        new_map["delete_after"]=true;
     }
     else
     {
-        new_map["isEnabled"]=delete_after;
+        new_map["delete_after"]=delete_after;
     }
     QTime new_time_formatted=QTime::fromString(new_time,"hh:mm");
 
