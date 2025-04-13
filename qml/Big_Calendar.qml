@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import GlobalTime 1.0
 
@@ -11,6 +11,11 @@ Item {
 
     property var firstday_timestamp : new Date(new Date(GlobalTime.currentDateTime).setHours(0,0,0,0)).setDate(1)
     property var firstday :new Date(firstday_timestamp)
+
+    property color addColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
+
+    signal pressAlarms()
+    signal unpressAlarms()
 
 
     id: calendar
@@ -48,10 +53,10 @@ Item {
         height: 600
         color: calendar.backgroundColorAlpha
         Rectangle {
-            x: 16
+            x: 20
             y: 16
+            width: 472
             height: 100 - 32
-            width: 1024/2 - 32
             color: calendar.widColorAlpha
             radius: 15
             Text {
@@ -113,14 +118,15 @@ Item {
             }
         }
         Rectangle {
-            x: 16
-            y: 16 + 68 + 10
+            x: 20
+            y: 91
+            width: 473
             height: 100 - 32 - 32
-            width: 1024/2 - 32
-            color: "transparent"
+            color: calendar.widColorAlpha
+            radius: 10
             Row{
                 anchors.fill: parent
-                spacing: 5
+                spacing: 4
                 Repeater{
                     model:ListModel {
                         ListElement { name: "ПН" }
@@ -325,6 +331,16 @@ Item {
                                 font.family: castFont.name
                             }
                         }
+                    }
+                }
+            }
+            TapHandler {
+                acceptedButtons: Qt.AllButtons
+                onPressedChanged: {
+                    if (pressed) {
+                        calendar.pressAlarms()
+                    } else {
+                        calendar.unpressAlarms()
                     }
                 }
             }

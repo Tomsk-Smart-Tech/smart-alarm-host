@@ -1,5 +1,5 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.15
+import QtQuick 2.15
+import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 
 Item {
@@ -13,6 +13,8 @@ Item {
 
     property color textColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
+
+    property color addColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
 
     property ListModel week_list: valueOf
 
@@ -31,6 +33,9 @@ Item {
     property var dew_point: "None"
     property string uv: "None"
     property var rain_sensor: "None"
+
+    signal pressAlarms()
+    signal unpressAlarms()
 
     onTextColorChanged: {
         console.log("Weather textColor changed to:", textColor, "- Requesting Canvas repaint.");
@@ -82,11 +87,11 @@ Item {
 
 
         ScrollView {
+            id: scroll
             contentWidth: parent.width
             anchors.fill: parent
             anchors.topMargin: 16
             anchors.bottomMargin: 16
-
 
             ScrollBar.vertical.policy: ScrollBar.AlwaysOff
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
@@ -105,6 +110,7 @@ Item {
                         x: 21
                         anchors.verticalCenter: parent.verticalCenter
                         spacing: 42
+
                         Image {
                             anchors.verticalCenter: parent.verticalCenter
                             source: "https:"+weatherr.h_weather[0]["icon"]
@@ -121,12 +127,19 @@ Item {
                                 font.family: castFont.name
                             }
                             Row{
-                                Image {
+                                Rectangle{
                                     anchors.verticalCenter: parent.verticalCenter
                                     width: 28
                                     height: 28
-                                    source: "resource_icon/weather_icon/temp_down.png"
+                                    color: weather.addColor
+                                    radius: 5
+                                    Image {
+                                        width: 28
+                                        height: 28
+                                        source: "resource_icon/weather_icon/temp_down.png"
+                                    }
                                 }
+
                                 Text {
                                     text: Math.round(weather.currect_temp_min) + " °C"
                                     font.pointSize: 22
@@ -139,11 +152,17 @@ Item {
                                     color: weather.textColor
                                     font.family: castFont.name
                                 }
-                                Image {
+                                Rectangle{
                                     anchors.verticalCenter: parent.verticalCenter
                                     width: 28
                                     height: 28
-                                    source: "resource_icon/weather_icon/temp_up.png"
+                                    color: weather.addColor
+                                    radius: 5
+                                    Image {
+                                        width: 28
+                                        height: 28
+                                        source: "resource_icon/weather_icon/temp_up.png"
+                                    }
                                 }
                                 Text {
                                     text: Math.round(weather.currect_temp_max) + " °C"
@@ -249,6 +268,7 @@ Item {
                         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                         Flickable {
+                            id: flick
                             anchors.fill: parent
                             clip: true
                             flickableDirection: Flickable.HorizontalFlick
@@ -348,6 +368,18 @@ Item {
                                 }
                             }
                         }
+                        TapHandler {
+                            target: flick
+                            acceptedButtons: Qt.AllButtons
+                            onPressedChanged: {
+                                if (pressed) {
+                                    weather.pressAlarms()
+                                } else {
+                                    weather.unpressAlarms()
+                                }
+                            }
+                            // TapHandler не должен мешать скроллингу или кликам внутри делегата
+                        }
                     }
                 }
                 Rectangle{
@@ -425,14 +457,22 @@ Item {
                             height: 81
                             color: weather.widColorAlpha
                             radius: 15
-                            Image {
+                            Rectangle{
+                                id: rectangle8
                                 width: 64
                                 height: 64
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 12
-                                source: "resource_icon/weather_icon/sunrise.png"
-                                anchors.verticalCenterOffset: 0
+                                color: weather.addColor
+                                radius: 10
+                                Image {
+                                    width: 60
+                                    height: 60
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    source: "resource_icon/weather_icon/sunrise.png"
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
                             }
                             Text {
                                 text: weather.sunrise
@@ -468,14 +508,22 @@ Item {
                             height: 81
                             color: weather.widColorAlpha
                             radius: 15
-                            Image {
+                            Rectangle{
+                                id: rectangle7
                                 width: 64
                                 height: 64
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 12
-                                source: "resource_icon/weather_icon/sunset.png"
-                                anchors.verticalCenterOffset: 0
+                                color: weather.addColor
+                                radius: 10
+                                Image {
+                                    width: 60
+                                    height: 60
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    source: "resource_icon/weather_icon/sunset.png"
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
                             }
                             Text {
                                 text: weather.sunset
@@ -511,14 +559,23 @@ Item {
                         height: 178
                         color: weather.widColorAlpha
                         radius: 15
-                        Image {
+                        Rectangle{
+                            id: rectangle9
                             width: 80
                             height: 80
                             anchors.left: parent.left
                             anchors.top: parent.top
                             anchors.leftMargin: 16
                             anchors.topMargin: 16
-                            source: "resource_icon/weather_icon/pressure.png"
+                            color: weather.addColor
+                            radius: 10
+                            Image {
+                                width: 70
+                                height: 70
+                                anchors.verticalCenter: parent.verticalCenter
+                                source: "resource_icon/weather_icon/pressure.png"
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
                         }
                         Text {
                             text: "Давление"
@@ -642,14 +699,23 @@ Item {
                         height: 178
                         color: weather.widColorAlpha
                         radius: 15
-                        Image {
+                        Rectangle{
+                            id: rectangle3
                             width: 80
                             height: 80
                             anchors.left: parent.left
                             anchors.top: parent.top
                             anchors.leftMargin: 16
                             anchors.topMargin: 16
-                            source: "resource_icon/weather_icon/rain_sensor.png"
+                            color: weather.addColor
+                            radius: 10
+                            Image {
+                                width: 70
+                                height: 70
+                                anchors.verticalCenter: parent.verticalCenter
+                                source: "resource_icon/weather_icon/rain_sensor.png"
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
                         }
                         Column{
                             id: column
@@ -717,14 +783,19 @@ Item {
                             height: 81
                             color: weather.widColorAlpha
                             radius: 15
-                            Image {
+                            Rectangle{
                                 width: 64
                                 height: 64
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 12
-                                source: "resource_icon/weather_icon/dew_point.png"
-                                anchors.verticalCenterOffset: 0
+                                color: weather.addColor
+                                radius: 10
+                                Image {
+                                    width: 64
+                                    height: 64
+                                    source: "resource_icon/weather_icon/dew_point.png"
+                                }
                             }
                             Text {
                                 text: weather.dew_point
@@ -760,38 +831,43 @@ Item {
                             height: 81
                             color: weather.widColorAlpha
                             radius: 15
-                            Image {
-                                id: image
+                            Rectangle{
+                                id: rectangle6
                                 width: 64
                                 height: 64
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 12
-                                source: "resource_icon/weather_icon/UV.png"
-                                anchors.verticalCenterOffset: 0
-
-                                Rectangle {
-                                    id: uv_indicator
-                                    width: 14
-                                    height: 14
-                                    color: {
-                                        if (weather.uv <= 2) {
-                                            return "#3EA72D";
-                                        } else if (weather.uv <= 5) {
-                                            return "#FFF300";
-                                        } else if (weather.uv <= 7) {
-                                            return "#F18B00";
-                                        } else if (weather.uv <= 10) {
-                                            return "#E53210";
-                                        } else {
-                                            return "#B567A4";
+                                color: weather.addColor
+                                radius: 10
+                                Image {
+                                    id: image
+                                    width: 60
+                                    height: 60
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    source: "resource_icon/weather_icon/UV.png"
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    Rectangle {
+                                        id: uv_indicator
+                                        width: 16
+                                        height: 16
+                                        color: {
+                                            if (weather.uv <= 2) {
+                                                return "#3EA72D";
+                                            } else if (weather.uv <= 5) {
+                                                return "#FFF300";
+                                            } else if (weather.uv <= 7) {
+                                                return "#F18B00";
+                                            } else if (weather.uv <= 10) {
+                                                return "#E53210";
+                                            } else {
+                                                return "#B567A4";
+                                            }
                                         }
+                                        radius: 7
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.horizontalCenter: parent.horizontalCenter
                                     }
-                                    radius: 7
-                                    anchors.left: parent.left
-                                    anchors.top: parent.top
-                                    anchors.leftMargin: 25
-                                    anchors.topMargin: 25
                                 }
                             }
                             Text {
@@ -823,7 +899,21 @@ Item {
                         }
                     }
                 }
+
+            }
+            TapHandler {
+                target: scroll
+                acceptedButtons: Qt.AllButtons
+                onPressedChanged: {
+                    if (pressed) {
+                        weather.pressAlarms()
+                    } else {
+                        weather.unpressAlarms()
+                    }
+                }
+                // TapHandler не должен мешать скроллингу или кликам внутри делегата
             }
         }
+
     }
 }

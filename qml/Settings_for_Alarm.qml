@@ -17,6 +17,9 @@ Item {
 
     property color switchColor: Qt.rgba(245/ 255, 178/ 255, 12/ 255, 1)
 
+    signal pressAlarms()
+    signal unpressAlarms()
+
 
     Rectangle {
         id: left_panel
@@ -104,6 +107,8 @@ Item {
 
                             if (model.name === "Wi-fi")
                             {
+                                loader.item.pressOccurred.connect(settings.pressAlarms)
+                                loader.item.releaseOccurred.connect(settings.unpressAlarms)
                                 terminal.scanNets();
                             }
                             else if(model.name === "Звук")
@@ -112,6 +117,9 @@ Item {
                             }
                             else if(model.name==="Кастомизация")
                             {
+                                loader.item.pressOccurred.connect(settings.pressAlarms)
+                                loader.item.releaseOccurred.connect(settings.unpressAlarms)
+
                                 terminal.scanPhotos(photosPath);
                             }
                             else if(model.name==="Спец. настройки")

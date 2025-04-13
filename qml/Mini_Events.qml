@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Qt5Compat.GraphicalEffects
+import QtQuick.Controls
 
 Item {
     id: miniEvents
@@ -15,6 +16,9 @@ Item {
 
     property Image background: valueOf
     property int blur: 20
+
+    signal pressAlarms()
+    signal unpressAlarms()
 
     FontLoader {
         id: castFont
@@ -64,6 +68,18 @@ Item {
                         font.pixelSize: 16
                         color: miniEvents.textColorSecond
                         wrapMode: Text.Wrap
+                    }
+                }
+            }
+            MouseArea {
+                anchors.fill: parent
+                // preventStealing: true
+                // hoverEnabled: true
+                onPressedChanged:  {
+                    if(pressed){
+                        miniEvents.pressAlarms()
+                    } else {
+                        miniEvents.unpressAlarms()
                     }
                 }
             }

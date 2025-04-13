@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 
@@ -27,6 +27,9 @@ Item {
     property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
 
     property color specialColor: Qt.rgba(20 / 255, 20 / 255, 25 / 255, 1.0)
+
+    signal pressAlarms()
+    signal unpressAlarms()
 
     FontLoader {
         id: castFont
@@ -197,6 +200,18 @@ Item {
                                 }
                             }
                         }
+                        TapHandler {
+                            // target: listView // По умолчанию родитель
+                            acceptedButtons: Qt.AllButtons
+                            onPressedChanged: {
+                                if (pressed) {
+                                    music.pressAlarms()
+                                } else {
+                                    music.unpressAlarms()
+                                }
+                            }
+                            // TapHandler не должен мешать скроллингу или кликам внутри делегата
+                        }
                     }
                 }
             }
@@ -313,6 +328,18 @@ Item {
                                     spotify.set_track(modelData["id"])
                                 }
                             }
+                        }
+                        TapHandler {
+                            // target: listView // По умолчанию родитель
+                            acceptedButtons: Qt.AllButtons
+                            onPressedChanged: {
+                                if (pressed) {
+                                    music.pressAlarms()
+                                } else {
+                                    music.unpressAlarms()
+                                }
+                            }
+                            // TapHandler не должен мешать скроллингу или кликам внутри делегата
                         }
                     }
                 }
@@ -440,7 +467,7 @@ Item {
                         id: _text1
                         x: 0
                         height: 46
-                        text: spotify.current["name"]
+                        text: spotify.current["artists"]
                         font.pixelSize: 24
                         font.family: castFont.name
                         color: Themes.textColorSecond

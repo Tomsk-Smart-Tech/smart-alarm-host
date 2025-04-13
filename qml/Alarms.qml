@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls
 import GlobalTime 1.0
 import Qt5Compat.GraphicalEffects
@@ -37,6 +37,8 @@ Item {
 
     property int blur: 20
 
+    signal pressAlarms()
+    signal unpressAlarms()
     AlarmScreen {
         id: alarmPopup
     }
@@ -53,7 +55,7 @@ Item {
     function getTimeDiff(globaldate,first_alarm)
     {
 
-        if (first_alarm=="") {
+        if (first_alarm==="") {
             return { h: '-', m: '-' };
         }
 
@@ -170,6 +172,7 @@ Item {
                 height: parent.height - 60
                 visible: true
                 color: "transparent"
+
                 ListView {
                     id: listView
                     anchors.fill: parent
@@ -177,12 +180,15 @@ Item {
                     clip: true
                     model: mqttclient.alarms
                     snapMode: ListView.SnapToItem
+                    focus: true
+
                     delegate: Rectangle {
                         id: rec
                         width: 236 - 10* 2
                         height: 94
                         radius: 15
                         color: alarm.widColorAlphaSecond
+
 
                         FontLoader {
                             id: castFont1
@@ -219,7 +225,9 @@ Item {
                             onClicked: {
                                 alarmDialog.show(modelData)
                             }
+
                         }
+
                         Switch {
                             id: list_switch
                             x: 140
@@ -261,7 +269,34 @@ Item {
                         }
 
                     }
+                    // MouseArea {
+                    //     anchors.fill: parent
+                    //     // preventStealing: true
+                    //     // hoverEnabled: true
+                    //     onPressedChanged: {
+                    //         if(pressed){
+                    //             alarm.pressAlarms()
+                    //         } else {
+                    //             alarm.unpressAlarms()
+                    //         }
+                    //     }
+                    // }
+                    TapHandler {
+                        // target: listView // По умолчанию родитель
+                        acceptedButtons: Qt.AllButtons
+                        onPressedChanged: {
+                            if (pressed) {
+                                alarm.pressAlarms()
+                            } else {
+                                alarm.unpressAlarms()
+                            }
+                        }
+                        // TapHandler не должен мешать скроллингу или кликам внутри делегата
+                    }
+
+
                 }
+
             }
         }
     }

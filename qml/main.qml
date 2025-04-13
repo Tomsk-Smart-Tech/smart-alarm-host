@@ -36,6 +36,18 @@ Window {
         ver_sv.currentIndex = 1
         hor_sv.currentIndex = 1
     }
+    function interactiveChanged(state){
+        if (state === 0){
+            ver_sv.interactive = false
+            hor_sv.interactive = false
+            console.log("Press")
+        } else if(state === 1){
+            ver_sv.interactive = true
+            hor_sv.interactive = true
+            console.log("Unpress")
+        }
+
+    }
 
 
     Image {
@@ -70,6 +82,9 @@ Window {
                 separatorColor: Themes.separatorColor
                 widColor: Themes.widColor
                 switchColor: Themes.switchColor
+
+                onPressAlarms: window.interactiveChanged(0)
+                onUnpressAlarms: window.interactiveChanged(1)
             }
         }
         Rectangle{
@@ -101,6 +116,11 @@ Window {
                         uv: weatherr.cur_weather["uv"]
                         rain_sensor: weatherr.cur_weather["total_precip"]
                         week_list: big_weather
+
+                        onPressAlarms: window.interactiveChanged(0)
+                        onUnpressAlarms: window.interactiveChanged(1)
+
+                        addColor: Themes.addColor
                     }
                 }
                 Rectangle{
@@ -115,7 +135,8 @@ Window {
                     Status_bar{
                         textColor: Themes.textColor
                         textColorSecond: Themes.textColorSecond
-                        // widColorAlpha: colors.widColorAlpha
+                        widColorAlpha: Themes.widColorAlpha
+                        statusColor: Themes.statusColor
                     }
                     Clock{
                         x_pos:16
@@ -172,6 +193,9 @@ Window {
 
                         background: back
                         blur: window.blur
+
+                        onPressAlarms: window.interactiveChanged(0)
+                        onUnpressAlarms: window.interactiveChanged(1)
                     }
                     Weather{
                         x_pos: 16 + 236 + 16 + 236 + 16
@@ -201,6 +225,9 @@ Window {
 
                         background: back
                         blur: window.blur
+
+                        onPressAlarms: window.interactiveChanged(0)
+                        onUnpressAlarms: window.interactiveChanged(1)
                     }
                     Mini_Music{
                         x_pos:16 + 236 + 16 + 236 + 16 + 236 + 16
@@ -218,9 +245,12 @@ Window {
 
                         addColor: Themes.addColor
 
+                        widColor: Themes.widColor
+
                         background: back
                         blur: window.blur
                     }
+
                 }
                 Rectangle{
                     color: "transparent"
@@ -230,6 +260,11 @@ Window {
 
                         backgroundColorAlpha: Themes.backgroundColorAlpha
                         widColorAlpha: Themes.widColorAlpha
+
+                        onPressAlarms: window.interactiveChanged(0)
+                        onUnpressAlarms: window.interactiveChanged(1)
+
+                        addColor: Themes.addColor
                     }
                 }
             }
@@ -252,6 +287,10 @@ Window {
             Music{
                 currentlyPlaying: window.isMusicPlaying
                 onPlayPauseClicked: window.togglePlayback()
+
+                onPressAlarms: window.interactiveChanged(0)
+                onUnpressAlarms: window.interactiveChanged(1)
+
 
                 // textColor: Themes.textColorSett
                 // textColorSecond: Themes.textColorSecondSett

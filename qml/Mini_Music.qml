@@ -22,6 +22,8 @@ Item {
 
     property color addColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.6)
 
+    property color widColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 1.0)
+
     property Image background: valueOf
     property int blur: 20
 
@@ -95,7 +97,7 @@ Item {
                     width: progressBar.visualPosition * parent.width
                     height: parent.height
                     radius: 5
-                    color: miniMusic.textColor
+                    color: miniMusic.widColor
                 }
             }
         }
@@ -189,7 +191,8 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 130//qsTr("pyrokinesis")
             font.pixelSize: 21
-            horizontalAlignment: Text.AlignHCenter
+            horizontalAlignment: Text.AlignLeft
+            anchors.horizontalCenterOffset: -3
             anchors.horizontalCenter: parent.horizontalCenter
             height: 24
             font.family: castFont.name

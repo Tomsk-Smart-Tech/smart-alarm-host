@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 
 Item {
     id: wifi
@@ -9,6 +9,9 @@ Item {
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
+
+    signal pressOccurred()
+    signal releaseOccurred()
 
     Rectangle {
         id: rec
@@ -93,6 +96,17 @@ Item {
                         clip: true
 
                     }
+                }
+                TapHandler {
+                    acceptedButtons: Qt.AllButtons
+                    onPressedChanged: {
+                        if (pressed) {
+                            wifi.pressOccurred()
+                        } else {
+                            wifi.releaseOccurred()
+                        }
+                    }
+                    // TapHandler не должен мешать скроллингу или кликам внутри делегата
                 }
             }
         }

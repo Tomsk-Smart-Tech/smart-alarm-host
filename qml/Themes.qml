@@ -66,7 +66,7 @@ QtObject {
         property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
         property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
         // Для прозрачных объектов (Alpha)
-        property color backgroundColorAlpha: Qt.rgba(50/255, 50/255, 50/255, 0.7)
+        property color backgroundColorAlpha: Qt.rgba(10/255, 10/255, 10/255, 0.5)
         property color widColorAlpha: Qt.rgba(10 / 255, 10 / 255, 15 / 255, 0.6)
         property color widColorAlphaFirst: Qt.rgba(10 / 255, 10 / 255, 15 / 255, 0.8)
         property color widColorAlphaSecond: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.2)
@@ -76,6 +76,7 @@ QtObject {
         property color switchColor: Qt.rgba(214 / 255, 174 / 255, 73 / 255, 1)
         // Дополнительный цвет для виджетов
         property color addColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.0)
+        property color statusColor: Qt.rgba(0 / 255, 0 / 255, 0 / 255, 0.3)
     }
 
     readonly property QtObject lightColors: QtObject {
@@ -91,7 +92,7 @@ QtObject {
         property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
         property color separatorColor: Qt.rgba(90 / 255, 90 / 255, 90 / 255, 1.0)
         // Для прозрачных объектов (Alpha)
-        property color backgroundColorAlpha: Qt.rgba(50/255, 50/255, 50/255, 0.1)
+        property color backgroundColorAlpha: Qt.rgba(245/255, 245/255, 240/255, 0.5)
         property color widColorAlpha: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.8)
         property color widColorAlphaFirst: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.8)
         property color widColorAlphaSecond: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 0.2)
@@ -102,6 +103,7 @@ QtObject {
         property color switchColor: Qt.rgba(214 / 255, 174 / 255, 73 / 255, 1)
         // Дополнительный цвет для виджетов
         property color addColor: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 0.2)
+        property color statusColor: Qt.rgba(255 / 255, 255 / 255, 255 / 255, 0.2)
     }
 
 
@@ -132,7 +134,9 @@ QtObject {
     readonly property color specialColor:          currentThemeName === "light" ? lightColors.specialColor : darkColors.specialColor
     readonly property color backProgress:          currentThemeName === "light" ? lightColors.backProgress : darkColors.backProgress
     readonly property color switchColor:           currentThemeName === "light" ? lightColors.switchColor : darkColors.switchColor
+
     readonly property color addColor:           currentThemeName === "light" ? lightColors.addColor : darkColors.addColor
+    readonly property color statusColor:           currentThemeName === "light" ? lightColors.statusColor : darkColors.statusColor
 
 
     function toggleTheme() {

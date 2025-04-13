@@ -394,7 +394,7 @@ Popup {
                                     }
                                 }
                                 text: {
-                                    if (parseInt(sensorsPopup.voc_index) >= 0 && parseInt(sensorsPopup.voc_index) <= 120){
+                                    if (parseInt(sensorsPopup.voc_index) >= 80 && parseInt(sensorsPopup.voc_index) <= 120){
                                         "Норма"
                                     } else if(parseInt(sensorsPopup.voc_index) > 120){
                                         "Высокая"

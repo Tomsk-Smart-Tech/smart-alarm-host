@@ -26,5 +26,14 @@ Item {
             font.pointSize:30
             color: storage.textColor
         }
+        Text {
+            text: qsTr("В разработке...")
+            anchors.top: parent.top
+            anchors.topMargin: 84
+            font.pixelSize: 24
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.family: castFont.name
+            color: storage.textColor
+        }
     }
 }

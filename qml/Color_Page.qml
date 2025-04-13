@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls
 import Themes 1.0
 
@@ -12,6 +12,9 @@ Item {
     property color textColorSecond: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 1.0)
 
     property color choiceColor: Qt.rgba(150 / 255, 150 / 255, 150 / 255, 1.0)
+
+    signal pressOccurred()
+    signal releaseOccurred()
 
 
     function findPhotoIndex(photoPath) {
@@ -333,6 +336,17 @@ Item {
                         }
                     }
                 }
+            }
+            TapHandler {
+                acceptedButtons: Qt.AllButtons
+                onPressedChanged: {
+                    if (pressed) {
+                        color_set.pressOccurred()
+                    } else {
+                        color_set.releaseOccurred()
+                    }
+                }
+                // TapHandler не должен мешать скроллингу или кликам внутри делегата
             }
         }
     }
