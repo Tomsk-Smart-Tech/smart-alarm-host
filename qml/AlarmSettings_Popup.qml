@@ -532,12 +532,10 @@ Popup {
                 id: _text
                 color: alarmDialog.textColor
                 text: qsTr("Сохранить")
-                anchors.fill: parent
-                anchors.topMargin: 0
-                anchors.bottomMargin: 4
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+
                 font.pixelSize: 27
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
                 font.family: castFont.name
             }
             MouseArea {
@@ -581,12 +579,10 @@ Popup {
                 id: _text12
                 color: alarmDialog.textColor
                 text: qsTr("Создать")
-                anchors.fill: parent
-                anchors.topMargin: 0
-                anchors.bottomMargin: 4
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+
                 font.pixelSize: 27
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
                 font.family: castFont.name
             }
             MouseArea {
@@ -630,12 +626,10 @@ Popup {
                 id: _text1
                 color: alarmDialog.textColor
                 text: qsTr("Отменить")
-                anchors.fill: parent
-                anchors.topMargin: 0
-                anchors.bottomMargin: 4
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+
                 font.pixelSize: 27
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
                 font.family: castFont.name
             }
             MouseArea {
@@ -679,12 +673,11 @@ Popup {
                 id: _text2
                 color: alarmDialog.textColor
                 text: qsTr("Удалить")
-                anchors.fill: parent
-                anchors.topMargin: 0
-                anchors.bottomMargin: 4
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+
                 font.pixelSize: 27
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+
                 font.family: castFont.name
             }
 
