@@ -164,7 +164,7 @@ Item {
                 spacing: 20
                 ComboBox {
                     id: soundComboBox
-                    width: parent.width
+                    width: parent.width - 80 - 20
                     height: 40
                     textRole: "songName"
                     model: terminal.songs
@@ -236,146 +236,66 @@ Item {
                         }
                     }
                 }
-            }
-            Column{
-                width: parent.width
-                spacing: 18
-                Text {
-                    color: sound.textColor
-                    text: qsTr("Обрезка мелодии")
-                    font.pixelSize: 24
-                    font.family: castFont.name
-                }
-                Rectangle{
-                    id: rectangle
-                    height: 50
-                    width: parent.width
-                    color: sound.widColor
-                    radius: 15
-                    RangeSlider {
-                        id: rangeSlider
-                        width: parent.width
-                        anchors.leftMargin: 20
-                        anchors.rightMargin: 20
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        second.value: 0.75
-                        first.value: 0.25
-                        height: 30
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                    }
 
-                }
-
-
-                Row{
-                    width: parent.width
+                Button{
+                    id: melodyButoon
+                    width: 80
                     height: 40
-                    Button{
-                        id: melodyButoon
-                        width: 80
-                        height: 40
-                        checked: false
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: 120+20
-                        background: Rectangle{
-                            radius: 10
-                            color: sound.widColor
-                            Image{
-                                width: 40
-                                height: 40
-                                anchors.centerIn: parent
-                                source:melodyButoon.checked ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
-                            }
-                            // Text{
-                            //     color: sound.textColor
-                            //     anchors.fill: parent
-                            //     horizontalAlignment: Text.AlignHCenter
-                            //     verticalAlignment: Text.AlignVCenter
-                            //     font.pointSize: 14
-                            //     text: melodyButoon.checked ? "▐ ▌" : "►"
-                            //     font.family: castFont.name
-                            // }
+                    checked: false
+                    background: Rectangle{
+                        radius: 10
+                        color: sound.widColor
+                        Image{
+                            width: 40
+                            height: 40
+                            anchors.centerIn: parent
+                            source:melodyButoon.checked ? "resource_icon/music_icon/pause.png" : "resource_icon/music_icon/play.png"
                         }
-                        SequentialAnimation{
-                            id: playAnimation4
-                            PropertyAnimation {
-                                target: melodyButoon
-                                property: "scale"
-                                duration: 100
-                                to: 0.8
-                            }
-                            PropertyAnimation {
-                                target: melodyButoon
-                                property: "scale"
-                                duration: 100
-                                to: 1
-                            }
+                        // Text{
+                        //     color: sound.textColor
+                        //     anchors.fill: parent
+                        //     horizontalAlignment: Text.AlignHCenter
+                        //     verticalAlignment: Text.AlignVCenter
+                        //     font.pointSize: 14
+                        //     text: melodyButoon.checked ? "▐ ▌" : "►"
+                        //     font.family: castFont.name
+                        // }
+                    }
+                    SequentialAnimation{
+                        id: playAnimation4
+                        PropertyAnimation {
+                            target: melodyButoon
+                            property: "scale"
+                            duration: 100
+                            to: 0.8
                         }
-                        MouseArea {
-                            id: playPauseButton1
-                            anchors.fill: parent
-                            onClicked: {
-                                playAnimation4.start();
-                                melodyButoon.checked = !melodyButoon.checked;
-                                if(melodyButoon.checked===true)
-                                {
-                                    //alarmSound.setPosition(7000);
-                                    alarmSound.play()
-                                }
-                                else
-                                {
-                                    alarmSound.stop()
-                                }
-                            }
+                        PropertyAnimation {
+                            target: melodyButoon
+                            property: "scale"
+                            duration: 100
+                            to: 1
                         }
                     }
-                    Button{
-                        id: melodyButoon1
-                        width: 120
-                        height: 40
-                        checked: false
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        background: Rectangle{
-                            radius: 10
-                            color: sound.widColor
-                            Text{
-                                color: sound.textColor
-                                anchors.fill: parent
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                                font.pointSize: 14
-                                text: "Применить"
-                                font.family: castFont.name
+                    MouseArea {
+                        id: playPauseButton1
+                        anchors.fill: parent
+                        onClicked: {
+                            playAnimation4.start();
+                            melodyButoon.checked = !melodyButoon.checked;
+                            if(melodyButoon.checked===true)
+                            {
+                                //alarmSound.setPosition(7000);
+                                alarmSound.play()
                             }
-                        }
-                        SequentialAnimation{
-                            id: playAnimation5
-                            PropertyAnimation {
-                                target: melodyButoon1
-                                property: "scale"
-                                duration: 100
-                                to: 0.8
-                            }
-                            PropertyAnimation {
-                                target: melodyButoon1
-                                property: "scale"
-                                duration: 100
-                                to: 1
-                            }
-                        }
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                playAnimation5.start()
+                            else
+                            {
+                                alarmSound.stop()
                             }
                         }
                     }
                 }
-
             }
+
         }
     }
 
