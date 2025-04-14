@@ -202,6 +202,7 @@ Item {
                                 checked: Themes.currentThemeName === "dark"
                                 onClicked: {
                                     Themes.setTheme("dark");
+                                    user.set_theme("dark")
                                     color_set.backgroundColor = Themes.backgroundColor
                                     color_set.textColor = Themes.textColorSett
                                     color_set.textColorSecond = Themes.textColorSecondSett
@@ -214,6 +215,7 @@ Item {
                                 checked: Themes.currentThemeName === "light"
                                 onClicked: {
                                     Themes.setTheme("light");
+                                    user.set_theme("light")
                                     color_set.backgroundColor = Themes.backgroundColor
                                     color_set.textColor = Themes.textColorSett
                                     color_set.textColorSecond = Themes.textColorSecondSett

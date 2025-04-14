@@ -107,7 +107,7 @@ QtObject {
     }
 
 
-    property string currentThemeName: "dark"
+    property string currentThemeName: user.theme
 
     readonly property color textColor:             currentThemeName === "light" ? lightColors.textColor : darkColors.textColor
     readonly property color textColorSecond:       currentThemeName === "light" ? lightColors.textColorSecond : darkColors.textColorSecond
