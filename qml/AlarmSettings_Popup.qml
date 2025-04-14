@@ -141,6 +141,7 @@ Popup {
                     font.pixelSize: 28
                     verticalAlignment: Text.AlignVCenter
                     font.family: castFont.name
+                    elide: Text.ElideRight
                 }
             }
 

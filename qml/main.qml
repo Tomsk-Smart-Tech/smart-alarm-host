@@ -291,18 +291,6 @@ Window {
                 onPressAlarms: window.interactiveChanged(0)
                 onUnpressAlarms: window.interactiveChanged(1)
 
-
-                // textColor: Themes.textColorSett
-                // textColorSecond: Themes.textColorSecondSett
-
-                // backgroundColor: Themes.backgroundColor
-                // widColor: Themes.widColor
-
-                // backProgress: Themes.backProgress
-
-                // choiceColor: Themes.choiceColor
-
-                // specialColor: Themes.specialColor
             }
         }
     }

@@ -231,7 +231,10 @@ Item {
                         Switch {
                             id: list_switch
                             x: 140
-                            y: 20
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+                            anchors.rightMargin: 4
+                            anchors.topMargin: 6
                             checked: modelData["isEnabled"]
                             indicator : Rectangle{
                                 anchors.centerIn: parent
@@ -258,14 +261,24 @@ Item {
                             // x: 10
                             // y: 60
                             anchors.left: parent.left
-                            anchors.bottom: parent.bottom
+                            anchors.right: parent.right
+                            anchors.top: parent.top
                             anchors.leftMargin: 10
+                            anchors.rightMargin: 14
+                            anchors.topMargin: 47
+                            font.letterSpacing: 0
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                            lineHeight: 0
+                            wrapMode: Text.NoWrap
+                            minimumPixelSize: 16
+                            font.wordSpacing: 1
                             text: modelData["label"]
-                            font.pointSize: 16
+                            font.pointSize: 14
                             font.family: castFont1.name
                             color: alarm.textColor
                             elide: Text.ElideRight
-                            width: parent.width - 10
+                            height: 46
                         }
 
                     }

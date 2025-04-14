@@ -79,6 +79,7 @@ Item {
                         spacing: 8
                         Row{
                             height: 100
+                            anchors.horizontalCenter: parent.horizontalCenter
                             spacing: (scroll.width - 155*3 - 100) / 2
                             Column{
                                 width: 155
@@ -190,26 +191,6 @@ Item {
                                     color: color_set.textColorSecond
                                 }
                             }
-                            Column{
-                                width: 155
-                                spacing: 8
-                                Rectangle{
-                                    width: 100
-                                    height: 75
-                                    radius: 15
-                                    color: Qt.rgba(31 / 255, 31 / 255, 35 / 255, 1.0)
-                                    border.color: Qt.rgba(61 / 255, 60 / 255, 65 / 255, 1)
-                                    border.width: 3
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                }
-                                Text {
-                                    text: "Авто"
-                                    font.pixelSize: 24
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    font.family: castFont.name
-                                    color: color_set.textColorSecond
-                                }
-                            }
 
                         }
                         Row{
@@ -239,9 +220,6 @@ Item {
                                     color_set.widColor = Themes.widColor
                                     color_set.choiceColor = Themes.choiceColor
                                 }
-                            }
-                            RadioButton {
-                                anchors.verticalCenter: parent.verticalCenter
                             }
                         }
 

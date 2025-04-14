@@ -12,6 +12,8 @@ Item {
     property color choiceColor: Qt.rgba(100 / 255, 100 / 255, 100 / 255, 1.0)
     property alias rowWidth: row.width
 
+    property int tap: 0
+
     Rectangle {
         id: rec
         anchors.fill: parent
@@ -30,6 +32,21 @@ Item {
             font.family: castFont.name
             font.pointSize: 30
             color: about.textColor
+        }
+
+        Text {
+            id: _text2
+            color: about.textColor
+            text: qsTr("")
+            anchors.top: parent.top
+            anchors.topMargin: 370
+            width: parent.width
+            font.pixelSize: 28
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            anchors.horizontalCenterOffset: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.family: castFont.name
         }
 
         Row {
@@ -65,7 +82,11 @@ Item {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                       playAnimation.start()
+                        playAnimation.start()
+                        about.tap += 1
+                        if (tap > 5){
+                            _text2.text = "Тут нет настроек разработчика и игры"
+                        }
                     }
                 }
             }
@@ -101,8 +122,7 @@ Item {
                 }
 
             }
-
-
         }
+
     }
 }
