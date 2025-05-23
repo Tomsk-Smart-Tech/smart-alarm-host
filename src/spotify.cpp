@@ -56,8 +56,8 @@ void Spotify::handleSpotifyCode(const QString &data)
             scan_playlists();
             get_current_track();
         } else {
-            qDebug() << "Error getting tokens:" << reply->errorString();
-            qWarning() << "Server response:" << reply->readAll();
+            // qDebug() << "Error getting tokens:" << reply->errorString();
+            // qWarning() << "Server response:" << reply->readAll();
         }
         reply->deleteLater();
     });
@@ -105,8 +105,8 @@ void Spotify::handleTokenReply() {
             get_current_track();
         }
     } else {
-        qDebug() << "Error changing token:" << reply->errorString();
-        qWarning() << "Server response:" << reply->readAll();
+        // qDebug() << "Error changing token:" << reply->errorString();
+        // qWarning() << "Server response:" << reply->readAll();
         //emit errorOccurred(reply->errorString());
     }
 
@@ -124,7 +124,7 @@ Q_INVOKABLE void Spotify::play_track()
         if (reply->error() == QNetworkReply::NoError) {
             qDebug() << "Track is now playing!";
         } else {
-            qDebug() << "Error playing track:" << reply->errorString();
+            //qDebug() << "Error playing track:" << reply->errorString();
         }
         reply->deleteLater();
     });
@@ -141,7 +141,7 @@ Q_INVOKABLE void Spotify::pause_track()
         if (reply->error() == QNetworkReply::NoError) {
             qDebug() << "Track is paused!";
         } else {
-            qDebug() << "Error pausing track:" << reply->errorString();
+            //qDebug() << "Error pausing track:" << reply->errorString();
         }
         reply->deleteLater();
     });
@@ -160,8 +160,8 @@ Q_INVOKABLE void Spotify::next_track()
                 get_current_track();
             });
         } else {
-            qDebug() << "Error switching to next track:" << reply->errorString();
-            qWarning() << "Server response:" << reply->readAll();
+            // qDebug() << "Error switching to next track:" << reply->errorString();
+            // qWarning() << "Server response:" << reply->readAll();
         }
         reply->deleteLater();
     });
@@ -182,7 +182,7 @@ Q_INVOKABLE void Spotify::prev_track()
                 get_current_track();
             });
         } else {
-            qDebug() << "Error switching to previous track:" << reply->errorString();
+            //qDebug() << "Error switching to previous track:" << reply->errorString();
         }
         reply->deleteLater();
     });
@@ -211,7 +211,7 @@ Q_INVOKABLE void Spotify::change_track_status()
                 }
             }
         } else {
-            qDebug() << "Error getting playback status:" << reply->errorString();
+            //qDebug() << "Error getting playback status:" << reply->errorString();
         }
         reply->deleteLater();
     });
@@ -280,7 +280,7 @@ Q_INVOKABLE void Spotify::get_current_track()
             emit cur_track_changed();
         }
         else {
-            qDebug() << "Error getting playback status:" << reply->errorString();
+            //qDebug() << "Error getting playback status:" << reply->errorString();
         }
         reply->deleteLater();
     });
@@ -326,8 +326,8 @@ Q_INVOKABLE void Spotify::scan_playlists()
             emit playlists_changed();
         }
         else {
-            qDebug() << "Error getting playlists:" << reply->errorString();
-            qWarning() << "Server response:" << reply->readAll();
+            //qDebug() << "Error getting playlists:" << reply->errorString();
+            //qWarning() << "Server response:" << reply->readAll();
         }
         reply->deleteLater();
     });
@@ -379,8 +379,8 @@ Q_INVOKABLE void Spotify::scan_playlist_tracks(const QString playlistID)
             emit tracks_changed();
         }
         else {
-            qDebug() << "Error getting playlists tracks:" << reply->errorString();
-            qWarning() << "Server response:" << reply->readAll();
+            //qDebug() << "Error getting playlists tracks:" << reply->errorString();
+            //qWarning() << "Server response:" << reply->readAll();
         }
         reply->deleteLater();
     });

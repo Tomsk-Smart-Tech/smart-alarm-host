@@ -99,6 +99,7 @@ Item {
                         {
                             output.text = value + '%'
                             user.set_volume(value)
+                            audioplayer.setVolume(value)
                         }
                     }
                 }
@@ -130,6 +131,12 @@ Item {
                             font.pointSize:18
                             color: sound.textColor
                             text:(spotify.current["volume"] )+'%'
+                            Connections {
+                                target: spotify
+                                function onVolumeChanged() {
+                                    output1.text = spotify.current["volume"] + '%'
+                                }
+                            }
                         }
                     }
                     Slider {
@@ -144,10 +151,11 @@ Item {
 
                         onMoved:
                         {
+                            output1.text = value + '%'
+                            //user.set_volume(value)
 
-                            //output1.text=value+'%'
+                            //user.set_volume(value)
                             spotify.set_volume(value)
-
                         }
                     }
                 }
@@ -231,6 +239,8 @@ Item {
                                 soundComboBox.currentIndex = index
                                 //console.log(modelData["songPath"])
                                 terminal.set_song(modelData["songPath"])
+                                audioplayer.stop()
+
                                 soundComboBox.popup.close()
                             }
                         }
@@ -241,7 +251,7 @@ Item {
                     id: melodyButoon
                     width: 80
                     height: 40
-                    checked: false
+                    checked: audioplayer.is_song_active && !audioplayer.is_paused
                     background: Rectangle{
                         radius: 10
                         color: sound.widColor
@@ -281,15 +291,13 @@ Item {
                         anchors.fill: parent
                         onClicked: {
                             playAnimation4.start();
-                            melodyButoon.checked = !melodyButoon.checked;
-                            if(melodyButoon.checked===true)
+                            if(!audioplayer.is_song_active)
                             {
-                                //alarmSound.setPosition(7000);
-                                alarmSound.play()
+                                 audioplayer.start(terminal.cur_song)
                             }
                             else
                             {
-                                alarmSound.stop()
+                                audioplayer.togglePause()
                             }
                         }
                     }
@@ -298,17 +306,4 @@ Item {
 
         }
     }
-
-    MediaPlayer {
-        id: alarmSound
-        audioOutput: audioOutput
-        source: "file://"+terminal.cur_song
-        loops: MediaPlayer.Infinite
-    }
-    AudioOutput {
-        id: audioOutput
-        volume: user.volume/100
-    }
-
-
 }

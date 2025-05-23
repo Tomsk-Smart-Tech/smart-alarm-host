@@ -35,6 +35,10 @@ Popup {
 
     signal daysChanged(var days)
 
+    onClosed:
+    {
+        audioplayer.stop()
+    }
 
     function findSongIndex(songPath) {
         for (var i = 0; i < terminal.songs.length; i++) {
@@ -104,8 +108,6 @@ Popup {
         rectangle7.visible = true
     }
 
-
-    onClosed:{alarmSound.stop()}
 
     background: Rectangle {
         id: rectangle1
@@ -398,6 +400,7 @@ Popup {
                                 //console.log(modelData["songPath"])
                                 alarm_song=modelData["songPath"]
                                 terminal.set_song(modelData["songPath"])
+                                audioplayer.stop()
                                 soundComboBox.popup.close()
                             }
                         }
@@ -407,7 +410,13 @@ Popup {
                     id: melodyButoon
                     width: 80
                     height: 40
-                    checked: false
+                    //checked: audioplayer.is_song_active && !audioplayer.is_paused
+                    Binding {
+                        target: melodyButoon
+                        property: "checked"
+                        value: audioplayer.is_song_active && !audioplayer.is_paused
+                    }
+
                     anchors.verticalCenter: parent.verticalCenter
                     background: Rectangle{
                         radius: 10
@@ -449,14 +458,14 @@ Popup {
                         anchors.fill: parent
                         onClicked: {
                             playAnimation4.start();
-                            melodyButoon.checked = !melodyButoon.checked;
-                            if(melodyButoon.checked===true)
+                            //melodyButoon.checked = !melodyButoon.checked;
+                            if(!audioplayer.is_song_active)
                             {
-                                alarmSound.play()
+                                audioplayer.start(alarm_song)
                             }
                             else
                             {
-                                alarmSound.pause()
+                                audioplayer.togglePause()
                             }
 
 
@@ -636,6 +645,7 @@ Popup {
                 anchors.fill: parent
                 onClicked: {
                     playAnimation2.start()
+
                     alarmDialog.close()
 
                 }
@@ -686,6 +696,7 @@ Popup {
                 onClicked: {
                     playAnimation3.start()
                     mqttclient.delete_alarm(alarm_id)
+
                     alarmDialog.close()
 
                 }
@@ -711,14 +722,14 @@ Popup {
         }
     }
 
-    MediaPlayer {
-        id: alarmSound
-        audioOutput: audioOutput
-        source: "file://"+alarmDialog.alarm_song
-        loops: MediaPlayer.Infinite
-    }
-    AudioOutput {
-        id: audioOutput
-        volume: alarmDialog.volume/100
-    }
+    // MediaPlayer {
+    //     id: alarmSound
+    //     audioOutput: audioOutput
+    //     source: "file://"+alarmDialog.alarm_song
+    //     loops: MediaPlayer.Infinite
+    // }
+    // AudioOutput {
+    //     id: audioOutput
+    //     volume: alarmDialog.volume/100
+    // }
 }

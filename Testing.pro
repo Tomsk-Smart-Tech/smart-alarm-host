@@ -6,6 +6,7 @@ QT += concurrent
 QT += quickcontrols2
 
 SOURCES += \
+    src/audioplayer.cpp \
     src/general_func.cpp \
     src/linuxterminal.cpp \
     src/main.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
     src/weather.cpp \
 
 HEADERS += \
+    headers/audioplayer.h \
     headers/general_func.h \
     headers/linuxterminal.h \
     headers/mqttclient.h \
@@ -73,6 +75,9 @@ INCLUDEPATH += $$PWD/headers
 INCLUDEPATH += $$PWD/lib-mqtt5/include
 INCLUDEPATH += /usr/include/openssl
 LIBS += -L/usr/lib -lssl -lcrypto
+
+CONFIG += link_pkgconfig
+PKGCONFIG += sdl2 SDL2_mixer
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

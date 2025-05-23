@@ -8,6 +8,7 @@
 #include "weather.h"
 #include "mqttclient.h"
 #include "linuxterminal.h"
+#include "audioplayer.h"
 #include "sensors.h"
 #include "spotify.h"
 
@@ -44,6 +45,10 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("mqttclient",&client);
     LinuxTerminal linuxterminal;
     engine.rootContext()->setContextProperty("terminal",&linuxterminal);
+    AudioPlayer player;
+    player.initialize();
+    player.setVolume(user.get_volume());
+    engine.rootContext()->setContextProperty("audioplayer",&player);
     Sensors sensors;
     engine.rootContext()->setContextProperty("sensorss",&sensors);
     Spotify spotify;

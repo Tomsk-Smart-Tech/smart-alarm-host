@@ -452,7 +452,11 @@ Q_INVOKABLE void MqttClient::alarm_start(int id)
     QJsonArray jsonArray=alarms_to_json(m_alarms);
     QJsonDocument jsonDoc(jsonArray);
     save_data(jsonDoc,"alarms");
-    publish_alarms();
+    QTimer::singleShot(5000, this, [this]()
+    {
+        this->publish_alarms();
+    });
+
 }
 
 
@@ -659,7 +663,7 @@ Q_INVOKABLE void MqttClient::publish_alarms()
     QJsonDocument jsonDoc(jsonArray);
     std::string jsonString = jsonDoc.toJson(QJsonDocument::Compact).toStdString();
     client.async_publish<boost::mqtt5::qos_e::at_most_once> (
-        "mqtt/check", jsonString,
+        "mqtt/alarms", jsonString,
         boost::mqtt5::retain_e::no,
         boost::mqtt5::publish_props{},
         [this](boost::system::error_code ec) {

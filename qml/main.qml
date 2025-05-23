@@ -293,6 +293,9 @@ Window {
 
             }
         }
+        onCurrentItemChanged:{
+            audioplayer.stop()
+        }
     }
     Component.onCompleted: {
         ver_sv.currentIndex = 1

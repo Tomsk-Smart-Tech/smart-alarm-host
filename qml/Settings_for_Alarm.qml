@@ -37,7 +37,10 @@ Item {
             anchors.fill: parent
             spacing: 5
             clip: true
-
+            onCurrentIndexChanged:
+            {
+                audioplayer.stop()
+            }
             model: ListModel {
                 ListElement { name: "Wi-fi" }
                 ListElement { name: "Звук" }

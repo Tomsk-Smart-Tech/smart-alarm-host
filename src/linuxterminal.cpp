@@ -126,3 +126,6 @@ Q_INVOKABLE void LinuxTerminal::set_photo(QString path)
         emit cur_photo_changed();
     }
 }
+
+
+

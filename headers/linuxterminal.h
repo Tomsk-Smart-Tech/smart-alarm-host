@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QtConcurrent>
 
+
 class LinuxTerminal : public QObject
 {
     Q_OBJECT
@@ -33,6 +34,9 @@ public:
     Q_INVOKABLE void set_song(QString path);
     Q_INVOKABLE void set_photo(QString path);
 
+
+
+
 signals:
     void nets_changed();
     void songs_changed();
@@ -47,6 +51,7 @@ private:
     QString m_cur_photo;
     QString m_cur_song;
     int cur_volume;
+
 };
 
 #endif // LINUXTERMINAL_H

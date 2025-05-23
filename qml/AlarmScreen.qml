@@ -16,9 +16,15 @@ Popup {
     property var label
     property var delay :mqttclient.get_alarm_delay()
     property var song_path
-    property var volume :spotify.volume
+    //property var volume : user.volume
     property var smooth_sound:user.smooth_sound
 
+    onClosed:
+    {
+        volumeTimer.stop();
+        audioplayer.stop()
+        audioplayer.setVolume(user.volume)
+    }
 
     function show(first_alarm)
     {
@@ -26,7 +32,14 @@ Popup {
         label=first_alarm.label
         song_path=first_alarm.song
         alarmPopup.open();
-        alarmSound.play();
+        audioplayer.start(alarmPopup.song_path)
+
+        if (smooth_sound) {
+            audioplayer.setVolume(0)
+            volumeTimer.start()
+        } else {
+            audioplayer.setVolume(user.volume)
+        }
     }
 
     function getMonthName(date)
@@ -44,8 +57,30 @@ Popup {
             id: castFont
             source: "ofont.ru_Nunito.ttf"
         }
-
     }
+
+
+    Timer {
+        id: volumeTimer
+        interval: 1000 // миллисекунд
+        repeat: true
+        running: false
+
+        property int currentVolume: 0
+        property int maxVolume: user.volume
+
+        onTriggered: {
+            if (currentVolume < maxVolume) {
+                currentVolume += 4; // шаг громкости
+                if (currentVolume > maxVolume)
+                    currentVolume = maxVolume;
+                audioplayer.setVolume(currentVolume);
+            } else {
+                volumeTimer.stop();
+            }
+        }
+    }
+
     contentItem: Item{
         anchors.fill: parent
         Column {
@@ -89,7 +124,7 @@ Popup {
                         anchors.fill: parent
                         onClicked: {
                             mqttclient.create_alarm(delay,parseInt(cur_time.substring(3,5)),parseInt(cur_time.substring(0,2)),song_path,true,[false,false,false,false,false,false,false],label,true)
-                            alarmSound.stop();
+                            audioplayer.stop();
                             alarmPopup.close();
                         }
                     }
@@ -116,7 +151,7 @@ Popup {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            alarmSound.stop();
+                            audioplayer.stop();
                             alarmPopup.close();
                         }
                     }
@@ -152,40 +187,40 @@ Popup {
         }
     }
 
-    MediaPlayer {
-        id: alarmSound
-        audioOutput: audioOutput
-        source: "file://"+alarmPopup.song_path
-        loops: MediaPlayer.Infinite
-        onPlaybackStateChanged:
-        {
-            if(playbackState===MediaPlayer.PlayingState)
-            {
-                if(alarmPopup.smooth_sound)
-                {
-                    audioOutput.volume=0
-                    volumechanger.running=true
-                }
-                else
-                {
-                    audioOutput.volume=alarmPopup.volume/100
-                }
-            }
-        }
-    }
-    AudioOutput {
-        id: audioOutput
-        volume: 0
-    }
+    // MediaPlayer {
+    //     id: alarmSound
+    //     audioOutput: audioOutput
+    //     source: "file://"+alarmPopup.song_path
+    //     loops: MediaPlayer.Infinite
+    //     onPlaybackStateChanged:
+    //     {
+    //         if(playbackState===MediaPlayer.PlayingState)
+    //         {
+    //             if(alarmPopup.smooth_sound)
+    //             {
+    //                 audioOutput.volume=0
+    //                 volumechanger.running=true
+    //             }
+    //             else
+    //             {
+    //                 audioOutput.volume=alarmPopup.volume/100
+    //             }
+    //         }
+    //     }
+    // }
+    // AudioOutput {
+    //     id: audioOutput
+    //     volume: 0
+    // }
 
-    NumberAnimation {
-        id: volumechanger
-        target: audioOutput
-        property: "volume"
-        from: 0
-        to: alarmPopup.volume / 100
-        duration: 15000
-        easing.type: Easing.InQuad
+    // NumberAnimation {
+    //     id: volumechanger
+    //     target: audioOutput
+    //     property: "volume"
+    //     from: 0
+    //     to: alarmPopup.volume / 100
+    //     duration: 15000
+    //     easing.type: Easing.InQuad
 
-    }
+    // }
 }
