@@ -23,3 +23,4 @@ The purpose of this part of the project is to create a program that provides:
   5.  Built-in sensors display room climate on the screen.
   6.  Integration with the Spotify music service.
 
+![image](https://github.com/user-attachments/assets/2f554046-9502-47e8-aa2f-461b7c2d9f68)
