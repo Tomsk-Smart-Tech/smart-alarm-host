@@ -24,3 +24,23 @@ The purpose of this part of the project is to create a program that provides:
   6.  Integration with the Spotify music service.
 
 ![image](https://github.com/user-attachments/assets/2f554046-9502-47e8-aa2f-461b7c2d9f68)
+
+
+![image](https://github.com/user-attachments/assets/c23164f8-b493-4198-a995-ea1815b9a8ad)
+
+
+![image](https://github.com/user-attachments/assets/172a924c-269d-400a-90d0-7093ef86603f)
+
+
+![image](https://github.com/user-attachments/assets/b3867eef-5290-4c08-9d32-fe74aa761262)
+
+
+![image](https://github.com/user-attachments/assets/f4c05de6-556b-4fa7-a5a4-207b00132b4a)
+
+
+![image](https://github.com/user-attachments/assets/3675c417-9e1f-4478-9651-31ccafbc0c95)
+
+
+
+
+
