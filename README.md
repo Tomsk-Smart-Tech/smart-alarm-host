@@ -38,7 +38,8 @@ The purpose of this part of the project is to create a program that provides:
 ![image](https://github.com/user-attachments/assets/f4c05de6-556b-4fa7-a5a4-207b00132b4a)
 
 
-![image](https://github.com/user-attachments/assets/3675c417-9e1f-4478-9651-31ccafbc0c95)
+![image](https://github.com/user-attachments/assets/98031cbe-ad8f-4477-ad18-2efbc9cd3866)
+
 
 
 
